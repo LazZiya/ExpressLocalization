@@ -7,11 +7,11 @@ namespace LazZiya.ExpressLocalization
     /// <summary>
     /// Access shared localization resources under folder
     /// </summary>
-    public class CultureLocalizer
+    public class SharedCultureLocalizer
     {
         private readonly IHtmlLocalizer _localizer;
 
-        public CultureLocalizer(IHtmlLocalizerFactory factory, Type type = null)
+        public SharedCultureLocalizer(IHtmlLocalizerFactory factory, Type type = null)
         {
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
             _localizer = factory.Create(type.Name, assemblyName.Name);

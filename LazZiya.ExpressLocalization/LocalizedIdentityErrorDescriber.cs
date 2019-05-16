@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Globalization;
+using System.Resources;
 
 namespace LazZiya.ExpressLocalization
 {
-    public class IdentityErrorDescriberLocalization : IdentityErrorDescriber
+    public class LocalizedIdentityErrorDescriber : IdentityErrorDescriber
     {
-        private Type _localizationResourceType { get; set; }
+        private readonly ResourceManager _resMan;
 
-        public IdentityErrorDescriberLocalization(Type localizationResourceType)
+        public LocalizedIdentityErrorDescriber(Type localizationResourceType)
         {
-            _localizationResourceType = localizationResourceType;
+            _resMan = new ResourceManager(localizationResourceType);
         }
 
         private IdentityError LocalizedIdentityError(string code, params object[] args)
         {
-            var msg = GenericPropertyReader.GetPropertyValue(code, _localizationResourceType);
+            var msg = _resMan.GetString(code, CultureInfo.CurrentCulture);
 
             return new IdentityError
             {

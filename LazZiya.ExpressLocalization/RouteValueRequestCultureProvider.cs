@@ -9,14 +9,13 @@ namespace LazZiya.ExpressLocalization
 {
     public class RouteValueRequestCultureProvider : IRequestCultureProvider
     {
-        private IList<CultureInfo> SupportedCultures { get; set; }
-
-        private string DefaultCulture { get; set; }
+        private readonly string DefaultCulture;
+        private readonly IList<CultureInfo> SupportedCultures;
 
         public RouteValueRequestCultureProvider(IList<CultureInfo> supportedCultures, string defaultCulture)
         {
-            SupportedCultures = supportedCultures;
             DefaultCulture = defaultCulture;
+            SupportedCultures = supportedCultures;
         }
 
         public Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)

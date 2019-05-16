@@ -1,98 +1,171 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
+using System.Resources;
 
 namespace LazZiya.ExpressLocalization
 {
     public static class ExpressLocalizationExtensions
     {
         /// <summary>
-        /// Configure express localization options
+        /// Add all below localization settings with one step;
+        /// <para>define supported cultures adn default culture</para>
+        /// <para>Add global route template for culture parameter e.g.: http://localhost:1234/{culture}/xxx </para>
+        /// <para>Add route value request culture provider</para>
+        /// <para>Add view localization using shared resource</para>
+        /// <para>Add DataAnnotations localization</para>
+        /// <para>Add ModelBinding localization</para>
+        /// <para>Add IdentityError localization</para>
         /// </summary>
+        /// <typeparam name="T1">Type of ViewLocalizationResource</typeparam>
+        /// <typeparam name="T2">Type of DataAnnotationsLocalizationResource</typeparam>
+        /// <typeparam name="T3">Type of ModelBindingLocalizationResource</typeparam>
+        /// <typeparam name="T4">Type of IdentityErrorsLocalizationResource</typeparam>
         /// <param name="builder"></param>
-        /// <param name="options"></param>
+        /// <param name="options">RequestLocalizationOptions such as supported cultures and default culture</param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationOptions(this IMvcBuilder builder, Action<ExpressLocalizationOptions> optionsAction)
+        public static IMvcBuilder AddExpressLocalization<T1,T2,T3,T4>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
+            where T1 : class 
+            where T2 : class
+            where T3 : class
+            where T4 : class 
         {
-            var options = new ExpressLocalizationOptions();
-            optionsAction.Invoke(options);
-            
-            builder.Services.Configure<RequestLocalizationOptions>(options.RequestLocalizationOptions);
-            
-            var rt = new LocalizationResourcesTypes();
-            options.LocalizationResourcesTypes.Invoke(rt);
+            var _options = new ExpressLocalizationOptions();
+            options.Invoke(_options);
 
-            var modelBindingResourceType = rt.ModelBinding;
-            var mvcOps = new MvcOptions();
-            options.MvcOptions.Invoke(mvcOps);
-            mvcOps.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(modelBindingResourceType);
+            var _ops = new RequestLocalizationOptions();
+            _options.RequestLocalizationOptions.Invoke(_ops);
 
-            builder
-                //global route template /{culture}/xxxsx
-                .AddRazorPagesOptions(ops => ops.Conventions.Add(new GlobalTemplatePageRouteModelConvention()))
+            builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
-                //resources folder path
-                .AddViewLocalization(options.LocalizationOptions)
+            return builder
+                .AddViewLocalization()
+                .ExAddSharedCultureLocalizer<T1>()
+                .ExAddDataAnnotationsLocalization<T2>()
+                .ExAddModelBindingLocalization<T3>()
+                .ExAddIdentityErrorMessagesLocalization<T4>()
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name);
+        }
 
-                //Model binding messages localization
-                .AddMvcOptions(ops => ops = mvcOps)
+        /// <summary>
+        /// Add all below localization settings with one step;
+        /// <para>define supported cultures adn default culture</para>
+        /// <para>Add global route template for culture parameter e.g.: http://localhost:1234/{culture}/xxx </para>
+        /// <para>Add route value request culture provider</para>
+        /// <para>Add view localization using shared resource</para>
+        /// <para>Add DataAnnotations localization</para>
+        /// <para>Add ModelBinding localization</para>
+        /// </summary>
+        /// <typeparam name="T1">Type of ViewLocalizationResource</typeparam>
+        /// <typeparam name="T2">Type of DataAnnotationsLocalizationResource</typeparam>
+        /// <typeparam name="T3">Type of ModelBindingLocalizationResource</typeparam>
+        /// <param name="builder"></param>
+        /// <param name="options">RequestLocalizationOptions such as supported cultures and default culture</param>
+        /// <returns></returns>
+        public static IMvcBuilder AddExpressLocalization<T1, T2, T3>(this IMvcBuilder builder, Action<RequestLocalizationOptions> options)
+            where T1 : class
+            where T2 : class
+            where T3 : class
+        {
+            var _options = new RequestLocalizationOptions();
+            options.Invoke(_options);
 
-                //data annotations
-                .AddDataAnnotationsLocalization(o =>
-                {
-                    var type = rt.DataAnnotations;
-                    var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
-                    var factory = builder.Services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
-                    var localizer = factory.Create(type.Name, assemblyName.Name);
-                    o.DataAnnotationLocalizerProvider = (t, f) => localizer;
-                });
+            builder.Services.Configure<RequestLocalizationOptions>(options);
 
-            builder.Services.AddSingleton<CultureLocalizer>((x) => new CultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), rt.Views));
+            return builder
+                .AddViewLocalization()
+                .ExAddSharedCultureLocalizer<T1>()
+                .ExAddDataAnnotationsLocalization<T2>()
+                .ExAddModelBindingLocalization<T3>()
+                .ExAddRouteValueRequestCultureProvider(_options.SupportedCultures, _options.DefaultRequestCulture.Culture.Name);
+        }
+
+        public static IMvcBuilder ExAddDataAnnotationsLocalization<T>(this IMvcBuilder builder) where T : class
+        {
+            builder.AddDataAnnotationsLocalization(x =>
+            {
+                var type = typeof(T);
+                var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+                var factory = builder.Services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                var localizer = factory.Create(type.Name, assemblyName.Name);
+
+                x.DataAnnotationLocalizerProvider = (t, f) => localizer;
+            });
 
             return builder;
         }
 
-        private static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, Type type)
+        public static IMvcBuilder ExAddModelBindingLocalization<T>(this IMvcBuilder builder) where T : class
         {
-            var msg = string.Empty;
+            builder.AddMvcOptions(ops =>
+            {
+                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages<T>();
+            });
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.AttemptedValueIsInvalidAccessor), type);
-            provider.SetAttemptedValueIsInvalidAccessor((x, y) => string.Format(msg, x, y));
+            return builder;
+        }
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.MissingBindRequiredValueAccessor), type);
-            provider.SetMissingBindRequiredValueAccessor((x) => string.Format(msg, x));
+        public static IMvcBuilder ExAddSharedCultureLocalizer<T>(this IMvcBuilder builder) where T : class
+        {
+            builder.Services.AddSingleton<SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(T)));
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.MissingKeyOrValueAccessor), type);
-            provider.SetMissingKeyOrValueAccessor(() => msg);
+            return builder;
+        }
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.MissingRequestBodyRequiredValueAccessor), type);
-            provider.SetMissingRequestBodyRequiredValueAccessor(() => msg);
+        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<T>(this IMvcBuilder builder)
+        {
+            builder.Services.AddScoped<IdentityErrorDescriber, LocalizedIdentityErrorDescriber>(ops =>
+                new LocalizedIdentityErrorDescriber(typeof(T)));
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.NonPropertyAttemptedValueIsInvalidAccessor), type);
-            provider.SetNonPropertyAttemptedValueIsInvalidAccessor((x) => string.Format(msg, x));
+            return builder;
+        }
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.NonPropertyUnknownValueIsInvalidAccessor), type);
-            provider.SetNonPropertyUnknownValueIsInvalidAccessor(() => msg);
+        public static IMvcBuilder ExAddRouteValueRequestCultureProvider(this IMvcBuilder builder, IList<CultureInfo> cultures, string defaultCulture)
+        {
+            builder.Services.Configure<RequestLocalizationOptions>(ops=> {
+                ops.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(cultures, defaultCulture));
+            });
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.NonPropertyValueMustBeANumberAccessor), type);
-            provider.SetNonPropertyValueMustBeANumberAccessor(() => msg);
+            builder.AddRazorPagesOptions(x =>
+            {
+                x.Conventions.Add(new GlobalTemplatePageRouteModelConvention());
+            });
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.UnknownValueIsInvalidAccessor), type);
-            provider.SetUnknownValueIsInvalidAccessor((x) => string.Format(msg, x));
+            return builder;
+        }
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.ValueIsInvalidAccessor), type);
-            provider.SetValueIsInvalidAccessor((x) => string.Format(msg, x));
+        public static void SetLocalizedModelBindingErrorMessages<T>(this DefaultModelBindingMessageProvider provider) where T : class
+        {
+            var _res = new ResourceManager(typeof(T));
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.ValueMustBeANumberAccessor), type);
-            provider.SetValueMustBeANumberAccessor((x) => string.Format(msg, x));
+            provider.SetAttemptedValueIsInvalidAccessor((x, y) => string.Format(_res.GetString(nameof(provider.AttemptedValueIsInvalidAccessor)), x, y));
 
-            msg = GenericPropertyReader.GetPropertyValue(nameof(provider.ValueMustNotBeNullAccessor), type);
-            provider.SetValueMustNotBeNullAccessor((x) => string.Format(msg, x));
+            provider.SetMissingBindRequiredValueAccessor((x) => string.Format(_res.GetString(nameof(provider.MissingBindRequiredValueAccessor)), x));
+
+            provider.SetMissingKeyOrValueAccessor(() => _res.GetString(nameof(provider.MissingKeyOrValueAccessor)));
+
+            provider.SetMissingRequestBodyRequiredValueAccessor(() => _res.GetString(nameof(provider.MissingRequestBodyRequiredValueAccessor)));
+
+            provider.SetNonPropertyAttemptedValueIsInvalidAccessor((x) => string.Format(_res.GetString(nameof(provider.NonPropertyAttemptedValueIsInvalidAccessor)), x));
+
+            provider.SetNonPropertyUnknownValueIsInvalidAccessor(() => _res.GetString(nameof(provider.NonPropertyUnknownValueIsInvalidAccessor)));
+
+            provider.SetNonPropertyValueMustBeANumberAccessor(() => _res.GetString(nameof(provider.NonPropertyValueMustBeANumberAccessor)));
+
+            provider.SetUnknownValueIsInvalidAccessor((x) => string.Format(_res.GetString(nameof(provider.UnknownValueIsInvalidAccessor)), x));
+
+            provider.SetValueIsInvalidAccessor((x) => string.Format(_res.GetString(nameof(provider.ValueIsInvalidAccessor)), x));
+
+            provider.SetValueMustBeANumberAccessor((x) => string.Format(_res.GetString(nameof(provider.ValueMustBeANumberAccessor)), x));
+
+            provider.SetValueMustNotBeNullAccessor((x) => string.Format(_res.GetString(nameof(provider.ValueMustNotBeNullAccessor)), x));
         }
     }
 }
