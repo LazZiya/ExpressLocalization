@@ -119,10 +119,10 @@ namespace LazZiya.ExpressLocalization
             return builder;
         }
 
-        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<T>(this IMvcBuilder builder)
+        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<T>(this IMvcBuilder builder) where T : class
         {
-            builder.Services.AddScoped<IdentityErrorDescriber, LocalizedIdentityErrorDescriber>(ops =>
-                new LocalizedIdentityErrorDescriber(typeof(T)));
+            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer<T>>(ops =>
+                new IdentityErrorsLocalizer<T>());
 
             return builder;
         }
@@ -135,37 +135,10 @@ namespace LazZiya.ExpressLocalization
 
             builder.AddRazorPagesOptions(x =>
             {
-                x.Conventions.Add(new GlobalTemplatePageRouteModelConvention());
+                x.Conventions.Add(new RouteTemplateModelConvention());
             });
 
             return builder;
-        }
-
-        public static void SetLocalizedModelBindingErrorMessages<T>(this DefaultModelBindingMessageProvider provider) where T : class
-        {
-            var _res = new ResourceManager(typeof(T));
-
-            provider.SetAttemptedValueIsInvalidAccessor((x, y) => string.Format(_res.GetString(nameof(provider.AttemptedValueIsInvalidAccessor)), x, y));
-
-            provider.SetMissingBindRequiredValueAccessor((x) => string.Format(_res.GetString(nameof(provider.MissingBindRequiredValueAccessor)), x));
-
-            provider.SetMissingKeyOrValueAccessor(() => _res.GetString(nameof(provider.MissingKeyOrValueAccessor)));
-
-            provider.SetMissingRequestBodyRequiredValueAccessor(() => _res.GetString(nameof(provider.MissingRequestBodyRequiredValueAccessor)));
-
-            provider.SetNonPropertyAttemptedValueIsInvalidAccessor((x) => string.Format(_res.GetString(nameof(provider.NonPropertyAttemptedValueIsInvalidAccessor)), x));
-
-            provider.SetNonPropertyUnknownValueIsInvalidAccessor(() => _res.GetString(nameof(provider.NonPropertyUnknownValueIsInvalidAccessor)));
-
-            provider.SetNonPropertyValueMustBeANumberAccessor(() => _res.GetString(nameof(provider.NonPropertyValueMustBeANumberAccessor)));
-
-            provider.SetUnknownValueIsInvalidAccessor((x) => string.Format(_res.GetString(nameof(provider.UnknownValueIsInvalidAccessor)), x));
-
-            provider.SetValueIsInvalidAccessor((x) => string.Format(_res.GetString(nameof(provider.ValueIsInvalidAccessor)), x));
-
-            provider.SetValueMustBeANumberAccessor((x) => string.Format(_res.GetString(nameof(provider.ValueMustBeANumberAccessor)), x));
-
-            provider.SetValueMustNotBeNullAccessor((x) => string.Format(_res.GetString(nameof(provider.ValueMustNotBeNullAccessor)), x));
         }
     }
 }

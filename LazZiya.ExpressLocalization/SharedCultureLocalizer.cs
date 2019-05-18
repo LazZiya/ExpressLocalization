@@ -11,8 +11,13 @@ namespace LazZiya.ExpressLocalization
     {
         private readonly IHtmlLocalizer _localizer;
 
-        public SharedCultureLocalizer(IHtmlLocalizerFactory factory, Type type = null)
+        public SharedCultureLocalizer(IHtmlLocalizerFactory factory, Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
             _localizer = factory.Create(type.Name, assemblyName.Name);
         }

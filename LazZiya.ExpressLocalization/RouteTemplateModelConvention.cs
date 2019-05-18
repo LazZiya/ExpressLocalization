@@ -2,7 +2,7 @@
 
 namespace LazZiya.ExpressLocalization
 {
-    public class GlobalTemplatePageRouteModelConvention : IPageRouteModelConvention
+    public class RouteTemplateModelConvention : IPageRouteModelConvention
     {
         public void Apply(PageRouteModel model)
         {
