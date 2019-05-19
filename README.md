@@ -18,11 +18,15 @@ Install-Package LazZiya.ExpressLocalization -Version 1.0.0
 - Install from nuget as mention above
 - Relevant localization resource files are available in [LazZiya.ExpressLocalization.Resources](https://github.com/LazZiya/ExpressLocalization.Resources) repo.
 Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalization.Resources/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
-- In your main project, define supported cultures list then add express localization setup in one step or customized steps as mentioned below
+- In your main project' startup.cs file, define supported cultures list then add express localization setup in one step or customized steps as mentioned below
 
 ### One step setup:
 This step will add all localization settings :
 ````cs
+//add reference to :
+using LazZiya.ExpressLocalization;
+
+//setup express localization under ConfigureServices method:
 var cultures = new CultureInfo[]
 {
     new CultureInfo("en"),
