@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LazZiya.ExpressLocalization
 {
-    public class IdentityErrorsLocalizer<T> : IdentityErrorDescriber where T: class
+    internal class IdentityErrorsLocalizer<T> : IdentityErrorDescriber where T: class
     {
         public IdentityErrorsLocalizer()
         {

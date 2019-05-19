@@ -11,6 +11,11 @@ namespace LazZiya.ExpressLocalization
     {
         private readonly IHtmlLocalizer _localizer;
 
+        /// <summary>
+        /// Shared culture localizer for razor pages views
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="type"></param>
         public SharedCultureLocalizer(IHtmlLocalizerFactory factory, Type type)
         {
             if (type == null)
@@ -22,6 +27,12 @@ namespace LazZiya.ExpressLocalization
             _localizer = factory.Create(type.Name, assemblyName.Name);
         }
 
+        /// <summary>
+        /// Get localized string for the provided text
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public LocalizedHtmlString Text(string key, params string[] args)
         {
             return args == null

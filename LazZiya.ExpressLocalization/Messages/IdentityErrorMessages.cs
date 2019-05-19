@@ -3,7 +3,7 @@
     /// <summary>
     /// These string values must be present in the resource file
     /// <para>
-    /// Original mesages obtained from: <see cref="https://github.com/aspnet/AspNetCore/blob/master/src/Identity/Extensions.Core/src/Resources.resx"/>
+    /// Original mesages obtained from: https://github.com/aspnet/AspNetCore/blob/master/src/Identity/Extensions.Core/src/Resources.resx
     /// </para>
     /// </summary>
     internal struct IdentityErrorMessages

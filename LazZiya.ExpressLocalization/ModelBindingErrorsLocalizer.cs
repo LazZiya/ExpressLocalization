@@ -1,7 +1,5 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using System.Globalization;
-using System.Resources;
 
 namespace LazZiya.ExpressLocalization
 {

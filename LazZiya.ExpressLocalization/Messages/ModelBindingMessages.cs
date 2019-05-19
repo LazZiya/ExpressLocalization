@@ -3,7 +3,7 @@
     /// <summary>
     /// These string values must be presnet in the supplied resource file.
     /// <para>
-    /// Original messages obtained from: <see cref="https://github.com/aspnet/AspNetCore/blob/master/src/Mvc/Mvc.Core/src/Resources.resx"/>
+    /// Original messages obtained from: https://github.com/aspnet/AspNetCore/blob/master/src/Mvc/Mvc.Core/src/Resources.resx
     /// </para>
     /// </summary>
     internal struct ModelBindingMessages

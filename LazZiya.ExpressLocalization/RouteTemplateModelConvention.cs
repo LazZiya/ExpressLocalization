@@ -2,8 +2,15 @@
 
 namespace LazZiya.ExpressLocalization
 {
+    /// <summary>
+    /// Configure global template for page route, so culture parameter will be placed at the beginning of the URL
+    /// </summary>
     public class RouteTemplateModelConvention : IPageRouteModelConvention
     {
+        /// <summary>
+        /// automatically invoked
+        /// </summary>
+        /// <param name="model"></param>
         public void Apply(PageRouteModel model)
         {
             var selectorCount = model.Selectors.Count;
