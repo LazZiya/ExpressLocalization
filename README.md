@@ -59,7 +59,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 }
 ````
 
-### Customized steps
+### Customized steps (optional)
+If you don't need all settings in one step, you can use below methods for manually configuring localizaton steps.
+For example if you need to provide separate localization resouce files for each of DataAnnotations, Identity and ModelBinding:
 ````cs
 services.AddMvc()
     //register route value request culture provider, 
@@ -73,16 +75,18 @@ services.AddMvc()
     .ExAddSharedCultureLocalizer<ViewLocalizationResource>()
 
     //add DataAnnotations localization
-    .ExAddDataAnnotationsLocalization<ExpressLocalizationResource>()
+    .ExAddDataAnnotationsLocalization<DataAnnotationsResource>()
 
     //add ModelBinding localization
-    .ExAddModelBindingLocalization<ExpressLocalizationResource>()
+    .ExAddModelBindingLocalization<ModelBindingResource>()
 
     //add IdentityErrors localization
-    .ExAddIdentityErrorMessagesLocalization<ExpressLocalizationResource>()
+    .ExAddIdentityErrorMessagesLocalization<IdentityErrorsResource>()
 
     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ````
+
+Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalization.Resources/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
 
 ## DataAnnotations
 All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
