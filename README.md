@@ -29,6 +29,8 @@ using LazZiya.ExpressLocalization;
 //setup express localization under ConfigureServices method:
 public void ConfigureServices(IServiceCollection services)
 {
+    //other configuration settings....
+    
     var cultures = new CultureInfo[]
     {
         new CultureInfo("en"),
