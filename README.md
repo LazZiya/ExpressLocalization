@@ -130,6 +130,9 @@ public class MyModel
 ## Sample project
 See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
 
+## Project website
+For discussion please visit: http://ziyad.info/en/articles/33-Express_Localization
+
 ## More
 To easily create a language navigation dropdown for changing the culture use [LazZiya.TagHelpers](http://ziyad.info/en/articles/27-LazZiya_TagHelpers)
 
