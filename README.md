@@ -27,27 +27,30 @@ This step will add all localization settings :
 using LazZiya.ExpressLocalization;
 
 //setup express localization under ConfigureServices method:
-var cultures = new CultureInfo[]
+public void ConfigureServices(IServiceCollection services)
 {
-    new CultureInfo("en"),
-    new CultureInfo("tr"),
-    new CultureInfo("ar")
-};
+    var cultures = new CultureInfo[]
+    {
+        new CultureInfo("en"),
+        new CultureInfo("tr"),
+        new CultureInfo("ar")
+    };
 
-services.AddMvc()
-    //ExpressLocalizationResource and ViewLocalizationResource are available in :
-    // https://github.com/LazZiya/ExpressLocalization.Resources
-    .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
-        exOps =>
-        {
-            exOps.RequestLocalizationOptions = ops =>
+    services.AddMvc()
+        //ExpressLocalizationResource and ViewLocalizationResource are available in :
+        // https://github.com/LazZiya/ExpressLocalization.Resources
+        .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
+            exOps =>
             {
-                ops.SupportedCultures = cultures;
-                ops.SupportedUICultures = cultures;
-                ops.DefaultRequestCulture = new RequestCulture("en");
-            };
-        })
+                exOps.RequestLocalizationOptions = ops =>
+                {
+                    ops.SupportedCultures = cultures;
+                    ops.SupportedUICultures = cultures;
+                    ops.DefaultRequestCulture = new RequestCulture("en");
+                };
+            })
         .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+}
 ````
 
 Then configure the app to use RequestLocalizationMiddleware :
