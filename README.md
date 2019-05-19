@@ -16,12 +16,12 @@ Install-Package LazZiya.ExpressLocalization -Version 1.0.0
 
 ## How to use
 - Install from nuget as mention above
-- Relevant localizaed resource files are available in [LazZiya.ExpressLocalization.Resources](https://github.com/LazZiya/ExpressLocalization.Resources) repo.
+- Relevant localization resource files are available in [LazZiya.ExpressLocalization.Resources](https://github.com/LazZiya/ExpressLocalization.Resources) repo.
 Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalization.Resources/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
 - In your main project, define supported cultures list then add express localization setup in one step or customized steps as mentioned below
 
 ### One step setup:
-This step will add all below localization settings :
+This step will add all localization settings :
 ````cs
 var cultures = new CultureInfo[]
 {
@@ -90,6 +90,8 @@ All system data annotations error messages are defined in ExpressLocalizationRes
 For easy access there is a struct with all pre-defined validation messages can be accessed as below:
 
 ````cs
+using LazZiya.ExpressLocalization.Messages
+
 public class MyModel
 {
     [Required(ErrorMessage = DataAnnotationsErrorMessages.RequiredAttribute_ValidationError)]
@@ -111,6 +113,9 @@ public class MyModel
 ````razor
 <h1 class="display-4">@_loc.Text("Welcome")</h1>
 ````
+
+## Sample project
+See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
 
 ## More
 To easily create a language navigation dropdown for changing the culture use [LazZiya.TagHelpers](http://ziyad.info/en/articles/27-LazZiya_TagHelpers)
