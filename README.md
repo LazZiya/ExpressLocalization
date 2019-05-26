@@ -151,6 +151,10 @@ All required libraries to valdiate localized inputs like decimal numbers
 @using LazZiya.TagHelpers
 @addTagHelper *, LazZiya.TagHelpers
 ````
+- add tag helper to the view to validate localized input:
+````cshtml
+<localization-validation-scripts></localization-validation-scripts>
+````
 For more details see [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) 
 
 ## Sample project
