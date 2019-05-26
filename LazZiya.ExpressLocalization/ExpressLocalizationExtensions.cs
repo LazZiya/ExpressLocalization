@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using LazZiya.TagHelpers;
 
 namespace LazZiya.ExpressLocalization
 {
@@ -50,7 +52,8 @@ namespace LazZiya.ExpressLocalization
                 .ExAddDataAnnotationsLocalization<T1>()
                 .ExAddModelBindingLocalization<T1>()
                 .ExAddIdentityErrorMessagesLocalization<T1>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name);
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -117,6 +120,18 @@ namespace LazZiya.ExpressLocalization
         {
             builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer<T>>(ops =>
                 new IdentityErrorsLocalizer<T>());
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Add client side libraries for valdiating localized inputs like decimal numbers
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder ExAddClientSideLocalizationValidationScripts(this IMvcBuilder builder)
+        {
+            builder.Services.AddTransient<ITagHelperComponent, LocalizationValidationScriptsTagHelperComponent>();
 
             return builder;
         }

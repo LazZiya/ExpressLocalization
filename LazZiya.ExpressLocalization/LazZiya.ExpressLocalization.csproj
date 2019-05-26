@@ -12,13 +12,14 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageIcon>files\icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageTags>asp.net, core, razor, mvc, localization, globalization</PackageTags>
+    <PackageTags>asp.net, core, razor, mvc, localization, globalization, client,side,validation,scripts</PackageTags>
     <PackageReleaseNotes>
       - Localization settings for dotnet core 2.x web applications using razore pages and route based culture settings.
+      - One step to install and include client side valdiation libraries for localized inputs
 </PackageReleaseNotes>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
@@ -37,6 +38,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.0.0" />
+    <PackageReference Include="LazZiya.TagHelpers" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
