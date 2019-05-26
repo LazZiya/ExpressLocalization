@@ -8,6 +8,7 @@ All below localization settings in one clean step:
 - DataAnnotations Localization : All data annotations validation messages and display names attributes localization
 - ModelBinding Localization : localize model binding error messages
 - IdentityErrors Localization : localize identity describer error messages
+- Client Side Validation : include all client side libraries for validating localized input fields
 
 ## Installation
 ````
