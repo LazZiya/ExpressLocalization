@@ -11,8 +11,9 @@ All below localization settings in one clean step:
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 1.0.0
+Install-Package LazZiya.ExpressLocalization -Version 1.1.0
 ````
+it will install [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) package as well, it is necessary for adding client side validation for localized input fields like decimal numbers.
 
 ## How to use
 - Install from nuget as mention above
@@ -103,6 +104,9 @@ services.AddMvc()
 
     //add IdentityErrors localization
     .ExAddIdentityErrorMessagesLocalization<IdentityErrorsResource>()
+    
+    //add client side validation libraries for localized inputs
+    .ExAddClientSideLocalizationValidationScripts()
 
     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ````
@@ -138,6 +142,15 @@ public class MyModel
 ````razor
 <h1 class="display-4">@_loc.Text("Welcome")</h1>
 ````
+
+## Client side validation libraries
+All required libraries to valdiate localized inputs like decimal numbers
+- register TagHelpers in _ViewImports.cshtml :
+````cshtml
+@using LazZiya.TagHelpers
+@addTagHelpers *, LazZiya.TagHelpers
+````
+For more details see [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) 
 
 ## Sample project
 See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
