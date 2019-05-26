@@ -72,7 +72,19 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 If you don't need all settings in one step, you can use below methods for manually configuring localizaton steps.
 For example if you need to provide separate localization resouce files for each of DataAnnotations, Identity and ModelBinding:
 ````cs
+//configure request localizaton options
+services.Configure<RequestLocalizationOptions>(
+    ops =>
+    {
+        ops.SupportedCultures = cultures;
+        ops.SupportedUICultures = cultures;
+        ops.DefaultRequestCulture = new RequestCulture("en");
+    });
+    
 services.AddMvc()
+    //add view localization
+    .AddViewLocalization()
+    
     //register route value request culture provider, 
     //and add route parameter {culture} at the beginning of every url
     .ExAddRouteValueRequestCultureProvider(cultures, "en")
@@ -129,6 +141,9 @@ public class MyModel
 
 ## Sample project
 See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
+
+## Project website
+For discussion please visit: http://ziyad.info/en/articles/33-Express_Localization
 
 ## More
 To easily create a language navigation dropdown for changing the culture use [LazZiya.TagHelpers](http://ziyad.info/en/articles/27-LazZiya_TagHelpers)
