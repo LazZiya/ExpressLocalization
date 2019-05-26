@@ -148,7 +148,7 @@ All required libraries to valdiate localized inputs like decimal numbers
 - register TagHelpers in _ViewImports.cshtml :
 ````cshtml
 @using LazZiya.TagHelpers
-@addTagHelpers *, LazZiya.TagHelpers
+@addTagHelper *, LazZiya.TagHelpers
 ````
 For more details see [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) 
 
