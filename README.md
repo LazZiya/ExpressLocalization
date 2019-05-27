@@ -1,14 +1,19 @@
 # ExpressLocalization
 Express localization settings for Asp.NetCore 2.x.
+
+## What is ExpressLocalization?
+A nuget package to simplify the localization of any Asp.Net Core 2.x web app to one step only.
+
+## What ExpressLocalization is offering?
 All below localization settings in one clean step:
 
-- Global route template: Add {culture} paramter to all routes
-- RouteValueRequestCultureProvider : register route value request culture provider
-- ViewLocalization : shared resource for localizing all razor pages
+- Global route template: Add {culture} paramter to all routes, so urls will be like http://www.example.com/en-US/
+- RouteValueRequestCultureProvider : register route value request culture provider, so culture selection will be based on route value
+- ViewLocalization : create a string localizer for localizing all razor pages depending on a shared resource
 - DataAnnotations Localization : All data annotations validation messages and display names attributes localization
 - ModelBinding Localization : localize model binding error messages
 - IdentityErrors Localization : localize identity describer error messages
-- Client Side Validation : include all client side libraries for validating localized input fields
+- Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers 
 
 ## Installation
 ````
