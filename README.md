@@ -47,7 +47,7 @@ public void ConfigureServices(IServiceCollection services)
 
     services.AddMvc()
         //ExpressLocalizationResource and ViewLocalizationResource are available in :
-        // https://github.com/LazZiya/ExpressLocalization.Resources
+        // https://github.com/LazZiya/ExpressLocalizationSample
         .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
             exOps =>
             {
