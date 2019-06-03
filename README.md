@@ -121,7 +121,7 @@ services.AddMvc()
     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ````
 
-Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
+Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
 
 ## DataAnnotations
 All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
@@ -152,6 +152,7 @@ public class MyModel
 ````razor
 <h1 class="display-4">@_loc.Text("Welcome")</h1>
 ````
+Views are using shared resource files like: https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ViewLocalizationResource.tr.resx
 
 ## Client side validation libraries
 All required libraries to valdiate localized inputs like decimal numbers
