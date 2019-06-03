@@ -27,7 +27,7 @@ http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_Ex
 ## How to use
 - Install from nuget as mention above
 - Relevant localization resource files are available in [LazZiya.ExpressLocalizationSample](https://github.com/LazZiya/ExpressLocalizationSample) repo.
-Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
+Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
 - In your main project' startup.cs file, define supported cultures list then add express localization setup in one step or customized steps as mentioned below
 
 ### One step setup:
@@ -152,7 +152,7 @@ public class MyModel
 ````razor
 <h1 class="display-4">@_loc.Text("Welcome")</h1>
 ````
-Views are using shared resource files like: https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ViewLocalizationResource.tr.resx
+Views are using shared resource files like: [ViewLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ViewLocalizationResource.tr.resx)
 
 ## Client side validation libraries
 All required libraries to valdiate localized inputs like decimal numbers
