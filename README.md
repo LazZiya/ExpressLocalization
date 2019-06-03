@@ -21,6 +21,9 @@ Install-Package LazZiya.ExpressLocalization -Version 1.1.0
 ````
 it will install [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) package as well, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
 
+## Step by step tutorial 
+http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization
+
 ## How to use
 - Install from nuget as mention above
 - Relevant localization resource files are available in [LazZiya.ExpressLocalizationSample](https://github.com/LazZiya/ExpressLocalizationSample) repo.
@@ -51,6 +54,7 @@ public void ConfigureServices(IServiceCollection services)
         .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
             exOps =>
             {
+                exOps.ResourcesPath = "LocalizationResources";
                 exOps.RequestLocalizationOptions = ops =>
                 {
                     ops.SupportedCultures = cultures;
@@ -90,7 +94,7 @@ services.Configure<RequestLocalizationOptions>(
     
 services.AddMvc()
     //add view localization
-    .AddViewLocalization()
+    .AddViewLocalization(ops => { ops.ResourcesPath = "LocalizationResources"; })
     
     //register route value request culture provider, 
     //and add route parameter {culture} at the beginning of every url
