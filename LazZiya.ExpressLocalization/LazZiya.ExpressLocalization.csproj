@@ -14,12 +14,11 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client,side,validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Localization settings for dotnet core 2.x web applications using razore pages and route based culture settings.
-      - One step to install and include client side valdiation libraries for localized inputs
+      - Added ResourcesPath parameter to specify resources path
 </PackageReleaseNotes>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.1</Version>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>

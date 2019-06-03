@@ -47,7 +47,7 @@ namespace LazZiya.ExpressLocalization
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             return builder
-                .AddViewLocalization()
+                .AddViewLocalization(ops=> { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<T2>()
                 .ExAddDataAnnotationsLocalization<T1>()
                 .ExAddModelBindingLocalization<T1>()

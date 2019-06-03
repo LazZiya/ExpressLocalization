@@ -12,5 +12,10 @@ namespace LazZiya.ExpressLocalization
         /// Specific options for the Mİcrosoft.AspNetCore.Localizarion.RequestLocalizatonMiddleware
         /// </summary>
         public Action<RequestLocalizationOptions> RequestLocalizationOptions { get; set; }
+
+        /// <summary>
+        /// The path to the resources folder e.g. "LocalizationResources"
+        /// </summary>
+        public string ResourcesPath { get; set; } = "";
     }
 }
