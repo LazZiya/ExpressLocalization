@@ -1,23 +1,30 @@
 # ExpressLocalization
 Express localization settings for Asp.NetCore 2.x.
+
+## What is ExpressLocalization?
+A nuget package to simplify the localization of any Asp.Net Core 2.x web app to one step only.
+
+## What ExpressLocalization is offering?
 All below localization settings in one clean step:
 
-- Global route template: Add {culture} paramter to all routes
-- RouteValueRequestCultureProvider : register route value request culture provider
-- ViewLocalization : shared resource for localizing all razor pages
+- Global route template: Add {culture} paramter to all routes, so urls will be like http://www.example.com/en-US/
+- RouteValueRequestCultureProvider : register route value request culture provider, so culture selection will be based on route value
+- ViewLocalization : create a string localizer for localizing all razor pages depending on a shared resource
 - DataAnnotations Localization : All data annotations validation messages and display names attributes localization
 - ModelBinding Localization : localize model binding error messages
 - IdentityErrors Localization : localize identity describer error messages
+- Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers 
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 1.0.0
+Install-Package LazZiya.ExpressLocalization -Version 1.1.0
 ````
+it will install [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) package as well, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
 
 ## How to use
 - Install from nuget as mention above
-- Relevant localization resource files are available in [LazZiya.ExpressLocalization.Resources](https://github.com/LazZiya/ExpressLocalization.Resources) repo.
-Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalization.Resources/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
+- Relevant localization resource files are available in [LazZiya.ExpressLocalizationSample](https://github.com/LazZiya/ExpressLocalizationSample) repo.
+Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
 - In your main project' startup.cs file, define supported cultures list then add express localization setup in one step or customized steps as mentioned below
 
 ### One step setup:
@@ -40,7 +47,7 @@ public void ConfigureServices(IServiceCollection services)
 
     services.AddMvc()
         //ExpressLocalizationResource and ViewLocalizationResource are available in :
-        // https://github.com/LazZiya/ExpressLocalization.Resources
+        // https://github.com/LazZiya/ExpressLocalizationSample
         .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
             exOps =>
             {
@@ -103,11 +110,14 @@ services.AddMvc()
 
     //add IdentityErrors localization
     .ExAddIdentityErrorMessagesLocalization<IdentityErrorsResource>()
+    
+    //add client side validation libraries for localized inputs
+    .ExAddClientSideLocalizationValidationScripts()
 
     .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ````
 
-Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalization.Resources/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
+Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/LazZiya.ExpressLocalization.Resources/ExpressLocalizationResource.tr.resx) file.
 
 ## DataAnnotations
 All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
@@ -138,6 +148,19 @@ public class MyModel
 ````razor
 <h1 class="display-4">@_loc.Text("Welcome")</h1>
 ````
+
+## Client side validation libraries
+All required libraries to valdiate localized inputs like decimal numbers
+- register TagHelpers in _ViewImports.cshtml :
+````cshtml
+@using LazZiya.TagHelpers
+@addTagHelper *, LazZiya.TagHelpers
+````
+- add tag helper to the view to validate localized input:
+````cshtml
+<localization-validation-scripts></localization-validation-scripts>
+````
+For more details see [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) 
 
 ## Sample project
 See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
