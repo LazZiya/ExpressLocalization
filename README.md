@@ -17,7 +17,7 @@ All below localization settings in one clean step:
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 1.1.0
+Install-Package LazZiya.ExpressLocalization -Version 1.1.1
 ````
 it will install [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) package as well, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
 
