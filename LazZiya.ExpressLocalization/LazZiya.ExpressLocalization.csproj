@@ -14,7 +14,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Added ResourcesPath parameter to specify resources path
+      - SharedCultureLocalizer can accept object[] args instead of string[]
 </PackageReleaseNotes>
     <Version>1.1.2</Version>
     <AssemblyVersion>1.1.2.0</AssemblyVersion>
