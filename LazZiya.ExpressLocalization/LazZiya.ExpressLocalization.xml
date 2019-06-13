@@ -64,6 +64,13 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
+        <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.ExAddClientSideLocalizationValidationScripts(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add client side libraries for valdiating localized inputs like decimal numbers
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.ExAddRouteValueRequestCultureProvider(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Collections.Generic.IList{System.Globalization.CultureInfo},System.String)">
             <summary>
             Add RouteValueRequestCultureProvider, so localization will be based on route value {culture}
@@ -81,6 +88,11 @@
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.RequestLocalizationOptions">
             <summary>
             Specific options for the Mİcrosoft.AspNetCore.Localizarion.RequestLocalizatonMiddleware
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ResourcesPath">
+            <summary>
+            The path to the resources folder e.g. "LocalizationResources"
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.GenericResourceReader">
@@ -429,7 +441,7 @@
             <param name="factory"></param>
             <param name="type"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.String,System.String[])">
+        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.String,System.Object[])">
             <summary>
             Get localized string for the provided text
             </summary>

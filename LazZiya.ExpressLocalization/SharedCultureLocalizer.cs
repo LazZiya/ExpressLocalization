@@ -33,7 +33,7 @@ namespace LazZiya.ExpressLocalization
         /// <param name="key"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public LocalizedHtmlString Text(string key, params string[] args)
+        public LocalizedHtmlString Text(string key, params object[] args)
         {
             return args == null
                 ? _localizer[key]
