@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using Microsoft.AspNetCore.Mvc.Localization;
+using System;
+using System.Globalization;
+using System.Resources;
 
 namespace LazZiya.ExpressLocalization
 {
@@ -11,24 +14,53 @@ namespace LazZiya.ExpressLocalization
         /// Reads resource key and return relevant localized string value
         /// </summary>
         /// <typeparam name="T">type of resource file that containes localized string values</typeparam>
+        /// <param name="culture">Culture name e.g. ar-SY</param>
         /// <param name="code">key name to look for</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        internal static string GetValue<T>(string code, params object[] args) where T : class
+        internal static string GetValue<T>(string culture, string code, params object[] args) where T : class
         {
-            var _res = new System.Resources.ResourceManager(typeof(T));
+            return GetValue(typeof(T), culture, code, args).Value;
+        }
 
-            string msg;
+        /// <summary>
+        /// Reads resource key and return relevant localized string value
+        /// </summary>
+        /// <param name="resourceSource">Type of the resource that contains the localized strings</param>
+        /// <param name="culture">Culture name e.g. ar-SY</param>
+        /// <param name="code">key name to look for</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        internal static LocalizedHtmlString GetValue(Type resourceSource, string culture, string code, params object[] args)
+        {
+            var _res = new System.Resources.ResourceManager(resourceSource);
+
+            var cultureInfo = string.IsNullOrWhiteSpace(culture)
+                ? CultureInfo.CurrentCulture
+                : CultureInfo.GetCultureInfo(culture);
+
+            bool _resourceFound;
+            string _value;
+
             try
             {
-                msg = _res.GetString(code, CultureInfo.CurrentCulture);
+                _value = _res.GetString(code, cultureInfo);
+                _resourceFound = true;
             }
-            catch 
+            catch (MissingSatelliteAssemblyException)
             {
-                msg = code;
+                _resourceFound = false;
+                _value = code;
+            }
+            catch (MissingManifestResourceException)
+            {
+                _resourceFound = false;
+                _value = code;
             }
 
-            return string.Format(msg, args);
+            return args == null
+                ? new LocalizedHtmlString(code, _value, _resourceFound)
+                : new LocalizedHtmlString(code, _value, _resourceFound, args);
         }
     }
 }

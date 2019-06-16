@@ -1,5 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 
 namespace LazZiya.ExpressLocalization
 {
@@ -11,7 +12,9 @@ namespace LazZiya.ExpressLocalization
 
         private IdentityError LocalizedIdentityError(string code, params object[] args)
         {
-            var msg = GenericResourceReader.GetValue<T>(code, args);
+            var culture = CultureInfo.CurrentCulture.Name;
+
+            var msg = GenericResourceReader.GetValue<T>(culture, code, args);
 
             return new IdentityError
             {

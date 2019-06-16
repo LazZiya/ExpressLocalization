@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Localization;
 using System;
+using System.Globalization;
 using System.Reflection;
 
 namespace LazZiya.ExpressLocalization
@@ -38,6 +39,45 @@ namespace LazZiya.ExpressLocalization
             return args == null
                 ? _localizer[key]
                 : _localizer[key, args];
+        }
+
+        /// <summary>
+        /// Localize a string according to specified culture
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <param name="key"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public LocalizedHtmlString Text(string culture, string key, params object[] args)
+        {
+            return args == null
+                ? _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key]
+                : _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key, args];
+        }
+
+        /// <summary>
+        /// Localize a string according to a specific culture and specified resource type
+        /// </summary>
+        /// <param name="resourceSource"></param>
+        /// <param name="culture"></param>
+        /// <param name="key"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public LocalizedHtmlString Text(Type resourceSource, string culture, string key, params object[] args)
+        {
+            return GenericResourceReader.GetValue(resourceSource, culture, key, args);
+        }
+
+        /// <summary>
+        /// Localize a string value from specified culture resource
+        /// </summary>
+        /// <param name="resourceSource"></param>
+        /// <param name="key"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public LocalizedHtmlString Text(Type resourceSource, string key, params object[] args)
+        {
+            return GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
         }
     }
 }

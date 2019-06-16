@@ -100,11 +100,22 @@
             Reads resource key and return relevant localized string value
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.GenericResourceReader.GetValue``1(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.GenericResourceReader.GetValue``1(System.String,System.String,System.Object[])">
             <summary>
             Reads resource key and return relevant localized string value
             </summary>
             <typeparam name="T">type of resource file that containes localized string values</typeparam>
+            <param name="culture">Culture name e.g. ar-SY</param>
+            <param name="code">key name to look for</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.GenericResourceReader.GetValue(System.Type,System.String,System.String,System.Object[])">
+            <summary>
+            Reads resource key and return relevant localized string value
+            </summary>
+            <param name="resourceSource">Type of the resource that contains the localized strings</param>
+            <param name="culture">Culture name e.g. ar-SY</param>
             <param name="code">key name to look for</param>
             <param name="args"></param>
             <returns></returns>
@@ -445,6 +456,34 @@
             <summary>
             Get localized string for the provided text
             </summary>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.String,System.String,System.Object[])">
+            <summary>
+            Localize a string according to specified culture
+            </summary>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.Type,System.String,System.String,System.Object[])">
+            <summary>
+            Localize a string according to a specific culture and specified resource type
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.Type,System.String,System.Object[])">
+            <summary>
+            Localize a string value from specified culture resource
+            </summary>
+            <param name="resourceSource"></param>
             <param name="key"></param>
             <param name="args"></param>
             <returns></returns>
