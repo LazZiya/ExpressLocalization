@@ -143,6 +143,16 @@ public class MyModel
 ````
 
 ## View localization
+
+### Option 1
+Localize views using Localize tag helper:
+````razor
+<localize>Hello world!</localize>
+````
+see http://demo.ziyad.info/en/localize and http://github.com/lazziya/TagHelpers.Localization for more details.
+
+
+### Opiton 2
 - inject shared culture localizer directly to the view or to _ViewImports.cshtml :
 ````razor
 @using LazZiya.ExpressLocalization
