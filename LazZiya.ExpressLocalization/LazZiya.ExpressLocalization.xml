@@ -10,6 +10,23 @@
             <para>download necessary resource files from: https://github.com/LazZiya/ExpressLocalization.Resources</para>
             </summary>
         </member>
+        <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.AddExpressLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add all below localization settings with one step;
+            <para>define supported cultures adn default culture</para>
+            <para>Add global route template for culture parameter e.g.: http://localhost:1234/{culture}/xxx </para>
+            <para>Add route value request culture provider</para>
+            <para>Add view localization using shared resource</para>
+            <para>Add DataAnnotations localization</para>
+            <para>Add ModelBinding localization</para>
+            <para>Add IdentityError localization</para>
+            <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+            </summary>
+            <typeparam name="TLocalizationResource">Type of localization resource, this resource should contain all localization messages for Identity, ModelBinding, DataAnnotations localized validiation messages and view localizations as well.</typeparam>
+            <param name="builder"></param>
+            <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
+            <returns></returns>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.AddExpressLocalization``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Add all below localization settings with one step;
@@ -22,8 +39,28 @@
             <para>Add IdentityError localization</para>
             <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
-            <typeparam name="T1">Type of ExpressLocalizationResource, this resource should contain Identity, ModelBinding and DataAnnotations localized validiation messages.</typeparam>
-            <typeparam name="T2">Type of ViewLocalizationResource, this resource is a shared view localization resource.</typeparam>
+            <typeparam name="TExpressLocalizationResource">Type of ExpressLocalizationResource, this resource should contain Identity, ModelBinding and DataAnnotations localized validiation messages.</typeparam>
+            <typeparam name="TViewLocalizationResource">Type of ViewLocalizationResource, this resource is a shared view localization resource.</typeparam>
+            <param name="builder"></param>
+            <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.AddExpressLocalization``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add all below localization settings with one step;
+            <para>define supported cultures adn default culture</para>
+            <para>Add global route template for culture parameter e.g.: http://localhost:1234/{culture}/xxx </para>
+            <para>Add route value request culture provider</para>
+            <para>Add view localization using shared resource</para>
+            <para>Add DataAnnotations localization</para>
+            <para>Add ModelBinding localization</para>
+            <para>Add IdentityError localization</para>
+            <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+            </summary>
+            <typeparam name="TIdentityErrorsLocalizationResource">Type of localization resource for Identity error messages.</typeparam>
+            <typeparam name="TModelBindingLocalizationResource">Type of localization resource for model binding error messages.</typeparam>
+            <typeparam name="TDataAnnotationsLocalizationResource">Type of localization resource for data annotations.</typeparam>
+            <typeparam name="TViewLocalizationResource">Type of localization shared resource for razor views.</typeparam>
             <param name="builder"></param>
             <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
             <returns></returns>
@@ -33,7 +70,7 @@
             Add DataAnnotatons localization to the project.
             <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
-            <typeparam name="T">Type of DataAnnotations localization resource</typeparam>
+            <typeparam name="TDataAnnotationsLocalizationResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
@@ -42,7 +79,7 @@
             Add ModelBinding localization to the project.
             <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
-            <typeparam name="T">Type of ModelBinding localization resource</typeparam>
+            <typeparam name="TModelBindingLocalizationResource">Type of ModelBinding localization resource</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
@@ -51,7 +88,7 @@
             Add shared locaization settings for views
             <para>Sample resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
-            <typeparam name="T">Type of shared localization resource</typeparam>
+            <typeparam name="TViewLocalizationResource">Type of shared localization resource for razor pages</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
@@ -60,7 +97,7 @@
             Add IdentityErrors localization to the project
             <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
-            <typeparam name="T">Type of IdentityErro messages localizaton resource</typeparam>
+            <typeparam name="TIdentityErrorsLocalizationResource">Type of IdentityErro messages localizaton resource</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>

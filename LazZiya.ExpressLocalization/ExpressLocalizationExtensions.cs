@@ -29,14 +29,50 @@ namespace LazZiya.ExpressLocalization
         /// <para>Add IdentityError localization</para>
         /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
         /// </summary>
-        /// <typeparam name="T1">Type of ExpressLocalizationResource, this resource should contain Identity, ModelBinding and DataAnnotations localized validiation messages.</typeparam>
-        /// <typeparam name="T2">Type of ViewLocalizationResource, this resource is a shared view localization resource.</typeparam>
+        /// <typeparam name="TLocalizationResource">Type of localization resource, this resource should contain all localization messages for Identity, ModelBinding, DataAnnotations localized validiation messages and view localizations as well.</typeparam>
         /// <param name="builder"></param>
         /// <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalization<T1,T2>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
-            where T1 : class 
-            where T2 : class
+        public static IMvcBuilder AddExpressLocalization<TLocalizationResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
+            where TLocalizationResource : class
+        {
+            var _options = new ExpressLocalizationOptions();
+            options.Invoke(_options);
+
+            var _ops = new RequestLocalizationOptions();
+            _options.RequestLocalizationOptions.Invoke(_ops);
+
+            builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
+
+            return builder
+                .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
+                .ExAddSharedCultureLocalizer<TLocalizationResource>()
+                .ExAddDataAnnotationsLocalization<TLocalizationResource>()
+                .ExAddModelBindingLocalization<TLocalizationResource>()
+                .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExAddClientSideLocalizationValidationScripts();
+        }
+
+        /// <summary>
+        /// Add all below localization settings with one step;
+        /// <para>define supported cultures adn default culture</para>
+        /// <para>Add global route template for culture parameter e.g.: http://localhost:1234/{culture}/xxx </para>
+        /// <para>Add route value request culture provider</para>
+        /// <para>Add view localization using shared resource</para>
+        /// <para>Add DataAnnotations localization</para>
+        /// <para>Add ModelBinding localization</para>
+        /// <para>Add IdentityError localization</para>
+        /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+        /// </summary>
+        /// <typeparam name="TExpressLocalizationResource">Type of ExpressLocalizationResource, this resource should contain Identity, ModelBinding and DataAnnotations localized validiation messages.</typeparam>
+        /// <typeparam name="TViewLocalizationResource">Type of ViewLocalizationResource, this resource is a shared view localization resource.</typeparam>
+        /// <param name="builder"></param>
+        /// <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
+        /// <returns></returns>
+        public static IMvcBuilder AddExpressLocalization<TExpressLocalizationResource, TViewLocalizationResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
+            where TExpressLocalizationResource : class 
+            where TViewLocalizationResource : class
         {
             var _options = new ExpressLocalizationOptions();
             options.Invoke(_options);
@@ -48,10 +84,52 @@ namespace LazZiya.ExpressLocalization
 
             return builder
                 .AddViewLocalization(ops=> { ops.ResourcesPath = _options.ResourcesPath; })
-                .ExAddSharedCultureLocalizer<T2>()
-                .ExAddDataAnnotationsLocalization<T1>()
-                .ExAddModelBindingLocalization<T1>()
-                .ExAddIdentityErrorMessagesLocalization<T1>()
+                .ExAddSharedCultureLocalizer<TViewLocalizationResource>()
+                .ExAddDataAnnotationsLocalization<TExpressLocalizationResource>()
+                .ExAddModelBindingLocalization<TExpressLocalizationResource>()
+                .ExAddIdentityErrorMessagesLocalization<TExpressLocalizationResource>()
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExAddClientSideLocalizationValidationScripts();
+        }
+
+        /// <summary>
+        /// Add all below localization settings with one step;
+        /// <para>define supported cultures adn default culture</para>
+        /// <para>Add global route template for culture parameter e.g.: http://localhost:1234/{culture}/xxx </para>
+        /// <para>Add route value request culture provider</para>
+        /// <para>Add view localization using shared resource</para>
+        /// <para>Add DataAnnotations localization</para>
+        /// <para>Add ModelBinding localization</para>
+        /// <para>Add IdentityError localization</para>
+        /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+        /// </summary>
+        /// <typeparam name="TIdentityErrorsLocalizationResource">Type of localization resource for Identity error messages.</typeparam>
+        /// <typeparam name="TModelBindingLocalizationResource">Type of localization resource for model binding error messages.</typeparam>
+        /// <typeparam name="TDataAnnotationsLocalizationResource">Type of localization resource for data annotations.</typeparam>
+        /// <typeparam name="TViewLocalizationResource">Type of localization shared resource for razor views.</typeparam>
+        /// <param name="builder"></param>
+        /// <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
+        /// <returns></returns>
+        public static IMvcBuilder AddExpressLocalization<TViewLocalizationResource, TDataAnnotationsLocalizationResource, TModelBindingLocalizationResource, TIdentityErrorsLocalizationResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
+            where TViewLocalizationResource : class
+            where TDataAnnotationsLocalizationResource : class
+            where TModelBindingLocalizationResource : class
+            where TIdentityErrorsLocalizationResource : class
+        {
+            var _options = new ExpressLocalizationOptions();
+            options.Invoke(_options);
+
+            var _ops = new RequestLocalizationOptions();
+            _options.RequestLocalizationOptions.Invoke(_ops);
+
+            builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
+
+            return builder
+                .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
+                .ExAddSharedCultureLocalizer<TViewLocalizationResource>()
+                .ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>()
+                .ExAddModelBindingLocalization<TModelBindingLocalizationResource>()
+                .ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
                 .ExAddClientSideLocalizationValidationScripts();
         }
@@ -60,14 +138,14 @@ namespace LazZiya.ExpressLocalization
         /// Add DataAnnotatons localization to the project.
         /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
         /// </summary>
-        /// <typeparam name="T">Type of DataAnnotations localization resource</typeparam>
+        /// <typeparam name="TDataAnnotationsLocalizationResource">Type of DataAnnotations localization resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddDataAnnotationsLocalization<T>(this IMvcBuilder builder) where T : class
+        public static IMvcBuilder ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(this IMvcBuilder builder) where TDataAnnotationsLocalizationResource : class
         {
             builder.AddDataAnnotationsLocalization(x =>
             {
-                var type = typeof(T);
+                var type = typeof(TDataAnnotationsLocalizationResource);
                 var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
                 var factory = builder.Services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
                 var localizer = factory.Create(type.Name, assemblyName.Name);
@@ -82,14 +160,14 @@ namespace LazZiya.ExpressLocalization
         /// Add ModelBinding localization to the project.
         /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
         /// </summary>
-        /// <typeparam name="T">Type of ModelBinding localization resource</typeparam>
+        /// <typeparam name="TModelBindingLocalizationResource">Type of ModelBinding localization resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddModelBindingLocalization<T>(this IMvcBuilder builder) where T : class
+        public static IMvcBuilder ExAddModelBindingLocalization<TModelBindingLocalizationResource>(this IMvcBuilder builder) where TModelBindingLocalizationResource : class
         {
             builder.AddMvcOptions(ops =>
             {
-                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages<T>();
+                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages<TModelBindingLocalizationResource>();
             });
 
             return builder;
@@ -99,12 +177,12 @@ namespace LazZiya.ExpressLocalization
         /// Add shared locaization settings for views
         /// <para>Sample resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
         /// </summary>
-        /// <typeparam name="T">Type of shared localization resource</typeparam>
+        /// <typeparam name="TViewLocalizationResource">Type of shared localization resource for razor pages</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddSharedCultureLocalizer<T>(this IMvcBuilder builder) where T : class
+        public static IMvcBuilder ExAddSharedCultureLocalizer<TViewLocalizationResource>(this IMvcBuilder builder) where TViewLocalizationResource : class
         {
-            builder.Services.AddSingleton<SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(T)));
+            builder.Services.AddSingleton<SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
 
             return builder;
         }
@@ -113,13 +191,13 @@ namespace LazZiya.ExpressLocalization
         /// Add IdentityErrors localization to the project
         /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
         /// </summary>
-        /// <typeparam name="T">Type of IdentityErro messages localizaton resource</typeparam>
+        /// <typeparam name="TIdentityErrorsLocalizationResource">Type of IdentityErro messages localizaton resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<T>(this IMvcBuilder builder) where T : class
+        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>(this IMvcBuilder builder) where TIdentityErrorsLocalizationResource : class
         {
-            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer<T>>(ops =>
-                new IdentityErrorsLocalizer<T>());
+            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer<TIdentityErrorsLocalizationResource>>(ops =>
+                new IdentityErrorsLocalizer<TIdentityErrorsLocalizationResource>());
 
             return builder;
         }
