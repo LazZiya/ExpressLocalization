@@ -9,7 +9,7 @@ All below localization settings in one clean step:
 
 - Global route template: Add {culture} paramter to all routes, so urls will be like http://www.example.com/en-US/
 - RouteValueRequestCultureProvider : Register route value request culture provider, so culture selection will be based on route value
-- ViewLocalization : Use [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization) for localizing all razor pages depending on a shared resource. [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization) must be installed separately.
+- ViewLocalization : Use [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization) for localizing all razor pages depending on a shared resource. [TagHelpers.Localization](https://github.com/lazziya/TagHelpers.Localization) must be installed separately.
 - DataAnnotations Localization : All data annotations validation messages and display names attributes localization
 - ModelBinding Localization : localize model binding error messages
 - IdentityErrors Localization : localize identity describer error messages
