@@ -8,18 +8,20 @@ A nuget package to simplify the localization of any Asp.Net Core 2.x web app to 
 All below localization settings in one clean step:
 
 - Global route template: Add {culture} paramter to all routes, so urls will be like http://www.example.com/en-US/
-- RouteValueRequestCultureProvider : register route value request culture provider, so culture selection will be based on route value
-- ViewLocalization : create a string localizer for localizing all razor pages depending on a shared resource
+- RouteValueRequestCultureProvider : Register route value request culture provider, so culture selection will be based on route value
+- ViewLocalization : Use [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization) for localizing all razor pages depending on a shared resource. In order to use LocalizetagHelper [LazZiya.TagHelpers.Localization](https://github.com/lazziya/TagHelpers.Localization) must be installed separately.
 - DataAnnotations Localization : All data annotations validation messages and display names attributes localization
 - ModelBinding Localization : localize model binding error messages
 - IdentityErrors Localization : localize identity describer error messages
-- Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers 
+- Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers. This option requires [LazZiya.TagHelpers](http://github.com/lazziya/TagHelpers) package that will be installed automatically.
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 1.1.2
+Install-Package LazZiya.ExpressLocalization -Version 2.0.0
 ````
-it will install [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) package as well, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
+
+## Dependencies
+[LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) package will be installed automatically, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
 
 ## Step by step tutorial 
 http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization
@@ -143,6 +145,23 @@ public class MyModel
 ````
 
 ## View localization
+
+### Option 1
+Localize views using Localize tag helper, require installation of [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization):
+````razor
+<localize>Hello world!</localize>
+````
+or 
+````razor
+<div localize-content>
+    <h1>Title</h1>
+    <p>Moretext for localization.....</p>
+</div>
+````
+for more details see [Live demo](http://demo.ziyad.info/en/localize) and [TagHelpers.Localization](http://github.com/lazziya/TagHelpers.Localization)
+
+
+### Option 2
 - inject shared culture localizer directly to the view or to _ViewImports.cshtml :
 ````razor
 @using LazZiya.ExpressLocalization
