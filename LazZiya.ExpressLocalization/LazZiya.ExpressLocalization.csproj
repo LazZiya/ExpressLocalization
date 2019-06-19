@@ -14,11 +14,11 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Advanced localization options for SharedCultureLocalizer, see documents for details
+      - Hotfix to reference package LazZiya.TagHelpers upgraded to v2.2.1
 </PackageReleaseNotes>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.1</Version>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
@@ -41,7 +41,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.0.0" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="2.2.0" />
+    <PackageReference Include="LazZiya.TagHelpers" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
