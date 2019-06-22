@@ -39,28 +39,28 @@ namespace LazZiya.ExpressLocalization
                 ? CultureInfo.CurrentCulture
                 : CultureInfo.GetCultureInfo(culture);
 
-            bool _resourceFound;
+            bool _resourceNotFound;
             string _value;
 
             try
             {
                 _value = _res.GetString(code, cultureInfo);
-                _resourceFound = true;
+                _resourceNotFound = false;
             }
             catch (MissingSatelliteAssemblyException)
             {
-                _resourceFound = false;
+                _resourceNotFound = true;
                 _value = code;
             }
             catch (MissingManifestResourceException)
             {
-                _resourceFound = false;
+                _resourceNotFound = true;
                 _value = code;
             }
 
             return args == null
-                ? new LocalizedHtmlString(code, _value, _resourceFound)
-                : new LocalizedHtmlString(code, _value, _resourceFound, args);
+                ? new LocalizedHtmlString(code, _value, _resourceNotFound)
+                : new LocalizedHtmlString(code, _value, _resourceNotFound, args);
         }
     }
 }

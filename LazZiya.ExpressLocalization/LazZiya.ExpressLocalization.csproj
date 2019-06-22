@@ -14,8 +14,8 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Hotfix to reference package LazZiya.TagHelpers upgraded to v2.2.1
-</PackageReleaseNotes>
+      - Hotfix for ModelBinding and Identity messages see issues (1, 2 and 3) in https://github.com/LazZiya/ExpressLocalization/issues
+    </PackageReleaseNotes>
     <Version>2.0.1</Version>
     <AssemblyVersion>2.0.1.0</AssemblyVersion>
     <FileVersion>2.0.1.0</FileVersion>

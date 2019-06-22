@@ -1,6 +1,5 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Identity;
-using System.Globalization;
 
 namespace LazZiya.ExpressLocalization
 {
@@ -12,15 +11,12 @@ namespace LazZiya.ExpressLocalization
 
         private IdentityError LocalizedIdentityError(string code, params object[] args)
         {
-            var culture = CultureInfo.CurrentCulture.Name;
+            var msg = GenericResourceReader.GetValue<T>(string.Empty, code, args);
 
-            var msg = GenericResourceReader.GetValue<T>(culture, code, args);
+            return args == null
+                ? new IdentityError { Code = code, Description = msg }
+                : new IdentityError { Code = code, Description = string.Format(msg, args) };
 
-            return new IdentityError
-            {
-                Code = code,
-                Description = msg
-            };
         }
 
         public override IdentityError DuplicateEmail(string email) 
