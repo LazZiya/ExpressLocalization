@@ -17,7 +17,7 @@ All below localization settings in one clean step:
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 2.0.0
+Install-Package LazZiya.ExpressLocalization -Version 2.0.1
 ````
 
 ## Dependencies
@@ -29,7 +29,7 @@ http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_Ex
 ## How to use
 - Install from nuget as mention above
 - Relevant localization resource files are available in [LazZiya.ExpressLocalizationSample](https://github.com/LazZiya/ExpressLocalizationSample) repo.
-Download the resources project and reference it to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
+Download the resources and add them to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
 - In your main project' startup.cs file, define supported cultures list then add express localization setup in one step or customized steps as mentioned below
 
 ### One step setup:
@@ -124,6 +124,9 @@ services.AddMvc()
 ````
 
 Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
+
+### _Notice_
+_All localization resources can be combined in one single resource or separate resources._
 
 ## DataAnnotations
 All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
