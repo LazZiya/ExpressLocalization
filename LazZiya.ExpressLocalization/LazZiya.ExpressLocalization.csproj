@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
     <ApplicationIcon>files\icon.ico</ApplicationIcon>
     <Authors>Ziya Mollamahmut</Authors>
     <Company>Ziyad.info</Company>
@@ -14,34 +14,31 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Hotfix for ModelBinding and Identity messages see issues (1, 2 and 3) in https://github.com/LazZiya/ExpressLocalization/issues
+      Added support for DotNetCore 3.0
     </PackageReleaseNotes>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
+    <Version>3.0.0-preview</Version>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/LazZiya/ExpressLocalization</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.0|AnyCPU'">
-    <DocumentationFile>D:\MyWorks\WebDev\LazZiya\ExpressLocalization\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
+    <DocumentationFile>files\LazZiya.ExpressLocalization.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
-    <DocumentationFile>D:\MyWorks\WebDev\LazZiya\ExpressLocalization\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.0|AnyCPU'">
-    <DocumentationFile>D:\MyWorks\WebDev\LazZiya\ExpressLocalization\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.0.0" />
     <PackageReference Include="LazZiya.TagHelpers" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.0.0" Exclude="Build,Analyzers" />
+    <PackageReference Include="LazZiya.TagHelpers" Version="3.0.0-preview" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,16 +50,5 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     </None>
     <None Include="files\license.txt" Pack="true" PackagePath="" />
   </ItemGroup>
-
-  <!-- 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0' OR '$(TargetFramework)' == 'netcoreapp1.1'">
-    <dependency id="Microsoft.NETCore.App" version="1.0.5" exclude="Build,Analyzers" />
-  </ItemGroup>
-  -->
-
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_UpdateFileVersion="True" BuildVersion_StartDate="2000/1/1" BuildVersion_UseUniversalClock="True" BuildVersion_UpdateAssemblyVersion="True" />
-    </VisualStudio>
-  </ProjectExtensions>
+  
 </Project>
