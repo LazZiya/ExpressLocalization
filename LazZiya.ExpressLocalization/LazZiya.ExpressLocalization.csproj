@@ -14,9 +14,10 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      Added support for DotNetCore 3.0
+      - Added support for DotNetCore 3.0
+      - New localizing method 'FormattedText' added for backend text localization
     </PackageReleaseNotes>
-    <Version>3.0.0-preview</Version>
+    <Version>3.0.0-preview1</Version>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <FileVersion>3.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
