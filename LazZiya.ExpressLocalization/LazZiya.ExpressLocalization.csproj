@@ -39,7 +39,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.0.0" Exclude="Build,Analyzers" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="3.0.0-preview" />
+    <PackageReference Include="LazZiya.TagHelpers" Version="3.0.0-preview1" />
   </ItemGroup>
 
   <ItemGroup>
