@@ -5,8 +5,8 @@
     <ApplicationIcon>files\icon.ico</ApplicationIcon>
     <Authors>Ziya Mollamahmut</Authors>
     <Company>Ziyad.info</Company>
-    <Description>Express localization settings package for dotnet core 2.x web appliations.
-Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteValueRequestCultureProivder with one clean step.</Description>
+    <Description>Express localization settings package for dotnet core web appliations.
+Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side validation errors and scripts) and add RouteValueRequestCultureProivder with one clean step.</Description>
     <Copyright>Ziyad.info</Copyright>
     <PackageProjectUrl>http://www.ziyad.info/en/articles/33-LazZiya_Express_Localization</PackageProjectUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
@@ -15,7 +15,8 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors) and add RouteVal
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
       - Added support for DotNetCore 3.0
-      - New localizing method 'FormattedText' added for backend text localization
+      - New localizing method 'GetLocalizedString' added for backend text localization
+      - Obsolete method: 'Text' to be removed in feature release, use GetLocalizedString instead.
     </PackageReleaseNotes>
     <Version>3.0.0-preview1</Version>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
