@@ -1,5 +1,6 @@
 # ExpressLocalization
-Express localization settings for Asp.NetCore 2.x.
+Express localization settings for Asp.NetCore 2.x. 
+> - Preview version for Asp.Net Core 3.0 is available [here][1]
 
 ## What is ExpressLocalization?
 A nuget package to simplify the localization of any Asp.Net Core 2.x web app to one step only.
@@ -200,3 +201,5 @@ To easily create a language navigation dropdown for changing the culture use [La
 
 ## License
 MIT
+
+[1]: https://github.com/LazZiya/ExpressLocalization/tree/ExpressLocalizationCore3
