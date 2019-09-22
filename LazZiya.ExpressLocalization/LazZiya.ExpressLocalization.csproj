@@ -18,7 +18,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
       - New localizing method 'GetLocalizedString' added for backend text localization
       - Obsolete method: 'Text' to be removed in feature release, use GetLocalizedString instead.
     </PackageReleaseNotes>
-    <Version>3.0.0-preview1</Version>
+    <Version>3.0.0-preview2</Version>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <FileVersion>3.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
