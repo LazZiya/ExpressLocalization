@@ -1,8 +1,7 @@
 # ExpressLocalization
-Express localization settings for Asp.NetCore 3.x.
 
 ## What is ExpressLocalization?
-A nuget package to simplify the localization of any Asp.Net Core 3.x web app to one step only.
+A nuget package to simplify the localization of any Asp.Net Core web app to one step only.
 
 ## What ExpressLocalization is offering?
 All below localization settings in one clean step:
@@ -17,7 +16,7 @@ All below localization settings in one clean step:
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 3.0.0-preview1
+Install-Package LazZiya.ExpressLocalization -Version 3.0.0
 ````
 
 ## Dependencies
@@ -218,3 +217,5 @@ To easily create a language navigation dropdown for changing the culture use [La
 
 ## License
 MIT
+
+[1]: https://github.com/LazZiya/ExpressLocalization/tree/ExpressLocalizationCore3
