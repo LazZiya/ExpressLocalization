@@ -10,7 +10,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <Copyright>Ziyad.info</Copyright>
     <PackageProjectUrl>http://www.ziyad.info/en/articles/33-LazZiya_Express_Localization</PackageProjectUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <PackageIcon>files\icon.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
@@ -18,7 +18,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
       - New localizing method 'GetLocalizedString' added for backend text localization
       - Obsolete method: 'Text' to be removed in feature release, use GetLocalizedString instead.
     </PackageReleaseNotes>
-    <Version>3.0.0-preview2</Version>
+    <Version>3.0.0</Version>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <FileVersion>3.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -40,14 +40,14 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.0.0" Exclude="Build,Analyzers" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="3.0.0-preview1" />
+    <PackageReference Include="LazZiya.TagHelpers" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="files\icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="files\icon.png">
+    <None Include="files\icon.png" Pack="true" PackagePath="">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="files\license.txt" Pack="true" PackagePath="" />
