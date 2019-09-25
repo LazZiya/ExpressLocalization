@@ -1,9 +1,7 @@
 # ExpressLocalization
-Express localization settings for Asp.NetCore 2.x. 
-> - Preview version for Asp.Net Core 3.0 is available [here][1]
 
 ## What is ExpressLocalization?
-A nuget package to simplify the localization of any Asp.Net Core 2.x web app to one step only.
+A nuget package to simplify the localization of any Asp.Net Core web app to one step only.
 
 ## What ExpressLocalization is offering?
 All below localization settings in one clean step:
@@ -18,7 +16,7 @@ All below localization settings in one clean step:
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 2.0.1
+Install-Package LazZiya.ExpressLocalization -Version 3.0.0
 ````
 
 ## Dependencies
@@ -51,7 +49,7 @@ public void ConfigureServices(IServiceCollection services)
         new CultureInfo("ar")
     };
 
-    services.AddMvc()
+    services.AddRazorPages()
         //ExpressLocalizationResource and ViewLocalizationResource are available in :
         // https://github.com/LazZiya/ExpressLocalizationSample
         .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
@@ -64,22 +62,43 @@ public void ConfigureServices(IServiceCollection services)
                     ops.SupportedUICultures = cultures;
                     ops.DefaultRequestCulture = new RequestCulture("en");
                 };
-            })
-        .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            });
 }
 ````
 
 Then configure the app to use RequestLocalizationMiddleware :
 ````cs
-public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     //other codes...
     
     //add localization middleware to the app
     app.UseRequestLocalization();
 
-    app.UseMvc();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapRazorPages();
+    });
 }
+````
+
+if you are using Mvc just add the culture parameter to the route as below:
+````cs
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+    name: "default",
+    template: "{culture=en}/{controller=Home}/{action=Index}/{id?}",
+    );
+});
+````
+
+Also it is possible to add culture parameter to the route attributes as well:
+````cs
+[Route("{culture}/Home")]
+public class HomeController : Controller {
+     // ...
+ }
 ````
 
 ### Customized steps (optional)
@@ -95,7 +114,7 @@ services.Configure<RequestLocalizationOptions>(
         ops.DefaultRequestCulture = new RequestCulture("en");
     });
     
-services.AddMvc()
+services.AddRazorPages()
     //add view localization
     .AddViewLocalization(ops => { ops.ResourcesPath = "LocalizationResources"; })
     
@@ -106,7 +125,7 @@ services.AddMvc()
     //add shared view localization, 
     //use by injecting SharedCultureLocalizer to the views as below:
     //@inject SharedCultureLocalizer _loc
-    //_loc.Text("Hello world")
+    //_loc.GetLocalizedString("Hello world")
     .ExAddSharedCultureLocalizer<ViewLocalizationResource>()
 
     //add DataAnnotations localization
@@ -119,9 +138,7 @@ services.AddMvc()
     .ExAddIdentityErrorMessagesLocalization<IdentityErrorsResource>()
     
     //add client side validation libraries for localized inputs
-    .ExAddClientSideLocalizationValidationScripts()
-
-    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+    .ExAddClientSideLocalizationValidationScripts();
 ````
 
 Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
@@ -150,7 +167,7 @@ public class MyModel
 
 ## View localization
 
-### Option 1
+### Option 1 (recommended)
 Localize views using Localize tag helper, require installation of [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization):
 ````razor
 <localize>Hello world!</localize>
@@ -159,7 +176,7 @@ or
 ````razor
 <div localize-content>
     <h1>Title</h1>
-    <p>Moretext for localization.....</p>
+    <p>More text for localization.....</p>
 </div>
 ````
 for more details see [Live demo](http://demo.ziyad.info/en/localize) and [TagHelpers.Localization](http://github.com/lazziya/TagHelpers.Localization)
@@ -173,7 +190,7 @@ for more details see [Live demo](http://demo.ziyad.info/en/localize) and [TagHel
 ````
 - call localization function to get localized strings in views:
 ````razor
-<h1 class="display-4">@_loc.Text("Welcome")</h1>
+<h1 class="display-4">@_loc.GetLocalizedString("Welcome")</h1>
 ````
 Views are using shared resource files like: [ViewLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ViewLocalizationResource.tr.resx)
 
@@ -181,14 +198,13 @@ Views are using shared resource files like: [ViewLocalizationResource](https://g
 All required libraries to valdiate localized inputs like decimal numbers
 - register TagHelpers in _ViewImports.cshtml :
 ````cshtml
-@using LazZiya.TagHelpers
 @addTagHelper *, LazZiya.TagHelpers
 ````
 - add tag helper to the view to validate localized input:
 ````cshtml
 <localization-validation-scripts></localization-validation-scripts>
 ````
-For more details see [LazZiya.TagHelpers v2.1.0](https://github.com/LazZiya/TagHelpers/) 
+For more details see [LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) 
 
 ## Sample project
 See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
