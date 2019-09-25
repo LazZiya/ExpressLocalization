@@ -1,7 +1,8 @@
 # ExpressLocalization
 
 ## What is ExpressLocalization?
-A nuget package to simplify the localization of any Asp.Net Core web app to one step only.
+A nuget package to simplify the localization of any Asp.Net Core web app to one step only. 
+(sample projects links provided at the end of this file)
 
 ## What ExpressLocalization is offering?
 All below localization settings in one clean step:
@@ -207,7 +208,8 @@ All required libraries to valdiate localized inputs like decimal numbers
 For more details see [LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) 
 
 ## Sample project
-See this sample project : https://github.com/LazZiya/ExpressLocalizationSample
+Asp.Net Core 2.2 : https://github.com/LazZiya/ExpressLocalizationSample
+Asp.Net Core 3.0 : https://github.com/LazZiya/ExpressLocalizationSampleCore3
 
 ## Project website
 For discussion please visit: http://ziyad.info/en/articles/33-Express_Localization
