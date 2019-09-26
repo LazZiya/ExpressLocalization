@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using LazZiya.TagHelpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace LazZiya.ExpressLocalization
 {
@@ -51,6 +53,7 @@ namespace LazZiya.ExpressLocalization
                 .ExAddModelBindingLocalization<TLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExConfigureApplicationCookie(_options.CookieAuthenticationOptions)
                 .ExAddClientSideLocalizationValidationScripts();
         }
 
@@ -232,6 +235,42 @@ namespace LazZiya.ExpressLocalization
                 x.Conventions.Add(new RouteTemplateModelConvention());
             });
 
+            return builder;
+        }
+
+        /// <summary>
+        /// Configure application cookie and add culture value to redirect path
+        /// so unauthorized users will be redirected to login page and the culture will not be lost
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="loginPath">Login path</param>
+        /// <param name="defCulture">default culture name to add to the path when redirect to login </param>
+        /// <returns></returns>
+        public static IMvcBuilder ExConfigureApplicationCookie(this IMvcBuilder builder, Action<CookieAuthenticationOptions> configure)
+        {
+            // add culture value to route when user is redirected to login page
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                // Improvment : do we need to check for existing cookie authentication events before?
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = ctx =>
+                    {
+                        //var culture = ctx.HttpContext.GetRouteValue("culture");
+                        var culture = ctx.Request.RouteValues["culture"];
+                        var requestPath = ctx.Request.Path;
+
+                        if (culture == null)
+                        {
+                            culture = defCulture;
+                            requestPath = $"/{culture}{requestPath}";
+                        }
+
+                        ctx.Response.Redirect($"/{culture}{loginPath}?ReturnUrl={requestPath}{ctx.Request.QueryString}");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
             return builder;
         }
     }

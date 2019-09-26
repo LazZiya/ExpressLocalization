@@ -35,6 +35,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
     <PackageReference Include="LazZiya.TagHelpers" Version="2.2.1" />
   </ItemGroup>
 
