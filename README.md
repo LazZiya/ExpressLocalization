@@ -14,6 +14,9 @@ All below localization settings in one clean step:
 - IdentityErrors Localization : localize identity describer error messages
 - Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers. This option requires [LazZiya.TagHelpers](http://github.com/lazziya/TagHelpers) package that will be installed automatically.
 
+v3.1.1 :
+ - Identity redirect Paths : Auto configure idenetity RedirectTo (Login, LogOut, AccessDenied) path to include culture value
+
 ## Installation
 ````
 Install-Package LazZiya.ExpressLocalization -Version 3.0.0
@@ -139,12 +142,63 @@ services.AddRazorPages()
     
     //add client side validation libraries for localized inputs
     .ExAddClientSideLocalizationValidationScripts();
+    
+    // configure identity redirect to paths (without culture value)
+    .ExConfigureApplicationCookie(string loginPath, string logoutPath, string accessDeniedPath, string defCulture);
 ````
 
 Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
 
 ### _Notice_
 _All localization resources can be combined in one single resource or separate resources._
+
+## Identity RedirectTo Paths (v3.1.1)
+ExpressLocalization will automatically configure app cookie to add culture value to the redirect path when redirect events are invoked.
+The default events and paths after configurations are: 
+- OnRedirectToLogin : "{culture}/Identity/Account/Login/"
+- OnRedirectToLogout : "{culture}/Identity/Account/Logout/"
+- OnRedirectToAccessDenied : "{culture}/Identity/Account/AccessDenied/"
+
+You can define custom paths for login, logout and access denied using ExpressLocalization as below:
+
+````cs
+services.AddRazorPages()
+    .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
+        exOps =>
+        {
+            exOps.LoginPath = "/CustomLoginPath/";
+            exOps.LogoutPath = "/CustomLogoutPath/";
+            exOps.AcceddDeniedPath = "/CustomAccessDeniedPath/";
+            
+            // culture name to use when no culture value is defined in the routed url
+            // default value is "en"
+            exOps.DefaultCultureName = "tr-TR"; 
+            
+            exOps.RequestLocalizationOptions = ops =>
+            {
+                // ...
+            };
+        });
+````
+
+Or if you need to completely use custom cookie configurations using the identity extensions method, you need to set the value of `ConfigureRedirectPaths` to false as below:
+
+````cs
+services.AddRazorPages()
+    .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(
+        exOps =>
+        {            
+            // don't configure redirect to paths on redirect events
+            exOps.ConfigureRedirectPaths = false;
+            
+            exOps.RequestLocalizationOptions = ops =>
+            {
+                // ...
+            };
+        });
+````
+
+in this case you need to manually configure the app cookie to handle the culture value on redirect events as described in this [issue][2]. 
 
 ## DataAnnotations
 All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
@@ -204,6 +258,7 @@ All required libraries to valdiate localized inputs like decimal numbers
 ````cshtml
 <localization-validation-scripts></localization-validation-scripts>
 ````
+
 For more details see [LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) 
 
 ## Sample project
@@ -221,3 +276,4 @@ To easily create a language navigation dropdown for changing the culture use [La
 MIT
 
 [1]: https://github.com/LazZiya/ExpressLocalization/tree/ExpressLocalizationCore3
+[2]: https://github.com/LazZiya/ExpressLocalization/issues/6
