@@ -12,6 +12,11 @@ using LazZiya.TagHelpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 
+#if NETCOREAPP3_0
+#else
+using Microsoft.AspNetCore.Routing;
+#endif
+
 namespace LazZiya.ExpressLocalization
 {
     /// <summary>
@@ -87,6 +92,12 @@ namespace LazZiya.ExpressLocalization
 
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+
             return builder
                 .AddViewLocalization(ops=> { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TViewLocalizationResource>()
@@ -128,6 +139,9 @@ namespace LazZiya.ExpressLocalization
             _options.RequestLocalizationOptions.Invoke(_ops);
 
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
+
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
 
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
@@ -279,9 +293,9 @@ namespace LazZiya.ExpressLocalization
                     OnRedirectToLogout = ctx =>
                     {
 #if NETCOREAPP3_0
-                        var culture = ctx.Request.RouteValues["culture"];
+                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
 #else
-                        var culture = ctx.HttpContext.GetRouteValue("culture");
+                        var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
 #endif
                         ctx.Response.Redirect($"/{culture}{logoutPath}");
                         return Task.CompletedTask;
@@ -289,9 +303,9 @@ namespace LazZiya.ExpressLocalization
                     OnRedirectToAccessDenied = ctx =>
                     {
 #if NETCOREAPP3_0
-                        var culture = ctx.Request.RouteValues["culture"];
+                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
 #else
-                        var culture = ctx.HttpContext.GetRouteValue("culture");
+                        var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
 #endif
                         ctx.Response.Redirect($"/{culture}{accessDeniedPath}");
                         return Task.CompletedTask;

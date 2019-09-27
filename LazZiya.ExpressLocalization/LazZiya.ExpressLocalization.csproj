@@ -14,7 +14,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Auto configure identity redirect paths (LoginPath, LogoutPath, AccessDeniedPath) to add culture name to the route.
+      - Auto configure identity redirect paths (LoginPath, LogoutPath, AccessDeniedPath) to add culture route value to the url.
     </PackageReleaseNotes>
     <Version>3.1.0</Version>
     <AssemblyVersion>3.1.0.0</AssemblyVersion>
@@ -32,8 +32,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.0" />
     <PackageReference Include="LazZiya.TagHelpers" Version="2.2.1" />
   </ItemGroup>
 
