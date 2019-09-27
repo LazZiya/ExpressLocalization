@@ -21,18 +21,11 @@ namespace LazZiya.ExpressLocalization
         public string ResourcesPath { get; set; } = "";
 
         /// <summary>
-        /// Configure application cookie opitons,
-        /// <para>mainly used to add culture value to redirect to login path and access denied path</para>
-        /// <para>if not set manually, the default settings will be applied by adding culture parameter to the relevant paths</para>
-        /// </summary>
-        public Action<CookieAuthenticationOptions> CookieAuthenticationOptions { get; set; }
-        /// <summary>
-        /// Add culture parameter to login path.
-        /// Done by configuring application cookie options event
+        /// Optional : Add culture parameter to login, logout and access denied paths.
         /// <para>default value = true</para>
         /// <para>set to false if you need to configure the application cookie options manually</para>
         /// </summary>
-        public bool ConfigureRedirectToLoginPath { get; set; } = true;
+        public bool ConfigureRedirectPaths { get; set; } = true;
 
         /// <summary>
         /// The default culture to set during redirection to login event if no culture was set.
@@ -44,5 +37,17 @@ namespace LazZiya.ExpressLocalization
         /// <para>default value = "/Identity/Account/Login/"</para>
         /// </summary>
         public string LoginPath { get; set; } = "/Identity/Account/Login/";
+        
+        /// <summary>
+        /// The default logout path
+        /// <para>default value = "/Identity/Account/Logout/"</para>
+        /// </summary>
+        public string LogoutPath { get; set; } = "/Identity/Account/Logout/";
+        
+        /// <summary>
+        /// The default access denied path
+        /// <para>default value = "/Identity/Account/AccessDenied/"</para>
+        /// </summary>
+        public string AccessDeniedPath { get; set; } = "/Identity/Account/AccessDenied/";
     }
 }

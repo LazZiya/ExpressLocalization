@@ -46,6 +46,9 @@ namespace LazZiya.ExpressLocalization
 
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TLocalizationResource>()
@@ -53,7 +56,6 @@ namespace LazZiya.ExpressLocalization
                 .ExAddModelBindingLocalization<TLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
-                .ExConfigureApplicationCookie(_options.CookieAuthenticationOptions)
                 .ExAddClientSideLocalizationValidationScripts();
         }
 
@@ -244,9 +246,11 @@ namespace LazZiya.ExpressLocalization
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="loginPath">Login path</param>
+        /// <param name="logoutPath">Logout path</param>
+        /// <param name="accessDeniedPath">Access denied path</param>
         /// <param name="defCulture">default culture name to add to the path when redirect to login </param>
         /// <returns></returns>
-        public static IMvcBuilder ExConfigureApplicationCookie(this IMvcBuilder builder, Action<CookieAuthenticationOptions> configure)
+        public static IMvcBuilder ExConfigureApplicationCookie(this IMvcBuilder builder, string loginPath, string logoutPath, string accessDeniedPath, string defCulture)
         {
             // add culture value to route when user is redirected to login page
             builder.Services.ConfigureApplicationCookie(options =>
@@ -256,8 +260,11 @@ namespace LazZiya.ExpressLocalization
                 {
                     OnRedirectToLogin = ctx =>
                     {
-                        //var culture = ctx.HttpContext.GetRouteValue("culture");
+#if NETCOREAPP3_0
                         var culture = ctx.Request.RouteValues["culture"];
+#else
+                        var culture = ctx.HttpContext.GetRouteValue("culture");
+#endif
                         var requestPath = ctx.Request.Path;
 
                         if (culture == null)
@@ -267,6 +274,26 @@ namespace LazZiya.ExpressLocalization
                         }
 
                         ctx.Response.Redirect($"/{culture}{loginPath}?ReturnUrl={requestPath}{ctx.Request.QueryString}");
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToLogout = ctx =>
+                    {
+#if NETCOREAPP3_0
+                        var culture = ctx.Request.RouteValues["culture"];
+#else
+                        var culture = ctx.HttpContext.GetRouteValue("culture");
+#endif
+                        ctx.Response.Redirect($"/{culture}{logoutPath}");
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = ctx =>
+                    {
+#if NETCOREAPP3_0
+                        var culture = ctx.Request.RouteValues["culture"];
+#else
+                        var culture = ctx.HttpContext.GetRouteValue("culture");
+#endif
+                        ctx.Response.Redirect($"/{culture}{accessDeniedPath}");
                         return Task.CompletedTask;
                     }
                 };
