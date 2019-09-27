@@ -9,6 +9,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using LazZiya.TagHelpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
+
+#if NETCOREAPP3_0
+#else
+using Microsoft.AspNetCore.Routing;
+#endif
 
 namespace LazZiya.ExpressLocalization
 {
@@ -43,6 +50,9 @@ namespace LazZiya.ExpressLocalization
             _options.RequestLocalizationOptions.Invoke(_ops);
 
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
+
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
 
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
@@ -81,6 +91,12 @@ namespace LazZiya.ExpressLocalization
             _options.RequestLocalizationOptions.Invoke(_ops);
 
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
+
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
 
             return builder
                 .AddViewLocalization(ops=> { ops.ResourcesPath = _options.ResourcesPath; })
@@ -123,6 +139,9 @@ namespace LazZiya.ExpressLocalization
             _options.RequestLocalizationOptions.Invoke(_ops);
 
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
+
+            if (_options.ConfigureRedirectPaths)
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
 
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
@@ -232,6 +251,67 @@ namespace LazZiya.ExpressLocalization
                 x.Conventions.Add(new RouteTemplateModelConvention());
             });
 
+            return builder;
+        }
+
+        /// <summary>
+        /// Configure application cookie and add culture value to redirect path
+        /// so unauthorized users will be redirected to login page and the culture will not be lost
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="loginPath">Login path</param>
+        /// <param name="logoutPath">Logout path</param>
+        /// <param name="accessDeniedPath">Access denied path</param>
+        /// <param name="defCulture">default culture name to add to the path when redirect to login </param>
+        /// <returns></returns>
+        public static IMvcBuilder ExConfigureApplicationCookie(this IMvcBuilder builder, string loginPath, string logoutPath, string accessDeniedPath, string defCulture)
+        {
+            // add culture value to route when user is redirected to login page
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                // Improvment : do we need to check for existing cookie authentication events before?
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = ctx =>
+                    {
+#if NETCOREAPP3_0
+                        var culture = ctx.Request.RouteValues["culture"];
+#else
+                        var culture = ctx.HttpContext.GetRouteValue("culture");
+#endif
+                        var requestPath = ctx.Request.Path;
+
+                        if (culture == null)
+                        {
+                            culture = defCulture;
+                            requestPath = $"/{culture}{requestPath}";
+                        }
+
+                        ctx.Response.Redirect($"/{culture}{loginPath}?ReturnUrl={requestPath}{ctx.Request.QueryString}");
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToLogout = ctx =>
+                    {
+#if NETCOREAPP3_0
+                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
+#else
+                        var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
+#endif
+                        ctx.Response.Redirect($"/{culture}{logoutPath}");
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = ctx =>
+                    {
+#if NETCOREAPP3_0
+                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
+#else
+                        var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
+#endif
+                        ctx.Response.Redirect($"/{culture}{accessDeniedPath}");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
             return builder;
         }
     }

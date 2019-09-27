@@ -117,6 +117,18 @@
             <param name="defaultCulture">default culture name</param>
             <returns></returns>
         </member>
+        <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.ExConfigureApplicationCookie(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.String,System.String,System.String,System.String)">
+            <summary>
+            Configure application cookie and add culture value to redirect path
+            so unauthorized users will be redirected to login page and the culture will not be lost
+            </summary>
+            <param name="builder"></param>
+            <param name="loginPath">Login path</param>
+            <param name="logoutPath">Logout path</param>
+            <param name="accessDeniedPath">Access denied path</param>
+            <param name="defCulture">default culture name to add to the path when redirect to login </param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.ExpressLocalizationOptions">
             <summary>
             Express localization options
@@ -130,6 +142,36 @@
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ResourcesPath">
             <summary>
             The path to the resources folder e.g. "LocalizationResources"
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ConfigureRedirectPaths">
+            <summary>
+            Optional : Add culture parameter to login, logout and access denied paths.
+            <para>default value = true</para>
+            <para>set to false if you need to configure the application cookie options manually</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.DefaultCultureName">
+            <summary>
+            The default culture to set during redirection to login event if no culture was set.
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.LoginPath">
+            <summary>
+            The default login path
+            <para>default value = "/Identity/Account/Login/"</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.LogoutPath">
+            <summary>
+            The default logout path
+            <para>default value = "/Identity/Account/Logout/"</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.AccessDeniedPath">
+            <summary>
+            The default access denied path
+            <para>default value = "/Identity/Account/AccessDenied/"</para>
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.GenericResourceReader">
