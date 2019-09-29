@@ -15,11 +15,14 @@ All below localization settings in one clean step:
 - Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers. This option requires [LazZiya.TagHelpers](http://github.com/lazziya/TagHelpers) package that will be installed automatically.
 
 v3.1.1 :
- - Identity redirect Paths : Auto configure idenetity RedirectTo (Login, LogOut, AccessDenied) path to include culture value
+ - Identity redirect Paths : Auto configure idenetity cookie to include culture value in the redirect to path on below events:
+   - OnRedirectToLogin
+   - OnRedirectToLogOut
+   - OnRedirectToAccessDenied
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 3.0.0
+Install-Package LazZiya.ExpressLocalization -Version 3.1.1
 ````
 
 ## Dependencies
