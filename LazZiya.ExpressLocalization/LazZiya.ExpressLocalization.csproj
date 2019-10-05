@@ -16,9 +16,9 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <PackageReleaseNotes>
       - update dependency Microsoft.AspNetCore.Identity min. supported version to v2.0.4
     </PackageReleaseNotes>
-    <Version>3.1.1</Version>
-    <AssemblyVersion>3.1.1.0</AssemblyVersion>
-    <FileVersion>3.1.1.0</FileVersion>
+    <Version>3.2.0</Version>
+    <AssemblyVersion>3.2.0.0</AssemblyVersion>
+    <FileVersion>3.2.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
@@ -32,7 +32,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.4" />
     <PackageReference Include="LazZiya.TagHelpers" Version="2.2.1" />
   </ItemGroup>
 

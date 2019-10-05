@@ -52,7 +52,7 @@ namespace LazZiya.ExpressLocalization
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             if (_options.ConfigureRedirectPaths)
-                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
 
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
@@ -60,7 +60,7 @@ namespace LazZiya.ExpressLocalization
                 .ExAddDataAnnotationsLocalization<TLocalizationResource>()
                 .ExAddModelBindingLocalization<TLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
                 .ExAddClientSideLocalizationValidationScripts();
         }
 
@@ -81,7 +81,7 @@ namespace LazZiya.ExpressLocalization
         /// <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalization<TExpressLocalizationResource, TViewLocalizationResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
-            where TExpressLocalizationResource : class 
+            where TExpressLocalizationResource : class
             where TViewLocalizationResource : class
         {
             var _options = new ExpressLocalizationOptions();
@@ -93,18 +93,18 @@ namespace LazZiya.ExpressLocalization
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             if (_options.ConfigureRedirectPaths)
-                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
 
             if (_options.ConfigureRedirectPaths)
-                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
 
             return builder
-                .AddViewLocalization(ops=> { ops.ResourcesPath = _options.ResourcesPath; })
+                .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TViewLocalizationResource>()
                 .ExAddDataAnnotationsLocalization<TExpressLocalizationResource>()
                 .ExAddModelBindingLocalization<TExpressLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TExpressLocalizationResource>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
                 .ExAddClientSideLocalizationValidationScripts();
         }
 
@@ -141,7 +141,7 @@ namespace LazZiya.ExpressLocalization
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             if (_options.ConfigureRedirectPaths)
-                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _options.DefaultCultureName);
+                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
 
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
@@ -149,7 +149,7 @@ namespace LazZiya.ExpressLocalization
                 .ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>()
                 .ExAddModelBindingLocalization<TModelBindingLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name)
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
                 .ExAddClientSideLocalizationValidationScripts();
         }
 
@@ -239,11 +239,19 @@ namespace LazZiya.ExpressLocalization
         /// <param name="builder"></param>
         /// <param name="cultures">List of supported cultures</param>
         /// <param name="defaultCulture">default culture name</param>
+        /// <param name="useAllProviders">true to register all culture providers (Route, QueryString, Cookie, AcceptedLanguageHeader), false to use only Route culture provider.</param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddRouteValueRequestCultureProvider(this IMvcBuilder builder, IList<CultureInfo> cultures, string defaultCulture)
+        public static IMvcBuilder ExAddRouteValueRequestCultureProvider(this IMvcBuilder builder, IList<CultureInfo> cultures, string defaultCulture, bool useAllProviders)
         {
-            builder.Services.Configure<RequestLocalizationOptions>(ops=> {
-                ops.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(cultures, defaultCulture));
+            builder.Services.Configure<RequestLocalizationOptions>(ops =>
+            {
+                if (useAllProviders)
+                    ops.RequestCultureProviders.Insert(0, new RouteSegmentCultureProvider(cultures, defaultCulture));
+                else
+                {
+                    ops.RequestCultureProviders.Clear();
+                    ops.RequestCultureProviders.Add(new RouteSegmentCultureProvider(cultures, defaultCulture));
+                }
             });
 
             builder.AddRazorPagesOptions(x =>

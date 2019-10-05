@@ -16,6 +16,13 @@ namespace LazZiya.ExpressLocalization
         public Action<RequestLocalizationOptions> RequestLocalizationOptions { get; set; }
 
         /// <summary>
+        /// Optional, default value true.
+        ///<para>true to register all culture providers (Route, QueryString, Cookie, AcceptLanguageHeader) </para>
+        ///<para>false to use only Route culture provider.</para>
+        /// </summary>
+        public bool UseAllCultureProviders { get; set; } = true;
+
+        /// <summary>
         /// The path to the resources folder e.g. "LocalizationResources"
         /// </summary>
         public string ResourcesPath { get; set; } = "";
@@ -30,6 +37,7 @@ namespace LazZiya.ExpressLocalization
         /// <summary>
         /// The default culture to set during redirection to login event if no culture was set.
         /// </summary>
+        [Obsolete("DefaultCultureName will be removed in a future version. It is not necessary since we already providing default culture in localization options setup.")]
         public string DefaultCultureName { get; set; } = "en";
 
         /// <summary>
