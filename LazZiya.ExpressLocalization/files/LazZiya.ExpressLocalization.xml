@@ -502,16 +502,14 @@
             Detects the current culture result depending on currently registered culture providers
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ProviderCultureDetector.#ctor(Microsoft.AspNetCore.Builder.RequestLocalizationOptions)">
+        <member name="M:LazZiya.ExpressLocalization.ProviderCultureDetector.DetectCurrentCulture(System.Collections.Generic.IList{Microsoft.AspNetCore.Localization.IRequestCultureProvider},Microsoft.AspNetCore.Http.HttpContext,System.Collections.Generic.IList{System.Globalization.CultureInfo},System.String)">
             <summary>
-            Detects the current culture result depending on currently registered culture providers
+            Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, if no culture is detected it will return default culture.
             </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.ProviderCultureDetector.DetectCurrentCulture(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            Detect current culture according to the registered culture providers, if no culture is detected it will return default culture.
-            </summary>
+            <param name="providers">List of currently registered culture providers</param>
             <param name="httpContext">requests HttpContext</param>
+            <param name="cultures">List of supported cultures</param>
+            <param name="defCulture">default culture name</param>
             <returns>ProviderCultureResult</returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.RouteSegmentCultureProvider">

@@ -11,6 +11,7 @@ using System.Reflection;
 using LazZiya.TagHelpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 
 #if NETCOREAPP3_0
 #else
@@ -25,6 +26,9 @@ namespace LazZiya.ExpressLocalization
     /// </summary>
     public static class ExpressLocalizationExtensions
     {
+        private static IList<IRequestCultureProvider> _providers;
+        private static IList<CultureInfo> _cultures;
+
         /// <summary>
         /// Add all below localization settings with one step;
         /// <para>define supported cultures adn default culture</para>
@@ -252,6 +256,9 @@ namespace LazZiya.ExpressLocalization
                     ops.RequestCultureProviders.Clear();
                     ops.RequestCultureProviders.Add(new RouteSegmentCultureProvider(cultures, defaultCulture));
                 }
+
+                _providers = ops.RequestCultureProviders;
+                _cultures = cultures;
             });
 
             builder.AddRazorPagesOptions(x =>
@@ -289,9 +296,11 @@ namespace LazZiya.ExpressLocalization
 #endif
                         var requestPath = ctx.Request.Path;
 
+                        var detectedCulture = ProviderCultureDetector.DetectCurrentCulture(_providers, ctx.HttpContext, _cultures, defCulture).Result;
+
                         if (culture == null)
                         {
-                            culture = defCulture;
+                            culture = detectedCulture.ToString() ?? defCulture;
                             requestPath = $"/{culture}{requestPath}";
                         }
 
