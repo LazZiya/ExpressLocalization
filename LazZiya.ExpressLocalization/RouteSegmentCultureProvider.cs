@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace LazZiya.ExpressLocalization
 {
     /// <summary>
-    /// Register Route value based request localization culture provider
+    /// Register Route segment based request localization culture provider
     /// </summary>
-    public class RouteValueRequestCultureProvider : IRequestCultureProvider
+    public class RouteSegmentCultureProvider : IRequestCultureProvider
     {
         private readonly string DefaultCulture;
         private readonly IList<CultureInfo> SupportedCultures;
@@ -20,7 +20,7 @@ namespace LazZiya.ExpressLocalization
         /// </summary>
         /// <param name="supportedCultures">list of supported cultures</param>
         /// <param name="defaultCulture">default culture name e.g. en-US</param>
-        public RouteValueRequestCultureProvider(IList<CultureInfo> supportedCultures, string defaultCulture)
+        public RouteSegmentCultureProvider(IList<CultureInfo> supportedCultures, string defaultCulture)
         {
             DefaultCulture = defaultCulture;
             SupportedCultures = supportedCultures;
@@ -38,14 +38,16 @@ namespace LazZiya.ExpressLocalization
             if (string.IsNullOrWhiteSpace(path))
             {
                 // Path is empty! returning default culture
-                return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+                //return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+                return Task.FromResult<ProviderCultureResult>(null);
             }
 
             var routeValues = httpContext.Request.Path.Value.Split('/');
             if (routeValues.Count() <= 1)
             {
                 // No path parameter detected! returning default culture
-                return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+                //return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+                return Task.FromResult<ProviderCultureResult>(null);
             }
 
             if (!SupportedCultures.Any(x =>
@@ -53,7 +55,8 @@ namespace LazZiya.ExpressLocalization
                  x.Name.ToLower() == routeValues[1].ToLower()))
             {
                 // Path culture not ercognized! returning default culture
-                return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+                //return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+                return Task.FromResult<ProviderCultureResult>(null);
             }
 
             // culture selected successfuly
