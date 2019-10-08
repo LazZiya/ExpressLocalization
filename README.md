@@ -14,6 +14,11 @@ All below localization settings in one clean step:
 - IdentityErrors Localization : localize identity describer error messages
 - Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers. This option requires [LazZiya.TagHelpers](http://github.com/lazziya/TagHelpers) package that will be installed automatically.
 
+v3.1.2 :
+- New optional boolean parameter : UseAllCultureProviders
+- Route culture provider is not blocking other culture providers any more when UseAllCultureProviders value is false.
+ 
+
 v3.1.1 :
  - Identity redirect Paths : Auto configure idenetity cookie to include culture value in the redirect to path on below events:
    - OnRedirectToLogin
@@ -22,7 +27,7 @@ v3.1.1 :
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 3.1.1
+Install-Package LazZiya.ExpressLocalization -Version 3.1.2
 ````
 
 ## Dependencies
