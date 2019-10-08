@@ -14,8 +14,8 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - New optional boolean property - UseAllCultureProviders.
-      - Route culture provider is not blocking other providres any more; if route culture is not found, next provider will be checked, if no culture is found default culture will be used.
+      - New optional boolean property : UseAllCultureProviders.
+      - Route culture provider is not blocking other providres any more; if culture value is not found in route, next provider will be checked (cookie, accepted language header, etc.), if no culture is found default culture will be used.
       - fix dependency Microsoft.AspNetCore.Identity min. supported version to v2.0.4
     </PackageReleaseNotes>
     <Version>3.1.2</Version>

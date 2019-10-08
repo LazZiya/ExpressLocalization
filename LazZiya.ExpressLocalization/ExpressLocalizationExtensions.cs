@@ -300,7 +300,7 @@ namespace LazZiya.ExpressLocalization
 
                         if (culture == null)
                         {
-                            culture = detectedCulture.ToString() ?? defCulture;
+                            culture = detectedCulture.ToString();
                             requestPath = $"/{culture}{requestPath}";
                         }
 
@@ -314,6 +314,14 @@ namespace LazZiya.ExpressLocalization
 #else
                         var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
 #endif
+                        var detectedCulture = ProviderCultureDetector.DetectCurrentCulture(_providers, ctx.HttpContext, _cultures, defCulture).Result;
+
+                        if (culture == null)
+                        {
+                            culture = detectedCulture.ToString();
+                            logoutPath = $"/{culture}{logoutPath}";
+                        }
+
                         ctx.Response.Redirect($"/{culture}{logoutPath}");
                         return Task.CompletedTask;
                     },
@@ -324,6 +332,14 @@ namespace LazZiya.ExpressLocalization
 #else
                         var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
 #endif
+                        var detectedCulture = ProviderCultureDetector.DetectCurrentCulture(_providers, ctx.HttpContext, _cultures, defCulture).Result;
+
+                        if (culture == null)
+                        {
+                            culture = detectedCulture.ToString();
+                            accessDeniedPath = $"/{culture}{accessDeniedPath}";
+                        }
+
                         ctx.Response.Redirect($"/{culture}{accessDeniedPath}");
                         return Task.CompletedTask;
                     }
