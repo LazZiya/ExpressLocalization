@@ -60,10 +60,13 @@ namespace LazZiya.ExpressLocalization
         {
             var sw = new StringWriter();
 
-            if (args == null)
-                _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key].WriteTo(sw, HtmlEncoder.Default);
-            else
-                _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key, args].WriteTo(sw, HtmlEncoder.Default);
+            using (var csw = new CultureSwitcher(culture))
+            {
+                if (args == null)
+                    _localizer[key].WriteTo(sw, HtmlEncoder.Default);
+                else
+                    _localizer[key, args].WriteTo(sw, HtmlEncoder.Default);
+            }
 
             return sw.ToString();
         }
@@ -124,9 +127,17 @@ namespace LazZiya.ExpressLocalization
         /// <returns>LocalizedHtmlString</returns>
         public LocalizedHtmlString GetLocalizedHtmlString(string culture, string key, params object[] args)
         {
-            return args == null
-                ? _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key]
-                : _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key, args];
+            LocalizedHtmlString htmlStr;
+
+            using (var csw = new CultureSwitcher(culture))
+            {
+                htmlStr = args == null
+
+                    ? _localizer[key]
+                    : _localizer[key, args];
+            }
+
+            return htmlStr;
         }
 
         /// <summary>

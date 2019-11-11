@@ -4,6 +4,26 @@
         <name>LazZiya.ExpressLocalization</name>
     </assembly>
     <members>
+        <member name="T:LazZiya.ExpressLocalization.CultureSwitcher">
+            <summary>
+            Switches the current culture to a specific culture then return to the original culture and dispose.
+            Since Localizer.WithCultre has became obsolete, 
+            this is a solution to retrive a string from specific culture resource file
+            <see ref="https://github.com/aspnet/AspNetCore/issues/7756"/>
+            <see ref="https://github.com/jcemoller/culture-switcher/blob/master/src/CultureSwitcher.cs"/>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.CultureSwitcher.#ctor(System.String)">
+            <summary>
+            Since Localizer.WithCultre has became obsolete, 
+            this is a solution to retrive a string from specific culture resource file
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.CultureSwitcher.Dispose">
+            <summary>
+            dispose...
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.ExpressLocalizationExtensions">
             <summary>
             Add localization support for dot net core web apps with one simple step.
