@@ -27,7 +27,7 @@ v3.1.1 :
 
 ## Installation
 ````
-Install-Package LazZiya.ExpressLocalization -Version 3.1.2
+Install-Package LazZiya.ExpressLocalization
 ````
 
 ## Dependencies
