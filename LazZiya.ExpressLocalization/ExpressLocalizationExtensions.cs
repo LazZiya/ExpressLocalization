@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
 #else
 using Microsoft.AspNetCore.Routing;
 #endif
@@ -289,7 +289,7 @@ namespace LazZiya.ExpressLocalization
                 {
                     OnRedirectToLogin = ctx =>
                     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
                         var culture = ctx.Request.RouteValues["culture"];
 #else
                         var culture = ctx.HttpContext.GetRouteValue("culture");
@@ -309,7 +309,7 @@ namespace LazZiya.ExpressLocalization
                     },
                     OnRedirectToLogout = ctx =>
                     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
                         var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
 #else
                         var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
@@ -327,7 +327,7 @@ namespace LazZiya.ExpressLocalization
                     },
                     OnRedirectToAccessDenied = ctx =>
                     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
                         var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
 #else
                         var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
