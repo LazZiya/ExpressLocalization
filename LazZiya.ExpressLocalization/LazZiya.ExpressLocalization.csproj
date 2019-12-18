@@ -9,24 +9,23 @@
 Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side validation errors and scripts) and add RouteValueRequestCultureProivder with one clean step.</Description>
     <Copyright>Ziyad.info</Copyright>
     <PackageProjectUrl>http://www.ziyad.info/en/articles/33-LazZiya_Express_Localization</PackageProjectUrl>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
       - Support for DotNet Core 3.1
     </PackageReleaseNotes>
-    <Version>3.1.3-preview1</Version>
+    <Version>3.1.3</Version>
     <AssemblyVersion>3.1.3.0</AssemblyVersion>
     <FileVersion>3.1.3.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/LazZiya/ExpressLocalization</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
-    <DocumentationFile>files\LazZiya.ExpressLocalization.xml</DocumentationFile>
+    <DocumentationFile>LazZiya.ExpressLocalization.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0' AND '$(TargetFramework)' != 'netcoreapp3.1'">
@@ -43,7 +42,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.1.0" Exclude="Build,Analyzers" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="3.1.0-preview1" />
+    <PackageReference Include="LazZiya.TagHelpers" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
