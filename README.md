@@ -14,6 +14,10 @@ All below localization settings in one clean step:
 - IdentityErrors Localization : localize identity describer error messages
 - Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers. This option requires [LazZiya.TagHelpers](http://github.com/lazziya/TagHelpers) package that will be installed automatically.
 
+## Version history
+v3.1.3
+- .Net Core 3.1 support
+
 v3.1.2 :
 - New optional boolean parameter : UseAllCultureProviders
 - Route culture provider is not blocking other culture providers any more when UseAllCultureProviders value is false.
