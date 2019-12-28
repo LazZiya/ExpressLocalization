@@ -1,10 +1,23 @@
 # ExpressLocalization
 
-## What is ExpressLocalization?
-A nuget package to simplify the localization of any Asp.Net Core web app to one step only. 
+## Quick navigation
+- [What is ExpressLocalization](#what-is-expresslocalization)
+- [Version history](#version-history)
+- [Installation and how to use](#installation)
+- [Culture Fallback Behaviour](#culture-fallback-behaviour)
+- [DataAnnotations Localization](#dataannotations-localization)
+- [Views Localization](#views-localization)
+- [Client Side Validation Libraries](#client-side-validation-libraries)
+- [Identity RedirectTo Paths ( >= v3.1.1)](#identity-redirectto-paths)
+- [Language Dropdown Menu](#language-dropdown-menu)
+- [Dependencies](#dependencies)
+- [Step by step tutorial](#step-by-step-tutorial)
+- [Sample projects](#sample-projects)
+- [Project website](#project-website)
+- [License](#license)
 
-## What ExpressLocalization is offering?
-All below localization settings in one clean step:
+## What is ExpressLocalization? 
+A nuget package to simplify the localization of any Asp.Net Core web app to one step only. All below localization settings in one clean step:
 
 - Global route template: Add {culture} paramter to all routes, so urls will be like http://www.example.com/en-US/
 - RouteValueRequestCultureProvider : Register route value request culture provider, so culture selection will be based on route value
@@ -13,6 +26,8 @@ All below localization settings in one clean step:
 - ModelBinding Localization : localize model binding error messages
 - IdentityErrors Localization : localize identity describer error messages
 - Client Side Validation : include all client side libraries for validating localized input fields like decimal numbers. This option requires [LazZiya.TagHelpers](http://github.com/lazziya/TagHelpers) package that will be installed automatically.
+
+[🔝](#quick-navigation)
 
 ## Version history
 v3.1.3
@@ -29,18 +44,14 @@ v3.1.1 :
    - OnRedirectToLogOut
    - OnRedirectToAccessDenied
 
+[🔝](#quick-navigation)
+
 ## Installation
 ````
 Install-Package LazZiya.ExpressLocalization
 ````
 
-## Dependencies
-[LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) package will be installed automatically, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
-
-## Step by step tutorial 
-http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization
-
-## How to use
+### How to use
 - Install from nuget as mention above
 - Relevant localization resource files are available in [LazZiya.ExpressLocalizationSample](https://github.com/LazZiya/ExpressLocalizationSample) repo.
 Download the resources and add them to your main web project, or just create you own resource files with the relevant key names as in [ExpressLocalizationResource.tr.resx](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
@@ -116,6 +127,8 @@ public class HomeController : Controller {
  }
 ````
 
+[🔝](#quick-navigation)
+
 ### Customized steps (optional)
 If you don't need all settings in one step, you can use below methods for manually configuring localizaton steps.
 For example if you need to provide separate localization resouce files for each of DataAnnotations, Identity and ModelBinding:
@@ -164,7 +177,102 @@ Notic: if you are creating your own resource files, the relevant key names must 
 ### _Notice_
 _All localization resources can be combined in one single resource or separate resources._
 
-## Identity RedirectTo Paths (v3.1.1)
+[🔝](#quick-navigation)
+
+## Culture Fallback Behaviour
+When using all the [localization culture providers][5], the localization process will check all available culture providers in order to detect the request culture. If the request culture is found it will stop checking and do localization accordingly. If the request culture is not found it will check the next provider by order. Finally if no culture is detected the default culture will be used.
+
+Checking order for request culture:
+1) [RouteSegmentCultureProvider][6]
+2) [QueryStringRequestCultureProvider][7]
+3) [CookieRequestCultureProvider][3]
+4) [AcceptedLanguageHeaderRequestCultureProvider][4]
+5) Use default request culture from startup settings
+
+To restrict culture fallback to route culture provider only use below implementation in startup:
+````cs
+services.AddRazorPages()
+        .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
+        {
+            // Use only route segment culture provider
+             ops.UseAllCultureProviders = false;
+               
+            // the rest of the code...
+        });
+````
+_reference to issue [#13][8]_
+
+[🔝](#quick-navigation)
+
+## DataAnnotations Localization
+All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
+
+For easy access there is a struct with all pre-defined validation messages can be accessed as below:
+
+````cs
+using LazZiya.ExpressLocalization.Messages
+
+public class MyModel
+{
+    [Required(ErrorMessage = DataAnnotationsErrorMessages.RequiredAttribute_ValidationError)]
+    [StringLength(maximumLength: 25, 
+                ErrorMessage = DataAnnotationsErrorMessages.StringLengthAttribute_ValidationErrorIncludingMinimum, 
+                MinimumLength = 3)]
+    [Display(Name = "Name")]
+    public string Name { get; set; }
+}
+````
+
+[🔝](#quick-navigation)
+
+## Views localization
+
+### Option 1 (recommended)
+Localize views using Localize tag helper, require installation of [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization):
+````razor
+<localize>Hello world!</localize>
+````
+or 
+````razor
+<div localize-content>
+    <h1>Title</h1>
+    <p>More text for localization.....</p>
+</div>
+````
+for more details see [Live demo](http://demo.ziyad.info/en/localize) and [TagHelpers.Localization](http://github.com/lazziya/TagHelpers.Localization)
+
+
+### Option 2
+- inject shared culture localizer directly to the view or to _ViewImports.cshtml :
+````razor
+@using LazZiya.ExpressLocalization
+@inject SharedCultureLocalizer _loc
+````
+- call localization function to get localized strings in views:
+````razor
+<h1 class="display-4">@_loc.GetLocalizedString("Welcome")</h1>
+````
+Views are using shared resource files like: [ViewLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ViewLocalizationResource.tr.resx)
+
+[🔝](#quick-navigation)
+
+## Client Side Validation Libraries
+All required libraries to valdiate localized inputs like decimal numbers
+- register TagHelpers in _ViewImports.cshtml :
+````cshtml
+@addTagHelper *, LazZiya.TagHelpers
+````
+- add tag helper to the view to validate localized input:
+````cshtml
+<localization-validation-scripts></localization-validation-scripts>
+````
+
+For more details see [LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) 
+
+[🔝](#quick-navigation)
+
+## Identity RedirectTo Paths 
+_for versions ( >= v3.1.1)_
 ExpressLocalization will automatically configure app cookie to add culture value to the redirect path when redirect events are invoked.
 The default events and paths after configurations are: 
 - OnRedirectToLogin : "{culture}/Identity/Account/Login/"
@@ -212,80 +320,34 @@ services.AddRazorPages()
 
 in this case you need to manually configure the app cookie to handle the culture value on redirect events as described in this [issue][2]. 
 
-## DataAnnotations
-All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
+[🔝](#quick-navigation)
 
-For easy access there is a struct with all pre-defined validation messages can be accessed as below:
+## Language Dropdown Menu
+To easily create a language navigation dropdown for changing the culture use [LanguageNavTagHelper](http://demo.ziyad.info/en/LanguageNav) from [LazZiya.TagHelpers](https://github.com/lazziya/taghelpers)
 
-````cs
-using LazZiya.ExpressLocalization.Messages
+## Dependencies
+[LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) package will be installed automatically, it is necessary for adding client side validation libraries for localized input fields like decimal numbers.
 
-public class MyModel
-{
-    [Required(ErrorMessage = DataAnnotationsErrorMessages.RequiredAttribute_ValidationError)]
-    [StringLength(maximumLength: 25, 
-                ErrorMessage = DataAnnotationsErrorMessages.StringLengthAttribute_ValidationErrorIncludingMinimum, 
-                MinimumLength = 3)]
-    [Display(Name = "Name")]
-    public string Name { get; set; }
-}
-````
+## Step by step tutorial 
+http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization
 
-## View localization
-
-### Option 1 (recommended)
-Localize views using Localize tag helper, require installation of [LocalizeTagHelper](https://github.com/lazziya/TagHelpers.Localization):
-````razor
-<localize>Hello world!</localize>
-````
-or 
-````razor
-<div localize-content>
-    <h1>Title</h1>
-    <p>More text for localization.....</p>
-</div>
-````
-for more details see [Live demo](http://demo.ziyad.info/en/localize) and [TagHelpers.Localization](http://github.com/lazziya/TagHelpers.Localization)
-
-
-### Option 2
-- inject shared culture localizer directly to the view or to _ViewImports.cshtml :
-````razor
-@using LazZiya.ExpressLocalization
-@inject SharedCultureLocalizer _loc
-````
-- call localization function to get localized strings in views:
-````razor
-<h1 class="display-4">@_loc.GetLocalizedString("Welcome")</h1>
-````
-Views are using shared resource files like: [ViewLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ViewLocalizationResource.tr.resx)
-
-## Client side validation libraries
-All required libraries to valdiate localized inputs like decimal numbers
-- register TagHelpers in _ViewImports.cshtml :
-````cshtml
-@addTagHelper *, LazZiya.TagHelpers
-````
-- add tag helper to the view to validate localized input:
-````cshtml
-<localization-validation-scripts></localization-validation-scripts>
-````
-
-For more details see [LazZiya.TagHelpers](https://github.com/LazZiya/TagHelpers/) 
-
-## Sample project
-Asp.Net Core 2.2 : https://github.com/LazZiya/ExpressLocalizationSample
-
-Asp.Net Core 3.0 : https://github.com/LazZiya/ExpressLocalizationSampleCore3
+## Sample projects
+ * Asp.Net Core 2.2 : https://github.com/LazZiya/ExpressLocalizationSample
+ * Asp.Net Core 3.0 : https://github.com/LazZiya/ExpressLocalizationSampleCore3
 
 ## Project website
 For discussion please visit: http://ziyad.info/en/articles/33-Express_Localization
 
-## More
-To easily create a language navigation dropdown for changing the culture use [LazZiya.TagHelpers](http://ziyad.info/en/articles/27-LazZiya_TagHelpers)
+[🔝](#quick-navigation)
 
 ## License
 MIT
 
 [1]: https://github.com/LazZiya/ExpressLocalization/tree/ExpressLocalizationCore3
 [2]: https://github.com/LazZiya/ExpressLocalization/issues/6
+[6]: https://github.com/LazZiya/ExpressLocalization/blob/master/LazZiya.ExpressLocalization/RouteSegmentCultureProvider.cs
+[7]: https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.localization.querystringrequestcultureprovider
+[3]: https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.localization.cookierequestcultureprovider
+[4]: https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.localization.acceptlanguageheaderrequestcultureprovider
+[5]: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization-extensibility?view=aspnetcore-3.1#localization-culture-providers
+[8]: https://github.com/LazZiya/ExpressLocalization/issues/13
