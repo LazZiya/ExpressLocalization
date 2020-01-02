@@ -174,10 +174,9 @@ services.AddRazorPages()
     .ExConfigureApplicationCookie(string loginPath, string logoutPath, string accessDeniedPath, string defCulture);
 ````
 
-Notic: if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
-
 ### _Notice_
-_All localization resources can be combined in one single resource or separate resources._
+- if you are creating your own resource files, the relevant key names must be defined as in [ExpressLocalizationResource](https://github.com/LazZiya/ExpressLocalizationSample/blob/master/ExpressLocalizationSampleProject/LocalizationResources/ExpressLocalizationResource.tr.resx) file.
+- All localization resources can be combined in one single resource or separate resources.
 
 [🔝](#quick-navigation)
 
@@ -209,7 +208,7 @@ _reference to issue [#13][8]_
 ## DataAnnotations Localization
 All system data annotations error messages are defined in ExpressLocalizationResource. You can add your own localized texts to the same file.
 
-For easy access there is a struct with all pre-defined validation messages can be accessed as below:
+For easy access all system validation messages can be accessed from [DataAnnotationsErrorMessages](https://github.com/LazZiya/ExpressLocalization/blob/master/LazZiya.ExpressLocalization/Messages/DataAnnotationsErrorMessages.cs) as below:
 
 ````cs
 using LazZiya.ExpressLocalization.Messages
