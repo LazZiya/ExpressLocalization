@@ -47,6 +47,8 @@ v3.1.1 :
 [🔝](#quick-navigation)
 
 ## Installation
+Install from nuget :
+
 ````
 Install-Package LazZiya.ExpressLocalization
 ````
