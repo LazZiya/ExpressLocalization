@@ -57,5 +57,12 @@ namespace LazZiya.ExpressLocalization
         /// <para>default value = "/Identity/Account/AccessDenied/"</para>
         /// </summary>
         public string AccessDeniedPath { get; set; } = "/Identity/Account/AccessDenied/";
+
+        /// <summary>
+        /// Express valdiation attributes provides already localized error messages.
+        /// Set to true by default. 
+        /// Set to false if you don't want to use express validation attributes.
+        /// </summary>
+        public bool UseExpressValidationAttributes { get; set; } = true;
     }
 }

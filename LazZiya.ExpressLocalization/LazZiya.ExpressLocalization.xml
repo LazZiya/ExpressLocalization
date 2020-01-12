@@ -24,6 +24,107 @@
             dispose...
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute">
+            <summary>
+            Provides an attribute that compares two properties, and produces localized error message.
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute class.
+            <paramref name="otherProperty">The property to compare with the current property.</paramref>
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute">
+            <summary>
+            Specifies the maximum length of array or string data allowed in a property. And produces localized error message.
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute class
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute class based on the length parameter.
+            </summary>
+            <param name="length">The maximum allowable length of array or string data.</param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExMinLengthAttribute">
+            <summary>
+            Specifies the minimum length of array or string data allowed in a property. And produces loclaized error message.
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExMinLengthAttribute.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the System.ComponentModel.DataAnnotations.MinLengthAttribute
+            </summary>
+            <param name="length"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider`1">
+            <summary>
+            Registeres express valdiation attributes
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute">
+            <summary>
+            Specifies the numeric range constraints for the value of a data field. And produces localized error message.
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute.#ctor(System.Double,System.Double)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalizatin.DataAnnotations.ExRangeAttribute class 
+            by using the specified minimum and maximum values.
+            </summary>
+            <param name="minimum">Specifies the minimum value allowed for the data field value.</param>
+            <param name="maximum">Specifies the maximum value allowed for the data field value.</param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalizatin.DataAnnotations.ExRangeAttribute class 
+            by using the specified minimum and maximum values.
+            </summary>
+            <param name="minimum">Specifies the minimum value allowed for the data field value.</param>
+            <param name="maximum">Specifies the maximum value allowed for the data field value.</param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute.#ctor(System.Type,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute
+                class by using the specified minimum and maximum values and the specific type.
+            </summary>
+            <param name="type">Specifies the type of the object to test.</param>
+            <param name="minimum">Specifies the minimum value allowed for the data field value.</param>
+            <param name="maximum">Specifies the maximum value allowed for the data field value.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Type is null
+            </exception>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExRegularExpressionAttribute">
+            <summary>
+            Specifies that a data field value in ASP.NET Dynamic Data must match the specified regular expression.
+            And proivdes locaized error message.
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExRegularExpressionAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExRegularExpressionAttribute class
+            </summary>
+            <param name="pattern">The regular expression that is used to validate the data field value.</param>
+            <exception cref="T:System.ArgumentNullException">
+            pattern is null.
+            </exception>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExRequiredAttribute">
+            <summary>
+            Specifies that a data field is required, and provides a localized error message
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExRequiredAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExRequiredAttribute class.
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.ExpressLocalizationExtensions">
             <summary>
             Add localization support for dot net core web apps with one simple step.
@@ -85,13 +186,14 @@
             <param name="options">ExpressLocalizationOptions such as supported cultures and default culture</param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.ExAddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.ExAddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
             <summary>
             Add DataAnnotatons localization to the project.
             <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
             <typeparam name="TDataAnnotationsLocalizationResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
+            <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.ExpressLocalizationExtensions.ExAddModelBindingLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
@@ -200,6 +302,13 @@
             <summary>
             The default access denied path
             <para>default value = "/Identity/Account/AccessDenied/"</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.UseExpressValidationAttributes">
+            <summary>
+            Express valdiation attributes provides already localized error messages.
+            Set to true by default. 
+            Set to false if you don't want to use express validation attributes.
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.GenericResourceReader">
