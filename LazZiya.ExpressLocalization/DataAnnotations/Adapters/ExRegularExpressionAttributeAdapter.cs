@@ -32,7 +32,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            return GetErrorMessage(validationContext.ModelMetadata);
+            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), RegexPattern);
         }
         
         private string GetRequiredErrorMessage(ModelValidationContextBase validationContext)

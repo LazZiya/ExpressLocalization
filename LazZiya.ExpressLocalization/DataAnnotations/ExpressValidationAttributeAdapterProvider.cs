@@ -41,6 +41,9 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
             if (type == typeof(ExRegularExpressionAttribute))
                 return new RegularExpressionAttributeAdapter((RegularExpressionAttribute)attribute, stringLocalizer);
 
+            if (type == typeof(ExStringLengthAttribute))
+                return new StringLengthAttributeAdapter((StringLengthAttribute)attribute, stringLocalizer);
+
 #elif NETCOREAPP3_0 || NETCOREAPP3_1
             if (type == typeof(ExMaxLengthAttribute))
                 return new ExMaxLengthAttributeAdapter((ExMaxLengthAttribute)attribute, stringLocalizer);
@@ -56,6 +59,9 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
 
             if (type == typeof(ExRegularExpressionAttribute))
                 return new ExRegularExpressionAttributeAdapter<T>((ExRegularExpressionAttribute)attribute, stringLocalizer);
+
+            if (type == typeof(ExStringLengthAttribute))
+                return new ExStringLengthAttributeAdapter((ExStringLengthAttribute)attribute, stringLocalizer);
 #endif
 
             return base.GetAttributeAdapter(attribute, stringLocalizer);

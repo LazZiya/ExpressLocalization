@@ -125,6 +125,19 @@
             Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExRequiredAttribute class.
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute">
+            <summary>
+            Specifies the minimum and maximum length of characters that are allowed in a data field. 
+            And provides a localized error message
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute 
+            class by using a specified maximum length.
+            </summary>
+            <param name="maximumLength">The maximum length of a string.</param>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.ExpressLocalizationExtensions">
             <summary>
             Add localization support for dot net core web apps with one simple step.

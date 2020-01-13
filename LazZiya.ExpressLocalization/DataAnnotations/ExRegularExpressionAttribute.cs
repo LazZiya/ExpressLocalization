@@ -19,7 +19,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
         /// </exception>
         public ExRegularExpressionAttribute(string pattern) : base(pattern)
         {
-            this.ErrorMessage = ErrorMessage ?? DataAnnotationsErrorMessages.RegularExpressionAttribute_Empty_Pattern;
+            this.ErrorMessage = ErrorMessage ?? DataAnnotationsErrorMessages.RegexAttribute_ValidationError;
         }
     }
 }
