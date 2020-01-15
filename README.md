@@ -1,14 +1,13 @@
 ## What is ExpressLocalization? 
 A nuget package to simplify the localization setup of any Asp.Net Core web application.
 
-## Installation
+### How to use
 Install from nuget :
 ````
 Install-Package LazZiya.ExpressLocalization
 ````
 
-### How to use
-This one step will do all localization configurations:
+Add _ExpressLocalization_ to `startup.cs`:
 ````cs
 using LazZiya.ExpressLocalization;
 
@@ -36,7 +35,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ````
 
-Then configure the app to use RequestLocalizationMiddleware :
+Then configure the app to use `RequestLocalization` middleware :
 ````cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
@@ -52,15 +51,15 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ````
 
-## Setup and options
+### Setup and options
 For all settings see [wiki pages](https://github.com/LazZiya.ExpressLocalization/wiki)
 
-## Step by step tutorial 
-http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization
+### Step by step tutorial 
+[Develop Multi Cultural Web Application Using ExpressLocalization](http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization)
 
-## Sample projects
- * Asp.Net Core 2.2 : https://github.com/LazZiya/ExpressLocalizationSample
- * Asp.Net Core 3.0 : https://github.com/LazZiya/ExpressLocalizationSampleCore3
+### Sample projects
+ * [Asp.Net Core 2.2](https://github.com/LazZiya/ExpressLocalizationSample)
+ * [Asp.Net Core 3.0](https://github.com/LazZiya/ExpressLocalizationSampleCore3)
 
-## License
+### License
 MIT
