@@ -52,7 +52,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ````
 
 ### Setup and options
-For all settings see [wiki pages](https://github.com/LazZiya.ExpressLocalization/wiki)
+For all details goto [wiki pages](https://github.com/LazZiya/ExpressLocalization/wiki)
 
 ### Step by step tutorial 
  * [Develop Multi Cultural Web Application Using ExpressLocalization](http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization)
