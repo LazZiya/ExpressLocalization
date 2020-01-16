@@ -12,6 +12,8 @@ using LazZiya.TagHelpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using LazZiya.ExpressLocalization.DataAnnotations;
 
 #if NETCOREAPP3_0 || NETCOREAPP3_1
 #else
@@ -57,11 +59,11 @@ namespace LazZiya.ExpressLocalization
 
             if (_options.ConfigureRedirectPaths)
                 builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
-
+            
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TLocalizationResource>()
-                .ExAddDataAnnotationsLocalization<TLocalizationResource>()
+                .ExAddDataAnnotationsLocalization<TLocalizationResource>(_options.UseExpressValidationAttributes)
                 .ExAddModelBindingLocalization<TLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
@@ -99,13 +101,10 @@ namespace LazZiya.ExpressLocalization
             if (_options.ConfigureRedirectPaths)
                 builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
 
-            if (_options.ConfigureRedirectPaths)
-                builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
-
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TViewLocalizationResource>()
-                .ExAddDataAnnotationsLocalization<TExpressLocalizationResource>()
+                .ExAddDataAnnotationsLocalization<TExpressLocalizationResource>(_options.UseExpressValidationAttributes)
                 .ExAddModelBindingLocalization<TExpressLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TExpressLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
@@ -150,7 +149,7 @@ namespace LazZiya.ExpressLocalization
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TViewLocalizationResource>()
-                .ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>()
+                .ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(_options.UseExpressValidationAttributes)
                 .ExAddModelBindingLocalization<TModelBindingLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
@@ -163,8 +162,9 @@ namespace LazZiya.ExpressLocalization
         /// </summary>
         /// <typeparam name="TDataAnnotationsLocalizationResource">Type of DataAnnotations localization resource</typeparam>
         /// <param name="builder"></param>
+        /// <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(this IMvcBuilder builder) where TDataAnnotationsLocalizationResource : class
+        public static IMvcBuilder ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(this IMvcBuilder builder, bool useExpressValidationAttributes) where TDataAnnotationsLocalizationResource : class
         {
             builder.AddDataAnnotationsLocalization(x =>
             {
@@ -175,6 +175,9 @@ namespace LazZiya.ExpressLocalization
 
                 x.DataAnnotationLocalizerProvider = (t, f) => localizer;
             });
+
+            if (useExpressValidationAttributes)
+                builder.Services.AddSingleton<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<TDataAnnotationsLocalizationResource>>();
 
             return builder;
         }

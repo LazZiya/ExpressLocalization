@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace LazZiya.ExpressLocalization
 {
@@ -12,7 +10,7 @@ namespace LazZiya.ExpressLocalization
     /// <see ref="https://github.com/aspnet/AspNetCore/issues/7756"/>
     /// <see ref="https://github.com/jcemoller/culture-switcher/blob/master/src/CultureSwitcher.cs"/>
     /// </summary>
-    public class CultureSwitcher : IDisposable
+    public sealed class CultureSwitcher : IDisposable
     {
         private readonly CultureInfo _originalCulture;
 
@@ -22,7 +20,7 @@ namespace LazZiya.ExpressLocalization
         /// </summary>
         public CultureSwitcher(string culture)
         {
-            if (!CultureInfo.Equals(CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture))
+            if (!Equals(CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture))
             {
                 throw new InvalidOperationException(
                     "Different CurrentCulture and CurrentUICulture culture is not supported."
