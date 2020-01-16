@@ -15,7 +15,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <PackageReleaseNotes>
       - New: Express Validation Attributes
     </PackageReleaseNotes>
-    <Version>3.2.0-beta1</Version>
+    <Version>3.2.0</Version>
     <AssemblyVersion>3.2.0.0</AssemblyVersion>
     <FileVersion>3.2.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
