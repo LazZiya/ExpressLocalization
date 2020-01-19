@@ -8,12 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using LazZiya.TagHelpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using LazZiya.ExpressLocalization.DataAnnotations;
+using LazZiya.ExpressLocalization.TagHelpers;
 
 #if NETCOREAPP3_0 || NETCOREAPP3_1
 #else

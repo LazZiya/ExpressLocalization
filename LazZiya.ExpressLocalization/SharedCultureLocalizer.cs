@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -14,7 +16,7 @@ namespace LazZiya.ExpressLocalization
     public class SharedCultureLocalizer
     {
         private readonly IHtmlLocalizer _localizer;
-
+        
         /// <summary>
         /// Shared culture localizer for razor pages views
         /// </summary>
@@ -30,6 +32,34 @@ namespace LazZiya.ExpressLocalization
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
             _localizer = factory.Create(type.Name, assemblyName.Name);
         }
+
+        /// <summary>
+        /// Get localized formatted string for the provided text
+        /// </summary>
+        /// <param name="key">The text to be localized</param>
+        /// <returns></returns>
+        public string this[string key]
+        {
+            get
+            {
+                return GetLocalizedString(key);
+            }
+        }
+
+        /// <summary>
+        /// Get localized formatted string for the provided text with args
+        /// </summary>
+        /// <param name="key">The text to be localized</param>
+        /// <param name="args">List of object arguments for formatted texts</param>
+        /// <returns></returns>
+        public string this[string key, params object[] args]
+        {
+            get
+            {
+                return GetLocalizedString(key, args);
+            }
+        }
+
 
         /// <summary>
         /// Get localized formatted string for the provided text with args

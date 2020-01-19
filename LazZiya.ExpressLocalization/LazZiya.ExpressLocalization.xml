@@ -639,6 +639,48 @@
             </para>
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Properties.Resources.LocalizationValidationScripts_jsdeliver">
+             <summary>
+               Looks up a localized string similar to &lt;!-- cldr scripts (needed for globalize) --&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/gh/rxaviers/cldrjs@0.5.1/dist/cldr.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/gh/rxaviers/cldrjs@0.5.1/dist/cldr/event.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/gh/rxaviers/cldrjs@0.5.1/dist/cldr/supplemental.js&quot;&gt;&lt;/script&gt;
+            
+            &lt;!-- globalize scripts --&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/gh/globalizejs/globalize@1.4.2/dist/globalize.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/gh/globalizejs/g [rest of string was truncated]&quot;;.
+             </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Properties.Resources.LocalizationValidationScripts_local">
+             <summary>
+               Looks up a localized string similar to &lt;!-- cldr scripts (needed for globalize) --&gt;
+            &lt;script src=&quot;/lib/cldr/dist/cldr.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;/lib/cldr/dist/cldr/event.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;/lib/cldr/dist/cldr/supplemental.min.js&quot;&gt;&lt;/script&gt;
+            
+            &lt;!-- globalize scripts --&gt;
+            &lt;script src=&quot;/lib/globalize/dist/globalize.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;/lib/globalize/dist/globalize/number.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;/lib/globalize/dist/globalize/date.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;/lib/globalize/dist/globalize/currency.min.js&quot;&gt;&lt;/s [rest of string was truncated]&quot;;.
+             </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.ProviderCultureDetector">
             <summary>
             Detects the current culture result depending on currently registered culture providers
@@ -695,6 +737,21 @@
             </summary>
             <param name="factory"></param>
             <param name="type"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.SharedCultureLocalizer.Item(System.String)">
+            <summary>
+            Get localized formatted string for the provided text
+            </summary>
+            <param name="key">The text to be localized</param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.SharedCultureLocalizer.Item(System.String,System.Object[])">
+            <summary>
+            Get localized formatted string for the provided text with args
+            </summary>
+            <param name="key">The text to be localized</param>
+            <param name="args">List of object arguments for formatted texts</param>
+            <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.GetLocalizedString(System.String,System.Object[])">
             <summary>
@@ -810,6 +867,330 @@
             <param name="resourceSource"></param>
             <param name="key"></param>
             <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LanguageLabel">
+            <summary>
+            The label to display for language dropdown list on language names
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.LanguageLabel.Name">
+            <summary>
+            Culture name
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.LanguageLabel.DisplayName">
+            <summary>
+            Culture display name
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.LanguageLabel.EnglishName">
+            <summary>
+            Culture English name
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.LanguageLabel.NativeName">
+            <summary>
+            Culture native name
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.LanguageLabel.TwoLetterISOLanguageName">
+            <summary>
+            Two letter ISO language name
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.RedirectTo">
+            <summary>
+            Defines where to redirect when language is changes
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.RedirectTo.HomePage">
+            <summary>
+            redirects to home page in the project root
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.RedirectTo.SamePage">
+            <summary>
+            redirects to the same page and keep all filter like search
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.RedirectTo.SamePageNoQueryString">
+            <summary>
+            redirect to the same page and clear all filters (QueryString) values
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.RenderMode">
+            <summary>
+            choose render mode style,
+            <para>classic: regular dropdown select list</para>
+            <para>Bootstrap4: HTML5 div with Bootstrap4 support</para>
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.RenderMode.Classic">
+            <summary>
+            regular dropdown list
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.RenderMode.Bootstrap">
+            <summary>
+            HTML5 div with Bootstrap 4 support
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper">
+            <summary>
+            creates a language navigation menu, depends on supported cultures
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.CultureKeyName">
+            <summary>
+            optional: route data key name for culture, default "culture"
+            default: cultute
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.SupportedCultures">
+            <summary>
+            optional: manually specify list of supported cultures
+            <example>
+            en-US,tr, ar
+            </example>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.LanguageLabel">
+            <summary>
+            optional: what to display as label for language dropdown
+            default: LanguageLabel.EnglishName
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.RedirectTo">
+            <summary>
+            optional: specify where to redirect when the language is changed
+            <para>default value: RedirectTo.SamePage</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.HomePageName">
+            <summary>
+            optinal: name of the home page to redirect to when RedirectTo is HomePage
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.ViewContext">
+            <summary>
+            <para>ViewContext property is not required to be passed as parameter, it will be auto assigned by the tag helpoer.</para>
+            <para>current view context to access RouteData.Values and Request.Query collection</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.RenderMode">
+            <summary>
+            Choose render mode: classis for regular dropdown list, Bootstrap4 for HTML5 div with Bootstrap4 style.
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper._ops">
+            <summary>
+            required for listing supported cultures
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Builder.RequestLocalizationOptions})">
+            <summary>
+            creates a language navigation menu, depends on supported cultures
+            </summary>
+            <param name="ops"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            start creating the language navigation dropdown
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.CreateClassicItems(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput@,System.Collections.Generic.List{LazZiya.ExpressLocalization.TagHelpers.LanguageItem})">
+            <summary>
+            create classic list items list
+            <example><![CDATA[<option value="/en-US/Index">English</option>]]></example>
+            </summary>
+            <param name="langDictionary">language name-URL dictionary</param>
+            <param name="output">reference to TagHelperOuput</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.CreateBootstrapItems(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput@,System.Collections.Generic.List{LazZiya.ExpressLocalization.TagHelpers.LanguageItem})">
+            <summary>
+            create classic list items list
+            <example><![CDATA[<a href="/en-US/Index" class="itemxyz">English</a>]]></example>
+            </summary>
+            <param name="langDictionary">language name-URL dictionary</param>
+            <param name="output">reference to TagHelperOuput</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.CreateNavDictionary">
+            <summary>
+            create dictonary for all supported cultures
+            <para>Key: Language display name for label</para>
+            <para>Value: Navigation URL</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.CreateRouteDataDictionary">
+            <summary>
+            Get route data values for the current route,
+            then save all values to _routeData dictionary
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LanguageNavTagHelper.GetSupportedCultures">
+            <summary>
+            private list of supported CultureInfo,
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase">
+            <summary>
+            base class for localize tag helpers
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.Args">
+            <summary>
+            pass array of objects for arguments
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.Culture">
+            <summary>
+            localization string with reference to the specified culture
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ResourceSource">
+            <summary>
+            type of the source of localized resources file that containes the local culture strings
+ 
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ResourceSource">
+            <summary>
+            type of the source of localized resources file that containes the local culture strings
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.#ctor(LazZiya.ExpressLocalization.SharedCultureLocalizer)">
+            <summary>
+            inject SharedCultureLocalizer
+            </summary>
+            <param name="loc"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            process localize tag helper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.ScriptSource">
+            <summary>
+            defines location to load localization valdiation scripts
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.ScriptSource.Local">
+            <summary>
+            valdiation scripts are located under wwwroot/lib folder
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.TagHelpers.ScriptSource.JsDeliver">
+            <summary>
+            valdiation scripts will be loaded from jsdelivr
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponentTagHelper">
+            <summary>
+            creates localization validation scripts tag to place client side validiation scripts inside
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponentTagHelper.Source">
+            <summary>
+            (optional) define where to load scripts from, Local or JsDelivr.
+            <para>Default: JsDelivr</para>
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponentTagHelper.CldrVersion">
+            <summary>
+            (optional) set cldr version to load.
+            <para>Default: 35.1</para>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponentTagHelper.#ctor(Microsoft.AspNetCore.Mvc.Razor.TagHelpers.ITagHelperComponentManager,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            creates localization validation scripts tag to place client side validiation scripts inside
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponent">
+            <summary>
+            inserts all client side localizaiton validation scripts into relevant tag
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponent.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            inserts all localizaiton validation scripts into relevant tag
+            </summary>
+            <param name="hosting"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponent.Order">
+            <summary>
+            default order is 0
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponent.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            generate the taghelper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationValidationScriptsTagHelperComponent.GetCultureName">
+            <summary>
+            find json files related to the current culture, if not found return parent culture, if not found return default culture.
+            see ClientSideValidationScripts.html for how to configure paths
+            </summary>
+            <returns>culture name e.g. tr</returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper">
+            <summary>
+            Localization tag helper, localize text inside <![CDATA[<localize>Hellow</localize>]]>
+            </summary>
+            
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.Localize">
+            <summary>
+            Bool value, true to localize content
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.LocalizeAttribute">
+            <summary>
+            localize custom attribute fields
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.#ctor(LazZiya.ExpressLocalization.SharedCultureLocalizer)">
+            <summary>
+            inject SharedCultureLocalizer
+            </summary>
+            <param name="loc"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            process localize tag helper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper">
+            <summary>
+            Localization tag helper, localize text inside <![CDATA[<localize>Hellow</localize>]]>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.#ctor(LazZiya.ExpressLocalization.SharedCultureLocalizer)">
+            <summary>
+            inject SharedCultureLocalizer
+            </summary>
+            <param name="loc"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            process localize tag helper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
             <returns></returns>
         </member>
     </members>
