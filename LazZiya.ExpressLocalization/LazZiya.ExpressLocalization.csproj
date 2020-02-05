@@ -14,8 +14,9 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
       - Removed dependency LazZiya.TagHelpers nuget package, this will break the localization-validation-scripts taghelper, add it manually to the services. For instructions on maunally installing it see https://github.com/lazziya/taghelpers
+      - Fix for ExCompare attribute where the other attribute name was not locaized in the error message
     </PackageReleaseNotes>
-    <Version>4.0.0-preview1</Version>
+    <Version>4.0.0-preview2</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
