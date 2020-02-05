@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using LazZiya.ExpressLocalization.DataAnnotations;
-using LazZiya.ExpressLocalization.TagHelpers;
+using LazZiya.Common;
 
 #if NETCOREAPP3_0 || NETCOREAPP3_1
 #else
@@ -208,7 +207,7 @@ namespace LazZiya.ExpressLocalization
         /// <returns></returns>
         public static IMvcBuilder ExAddSharedCultureLocalizer<TViewLocalizationResource>(this IMvcBuilder builder) where TViewLocalizationResource : class
         {
-            builder.Services.AddSingleton<SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
+            builder.Services.AddSingleton<ISharedCultureLocalizer, SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
 
             return builder;
         }
@@ -235,7 +234,7 @@ namespace LazZiya.ExpressLocalization
         /// <returns></returns>
         public static IMvcBuilder ExAddClientSideLocalizationValidationScripts(this IMvcBuilder builder)
         {
-            builder.Services.AddTransient<ITagHelperComponent, LocalizationValidationScriptsTagHelperComponent>();
+            //builder.Services.AddTransient<ITagHelperComponent, LocalizationValidationScriptsTagHelperComponent>();
 
             return builder;
         }

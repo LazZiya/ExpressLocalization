@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
+﻿using LazZiya.Common;
+using Microsoft.AspNetCore.Mvc.Localization;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
 
 namespace LazZiya.ExpressLocalization
@@ -13,10 +11,10 @@ namespace LazZiya.ExpressLocalization
     /// <summary>
     /// Access shared localization resources under folder
     /// </summary>
-    public class SharedCultureLocalizer
+    public class SharedCultureLocalizer : ISharedCultureLocalizer
     {
         private readonly IHtmlLocalizer _localizer;
-        
+
         /// <summary>
         /// Shared culture localizer for razor pages views
         /// </summary>
@@ -196,68 +194,5 @@ namespace LazZiya.ExpressLocalization
         {
             return GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
         }
-
-        #region Obsolete methods to be removed in next release
-
-        /// <summary>
-        /// Get localized string for the provided text.
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns>LocalizedHtmlString</returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(string key, params object[] args)
-        {
-            return args == null
-                ? _localizer[key]
-                : _localizer[key, args];
-        }
-
-        /// <summary>
-        /// Localize a string according to specified culture
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="culture"></param>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns>LocalizedHtmlString</returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(string culture, string key, params object[] args)
-        {
-            return args == null
-                ? _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key]
-                : _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key, args];
-        }
-
-        /// <summary>
-        /// Localize a string according to a specific culture and specified resource type
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="resourceSource"></param>
-        /// <param name="culture"></param>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns>LocalizedHtmlString</returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(Type resourceSource, string culture, string key, params object[] args)
-        {
-            return GenericResourceReader.GetValue(resourceSource, culture, key, args);
-        }
-
-        /// <summary>
-        /// Localize a string value from specified culture resource
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="resourceSource"></param>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(Type resourceSource, string key, params object[] args)
-        {
-            return GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
-        }
-        #endregion
     }
 }

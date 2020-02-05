@@ -13,11 +13,9 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - New: LanguageNavTagHelper
-      - New: LocaizeTagHelpers for view localization
-      - New: LocalizationValidationScriptsTagHelper
+      - Removed dependency LazZiya.TagHelpers nuget package, this will break the localization-validation-scripts taghelper, add it manually to the services. For instructions on maunally installing it see https://github.com/lazziya/taghelpers
     </PackageReleaseNotes>
-    <Version>4.0.0-beta6</Version>
+    <Version>4.0.0-preview1</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -30,6 +28,10 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <DocumentationFile>LazZiya.ExpressLocalization.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="LazZiya.Common" Version="1.0.0-preview1" Exclude ="Build,Analyzers"/>
+  </ItemGroup>
+  
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0' AND '$(TargetFramework)' != 'netcoreapp3.1'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
