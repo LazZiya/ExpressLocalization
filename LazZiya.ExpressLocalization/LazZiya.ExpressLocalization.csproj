@@ -17,7 +17,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
       - Removed dependency on LazZiya.TagHelpers nuget package, this will break the auto registration and requires manual registration of localization-validation-scripts taghelper component.
       - Fix for ExCompare attribute where the other attribute name was not locaized in the error message
     </PackageReleaseNotes>
-    <Version>4.0.0-preview2</Version>
+    <Version>4.0.0-prv1</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
