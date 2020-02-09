@@ -1,5 +1,4 @@
-﻿using LazZiya.Common;
-using Microsoft.AspNetCore.Mvc.Localization;
+﻿using Microsoft.AspNetCore.Mvc.Localization;
 using System;
 using System.Globalization;
 using System.IO;

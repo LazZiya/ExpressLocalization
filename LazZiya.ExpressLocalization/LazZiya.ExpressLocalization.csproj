@@ -13,7 +13,8 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - Removed dependency LazZiya.TagHelpers nuget package, this will break the localization-validation-scripts taghelper, add it manually to the services. For instructions on maunally installing it see https://github.com/lazziya/taghelpers
+      - New: Localization TagHelpers are included in LazZiya.ExpressLocalization
+      - Removed dependency on LazZiya.TagHelpers nuget package, this will break the auto registration and requires manual registration of localization-validation-scripts taghelper component.
       - Fix for ExCompare attribute where the other attribute name was not locaized in the error message
     </PackageReleaseNotes>
     <Version>4.0.0-preview2</Version>
@@ -28,10 +29,6 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
   <PropertyGroup Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
     <DocumentationFile>LazZiya.ExpressLocalization.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="LazZiya.Common" Version="1.0.0-preview1" Exclude ="Build,Analyzers"/>
-  </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0' AND '$(TargetFramework)' != 'netcoreapp3.1'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
@@ -62,18 +59,7 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Folder Include="Properties\" />
   </ItemGroup>
   
 </Project>
