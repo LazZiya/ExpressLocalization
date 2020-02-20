@@ -34,6 +34,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
                 return new MinLengthAttributeAdapter((MinLengthAttribute)attribute, stringLocalizer);
 
             if (type == typeof(ExCompareAttribute))
+                return new CompareAttributeAdapter((CompareAttribute)attribute, stringLocalizer);
             
             if (type == typeof(ExRangeAttribute))
                 return new RangeAttributeAdapter((RangeAttribute)attribute, stringLocalizer);
@@ -52,7 +53,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
                 return new ExMinLengthAttributeAdapter((ExMinLengthAttribute)attribute, stringLocalizer);
 
             if (type == typeof(ExCompareAttribute))
-                return new ExCompareAttributeAdapter((ExCompareAttribute)attribute, stringLocalizer);
+                return new ExCompareAttributeAdapter<T>((ExCompareAttribute)attribute, stringLocalizer);
             
             if (type == typeof(ExRangeAttribute))
                 return new ExRangeAttributeAdapter<T>((ExRangeAttribute)attribute, stringLocalizer);

@@ -3,7 +3,6 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
 
 namespace LazZiya.ExpressLocalization
@@ -11,7 +10,7 @@ namespace LazZiya.ExpressLocalization
     /// <summary>
     /// Access shared localization resources under folder
     /// </summary>
-    public class SharedCultureLocalizer
+    public class SharedCultureLocalizer : ISharedCultureLocalizer
     {
         private readonly IHtmlLocalizer _localizer;
 
@@ -30,6 +29,34 @@ namespace LazZiya.ExpressLocalization
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
             _localizer = factory.Create(type.Name, assemblyName.Name);
         }
+
+        /// <summary>
+        /// Get localized formatted string for the provided text
+        /// </summary>
+        /// <param name="key">The text to be localized</param>
+        /// <returns></returns>
+        public string this[string key]
+        {
+            get
+            {
+                return GetLocalizedString(key);
+            }
+        }
+
+        /// <summary>
+        /// Get localized formatted string for the provided text with args
+        /// </summary>
+        /// <param name="key">The text to be localized</param>
+        /// <param name="args">List of object arguments for formatted texts</param>
+        /// <returns></returns>
+        public string this[string key, params object[] args]
+        {
+            get
+            {
+                return GetLocalizedString(key, args);
+            }
+        }
+
 
         /// <summary>
         /// Get localized formatted string for the provided text with args
@@ -166,68 +193,5 @@ namespace LazZiya.ExpressLocalization
         {
             return GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
         }
-
-        #region Obsolete methods to be removed in next release
-
-        /// <summary>
-        /// Get localized string for the provided text.
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns>LocalizedHtmlString</returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(string key, params object[] args)
-        {
-            return args == null
-                ? _localizer[key]
-                : _localizer[key, args];
-        }
-
-        /// <summary>
-        /// Localize a string according to specified culture
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="culture"></param>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns>LocalizedHtmlString</returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(string culture, string key, params object[] args)
-        {
-            return args == null
-                ? _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key]
-                : _localizer.WithCulture(CultureInfo.GetCultureInfo(culture))[key, args];
-        }
-
-        /// <summary>
-        /// Localize a string according to a specific culture and specified resource type
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="resourceSource"></param>
-        /// <param name="culture"></param>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns>LocalizedHtmlString</returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(Type resourceSource, string culture, string key, params object[] args)
-        {
-            return GenericResourceReader.GetValue(resourceSource, culture, key, args);
-        }
-
-        /// <summary>
-        /// Localize a string value from specified culture resource
-        /// <para>Use in UI side, for backend text localization use FormattedText instead</para>
-        /// </summary>
-        /// <param name="resourceSource"></param>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        [Obsolete("The method Text is obsolete and will be removed in a feature release! use GetLocalizedString instead.")]
-        public LocalizedHtmlString Text(Type resourceSource, string key, params object[] args)
-        {
-            return GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
-        }
-        #endregion
     }
 }

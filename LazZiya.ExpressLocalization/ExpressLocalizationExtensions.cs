@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
-using LazZiya.TagHelpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
@@ -59,15 +55,15 @@ namespace LazZiya.ExpressLocalization
 
             if (_options.ConfigureRedirectPaths)
                 builder.ExConfigureApplicationCookie(_options.LoginPath, _options.LogoutPath, _options.AccessDeniedPath, _ops.DefaultRequestCulture.Culture.Name);
-            
+
             return builder
                 .AddViewLocalization(ops => { ops.ResourcesPath = _options.ResourcesPath; })
                 .ExAddSharedCultureLocalizer<TLocalizationResource>()
                 .ExAddDataAnnotationsLocalization<TLocalizationResource>(_options.UseExpressValidationAttributes)
                 .ExAddModelBindingLocalization<TLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
-                .ExAddClientSideLocalizationValidationScripts();
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders);
+                //.ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -107,8 +103,8 @@ namespace LazZiya.ExpressLocalization
                 .ExAddDataAnnotationsLocalization<TExpressLocalizationResource>(_options.UseExpressValidationAttributes)
                 .ExAddModelBindingLocalization<TExpressLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TExpressLocalizationResource>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
-                .ExAddClientSideLocalizationValidationScripts();
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders);
+                //.ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -152,8 +148,8 @@ namespace LazZiya.ExpressLocalization
                 .ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(_options.UseExpressValidationAttributes)
                 .ExAddModelBindingLocalization<TModelBindingLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>()
-                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders)
-                .ExAddClientSideLocalizationValidationScripts();
+                .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders);
+                //.ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -166,14 +162,11 @@ namespace LazZiya.ExpressLocalization
         /// <returns></returns>
         public static IMvcBuilder ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(this IMvcBuilder builder, bool useExpressValidationAttributes) where TDataAnnotationsLocalizationResource : class
         {
-            builder.AddDataAnnotationsLocalization(x =>
+            builder.AddDataAnnotationsLocalization(ops =>
             {
-                var type = typeof(TDataAnnotationsLocalizationResource);
-                var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
-                var factory = builder.Services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
-                var localizer = factory.Create(type.Name, assemblyName.Name);
-
-                x.DataAnnotationLocalizerProvider = (t, f) => localizer;
+                var t = typeof(TDataAnnotationsLocalizationResource);
+                ops.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(t.Name, t.Assembly.GetName().Name);
             });
 
             if (useExpressValidationAttributes)
@@ -208,7 +201,7 @@ namespace LazZiya.ExpressLocalization
         /// <returns></returns>
         public static IMvcBuilder ExAddSharedCultureLocalizer<TViewLocalizationResource>(this IMvcBuilder builder) where TViewLocalizationResource : class
         {
-            builder.Services.AddSingleton<SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
+            builder.Services.AddSingleton<ISharedCultureLocalizer, SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
 
             return builder;
         }
@@ -233,9 +226,10 @@ namespace LazZiya.ExpressLocalization
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
+        [Obsolete("This method is not in use. Register client side scripts manually")]
         public static IMvcBuilder ExAddClientSideLocalizationValidationScripts(this IMvcBuilder builder)
         {
-            builder.Services.AddTransient<ITagHelperComponent, LocalizationValidationScriptsTagHelperComponent>();
+            // builder.Services.AddTransient<ITagHelperComponent, LocValScrTagHelperComponent>();
 
             return builder;
         }

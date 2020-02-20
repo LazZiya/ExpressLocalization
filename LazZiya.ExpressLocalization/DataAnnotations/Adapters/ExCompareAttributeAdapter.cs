@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Globalization;
 
 namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
 {
-    internal class ExCompareAttributeAdapter : AttributeAdapterBase<ExCompareAttribute>
+    internal class ExCompareAttributeAdapter<T> : AttributeAdapterBase<ExCompareAttribute>
+        where T : class
     {
+        // name of the other attribute
         private string _att { get; set; }
         public ExCompareAttributeAdapter(ExCompareAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
@@ -28,7 +31,8 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), _att);
+            var attLocalizedName = GenericResourceReader.GetValue<T>(CultureInfo.CurrentCulture.Name, _att);
+            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), attLocalizedName);
         }
     }
 }

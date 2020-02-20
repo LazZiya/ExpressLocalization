@@ -349,6 +349,102 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.ISharedCultureLocalizer">
+            <summary>
+            Access shared localization resources under folder
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ISharedCultureLocalizer.Item(System.String)">
+            <summary>
+            Get localized formatted string for the provided text
+            </summary>
+            <param name="key">The text to be localized</param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ISharedCultureLocalizer.Item(System.String,System.Object[])">
+            <summary>
+            Get localized formatted string for the provided text with args
+            </summary>
+            <param name="key">The text to be localized</param>
+            <param name="args">List of object arguments for formatted texts</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedHtmlString(System.String,System.Object[])">
+            <summary>
+            Get localized html string for the provided text.
+            <para>Use in UI side, for backend text localization use GetLocalizedString instead</para>
+            </summary>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>LocalizedHtmlString</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
+            <summary>
+            Localize a string according to specified culture
+            <para>Use in UI side, for backend text localization use GetLocalizedString instead</para>
+            </summary>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>LocalizedHtmlString</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
+            <summary>
+            Localize a string value from specified culture resource
+            <para>Use in UI side, for backend text localization use GetLocalizedString instead</para>
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>LocalizedHtmlString</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
+            <summary>
+            Localize a string according to a specific culture and specified resource type
+            <para>Use in UI side, for backend text localization use GetLocalizedString instead</para>
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>LocalizedHtmlString</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedString(System.String,System.Object[])">
+            <summary>
+            Get localized formatted string for the provided text with args
+            </summary>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>localized string</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedString(System.String,System.String,System.Object[])">
+            <summary>
+            Localize a string according to specified culture
+            </summary>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>localized string</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedString(System.Type,System.String,System.Object[])">
+            <summary>
+            Localize a string value from specified culture resource
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>localized string</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ISharedCultureLocalizer.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
+            <summary>
+            Localize a string according to a specific culture and specified resource type
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns>localized string</returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.Messages.DataAnnotationsErrorMessages">
             <summary>
             Call these fields directly from inside valdiation attibute tag, e.g.:
@@ -696,6 +792,21 @@
             <param name="factory"></param>
             <param name="type"></param>
         </member>
+        <member name="P:LazZiya.ExpressLocalization.SharedCultureLocalizer.Item(System.String)">
+            <summary>
+            Get localized formatted string for the provided text
+            </summary>
+            <param name="key">The text to be localized</param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.SharedCultureLocalizer.Item(System.String,System.Object[])">
+            <summary>
+            Get localized formatted string for the provided text with args
+            </summary>
+            <param name="key">The text to be localized</param>
+            <param name="args">List of object arguments for formatted texts</param>
+            <returns></returns>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.GetLocalizedString(System.String,System.Object[])">
             <summary>
             Get localized formatted string for the provided text with args
@@ -772,44 +883,87 @@
             <param name="args"></param>
             <returns>LocalizedHtmlString</returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.String,System.Object[])">
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase">
             <summary>
-            Get localized string for the provided text.
-            <para>Use in UI side, for backend text localization use FormattedText instead</para>
+            base class for localize tag helpers
             </summary>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns>LocalizedHtmlString</returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.String,System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.Args">
             <summary>
-            Localize a string according to specified culture
-            <para>Use in UI side, for backend text localization use FormattedText instead</para>
+            pass array of objects for arguments
             </summary>
-            <param name="culture"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns>LocalizedHtmlString</returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.Type,System.String,System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.Culture">
             <summary>
-            Localize a string according to a specific culture and specified resource type
-            <para>Use in UI side, for backend text localization use FormattedText instead</para>
+            localization string with reference to the specified culture
             </summary>
-            <param name="resourceSource"></param>
-            <param name="culture"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns>LocalizedHtmlString</returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer.Text(System.Type,System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ResourceSource">
             <summary>
-            Localize a string value from specified culture resource
-            <para>Use in UI side, for backend text localization use FormattedText instead</para>
+            type of the source of localized resources file that containes the local culture strings
             </summary>
-            <param name="resourceSource"></param>
-            <param name="key"></param>
-            <param name="args"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.#ctor(LazZiya.ExpressLocalization.ISharedCultureLocalizer)">
+            <summary>
+            inject SharedCultureLocalizer
+            </summary>
+            <param name="loc"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            process localize tag helper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper">
+            <summary>
+            Localization tag helper, localize text inside <![CDATA[<localize>Hellow</localize>]]>
+            </summary>
+            
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.Localize">
+            <summary>
+            Bool value, true to localize content
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.LocalizeAttribute">
+            <summary>
+            localize custom attribute fields
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.#ctor(LazZiya.ExpressLocalization.ISharedCultureLocalizer)">
+            <summary>
+            inject SharedCultureLocalizer
+            </summary>
+            <param name="loc"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            process localize tag helper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper">
+            <summary>
+            Localization tag helper, localize text inside <![CDATA[<localize>Hellow</localize>]]>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.#ctor(LazZiya.ExpressLocalization.ISharedCultureLocalizer)">
+            <summary>
+            inject SharedCultureLocalizer
+            </summary>
+            <param name="loc"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            process localize tag helper
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
             <returns></returns>
         </member>
     </members>

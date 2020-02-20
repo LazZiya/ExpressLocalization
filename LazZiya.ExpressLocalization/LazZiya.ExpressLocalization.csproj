@@ -13,11 +13,13 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - New: Express Validation Attributes
+      - New: Localization TagHelpers are included in LazZiya.ExpressLocalization
+      - Removed dependency on LazZiya.TagHelpers nuget package, this will break the auto registration and requires manual registration of localization-validation-scripts taghelper component.
+      - Fix for ExCompare attribute where the other attribute name was not locaized in the error message
     </PackageReleaseNotes>
-    <Version>3.2.0</Version>
-    <AssemblyVersion>3.2.0.0</AssemblyVersion>
-    <FileVersion>3.2.0.0</FileVersion>
+    <Version>4.0.0-preview1</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
@@ -27,22 +29,23 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
   <PropertyGroup Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
     <DocumentationFile>LazZiya.ExpressLocalization.xml</DocumentationFile>
   </PropertyGroup>
-
+  
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0' AND '$(TargetFramework)' != 'netcoreapp3.1'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.4" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="2.2.1" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.0" Exclude="Build,Analyzers" />
+  </ItemGroup>
+  
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.0.0" Exclude="Build,Analyzers" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="3.0.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.1.0" Exclude="Build,Analyzers" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +56,10 @@ Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side vali
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="files\license.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   
 </Project>
