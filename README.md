@@ -55,7 +55,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 For all details goto [wiki pages](https://github.com/LazZiya/ExpressLocalization/wiki)
 
 ### Step by step tutorial 
- * [Develop Multi Cultural Web Application Using ExpressLocalization](http://ziyad.info/en/articles/36-Develop_Multi_Cultural_Web_Application_Using_ExpressLocalization)
+ * [Develop Multi Cultural Web Application Using ExpressLocalization](https://www.codeproject.com/Articles/5061604/Developing-Multicultural-ASP-NET-Core-3-2-1-Projec)
 
 ### Sample projects
  * [Asp.Net Core 2.2](https://github.com/LazZiya/ExpressLocalizationSample)
