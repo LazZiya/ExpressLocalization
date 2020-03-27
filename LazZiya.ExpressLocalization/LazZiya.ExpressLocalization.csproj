@@ -8,16 +8,14 @@
     <Description>Express localization settings package for dotnet core web appliations.
 Localize (Views, DataAnnotations, ModelBinding, IdentityErrors, Client side validation errors and scripts) and add RouteValueRequestCultureProivder with one clean step.</Description>
     <Copyright>Ziyad.info</Copyright>
-    <PackageProjectUrl>http://www.ziyad.info/en/articles/33-LazZiya_Express_Localization</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LazZiya/ExpressLocalization/wiki</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
     <PackageReleaseNotes>
-      - New: Localization TagHelpers are included in LazZiya.ExpressLocalization
-      - Removed dependency on LazZiya.TagHelpers nuget package, this will break the auto registration and requires manual registration of localization-validation-scripts taghelper component.
-      - Fix for ExCompare attribute where the other attribute name was not locaized in the error message
+      Release notes: https://github.com/LazZiya/ExpressLocalization/releases
     </PackageReleaseNotes>
-    <Version>4.0.0-preview1</Version>
+    <Version>4.0.0</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
