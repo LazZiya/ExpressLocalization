@@ -20,7 +20,7 @@
 			- .net5 support
 			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
 		</PackageReleaseNotes>
-		<Version>5.0.0-beta3</Version>
+		<Version>5.0.0-beta1</Version>
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 		<FileVersion>5.0.0.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
