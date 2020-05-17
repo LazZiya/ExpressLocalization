@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using LazZiya.ExpressLocalization.DataAnnotations;
 
-#if NETCOREAPP3_0 || NETCOREAPP3_1
-#else
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Microsoft.AspNetCore.Routing;
 #endif
 
@@ -269,10 +268,10 @@ namespace LazZiya.ExpressLocalization
                 {
                     OnRedirectToLogin = ctx =>
                     {
-#if NETCOREAPP3_0 || NETCOREAPP3_1
-                        var culture = ctx.Request.RouteValues["culture"];
-#else
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
                         var culture = ctx.HttpContext.GetRouteValue("culture");
+#else
+                        var culture = ctx.Request.RouteValues["culture"];
 #endif
                         var requestPath = ctx.Request.Path;
 
@@ -289,10 +288,10 @@ namespace LazZiya.ExpressLocalization
                     },
                     OnRedirectToLogout = ctx =>
                     {
-#if NETCOREAPP3_0 || NETCOREAPP3_1
-                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
-#else
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
                         var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
+#else
+                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
 #endif
                         var detectedCulture = ProviderCultureDetector.DetectCurrentCulture(_providers, ctx.HttpContext, _cultures, defCulture).Result;
 
@@ -307,10 +306,10 @@ namespace LazZiya.ExpressLocalization
                     },
                     OnRedirectToAccessDenied = ctx =>
                     {
-#if NETCOREAPP3_0 || NETCOREAPP3_1
-                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
-#else
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
                         var culture = ctx.HttpContext.GetRouteValue("culture") ?? defCulture;
+#else
+                        var culture = ctx.Request.RouteValues["culture"] ?? defCulture;
 #endif
                         var detectedCulture = ProviderCultureDetector.DetectCurrentCulture(_providers, ctx.HttpContext, _cultures, defCulture).Result;
 

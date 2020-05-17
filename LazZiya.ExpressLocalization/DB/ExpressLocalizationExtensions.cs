@@ -1,5 +1,4 @@
 ﻿using LazZiya.ExpressLocalization.DataAnnotations;
-using LazZiya.ExpressLocalization.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
