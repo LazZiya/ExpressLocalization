@@ -1,7 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Text;
 
 namespace LazZiya.ExpressLocalization
 {

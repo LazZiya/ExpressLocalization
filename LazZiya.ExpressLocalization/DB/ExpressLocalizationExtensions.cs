@@ -65,7 +65,7 @@ namespace LazZiya.ExpressLocalization.DB
             });
 
             // Configure identity errors localization
-            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsDbLocalizer>();
+            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>();
 
             builder.Services.AddSingleton<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<DbType>>();
 
