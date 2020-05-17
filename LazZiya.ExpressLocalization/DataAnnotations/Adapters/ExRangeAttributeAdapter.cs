@@ -1,4 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Messages;
+﻿using LazZiya.ExpressLocalization.DB;
+using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
@@ -12,10 +13,13 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
     {
         private object Min { get; set; }
         private object Max { get; set; }
+
+        private readonly IStringLocalizer Localizer;
         public ExRangeAttributeAdapter(ExRangeAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
             Min = attribute.Minimum;
             Max = attribute.Maximum;
+            Localizer = stringLocalizer;
         }
 
         public override void AddValidation(ClientModelValidationContext context)
@@ -43,8 +47,12 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            var msg = GenericResourceReader.GetValue<T>(CultureInfo.CurrentCulture.Name, DataAnnotationsErrorMessages.RequiredAttribute_ValidationError);
-            return string.Format(msg, validationContext.ModelMetadata.GetDisplayName());
+            var msg = typeof(T) == typeof(DbType)
+                ? Localizer[DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName()]
+                : GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name, 
+                    DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName());
+            
+            return msg;
         }
     }
 }

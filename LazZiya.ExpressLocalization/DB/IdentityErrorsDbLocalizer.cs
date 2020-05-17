@@ -1,30 +1,22 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Text;
+using System.Globalization;
 
-namespace LazZiya.ExpressLocalization
+namespace LazZiya.ExpressLocalization.DB
 {
-    internal class IdentityErrorsLocalizer : IdentityErrorDescriber 
+    internal class IdentityErrorsDbLocalizer : IdentityErrorDescriber 
     {
-        private readonly Type ResxResourceType;
         private readonly ISharedCultureLocalizer Localizer;
-
-        public IdentityErrorsLocalizer(Type resType)
-        {
-            ResxResourceType = resType;
-        }
         
-        public IdentityErrorsLocalizer(ISharedCultureLocalizer localizer)
+        public IdentityErrorsDbLocalizer(ISharedCultureLocalizer localizer)
         {
             Localizer = localizer;
         }
 
         private IdentityError LocalizedIdentityError(string code, params object[] args)
         {
-            var msg = Localizer == null
-                ? GenericResourceReader.GetString(ResxResourceType, string.Empty, code, args)
-                : Localizer[code, args];
+            var msg = Localizer.GetLocalizedString(code, args);
+            var c = CultureInfo.CurrentCulture.Name;
 
             return new IdentityError { Code = code, Description = msg };
         }

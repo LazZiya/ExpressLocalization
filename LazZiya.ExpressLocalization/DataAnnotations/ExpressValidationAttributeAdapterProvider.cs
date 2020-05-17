@@ -51,7 +51,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
 
             if (type == typeof(ExMinLengthAttribute))
                 return new ExMinLengthAttributeAdapter((ExMinLengthAttribute)attribute, stringLocalizer);
-
+            
             if (type == typeof(ExCompareAttribute))
                 return new ExCompareAttributeAdapter<T>((ExCompareAttribute)attribute, stringLocalizer);
             
@@ -60,7 +60,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
 
             if (type == typeof(ExRegularExpressionAttribute))
                 return new ExRegularExpressionAttributeAdapter<T>((ExRegularExpressionAttribute)attribute, stringLocalizer);
-
+                
             if (type == typeof(ExStringLengthAttribute))
                 return new ExStringLengthAttributeAdapter((ExStringLengthAttribute)attribute, stringLocalizer);
 #endif

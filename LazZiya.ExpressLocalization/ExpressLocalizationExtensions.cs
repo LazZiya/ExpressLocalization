@@ -22,7 +22,7 @@ namespace LazZiya.ExpressLocalization
     /// Add localization support for dot net core web apps with one simple step.
     /// <para>download necessary resource files from: https://github.com/LazZiya/ExpressLocalization.Resources</para>
     /// </summary>
-    public static class ExpressLocalizationExtensions
+    public static partial class ExpressLocalizationExtensions
     {
         private static IList<IRequestCultureProvider> _providers;
         private static IList<CultureInfo> _cultures;
@@ -63,7 +63,6 @@ namespace LazZiya.ExpressLocalization
                 .ExAddModelBindingLocalization<TLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders);
-                //.ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -104,7 +103,6 @@ namespace LazZiya.ExpressLocalization
                 .ExAddModelBindingLocalization<TExpressLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TExpressLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders);
-                //.ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -149,7 +147,6 @@ namespace LazZiya.ExpressLocalization
                 .ExAddModelBindingLocalization<TModelBindingLocalizationResource>()
                 .ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>()
                 .ExAddRouteValueRequestCultureProvider(_ops.SupportedCultures, _ops.DefaultRequestCulture.Culture.Name, _options.UseAllCultureProviders);
-                //.ExAddClientSideLocalizationValidationScripts();
         }
 
         /// <summary>
@@ -186,7 +183,7 @@ namespace LazZiya.ExpressLocalization
         {
             builder.AddMvcOptions(ops =>
             {
-                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages<TModelBindingLocalizationResource>();
+                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(typeof(TModelBindingLocalizationResource));
             });
 
             return builder;
@@ -215,21 +212,7 @@ namespace LazZiya.ExpressLocalization
         /// <returns></returns>
         public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>(this IMvcBuilder builder) where TIdentityErrorsLocalizationResource : class
         {
-            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer<TIdentityErrorsLocalizationResource>>(ops =>
-                new IdentityErrorsLocalizer<TIdentityErrorsLocalizationResource>());
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Add client side libraries for valdiating localized inputs like decimal numbers
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        [Obsolete("This method is not in use. Register client side scripts manually")]
-        public static IMvcBuilder ExAddClientSideLocalizationValidationScripts(this IMvcBuilder builder)
-        {
-            // builder.Services.AddTransient<ITagHelperComponent, LocValScrTagHelperComponent>();
+            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>(ops => new IdentityErrorsLocalizer(typeof(TIdentityErrorsLocalizationResource)));
 
             return builder;
         }

@@ -1,52 +1,76 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Globalization;
 
 namespace LazZiya.ExpressLocalization
 {
     internal static class ModelBindingErrorsLocalizer
     {
-        internal static void SetLocalizedModelBindingErrorMessages<T>(this DefaultModelBindingMessageProvider provider) where T : class
+        /// <summary>
+        /// Use DB for localization
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="dbLocalizer">DB localizer service</param>
+        internal static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, ISharedCultureLocalizer dbLocalizer)
         {
-            provider.SetAttemptedValueIsInvalidAccessor((x, y)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelState_AttemptedValueIsInvalid, x, y));
-
-            provider.SetMissingBindRequiredValueAccessor((x)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelBinding_MissingBindRequiredMember, x));
-
-            provider.SetMissingKeyOrValueAccessor(()
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.KeyValuePair_BothKeyAndValueMustBePresent));
-
-            provider.SetMissingRequestBodyRequiredValueAccessor(()
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelBinding_MissingRequestBodyRequiredMember));
-
-            provider.SetNonPropertyAttemptedValueIsInvalidAccessor((x)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelState_NonPropertyAttemptedValueIsInvalid, x));
-
-            provider.SetNonPropertyUnknownValueIsInvalidAccessor(()
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelState_NonPropertyUnknownValueIsInvalid));
-
-            provider.SetNonPropertyValueMustBeANumberAccessor(()
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.HtmlGeneration_NonPropertyValueMustBeNumber));
-
-            provider.SetUnknownValueIsInvalidAccessor((x)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelState_UnknownValueIsInvalid, x));
-
-            provider.SetValueIsInvalidAccessor((x)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.HtmlGeneration_ValueIsInvalid, x));
-
-            provider.SetValueMustBeANumberAccessor((x)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.HtmlGeneration_ValueMustBeNumber, x));
-
-            provider.SetValueMustNotBeNullAccessor((x)
-                => GetLoclizedModelBindingError<T>(ModelBindingMessages.ModelBinding_NullValueNotValid, x));
+            SetLocalizedModelBindingErrorMessages(provider, dbLocalizer, null);
+        }
+        
+        /// <summary>
+        /// Use resx file for locaization
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="resxType"></param>
+        internal static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, Type resxType)
+        {
+            SetLocalizedModelBindingErrorMessages(provider, null, resxType);
         }
 
-        private static string GetLoclizedModelBindingError<T>(string code, params object[] args) where T : class
+        private static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, ISharedCultureLocalizer dbLocalizer, Type resxType)
         {
-            var msg = GenericResourceReader.GetValue<T>(string.Empty, code, args);
+            provider.SetAttemptedValueIsInvalidAccessor((x, y)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelState_AttemptedValueIsInvalid, x, y));
 
-            return string.Format(msg, args);
+            provider.SetMissingBindRequiredValueAccessor((x)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelBinding_MissingBindRequiredMember, x));
+
+            provider.SetMissingKeyOrValueAccessor(()
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.KeyValuePair_BothKeyAndValueMustBePresent));
+
+            provider.SetMissingRequestBodyRequiredValueAccessor(()
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelBinding_MissingRequestBodyRequiredMember));
+
+            provider.SetNonPropertyAttemptedValueIsInvalidAccessor((x)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelState_NonPropertyAttemptedValueIsInvalid, x));
+
+            provider.SetNonPropertyUnknownValueIsInvalidAccessor(()
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelState_NonPropertyUnknownValueIsInvalid));
+
+            provider.SetNonPropertyValueMustBeANumberAccessor(()
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.HtmlGeneration_NonPropertyValueMustBeNumber));
+
+            provider.SetUnknownValueIsInvalidAccessor((x)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelState_UnknownValueIsInvalid, x));
+
+            provider.SetValueIsInvalidAccessor((x)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.HtmlGeneration_ValueIsInvalid, x));
+
+            provider.SetValueMustBeANumberAccessor((x)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.HtmlGeneration_ValueMustBeNumber, x));
+
+            provider.SetValueMustNotBeNullAccessor((x)
+                => GetLoclizedModelBindingError(dbLocalizer, resxType, ModelBindingMessages.ModelBinding_NullValueNotValid, x));
+        }
+
+        private static string GetLoclizedModelBindingError(ISharedCultureLocalizer dbLocalizer, Type resxType, string code, params object[] args)
+        {
+            if (dbLocalizer != null)
+                return dbLocalizer[code, args];
+
+            var msg = GenericResourceReader.GetString(resxType, string.Empty, code, args);
+            return msg;
         }
     }
 }

@@ -13,14 +13,14 @@ namespace LazZiya.ExpressLocalization
         /// <summary>
         /// Reads resource key and return relevant localized string value
         /// </summary>
-        /// <typeparam name="T">type of resource file that containes localized string values</typeparam>
         /// <param name="culture">Culture name e.g. ar-SY</param>
         /// <param name="code">key name to look for</param>
         /// <param name="args"></param>
+        /// <param name="resourceSource">resx type to get values from</param>
         /// <returns></returns>
-        internal static string GetValue<T>(string culture, string code, params object[] args) where T : class
+        internal static string GetString(Type resourceSource, string culture, string code, params object[] args)
         {
-            return GetValue(typeof(T), culture, code, args).Value;
+            return string.Format(GetHtmlString(resourceSource, culture, code, args).Value, args);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace LazZiya.ExpressLocalization
         /// <param name="code">key name to look for</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        internal static LocalizedHtmlString GetValue(Type resourceSource, string culture, string code, params object[] args)
+        internal static LocalizedHtmlString GetHtmlString(Type resourceSource, string culture, string code, params object[] args)
         {
             var _res = new System.Resources.ResourceManager(resourceSource);
 

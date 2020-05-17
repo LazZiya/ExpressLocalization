@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 using System;
 
 namespace LazZiya.ExpressLocalization
@@ -6,7 +7,7 @@ namespace LazZiya.ExpressLocalization
     /// <summary>
     /// Access shared localization resources under folder
     /// </summary>
-    public interface ISharedCultureLocalizer
+    public interface ISharedCultureLocalizer : IStringLocalizer
     {
         /// <summary>
         /// Get localized formatted string for the provided text

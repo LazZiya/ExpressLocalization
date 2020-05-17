@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -13,6 +15,10 @@ namespace LazZiya.ExpressLocalization
     public class SharedCultureLocalizer : ISharedCultureLocalizer
     {
         private readonly IHtmlLocalizer _localizer;
+
+        LocalizedString IStringLocalizer.this[string name, params object[] arguments] => new LocalizedString(name, GetLocalizedString(name, arguments));
+
+        LocalizedString IStringLocalizer.this[string name] => new LocalizedString(name, GetLocalizedString(name));
 
         /// <summary>
         /// Shared culture localizer for razor pages views
@@ -108,11 +114,9 @@ namespace LazZiya.ExpressLocalization
         /// <returns>localized string</returns>
         public string GetLocalizedString(Type resourceSource, string culture, string key, params object[] args)
         {
-            var sw = new StringWriter();
+            var str = GenericResourceReader.GetString(resourceSource, culture, key, args);
 
-            GenericResourceReader.GetValue(resourceSource, culture, key, args).WriteTo(sw, HtmlEncoder.Default);
-
-            return sw.ToString();
+            return str;
         }
 
         /// <summary>
@@ -124,10 +128,9 @@ namespace LazZiya.ExpressLocalization
         /// <returns>localized string</returns>
         public string GetLocalizedString(Type resourceSource, string key, params object[] args)
         {
-            var sw = new StringWriter();
-            GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args).WriteTo(sw, HtmlEncoder.Default);
+            var str = GenericResourceReader.GetString(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
 
-            return sw.ToString();
+            return str;
         }
 
         /// <summary>
@@ -178,7 +181,7 @@ namespace LazZiya.ExpressLocalization
         /// <returns>LocalizedHtmlString</returns>
         public LocalizedHtmlString GetLocalizedHtmlString(Type resourceSource, string culture, string key, params object[] args)
         {
-            return GenericResourceReader.GetValue(resourceSource, culture, key, args);
+            return GenericResourceReader.GetHtmlString(resourceSource, culture, key, args);
         }
 
         /// <summary>
@@ -191,7 +194,27 @@ namespace LazZiya.ExpressLocalization
         /// <returns>LocalizedHtmlString</returns>
         public LocalizedHtmlString GetLocalizedHtmlString(Type resourceSource, string key, params object[] args)
         {
-            return GenericResourceReader.GetValue(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
+            return GenericResourceReader.GetHtmlString(resourceSource, CultureInfo.CurrentCulture.Name, key, args);
+        }
+
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="includeParentCultures"></param>
+        /// <returns></returns>
+        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public IStringLocalizer WithCulture(CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
