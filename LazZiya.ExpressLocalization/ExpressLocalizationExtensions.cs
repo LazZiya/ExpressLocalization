@@ -242,7 +242,7 @@ namespace LazZiya.ExpressLocalization
 
             builder.AddRazorPagesOptions(x =>
             {
-                x.Conventions.Add(new RouteTemplateModelConvention());
+                x.Conventions?.Add(new RouteTemplateModelConvention());
             });
 
             return builder;
