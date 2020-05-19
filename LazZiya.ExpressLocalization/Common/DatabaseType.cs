@@ -1,9 +1,9 @@
-﻿namespace LazZiya.ExpressLocalization.DB
+﻿namespace LazZiya.ExpressLocalization.Common
 {
     /// <summary>
     /// Use this just to pass type T for DB localization
     /// </summary>
-    internal class DbType
+    public class DatabaseType
     {
     }
 }

@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using LazZiya.ExpressLocalization.Common;
 
 namespace LazZiya.ExpressLocalization.DB
 {
     /// <summary>
     /// ExpressLocalization DB extensions
     /// </summary>
-    public static partial class ExpressLocalizationExtensions
+    public static class ExpressLocalizationDbExtensions
     {
         /// <summary>
         /// Add ExpressLocalization support using the built-in entity models
@@ -66,7 +67,7 @@ namespace LazZiya.ExpressLocalization.DB
             // Configure identity errors localization
             builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>();
 
-            builder.Services.AddSingleton<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<DbType>>();
+            builder.Services.AddSingleton<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<DatabaseType>>();
 
             // Configure data annotations errors localization
             builder.AddDataAnnotationsLocalization(ops =>

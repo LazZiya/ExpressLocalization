@@ -6,14 +6,17 @@ using System.Globalization;
 
 namespace LazZiya.ExpressLocalization
 {
-    internal static class ModelBindingErrorsLocalizer
+    /// <summary>
+    /// ModelBindingErrors Localizer
+    /// </summary>
+    public static class ModelBindingErrorsLocalizer
     {
         /// <summary>
         /// Use DB for localization
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="dbLocalizer">DB localizer service</param>
-        internal static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, ISharedCultureLocalizer dbLocalizer)
+        public static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, ISharedCultureLocalizer dbLocalizer)
         {
             SetLocalizedModelBindingErrorMessages(provider, dbLocalizer, null);
         }
@@ -23,7 +26,7 @@ namespace LazZiya.ExpressLocalization
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="resxType"></param>
-        internal static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, Type resxType)
+        public static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, Type resxType)
         {
             SetLocalizedModelBindingErrorMessages(provider, null, resxType);
         }

@@ -4,16 +4,27 @@ using System;
 
 namespace LazZiya.ExpressLocalization
 {
-    internal class IdentityErrorsLocalizer : IdentityErrorDescriber 
+    /// <summary>
+    /// Identity describer errors localizer
+    /// </summary>
+    public class IdentityErrorsLocalizer : IdentityErrorDescriber 
     {
         private readonly Type ResxResourceType;
         private readonly ISharedCultureLocalizer Localizer;
 
+        /// <summary>
+        /// Initialize identity errors localization based on resx files
+        /// </summary>
+        /// <param name="resType"></param>
         public IdentityErrorsLocalizer(Type resType)
         {
             ResxResourceType = resType;
         }
         
+        /// <summary>
+        /// Initialize identity erroors localization based on DB locailzer
+        /// </summary>
+        /// <param name="localizer"></param>
         public IdentityErrorsLocalizer(ISharedCultureLocalizer localizer)
         {
             Localizer = localizer;

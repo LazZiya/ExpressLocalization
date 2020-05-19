@@ -2,6 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<OutputPath>D:\MyWorks\WebDev\LazZiyaNugets\</OutputPath>
 		<ApplicationIcon>files\icon.ico</ApplicationIcon>
 		<Authors>Ziya Mollamahmut</Authors>
 		<Company>Ziyad.info</Company>
@@ -12,15 +14,15 @@
 		<Copyright>Ziyad.info</Copyright>
 		<PackageProjectUrl>https://github.com/LazZiya/ExpressLocalization/wiki</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
 		<PackageReleaseNotes>
 			New:
 			- ExpressLocalization with DB support
 			- .net5 support
+			- DB localization moved to a new nuget LazZiya.ExpressLocalizatin.DB
 			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
 		</PackageReleaseNotes>
-		<Version>5.0.0-beta1</Version>
+		<Version>5.0.0-beta2-2</Version>
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 		<FileVersion>5.0.0.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -37,14 +39,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.0.0" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.4" Exclude="Build,Analyzers" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.1.0" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.1.0" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.0" Exclude="Build,Analyzers" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
@@ -52,22 +52,24 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.2.0" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.0" Exclude="Build,Analyzers" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.0.0" Exclude="Build,Analyzers" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="3.1.0" Exclude="Build,Analyzers" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="5.0.0" Exclude="Build,Analyzers" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-preview.3.20181.2" Exclude="Build,Analyzers" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Remove="_DB\**" />
+	  <EmbeddedResource Remove="_DB\**" />
+	  <None Remove="_DB\**" />
 	</ItemGroup>
 
 

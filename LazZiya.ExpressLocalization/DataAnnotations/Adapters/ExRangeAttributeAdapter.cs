@@ -1,4 +1,4 @@
-﻿using LazZiya.ExpressLocalization.DB;
+﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -47,7 +47,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            var msg = typeof(T) == typeof(DbType)
+            var msg = typeof(T) == typeof(DatabaseType)
                 ? Localizer[DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName()]
                 : GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name, 
                     DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName());

@@ -21,7 +21,7 @@ namespace LazZiya.ExpressLocalization
     /// Add localization support for dot net core web apps with one simple step.
     /// <para>download necessary resource files from: https://github.com/LazZiya/ExpressLocalization.Resources</para>
     /// </summary>
-    public static partial class ExpressLocalizationExtensions
+    public static class ExpressLocalizationExtensions
     {
         private static IList<IRequestCultureProvider> _providers;
         private static IList<CultureInfo> _cultures;

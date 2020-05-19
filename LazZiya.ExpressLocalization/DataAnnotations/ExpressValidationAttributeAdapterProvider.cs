@@ -13,7 +13,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
     /// <summary>
     /// Registeres express valdiation attributes
     /// </summary>
-    internal class ExpressValidationAttributeAdapterProvider<T> : ValidationAttributeAdapterProvider, IValidationAttributeAdapterProvider
+    public class ExpressValidationAttributeAdapterProvider<T> : ValidationAttributeAdapterProvider, IValidationAttributeAdapterProvider
         where T : class
     {
         IAttributeAdapter IValidationAttributeAdapterProvider.GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
