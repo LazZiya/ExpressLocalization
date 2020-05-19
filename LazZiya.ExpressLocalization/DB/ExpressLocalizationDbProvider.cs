@@ -9,9 +9,9 @@ using System.Linq;
 namespace LazZiya.ExpressLocalization.DB
 {
     /// <summary>
-    /// Manage CRUD operations for DB localization resources
+    /// ExpressLocalization DB Provider
     /// </summary>
-    public class ExpressLocalizationStore<TContext, TExpressLocalizationResource, TCulturesResource, TKey> : ISharedCultureLocalizer, ICulturesProvider<TCulturesResource, TKey>
+    public class ExpressLocalizationDbProvider<TContext, TExpressLocalizationResource, TCulturesResource, TKey> : ISharedCultureLocalizer, ICulturesProvider<TCulturesResource, TKey>
         where TContext : DbContext
         where TExpressLocalizationResource : class, IExpressLocalizationEntity<TKey>
         where TCulturesResource : class, IExpressLocalizationCulture<TKey>
@@ -39,7 +39,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// Initialize ExpressLocalizationDataManager
         /// </summary>
         /// <param name="context"></param>
-        public ExpressLocalizationStore(TContext context)
+        public ExpressLocalizationDbProvider(TContext context)
         {
             if (context == null)
             {
@@ -56,7 +56,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// </summary>
         /// <param name="context"></param>
         /// <param name="options"></param>
-        public ExpressLocalizationStore(TContext context, ExpressLocalizationOptions options)
+        public ExpressLocalizationDbProvider(TContext context, ExpressLocalizationOptions options)
         {
             if (context == null)
             {

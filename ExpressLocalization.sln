@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.ExpressLocalization", "LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj", "{B56F73E8-7571-4AE8-BAB2-FD9AE88FF079}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{28FF3A37-70DE-4198-AF2B-D84BA2EC6DDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazZiya.ExpressLocalization.DB.UI", "LazZiya.ExpressLocalization.DB.UI\LazZiya.ExpressLocalization.DB.UI.csproj", "{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{B56F73E8-7571-4AE8-BAB2-FD9AE88FF079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B56F73E8-7571-4AE8-BAB2-FD9AE88FF079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B56F73E8-7571-4AE8-BAB2-FD9AE88FF079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E} = {28FF3A37-70DE-4198-AF2B-D84BA2EC6DDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB42080A-198E-4992-929D-08DC6AE2C4C9}

@@ -190,6 +190,135 @@
             List of relevant entities (localized resources) for the culture
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4">
+            <summary>
+            ExpressLocalization DB Provider
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.ActiveCultures">
+            <summary>
+            Get list of currently active cultures
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.DefaultCulture">
+            <summary>
+            Get default culture
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.#ctor(`0)">
+            <summary>
+            Initialize ExpressLocalizationDataManager
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.#ctor(`0,LazZiya.ExpressLocalization.ExpressLocalizationOptions)">
+            <summary>
+            Initialize ExpressLocalizationDataManager
+            </summary>
+            <param name="context"></param>
+            <param name="options"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.Item(System.String,System.Object[])">
+            <summary>
+            Get localized string value for the relevant key with arguments
+            </summary>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.Item(System.String)">
+            <summary>
+            Get localized string value for the relevant key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
+            <summary>
+            Get culture specific localized html string for the given key with arguments
+            </summary>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.String,System.Object[])">
+            <summary>
+            Get localized html string for the given key with arguments
+            </summary>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.String,System.String,System.Object[])">
+            <summary>
+            Get culture specific localized string value for the given key with arguments
+            </summary>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.String,System.Object[])">
+            <summary>
+            Get localized string value for the given key with arguments
+            </summary>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.Type,System.String,System.Object[])">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="resourceSource"></param>
+            <param name="culture"></param>
+            <param name="key"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetAllStrings(System.Boolean)">
+            <summary>
+            NOT IMPLEMETNED
+            </summary>
+            <param name="includeParentCultures"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.WithCulture(System.Globalization.CultureInfo)">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="culture"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions">
             <summary>
             ExpressLocalization DB extensions
@@ -212,135 +341,6 @@
             <typeparam name="TCulturesResource">Type of culture DbEntity</typeparam>
             <typeparam name="TKey">Type of entity key</typeparam>
             <param name="builder"></param>
-            <returns></returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4">
-            <summary>
-            Manage CRUD operations for DB localization resources
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.ActiveCultures">
-            <summary>
-            Get list of currently active cultures
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.DefaultCulture">
-            <summary>
-            Get default culture
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.#ctor(`0)">
-            <summary>
-            Initialize ExpressLocalizationDataManager
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.#ctor(`0,LazZiya.ExpressLocalization.ExpressLocalizationOptions)">
-            <summary>
-            Initialize ExpressLocalizationDataManager
-            </summary>
-            <param name="context"></param>
-            <param name="options"></param>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.Item(System.String,System.Object[])">
-            <summary>
-            Get localized string value for the relevant key with arguments
-            </summary>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.Item(System.String)">
-            <summary>
-            Get localized string value for the relevant key
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
-            <summary>
-            Get culture specific localized html string for the given key with arguments
-            </summary>
-            <param name="culture"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedHtmlString(System.String,System.Object[])">
-            <summary>
-            Get localized html string for the given key with arguments
-            </summary>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="resourceSource"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="resourceSource"></param>
-            <param name="culture"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedString(System.String,System.String,System.Object[])">
-            <summary>
-            Get culture specific localized string value for the given key with arguments
-            </summary>
-            <param name="culture"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedString(System.String,System.Object[])">
-            <summary>
-            Get localized string value for the given key with arguments
-            </summary>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedString(System.Type,System.String,System.Object[])">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="resourceSource"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="resourceSource"></param>
-            <param name="culture"></param>
-            <param name="key"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.GetAllStrings(System.Boolean)">
-            <summary>
-            NOT IMPLEMETNED
-            </summary>
-            <param name="includeParentCultures"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationStore`4.WithCulture(System.Globalization.CultureInfo)">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="culture"></param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1">

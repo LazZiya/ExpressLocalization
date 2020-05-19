@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;netstandard2.0</TargetFrameworks>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" Exclude="Build,Analyzers" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Areas\ExpressLocalization\Data\" />
+	</ItemGroup>
+
+</Project>

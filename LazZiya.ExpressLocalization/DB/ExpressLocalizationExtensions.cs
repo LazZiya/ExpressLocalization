@@ -42,8 +42,8 @@ namespace LazZiya.ExpressLocalization.DB
             where TCulturesResource : class, IExpressLocalizationCulture<TKey>
             where TKey : IEquatable<TKey>
         {
-            builder.Services.AddTransient<ISharedCultureLocalizer, ExpressLocalizationStore<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>>();
-            builder.Services.AddTransient<ICulturesProvider<TCulturesResource, TKey>, ExpressLocalizationStore<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>>();
+            builder.Services.AddTransient<ISharedCultureLocalizer, ExpressLocalizationDbProvider<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>>();
+            builder.Services.AddTransient<ICulturesProvider<TCulturesResource, TKey>, ExpressLocalizationDbProvider<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>>();
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCulturesResource, TKey>>();
