@@ -1,24 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App"/>
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="LazZiya.ExpressLocalization" Version="5.0.0-beta2-2" Exclude="Builder,Analyzers"/>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Areas\ExpressLocalization\Data\" />
+	  <Folder Include="Areas\ExpressLocalization\Pages\Cultures\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj" />
+	  <PackageReference Include="LazZiya.TagHelpers" Version="4.0.1" Exclude="Build,Analyzers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="files\icon.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="files\icon.png" />
+		<None Include="files\license.txt" Pack="true" PackagePath="" />
+		<None Include="README.txt" Pack="true" PackagePath="" />
+	</ItemGroup>
 </Project>

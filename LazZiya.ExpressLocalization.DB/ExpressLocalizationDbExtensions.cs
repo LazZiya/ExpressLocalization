@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using LazZiya.ExpressLocalization.Common;
+using LazZiya.ExpressLocalization.DB.Models;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -25,29 +26,27 @@ namespace LazZiya.ExpressLocalization.DB
             where TContext : DbContext
         {
             return builder
-                .AddExpressLocalizationDB<TContext, ExpressLocalizationEntity<int>, ExpressLocalizationCulture<int>, int>();
+                .AddExpressLocalizationDB<TContext, ExpressLocalizationEntity, ExpressLocalizationCulture>();
         }
 
         /// <summary>
         /// Add ExpressLocalization with DB support using customized entity models
         /// </summary>
         /// <typeparam name="TContext">DbContext</typeparam>
-        /// <typeparam name="TExpressLocalizationEntity">Type of localization DbEntity</typeparam>
-        /// <typeparam name="TCulturesResource">Type of culture DbEntity</typeparam>
-        /// <typeparam name="TKey">Type of entity key</typeparam>
+        /// <typeparam name="TLocalizationEntity">Type of localization DbEntity</typeparam>
+        /// <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>(this IMvcBuilder builder)
+        public static IMvcBuilder AddExpressLocalizationDB<TContext, TLocalizationEntity, TCultureEntity>(this IMvcBuilder builder)
             where TContext : DbContext
-            where TExpressLocalizationEntity : class, IExpressLocalizationEntity<TKey>
-            where TCulturesResource : class, IExpressLocalizationCulture<TKey>
-            where TKey : IEquatable<TKey>
+            where TLocalizationEntity : class, IExpressLocalizationEntity
+            where TCultureEntity : class, IExpressLocalizationCulture
         {
-            builder.Services.AddTransient<ISharedCultureLocalizer, ExpressLocalizationDbProvider<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>>();
-            builder.Services.AddTransient<ICulturesProvider<TCulturesResource, TKey>, ExpressLocalizationDbProvider<TContext, TExpressLocalizationEntity, TCulturesResource, TKey>>();
+            builder.Services.AddTransient<ISharedCultureLocalizer, ExpressLocalizationDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
+            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, ExpressLocalizationDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
 
             var sp = builder.Services.BuildServiceProvider();
-            var culturesService = sp.GetService<ICulturesProvider<TCulturesResource, TKey>>();
+            var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();
             var dbLocalizer = sp.GetService<ISharedCultureLocalizer>();
 
             // Configure Request Localization

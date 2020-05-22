@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{28FF3A37-70DE-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.ExpressLocalization.DB.UI", "LazZiya.ExpressLocalization.DB.UI\LazZiya.ExpressLocalization.DB.UI.csproj", "{2E07F753-E3E6-460A-8D8D-C0BED9B87D9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazZiya.ExpressLocalization.DB", "LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj", "{407E80EE-33F8-4A01-A561-953FB2A52355}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.ExpressLocalization.DB", "LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj", "{407E80EE-33F8-4A01-A561-953FB2A52355}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

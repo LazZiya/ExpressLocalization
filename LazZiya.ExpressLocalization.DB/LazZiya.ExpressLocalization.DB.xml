@@ -4,53 +4,6 @@
         <name>LazZiya.ExpressLocalization.DB</name>
     </assembly>
     <members>
-        <member name="T:LazZiya.ExpressLocalization.DB.IExpressLocalizationCulture`1">
-            <summary>
-            Interface to implement ExpressLocalization custom culture model
-            </summary>
-            <typeparam name="TKey">IEquatable key type for ExpressLocalization entity model (int, string, ...etc.)</typeparam>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationCulture`1.Name">
-            <summary>
-            Culture name e.g. en, en-us, ..etc.
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationCulture`1.IsDefault">
-            <summary>
-            Get or set a value if this is the default request culture
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationCulture`1.IsActive">
-            <summary>
-            Get or set a value if this culture is active
-            </summary>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationCulture`1">
-            <summary>
-            ExpressLocalization default culture model
-            </summary>
-            <typeparam name="TKey">IEquatable ID type for ExpressLocalization entity model (int, string, ...etc.)</typeparam>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationCulture`1.Name">
-            <summary>
-            Culture name e.g. en, en-us, ..etc.
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationCulture`1.IsDefault">
-            <summary>
-            Get or set a value if this is the default request culture
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationCulture`1.IsActive">
-            <summary>
-            Get or set a value if this culture is active
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationCulture`1.Items">
-            <summary>
-            List of relevant entities (localized resources) for the culture
-            </summary>
-        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbExtensions">
             <summary>
             ExpressLocalization DB extensions
@@ -64,51 +17,45 @@
             <param name="builder">builder</param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbExtensions.AddExpressLocalizationDB``3(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Add ExpressLocalization with DB support using customized entity models
             </summary>
             <typeparam name="TContext">DbContext</typeparam>
-            <typeparam name="TExpressLocalizationEntity">Type of localization DbEntity</typeparam>
-            <typeparam name="TCulturesResource">Type of culture DbEntity</typeparam>
-            <typeparam name="TKey">Type of entity key</typeparam>
+            <typeparam name="TLocalizationEntity">Type of localization DbEntity</typeparam>
+            <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbManager`4">
+        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3">
             <summary>
-            Manage CRUD operations for ExpressLocalization entities
+            ExpressLocalization DB Localizer
             </summary>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4">
-            <summary>
-            ExpressLocalization DB Provider
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.ActiveCultures">
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.ActiveCultures">
             <summary>
             Get list of currently active cultures
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.DefaultCulture">
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.DefaultCulture">
             <summary>
             Get default culture
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.#ctor(`0)">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.#ctor(`0)">
             <summary>
             Initialize ExpressLocalizationDataManager
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.#ctor(`0,LazZiya.ExpressLocalization.ExpressLocalizationOptions)">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.#ctor(`0,LazZiya.ExpressLocalization.ExpressLocalizationOptions)">
             <summary>
             Initialize ExpressLocalizationDataManager
             </summary>
             <param name="context"></param>
             <param name="options"></param>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.Item(System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.Item(System.String,System.Object[])">
             <summary>
             Get localized string value for the relevant key with arguments
             </summary>
@@ -116,14 +63,14 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.Item(System.String)">
+        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.Item(System.String)">
             <summary>
             Get localized string value for the relevant key
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
             <summary>
             Get culture specific localized html string for the given key with arguments
             </summary>
@@ -132,7 +79,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedHtmlString(System.String,System.Object[])">
             <summary>
             Get localized html string for the given key with arguments
             </summary>
@@ -140,7 +87,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -149,7 +96,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -159,7 +106,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedString(System.String,System.String,System.Object[])">
             <summary>
             Get culture specific localized string value for the given key with arguments
             </summary>
@@ -168,7 +115,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedString(System.String,System.Object[])">
             <summary>
             Get localized string value for the given key with arguments
             </summary>
@@ -176,7 +123,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.Type,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedString(System.Type,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -185,7 +132,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -195,85 +142,108 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.GetAllStrings(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.GetAllStrings(System.Boolean)">
             <summary>
             NOT IMPLEMETNED
             </summary>
             <param name="includeParentCultures"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbProvider`4.WithCulture(System.Globalization.CultureInfo)">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationDbLocalizer`3.WithCulture(System.Globalization.CultureInfo)">
             <summary>
             NOT IMPLEMENTED
             </summary>
             <param name="culture"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1">
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture">
             <summary>
-            Interface to implement custom ExpressLocalization model
-            </summary>
-            <typeparam name="TKey">IEquatable ID type for ExpressLocalization entity model (int, string, ...etc.)</typeparam>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1.ID">
-            <summary>
-            ID
+            ExpressLocalization default culture model
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1.Key">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture.ID">
             <summary>
-            The resource key
+            Culture name e.g. en, en-us, ..etc.
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1.Value">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture.IsDefault">
             <summary>
-            The resource localized value
+            Get or set a value if this is the default request culture
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1.Comment">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture.IsActive">
             <summary>
-            Comment if any...
+            Get or set a value if this culture is active
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.IExpressLocalizationEntity`1.CultureName">
-            <summary>
-            Relevant culture name, must be the key of ExpressLocalizationCulture model
-            </summary>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1">
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity">
             <summary>
             ExpressLocalization default entity model
             </summary>
-            <typeparam name="TKey">IEquatable ID type for ExpressLocalization entity model (int, string, ...etc.)</typeparam>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1.ID">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity.ID">
             <summary>
             ID
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1.Key">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity.Key">
             <summary>
             The resource key
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1.Value">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity.Value">
             <summary>
             The resource localized value
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1.Comment">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity.Comment">
             <summary>
             Comment if any...
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1.CultureName">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity.CultureName">
             <summary>
             Relevant culture name
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.ExpressLocalizationEntity`1.Culture">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity.Culture">
             <summary>
             Relevant ExpressLocalization culture entity
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationCulture">
+            <summary>
+            Interface for express localization culture
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationCulture.IsActive">
+            <summary>
+            Indicate if the current culture is enabled or disabled
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationEntity">
+            <summary>
+            Interface to implement custom ExpressLocalization model
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationEntity.Key">
+            <summary>
+            The resource key
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationEntity.Value">
+            <summary>
+            The resource localized value
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationEntity.Comment">
+            <summary>
+            Comment if any...
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationEntity.CultureName">
+            <summary>
+            Relevant culture name, must be the key of ExpressLocalizationCulture model
             </summary>
         </member>
     </members>

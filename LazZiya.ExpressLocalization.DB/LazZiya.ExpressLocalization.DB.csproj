@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<OutputPath>D:\MyWorks\WebDev\LazZiyaNugets\</OutputPath>
 		<ApplicationIcon>files\icon.ico</ApplicationIcon>
+		<PackageIcon>icon.png</PackageIcon>
 		<Authors>Ziya Mollamahmut</Authors>
 		<Company>Ziyad.info</Company>
 		<Description>
@@ -12,7 +12,6 @@
 		</Description>
 		<Copyright>Ziyad.info</Copyright>
 		<PackageProjectUrl>https://github.com/LazZiya/ExpressLocalization/wiki</PackageProjectUrl>
-		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
 		<PackageReleaseNotes>
 			- ExpressLocalization with DB support
@@ -31,9 +30,9 @@
 	<PropertyGroup Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
 		<DocumentationFile>LazZiya.ExpressLocalization.DB.xml</DocumentationFile>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
-		<PackageReference Include="LazZiya.ExpressLocalization" Version="5.0.0-beta2-2" Exclude="Build,Analyzers"/>		
+		<PackageReference Include="LazZiya.ExpressLocalization" Version="5.0.0-beta2-2" Exclude="Build,Analyzers" />		
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 	
@@ -46,7 +45,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="5.0.0"  Exclude="Build,Analyzers" />
+		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="5.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup>

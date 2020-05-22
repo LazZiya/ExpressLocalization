@@ -1,0 +1,48 @@
+﻿@page
+@model LazZiya.ExpressLocalization.DB.UI.Areas.ExpressLocalization.Pages.Cultures.IndexModel
+@{
+}
+
+
+<div class="content">
+    <h2 localize-content="true">Cultures</h2>
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th localize-content="true">Name</th>
+                <th localize-content="true">Default</th>
+                <th localize-content="true">Active</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model.TotalRecords == 0)
+            {
+                <tr>
+                    <td colspan="3" localize-content="true">No records!</td>
+                </tr>
+            }
+            else
+            {
+                foreach(var c in Model.Cultres)
+                {
+                    <tr>
+                        <td>@c.ID</td>
+                        <td>@Html.DisplayFor(x=>c.IsDefault)</td>
+                        <td>@Html.DisplayFor(x=>c.IsActive)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <paging page-no="Model.P"
+                            page-size="Model.S"
+                            total-records="Model.TotalRecords"
+                            ></paging>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -5,18 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using LazZiya.ExpressLocalization;
+using LazZiya.ExpressLocalization.DB.Models;
 
 namespace LazZiya.ExpressLocalization.DB
 {
     /// <summary>
-    /// ExpressLocalization DB Provider
+    /// ExpressLocalization DB Localizer
     /// </summary>
-    public class ExpressLocalizationDbProvider<TContext, TExpressLocalizationResource, TCulturesResource, TKey> : ISharedCultureLocalizer, ICulturesProvider<TCulturesResource, TKey>
+    public class ExpressLocalizationDbLocalizer<TContext, TExpressLocalizationResource, TCulturesResource> : ISharedCultureLocalizer, ICulturesProvider<TCulturesResource>
         where TContext : DbContext
-        where TExpressLocalizationResource : class, IExpressLocalizationEntity<TKey>
-        where TCulturesResource : class, IExpressLocalizationCulture<TKey>
-        where TKey : IEquatable<TKey>
+        where TExpressLocalizationResource : class, IExpressLocalizationEntity
+        where TCulturesResource : class, IExpressLocalizationCulture
     {
         private readonly TContext Context;
 
@@ -25,12 +24,12 @@ namespace LazZiya.ExpressLocalization.DB
         /// <summary>
         /// Get list of currently active cultures
         /// </summary>
-        public IList<CultureInfo> ActiveCultures => Context.Set<TCulturesResource>().AsNoTracking().Where(x => x.IsActive == true).Select(x => new CultureInfo(x.Name)).ToList();
+        public IList<CultureInfo> ActiveCultures => Context.Set<TCulturesResource>().AsNoTracking().Where(x => x.IsActive == true).Select(x => new CultureInfo(x.ID)).ToList();
 
         /// <summary>
         /// Get default culture
         /// </summary>
-        public string DefaultCulture => Context.Set<TCulturesResource>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true).Name;
+        public string DefaultCulture => Context.Set<TCulturesResource>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true).ID;
 
         LocalizedString IStringLocalizer.this[string name, params object[] arguments] => new LocalizedString(name, GetLocalizedString(name, arguments));
 
@@ -40,7 +39,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// Initialize ExpressLocalizationDataManager
         /// </summary>
         /// <param name="context"></param>
-        public ExpressLocalizationDbProvider(TContext context)
+        public ExpressLocalizationDbLocalizer(TContext context)
         {
             if (context == null)
             {
@@ -57,7 +56,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// </summary>
         /// <param name="context"></param>
         /// <param name="options"></param>
-        public ExpressLocalizationDbProvider(TContext context, ExpressLocalizationOptions options)
+        public ExpressLocalizationDbLocalizer(TContext context, ExpressLocalizationOptions options)
         {
             if (context == null)
             {
