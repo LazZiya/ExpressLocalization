@@ -8,7 +8,7 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
-	
+
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
@@ -18,13 +18,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Areas\ExpressLocalization\Data\" />
-	  <Folder Include="Areas\ExpressLocalization\Pages\Cultures\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj" />
-	  <PackageReference Include="LazZiya.TagHelpers" Version="4.0.1" Exclude="Build,Analyzers" />
+		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
+		<ProjectReference Include="..\LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj" />
+		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
+		<PackageReference Include="LazZiya.TagHelpers" Version="4.0.1" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup>

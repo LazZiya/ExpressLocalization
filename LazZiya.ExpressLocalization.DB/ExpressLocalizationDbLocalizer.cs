@@ -29,7 +29,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// <summary>
         /// Get default culture
         /// </summary>
-        public string DefaultCulture => Context.Set<TCulturesResource>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true).ID;
+        public string DefaultCulture => Context.Set<TCulturesResource>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true)?.ID;
 
         LocalizedString IStringLocalizer.this[string name, params object[] arguments] => new LocalizedString(name, GetLocalizedString(name, arguments));
 

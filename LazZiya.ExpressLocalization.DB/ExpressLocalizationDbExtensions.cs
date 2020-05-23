@@ -54,7 +54,7 @@ namespace LazZiya.ExpressLocalization.DB
             {
                 ops.SupportedCultures = culturesService.ActiveCultures;
                 ops.SupportedUICultures = culturesService.ActiveCultures;
-                ops.DefaultRequestCulture = new RequestCulture(culturesService.DefaultCulture);
+                ops.DefaultRequestCulture = new RequestCulture(culturesService.DefaultCulture ?? "en");
             });
 
             // Configure model binding errors localization

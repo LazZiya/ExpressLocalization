@@ -1,0 +1,136 @@
+﻿@model LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture
+@{
+    string css = Model.ID.Contains("-") ? $"flag-icon flag-icon-{Model.ID.Split('-')[1].ToLower()}" : "";
+    string act = Model.IsActive ? "Disable" : "Enable";
+}
+
+<!-- Default dropleft button -->
+<div class="btn-group dropleft">
+    <button type="button" class="btn btn-light border-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-cog"></i>
+    </button>
+    <div class="dropdown-menu">
+        @if (Model.IsDefault)
+        {
+            <a class="dropdown-item text-secondary" href="#">
+                <i class="fas fa-lock"></i> Default culture is locked!
+            </a>
+        }
+        else
+        {
+            if (!Model.IsActive)
+            {
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activateCulture-@(Model.ID)">
+                    <i class="fas fa-check-square"></i>
+                    Enable
+                </a>
+            }
+            else
+            {
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activateCulture-@(Model.ID)">
+                    <i class="far fa-square"></i>
+                    Disable
+                </a>
+            }
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#setDefaultCulture-@(Model.ID)">
+                <i class="fas fa-dot-circle"></i>
+                Set as default
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteCulture-@(Model.ID)">
+                <i class="fas fa-trash-alt"></i>
+                Delete
+            </a>
+        }
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteCulture-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="deleteCultureLabel-@(Model.ID)" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCultureLabel-@(Model.ID)">Confirm deleting culture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Delete this culture and all relevant resources?
+                <ul>
+                    <li>
+                        <span class="@(css)"></span> @Model.EnglishName
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="name" value="@Model.ID" />
+                    <button type="submit" asp-page-handler="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Activation Modal -->
+<div class="modal fade" id="activateCulture-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="activateCultureLabel-@(Model.ID)" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activateCultureLabel-@(Model.ID)">@act Culture </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @act this culture?
+                <ul>
+                    <li>
+                        <span class="@(css)"></span> @Model.EnglishName
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="name" value="@Model.ID" />
+                    <button type="submit" asp-page-handler="Activate" class="btn btn-primary">@act</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Set Default Modal -->
+<div class="modal fade" id="setDefaultCulture-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="setDefaultCulture-@(Model.ID)" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setDefaultCultureLabel-@(Model.ID)">Set as default</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Set below culture as default culture? (it will be anabled as well)
+                <ul>
+                    <li>
+                        <span class="@(css)"></span> @Model.EnglishName
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="name" value="@Model.ID" />
+                    <button type="submit" asp-page-handler="SetDefault" class="btn btn-primary"><i class="fas fa-dot-circle"></i> Ok</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

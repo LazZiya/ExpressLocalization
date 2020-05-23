@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LazZiya.ExpressLocalization.DB.Models
@@ -29,5 +31,10 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// English name of the culture (required for DB dearch)
         /// </summary>
         public string EnglishName { get; set; }
+
+        /// <summary>
+        /// A collection of resources with the same culture
+        /// </summary>
+        public virtual ICollection<ExpressLocalizationEntity> Resources { get; set; }
     }
 }

@@ -1,0 +1,108 @@
+﻿@page
+@model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.IndexModel
+@{
+    ViewBag.Title = "Express Localization UI";
+}
+
+<div class="content">
+    <h2 localize-content="true">Cultures</h2>
+    <alert></alert>
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <td colspan="4">
+                    <form class="form-inline" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group col-3">
+                            <select class="form-control" name="name" id="culturesList"></select>
+                        </div>
+                        <button type="submit" asp-page="Index" asp-page-handler="AddNew" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <th localize-content="true">Name</th>
+                <th localize-content="true">Default</th>
+                <th localize-content="true">Active</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.TotalRecords == 0)
+            {
+                <tr>
+                    <td colspan="4" localize-content="true">No records!</td>
+                </tr>
+            }
+            else
+            {
+                string css;
+
+                foreach (var c in Model.SupportedCultures)
+                {
+                    css = c.ID.Contains("-") ? $"flag-icon flag-icon-{c.ID.Split('-')[1].ToLower()}" : "";
+                    <tr>
+                        <td><span class="@(css)"></span> @($"{c.EnglishName} ({c.ID})")</td>
+                        <td>@Html.DisplayFor(x => c.IsDefault)</td>
+                        <td>@Html.DisplayFor(x => c.IsActive)</td>
+                        <td>
+                            <partial name="_options" model="@c"/>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <paging page-no="Model.P"
+                            page-size="Model.S"
+                            total-records="Model.TotalRecords"
+                            show-first-last="false"
+                            show-total-pages="false"
+                            show-total-records="false"
+                            show-page-size-nav="false"></paging>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="https://kit.fontawesome.com/272d3a8e61.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#culturesList').select2({
+                placeholder: "Search for a culture",
+                allowClear: true,
+                width: '100%',
+                minimumInputLength: 2,
+                ajax: {
+                    url: '@Url.Page("Index", "SystemCultures")',
+                    dataType: 'json',
+                    data: function (params) {
+                        var query = {
+                            search: params.term
+                        }
+
+                        // Query parameters will be ?search=[term]
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data                            
+                        };
+                    }
+                }
+            });
+        });
+
+    </script>
+}

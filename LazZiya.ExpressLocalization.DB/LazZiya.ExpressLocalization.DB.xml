@@ -176,6 +176,16 @@
             Get or set a value if this culture is active
             </summary>
         </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture.EnglishName">
+            <summary>
+            English name of the culture (required for DB dearch)
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture.Resources">
+            <summary>
+            A collection of resources with the same culture
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity">
             <summary>
             ExpressLocalization default entity model
@@ -216,9 +226,9 @@
             Interface for express localization culture
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationCulture.IsActive">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationCulture.EnglishName">
             <summary>
-            Indicate if the current culture is enabled or disabled
+            English name of the culture
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.IExpressLocalizationEntity">
