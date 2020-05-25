@@ -1,0 +1,72 @@
+﻿@page
+@model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resources.IndexModel
+@{
+    ViewBag.Title = "Resources";
+    var culture = CultureInfo.CurrentCulture.Name.Split('-')[0];
+    var dir = CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+}
+
+<div class="container">
+    <h2 localize-content="true">Localization Resources</h2>
+    <alert></alert>
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th localize-content="true" scope="col" width="10%">ID</th>
+                <th localize-content="true" scope="col" width="30%">Key</th>
+                <th localize-content="true" scope="col" width="30%">Comment</th>
+                <th localize-content="true" scope="col" width="20%">Translations</th>
+                <th scope="col" width="10%">
+                    <a asp-page="Create" class="btn btn-primary" localize-att-title="Create new resource">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.TotalRecords == 0)
+            {
+                <tr>
+                    <td colspan="5" localize-content="true" scope="row">No records!</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var r in Model.Resources)
+                {
+                    <tr>
+                        <td>@r.ID</td>
+                        <td>@(r.Key?.Length > 100  ? r.Key?.Substring(0, 100) : r.Key)</td>
+                        <td>@(r.Comment?.Length > 100  ? r.Comment?.Substring(0, 100) : r.Comment)</td>
+                        <td>
+                            @if (r.Cultures.Count == 0)
+                            {
+                                <span localize-content="true">...</span>
+                            }
+                            else
+                            {
+                                foreach (var c in r.Cultures)
+                                {
+                                    <a>@c</a> @:&nbsp;
+                                }
+                            }
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("_options", r)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <paging page-no="Model.P"
+                            page-size="Model.S"
+                            total-records="Model.TotalRecords"></paging>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

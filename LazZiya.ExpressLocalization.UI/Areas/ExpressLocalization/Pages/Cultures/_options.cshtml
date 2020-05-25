@@ -1,11 +1,12 @@
-﻿@model LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture
+﻿@model LazZiya.ExpressLocalization.DB.Models.XLCulture
 @{
     string css = Model.ID.Contains("-") ? $"flag-icon flag-icon-{Model.ID.Split('-')[1].ToLower()}" : "";
     string act = Model.IsActive ? "Disable" : "Enable";
+    var dropDownDir = CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "dropright" : "dropleft";
 }
 
 <!-- Default dropleft button -->
-<div class="btn-group dropleft">
+<div class="btn-group @(dropDownDir)">
     <button type="button" class="btn btn-light border-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-cog"></i>
     </button>
@@ -20,24 +21,24 @@
         {
             if (!Model.IsActive)
             {
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activateCulture-@(Model.ID)">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activate-@(Model.ID)">
                     <i class="fas fa-check-square"></i>
                     Enable
                 </a>
             }
             else
             {
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activateCulture-@(Model.ID)">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activate-@(Model.ID)">
                     <i class="far fa-square"></i>
                     Disable
                 </a>
             }
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#setDefaultCulture-@(Model.ID)">
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#setDefault-@(Model.ID)">
                 <i class="fas fa-dot-circle"></i>
                 Set as default
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteCulture-@(Model.ID)">
+            <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#delete-@(Model.ID)">
                 <i class="fas fa-trash-alt"></i>
                 Delete
             </a>
@@ -46,11 +47,11 @@
 </div>
 
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteCulture-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="deleteCultureLabel-@(Model.ID)" aria-hidden="true">
+<div class="modal fade" id="delete-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="deleteLabel-@(Model.ID)" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteCultureLabel-@(Model.ID)">Confirm deleting culture</h5>
+                <h5 class="modal-title" id="deleteLabel-@(Model.ID)">Confirm delete</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -67,7 +68,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <form method="post">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" name="name" value="@Model.ID" />
+                    <input type="hidden" asp-for="ID" />
                     <button type="submit" asp-page-handler="Delete" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>
                 </form>
             </div>
@@ -76,11 +77,11 @@
 </div>
 
 <!-- Activation Modal -->
-<div class="modal fade" id="activateCulture-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="activateCultureLabel-@(Model.ID)" aria-hidden="true">
+<div class="modal fade" id="activate-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="activateLabel-@(Model.ID)" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="activateCultureLabel-@(Model.ID)">@act Culture </h5>
+                <h5 class="modal-title" id="activateLabel-@(Model.ID)">@act Culture </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -97,7 +98,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <form method="post">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" name="name" value="@Model.ID" />
+                    <input type="hidden" asp-for="ID" />
                     <button type="submit" asp-page-handler="Activate" class="btn btn-primary">@act</button>
                 </form>
             </div>
@@ -106,11 +107,11 @@
 </div>
 
 <!-- Set Default Modal -->
-<div class="modal fade" id="setDefaultCulture-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="setDefaultCulture-@(Model.ID)" aria-hidden="true">
+<div class="modal fade" id="setDefault-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="setDefaultLabel-@(Model.ID)" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="setDefaultCultureLabel-@(Model.ID)">Set as default</h5>
+                <h5 class="modal-title" id="setDefaultLabel-@(Model.ID)">Set as default</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -127,8 +128,8 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <form method="post">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" name="name" value="@Model.ID" />
-                    <button type="submit" asp-page-handler="SetDefault" class="btn btn-primary"><i class="fas fa-dot-circle"></i> Ok</button>
+                    <input type="hidden" asp-for="ID" />
+                    <button type="submit" asp-page-handler="SetDefault" class="btn btn-primary">Ok</button>
                 </form>
             </div>
         </div>

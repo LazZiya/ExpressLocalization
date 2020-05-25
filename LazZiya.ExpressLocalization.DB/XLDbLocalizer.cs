@@ -12,10 +12,10 @@ namespace LazZiya.ExpressLocalization.DB
     /// <summary>
     /// ExpressLocalization DB Localizer
     /// </summary>
-    public class ExpressLocalizationDbLocalizer<TContext, TExpressLocalizationResource, TCulturesResource> : ISharedCultureLocalizer, ICulturesProvider<TCulturesResource>
+    public class XLDbLocalizer<TContext, TXLResource, TXLCulture> : ISharedCultureLocalizer, ICulturesProvider<TXLCulture>
         where TContext : DbContext
-        where TExpressLocalizationResource : class, IExpressLocalizationEntity
-        where TCulturesResource : class, IExpressLocalizationCulture
+        where TXLResource : class, IXLResource
+        where TXLCulture : class, IXLCulture
     {
         private readonly TContext Context;
 
@@ -24,12 +24,12 @@ namespace LazZiya.ExpressLocalization.DB
         /// <summary>
         /// Get list of currently active cultures
         /// </summary>
-        public IList<CultureInfo> ActiveCultures => Context.Set<TCulturesResource>().AsNoTracking().Where(x => x.IsActive == true).Select(x => new CultureInfo(x.ID)).ToList();
+        public IList<CultureInfo> ActiveCultures => Context.Set<TXLCulture>().AsNoTracking().Where(x => x.IsActive == true).Select(x => new CultureInfo(x.ID)).ToList();
 
         /// <summary>
         /// Get default culture
         /// </summary>
-        public string DefaultCulture => Context.Set<TCulturesResource>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true)?.ID;
+        public string DefaultCulture => Context.Set<TXLCulture>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true)?.ID;
 
         LocalizedString IStringLocalizer.this[string name, params object[] arguments] => new LocalizedString(name, GetLocalizedString(name, arguments));
 
@@ -39,7 +39,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// Initialize ExpressLocalizationDataManager
         /// </summary>
         /// <param name="context"></param>
-        public ExpressLocalizationDbLocalizer(TContext context)
+        public XLDbLocalizer(TContext context)
         {
             if (context == null)
             {
@@ -56,7 +56,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// </summary>
         /// <param name="context"></param>
         /// <param name="options"></param>
-        public ExpressLocalizationDbLocalizer(TContext context, ExpressLocalizationOptions options)
+        public XLDbLocalizer(TContext context, ExpressLocalizationOptions options)
         {
             if (context == null)
             {
@@ -82,7 +82,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// <param name="key"></param>
         /// <returns></returns>
         public string this[string key] => GetLocalizedString(key);
-        
+
         /// <summary>
         /// Get culture specific localized html string for the given key with arguments
         /// </summary>
@@ -92,19 +92,17 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public LocalizedHtmlString GetLocalizedHtmlString(string culture, string key, params object[] args)
         {
-            var res = Context.Set<TExpressLocalizationResource>().AsNoTracking()
-                .FirstOrDefault(x => x.Key != null && x.Key == key && x.CultureName == culture);
-
-            if (res == null)
-            {
-                return args == null
-                    ? new LocalizedHtmlString(key, key, true)
-                    : new LocalizedHtmlString(key, key, false, args);
-            }
+            var trans = Context.Set<TXLResource>().AsNoTracking()
+                .Include(x => x.Translations)
+                .Where(x => x.Key != null && x.Key == key)
+                .Select(x => new
+                {
+                    Translation = x.Translations.Where(t => t.CultureName == culture).FirstOrDefault().Value
+                }).FirstOrDefault()?.Translation;
 
             return args == null
-             ? new LocalizedHtmlString(key, res.Value, true)
-             : new LocalizedHtmlString(key, res.Value, false, args);
+                ? new LocalizedHtmlString(name: key, trans ?? key, true)
+                : new LocalizedHtmlString(name: key, trans ?? key, false, args);
         }
 
         /// <summary>

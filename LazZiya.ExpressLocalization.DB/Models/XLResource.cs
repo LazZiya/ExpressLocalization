@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LazZiya.ExpressLocalization.DB.Models
@@ -6,7 +6,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
     /// <summary>
     /// ExpressLocalization default entity model
     /// </summary>
-    public class ExpressLocalizationEntity : IExpressLocalizationEntity
+    public class XLResource : IXLResource
     {
         /// <summary>
         /// ID
@@ -19,24 +19,13 @@ namespace LazZiya.ExpressLocalization.DB.Models
         public string Key { get; set; }
 
         /// <summary>
-        /// The resource localized value
-        /// </summary>
-        public string Value { get; set; }
-
-        /// <summary>
         /// Comment if any...
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// Relevant culture name
+        /// Collection of translations
         /// </summary>
-        [ForeignKey("Culture")]
-        public string CultureName { get; set; }
-        
-        /// <summary>
-        /// Relevant ExpressLocalization culture entity
-        /// </summary>
-        public ExpressLocalizationCulture Culture { get; set; }
+        public ICollection<IXLTranslation> Translations { get; set; }
     }
 }

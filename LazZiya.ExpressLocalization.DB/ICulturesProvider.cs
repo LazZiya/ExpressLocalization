@@ -6,7 +6,7 @@ using System.Globalization;
 namespace LazZiya.ExpressLocalization.DB
 {
     internal interface ICulturesProvider<TCultureResource>
-        where TCultureResource : class, IExpressLocalizationCulture
+        where TCultureResource : class, IXLCulture
     {
         IList<CultureInfo> ActiveCultures { get; }
         string DefaultCulture { get; }

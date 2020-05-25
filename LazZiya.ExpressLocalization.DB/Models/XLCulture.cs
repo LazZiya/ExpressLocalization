@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,7 +7,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
     /// <summary>
     /// ExpressLocalization default culture model
     /// </summary>
-    public class ExpressLocalizationCulture : IExpressLocalizationCulture
+    public class XLCulture : IXLCulture
     {
         /// <summary>
         /// Culture name e.g. en, en-us, ..etc.
@@ -33,8 +32,8 @@ namespace LazZiya.ExpressLocalization.DB.Models
         public string EnglishName { get; set; }
 
         /// <summary>
-        /// A collection of resources with the same culture
+        /// Collection of translations
         /// </summary>
-        public virtual ICollection<ExpressLocalizationEntity> Resources { get; set; }
+        public ICollection<IXLTranslation> Translations { get; set; }
     }
 }

@@ -32,4 +32,8 @@
 		<None Include="files\license.txt" Pack="true" PackagePath="" />
 		<None Include="README.txt" Pack="true" PackagePath="" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Areas\ExpressLocalization\Pages\Translations\" />
+	</ItemGroup>
 </Project>

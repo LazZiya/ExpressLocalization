@@ -9,6 +9,7 @@ using LazZiya.EFGenericDataManager.Models;
 using LazZiya.ExpressLocalization.DB.Models;
 using LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models;
 using LazZiya.TagHelpers.Alerts;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,13 +19,20 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
     public class IndexModel : PageModel
     {
         private readonly IEFGenericDataManager DataManager;
-
-        public IndexModel(IEFGenericDataManager manager)
+        private readonly IApplicationLifetime applicationLifetime;
+        public IndexModel(IEFGenericDataManager manager, IApplicationLifetime lifetime)
         {
             DataManager = manager;
+            applicationLifetime = lifetime;
         }
 
-        public ICollection<ExpressLocalizationCulture> SupportedCultures { get; set; }
+        public IActionResult OnPostRestartApp()
+        {
+            applicationLifetime.StopApplication();
+            return new EmptyResult();
+        }
+
+        public ICollection<XLCulture> SupportedCultures { get; set; }
 
         // Page number
         [BindProperty(SupportsGet = true)]
@@ -46,30 +54,30 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
         [BindProperty(SupportsGet = true)]
         public bool? Act { get; set; }
 
-        public ICollection<CultureModel> SystemCultures { get; set; }
+        public ICollection<CultureItemModel> SystemCultures { get; set; }
 
         public async void OnGet()
         {
             (SupportedCultures, TotalRecords) = await ListSupportedCulturesAsync();
         }
 
-        public async Task<IActionResult> OnPostAddNewAsync(string name)
+        public async Task<IActionResult> OnPostAddNewAsync(string ID)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(ID))
             {
                 TempData.Danger("Culture name can't be empty");
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var culture = new ExpressLocalizationCulture
+            var culture = new XLCulture
             {
-                ID = name,
-                EnglishName = CultureInfo.GetCultureInfo(name).EnglishName,
+                ID = ID,
+                EnglishName = CultureInfo.GetCultureInfo(ID).EnglishName,
                 IsDefault = false,
                 IsActive = false
             };
 
-            if (await DataManager.Count<ExpressLocalizationCulture>(x => x.ID == name) > 0)
+            if (await DataManager.Count<XLCulture>(x => x.ID == ID) > 0)
                 TempData.Warning("Culture already exists!");
             else if (await DataManager.AddAsync(culture))
                 TempData.Success("New culture added");
@@ -78,15 +86,15 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(string name)
+        public async Task<IActionResult> OnPostDeleteAsync(string ID)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(ID))
             {
                 TempData.Danger("Culture name can't be empty");
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var entity = await DataManager.GetAsync<ExpressLocalizationCulture>(x => x.ID == name);
+            var entity = await DataManager.GetAsync<XLCulture>(x => x.ID == ID);
             if (entity == null)
             {
                 TempData.Danger("Culture not found!");
@@ -107,15 +115,15 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
         }
 
-        public async Task<IActionResult> OnPostActivateAsync(string name)
+        public async Task<IActionResult> OnPostActivateAsync(string ID)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(ID))
             {
                 TempData.Danger("Culture name can't be empty");
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var entity = await DataManager.GetAsync<ExpressLocalizationCulture>(x => x.ID == name);
+            var entity = await DataManager.GetAsync<XLCulture>(x => x.ID == ID);
             if (entity == null)
             {
                 TempData.Danger("Culture not found!");
@@ -130,7 +138,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
 
             entity.IsActive = !entity.IsActive;
 
-            if (await DataManager.UpdateAsync<ExpressLocalizationCulture, string>(entity))
+            if (await DataManager.UpdateAsync<XLCulture, string>(entity))
             {
                 if (entity.IsActive)
                     TempData.Success("Culture enabled!");
@@ -143,22 +151,22 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
         }
 
-        public async Task<IActionResult> OnPostSetDefaultAsync(string name)
+        public async Task<IActionResult> OnPostSetDefaultAsync(string ID)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(ID))
             {
                 TempData.Danger("Culture name can't be empty");
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var entity = await DataManager.GetAsync<ExpressLocalizationCulture>(x => x.ID == name);
+            var entity = await DataManager.GetAsync<XLCulture>(x => x.ID == ID);
             if (entity == null)
             {
                 TempData.Danger("Culture not found!");
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            if (await DataManager.SetAsDefault<ExpressLocalizationCulture, string>(entity.ID))
+            if (await DataManager.SetAsDefault<XLCulture, string>(entity.ID))
                 TempData.Success("Culture enabled and set as default!");
             else
                 TempData.Danger("Unknown error occord!");
@@ -166,9 +174,9 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
         }
 
-        public async Task<(ICollection<ExpressLocalizationCulture> items, int total)> ListSupportedCulturesAsync()
+        public async Task<(ICollection<XLCulture> items, int total)> ListSupportedCulturesAsync()
         {
-            var expList = new List<Expression<Func<ExpressLocalizationCulture, bool>>> { };
+            var expList = new List<Expression<Func<XLCulture, bool>>> { };
             if (!string.IsNullOrWhiteSpace(Q))
             {
                 // split the search text
@@ -192,11 +200,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 expList.Add(x => x.IsActive == Act);
             }
 
-            var orderByList = new List<OrderByExpression<ExpressLocalizationCulture>> { };
+            var orderByList = new List<OrderByExpression<XLCulture>> { };
 
-            orderByList.Add(new OrderByExpression<ExpressLocalizationCulture> { Expression = x => x.ID, OrderByDir = OrderByDir.ASC });
-            orderByList.Add(new OrderByExpression<ExpressLocalizationCulture> { Expression = x => x.IsDefault, OrderByDir = OrderByDir.ASC });
-            orderByList.Add(new OrderByExpression<ExpressLocalizationCulture> { Expression = x => x.IsActive, OrderByDir = OrderByDir.ASC });
+            orderByList.Add(new OrderByExpression<XLCulture> { Expression = x => x.ID, OrderByDir = OrderByDir.ASC });
+            orderByList.Add(new OrderByExpression<XLCulture> { Expression = x => x.IsDefault, OrderByDir = OrderByDir.ASC });
+            orderByList.Add(new OrderByExpression<XLCulture> { Expression = x => x.IsActive, OrderByDir = OrderByDir.ASC });
 
             return await DataManager.ListAsync(P, S, expList, orderByList);
         }
@@ -213,14 +221,16 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             SystemCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Where(x => keyWords.All(kw => x.Name.StartsWith(kw, StringComparison.OrdinalIgnoreCase) 
                         || x.EnglishName.StartsWith(kw, StringComparison.OrdinalIgnoreCase) 
+                        || x.NativeName.StartsWith(kw, StringComparison.OrdinalIgnoreCase) 
                         || x.DisplayName.StartsWith(kw, StringComparison.OrdinalIgnoreCase)))
-                .Select(x => new CultureModel { ID = x.Name, Text = x.EnglishName }).ToList();
+                .Select(x => new CultureItemModel { ID = x.Name, Text = x.EnglishName }).ToList();
 #else
             SystemCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
                             .Where(x => keyWords.All(kw => x.Name.StartsWith(kw, StringComparison.OrdinalIgnoreCase)
                                     || x.EnglishName.Contains(kw, StringComparison.OrdinalIgnoreCase)
+                                    || x.NativeName.Contains(kw, StringComparison.OrdinalIgnoreCase)
                                     || x.DisplayName.Contains(kw, StringComparison.OrdinalIgnoreCase)))
-                            .Select(x => new CultureModel { ID = x.Name, Text = x.EnglishName }).ToList();
+                            .Select(x => new CultureItemModel { ID = x.Name, Text = x.EnglishName }).ToList();
 #endif
             return new JsonResult(SystemCultures);
         }

@@ -1,27 +1,21 @@
 ﻿using LazZiya.EFGenericDataManager.Models;
-using System;
 
 namespace LazZiya.ExpressLocalization.DB.Models
 {
     /// <summary>
-    /// Interface to implement custom ExpressLocalization model
+    /// Interface to implement ExpressLocalization resource translation models
     /// </summary>
-    public interface IExpressLocalizationEntity : IHasId<int>
+    public interface IXLTranslation : IHasId<int>
     {
-        /// <summary>
-        /// The resource key
-        /// </summary>
-        string Key { get; set; }
-
         /// <summary>
         /// The resource localized value
         /// </summary>
         string Value { get; set; }
 
         /// <summary>
-        /// Comment if any...
+        /// Express Localization resource ID
         /// </summary>
-        string Comment { get; set; }
+        int ResourceID { get; set; }
 
         /// <summary>
         /// Relevant culture name, must be the key of ExpressLocalizationCulture model

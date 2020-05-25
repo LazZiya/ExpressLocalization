@@ -1,0 +1,32 @@
+﻿@page
+@model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resources.CreateModel
+@{
+    ViewBag.Title = "Create new resource";
+}
+
+<div class="container">
+    <h2 localize-content="true">Create new resource</h2>
+    <alert></alert>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label asp-for="InputModel.Key"></label>
+            <textarea asp-for="InputModel.Key" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="InputModel.Key" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InputModel.Comment"></label>
+            <textarea asp-for="InputModel.Comment" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="InputModel.Comment" class="text-danger"></span>
+        </div>
+
+        <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary" localize-att-title="Add new resource">
+            Save
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

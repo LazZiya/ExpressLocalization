@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.ExpressLocalization
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.EFGenericDataManager", "..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj", "{52FBAEED-107F-4A7A-B541-27B6BE700177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{41637779-4AC2-46A5-91F3-744EBFD13547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject", "SampleProject\SampleProject.csproj", "{41637779-4AC2-46A5-91F3-744EBFD13547}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,7 +14,7 @@ namespace LazZiya.ExpressLocalization.DB
     /// <summary>
     /// ExpressLocalization DB extensions
     /// </summary>
-    public static class ExpressLocalizationDbExtensions
+    public static class XLDbExtensions
     {
         /// <summary>
         /// Add ExpressLocalization support using the built-in entity models
@@ -26,7 +26,7 @@ namespace LazZiya.ExpressLocalization.DB
             where TContext : DbContext
         {
             return builder
-                .AddExpressLocalizationDB<TContext, ExpressLocalizationEntity, ExpressLocalizationCulture>();
+                .AddExpressLocalizationDB<TContext, XLResource, XLCulture>();
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationDB<TContext, TLocalizationEntity, TCultureEntity>(this IMvcBuilder builder)
             where TContext : DbContext
-            where TLocalizationEntity : class, IExpressLocalizationEntity
-            where TCultureEntity : class, IExpressLocalizationCulture
+            where TLocalizationEntity : class, IXLResource
+            where TCultureEntity : class, IXLCulture
         {
-            builder.Services.AddTransient<ISharedCultureLocalizer, ExpressLocalizationDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
-            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, ExpressLocalizationDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
+            builder.Services.AddTransient<ISharedCultureLocalizer, XLDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
+            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();

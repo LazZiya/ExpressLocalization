@@ -3,7 +3,7 @@
     /// <summary>
     /// Culture input model
     /// </summary>
-    public class CultureModel
+    public class CultureItemModel
     {
         public string ID { get; set; }
         

@@ -6,6 +6,10 @@
     <title>@ViewData["Title"] - SampleProject</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+    {
+        <link rel="stylesheet" href="~/css/rtl.css" />
+    }
 </head>
 <body>
     <header>
@@ -18,7 +22,15 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <language-nav></language-nav>
+
+                    @{
+                        var routeData = ViewContext.RouteData.Values;
+                        routeData["culture"] = "{0}";
+                    }
+
+                    <language-nav redirect-to-url="@(Url.RouteUrl(routeData))"
+                                  cookie-handler-url="@Url.Page("/Index", "SetCultureCookie", new { area="", cltr="{0}", returnUrl="{1}" })">
+                    </language-nav>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index" localize-content>Home</a>
@@ -27,7 +39,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy" localize-content>Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="ExpressLocalization/Cultures" localize-content>Cultures</a>
+                            <a class="nav-link text-dark" href="/ExpressLocalization/Cultures" localize-content>Cultures</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/ExpressLocalization/Resources" localize-content>Resources</a>
                         </li>
                     </ul>
                 </div>

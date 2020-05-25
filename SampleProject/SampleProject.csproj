@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20200523085425_ExpressLocalizationSores.cs" />
+    <Compile Remove="Data\Migrations\20200523085425_ExpressLocalizationSores.Designer.cs" />
     <Compile Remove="Data\Migrations\20200523085513_SeedExpressLocalizationValues.cs" />
     <Compile Remove="Data\Migrations\20200523085513_SeedExpressLocalizationValues.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200523090103_SeedExpressLocalizationValues.cs" />
+    <Compile Remove="Data\Migrations\20200523090103_SeedExpressLocalizationValues.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200523161417_ExRelations.cs" />
+    <Compile Remove="Data\Migrations\20200523161417_ExRelations.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

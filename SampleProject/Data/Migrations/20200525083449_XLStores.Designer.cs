@@ -10,8 +10,8 @@ using SampleProject.Data;
 namespace SampleProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200523161417_ExRelations")]
-    partial class ExRelations
+    [Migration("20200525083449_XLStores")]
+    partial class XLStores
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace SampleProject.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture", b =>
+            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.XLCulture", b =>
                 {
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
@@ -37,33 +37,10 @@ namespace SampleProject.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Cultures");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = "en",
-                            EnglishName = "English",
-                            IsActive = true,
-                            IsDefault = true
-                        },
-                        new
-                        {
-                            ID = "tr",
-                            EnglishName = "Turkish",
-                            IsActive = true,
-                            IsDefault = false
-                        },
-                        new
-                        {
-                            ID = "ar",
-                            EnglishName = "Arabic",
-                            IsActive = true,
-                            IsDefault = false
-                        });
+                    b.ToTable("XLCultures");
                 });
 
-            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity", b =>
+            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.XLResource", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -73,11 +50,26 @@ namespace SampleProject.Data.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("XLResources");
+                });
+
+            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.XLTranslation", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("CultureName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ResourceID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -86,51 +78,9 @@ namespace SampleProject.Data.Migrations
 
                     b.HasIndex("CultureName");
 
-                    b.ToTable("LocalizationResources");
+                    b.HasIndex("ResourceID");
 
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            CultureName = "tr",
-                            Key = "Welcome",
-                            Value = "Hoşgeldiniz"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            CultureName = "tr",
-                            Key = "Home",
-                            Value = "Anasayfa"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            CultureName = "tr",
-                            Key = "Privacy",
-                            Value = "Gizlilik"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            CultureName = "ar",
-                            Key = "Welcome",
-                            Value = "أهلا و سهلا"
-                        },
-                        new
-                        {
-                            ID = 5,
-                            CultureName = "ar",
-                            Key = "Home",
-                            Value = "الرئيسية"
-                        },
-                        new
-                        {
-                            ID = 6,
-                            CultureName = "ar",
-                            Key = "Privacy",
-                            Value = "الخصوصية"
-                        });
+                    b.ToTable("XLTranslations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -333,12 +283,18 @@ namespace SampleProject.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationEntity", b =>
+            modelBuilder.Entity("LazZiya.ExpressLocalization.DB.Models.XLTranslation", b =>
                 {
-                    b.HasOne("LazZiya.ExpressLocalization.DB.Models.ExpressLocalizationCulture", "Culture")
-                        .WithMany("Resources")
+                    b.HasOne("LazZiya.ExpressLocalization.DB.Models.XLCulture", "Culture")
+                        .WithMany("Translations")
                         .HasForeignKey("CultureName")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LazZiya.ExpressLocalization.DB.Models.XLResource", "Resource")
+                        .WithMany("Translations")
+                        .HasForeignKey("ResourceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
