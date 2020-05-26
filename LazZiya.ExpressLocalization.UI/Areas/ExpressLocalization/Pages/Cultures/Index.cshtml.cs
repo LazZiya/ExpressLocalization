@@ -56,9 +56,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
 
         public ICollection<CultureItemModel> SystemCultures { get; set; }
 
-        public async void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             (SupportedCultures, TotalRecords) = await ListSupportedCulturesAsync();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAddNewAsync(string ID)

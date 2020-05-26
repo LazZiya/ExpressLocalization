@@ -33,9 +33,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
 
         public ICollection<ResourceListItem> Resources { get; set; }
 
-        public async void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             (Resources, TotalRecords) = await ListResourcesAsync();
+
+            return Page();
         }
 
         private async Task<(ICollection<ResourceListItem> resources, int totalRecords)> ListResourcesAsync()

@@ -13,7 +13,7 @@
                 <i class="fas fa-edit"></i>
                 Edit
             </a>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#translate-@(Model.ID)">
+        <a class="dropdown-item" asp-page="/Translations/Index" asp-route-resourceid="@Model.ID">
                 <i class="fas fa-language"></i>
                 Translations
             </a>

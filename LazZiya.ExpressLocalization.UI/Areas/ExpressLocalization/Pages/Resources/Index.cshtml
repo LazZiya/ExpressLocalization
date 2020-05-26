@@ -9,8 +9,8 @@
 <div class="container">
     <h2 localize-content="true">Localization Resources</h2>
     <alert></alert>
-    <table class="table table-stripped">
-        <thead>
+    <table class="table table-striped">
+        <thead class="bg-dark text-light">
             <tr>
                 <th localize-content="true" scope="col" width="10%">ID</th>
                 <th localize-content="true" scope="col" width="30%">Key</th>
@@ -46,7 +46,7 @@
                             }
                             else
                             {
-                                foreach (var c in r.Cultures)
+                                foreach (var c in r.Cultures.OrderBy(x => x))
                                 {
                                     <a>@c</a> @:&nbsp;
                                 }

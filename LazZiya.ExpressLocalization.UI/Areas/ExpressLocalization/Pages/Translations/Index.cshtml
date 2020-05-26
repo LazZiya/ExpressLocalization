@@ -3,3 +3,186 @@
 @{
     ViewBag.Title = "Translations";
 }
+
+<div class="container">
+    <h2 localize-content="true">Translations</h2>
+    <alert></alert>
+
+    @foreach (var c in Model.Cultures)
+    {
+        var trans = Model.Resource.Translations.FirstOrDefault(x => x.CultureName == c.ID);
+        var css = c.ID.Contains("-") ? $"flag-icon flag-icon-{c.ID.Split('-')[1].ToLower()}" : "";
+        <div class="card bg-light mb-5">
+            <div class="card-header">
+                <h5 class="card-title"><span class="@(css)"></span> @($"{c.EnglishName} ({c.ID})")</h5>
+            </div>
+            <div class="card-body border-secondary">
+                <div class="row">
+                    <div class="col">
+                        <form method="post"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-url="@Url.Page("Index", "SaveTranslation")"
+                              data-ajax-loading="#loading-@c.ID"
+                              data-ajax-begin="setCultureName('@c.ID')"
+                              data-ajax-success="saveResultSuccess"
+                              data-ajax-failure="saveResultFailed">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <input type="hidden" name="Translation.ResourceID" value="@Model.Resource.ID" />
+                                <input type="hidden" name="Translation.CultureName" value="@c.ID" />
+                                <textarea name="Translation.Value" id="textArea-@c.ID" class="form-control" rows="5">@(trans?.Value ?? "")</textarea>
+                            </div>
+                            <div class="form-group">
+                                <span id="loading-@c.ID" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
+                                <div id="result-@c.ID" class="text-success"></div>
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back"><i class="fas fa-chevron-left"></i></a>
+                                <button type="submit" class="btn btn-primary" localize-att-title="Save"><i class="fas fa-save"></i></button>
+                                <button type="button" class="btn btn-danger" 
+                                        data-resource-id="@(Model.Resource.ID)" 
+                                        data-culture-name="@(c.ID)" 
+                                        data-text-area="value-@c.ID" 
+                                        data-toggle="modal" 
+                                        data-target="#deleteModal"
+                                        localize-att-title="Delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </form>
+                        <!-- online tranlsate -->
+                        <form method="post" id="translate-@c.ID"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-begin="setCultureName('@c.ID')"
+                              data-ajax-success="yandexTranslateSuccess">
+                            <input type="hidden" name="text" value="@Model.Resource.Key" />
+                            <input type="hidden" name="source" value="en" />
+                            <input type="hidden" name="target" value="@c.ID" />
+                            <input type="hidden" name="format" value="html" />
+                            <button type="submit" onclick="yandexSubmit('@c.ID')" class="btn btn-warning" localize-att-title="Translate"><i class="fab fa-yandex-international"></i></button>
+                            <button type="submit" onclick="googleSubmit('@c.ID')" class="btn btn-primary" localize-att-title="Translate"><i class="fab fa-google"></i></button>
+                            <button type="submit" onclick="microsoftSubmit('@c.ID')" class="btn btn-success" localize-att-title="Translate"><i class="fab fa-microsoft"></i></button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <p>@Model.Resource.Key</p>
+                        <p class="text-secondary">@Model.Resource.Comment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <paging page-no="Model.P"
+            page-size="Model.S"
+            total-records="Model.TotalRecords"
+            show-first-last="false"
+            show-page-size-nav="false"
+            show-total-pages="false"
+            show-total-records="false"></paging>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteLabel" localize-content="true">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <localize>Delete this record?</localize>
+                <span id="loading-Modal" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" localize-content="true">Cancel</button>
+                <form method="post" 
+                      data-ajax="true"
+                      data-ajax-method="post"
+                      data-ajax-url="@Url.Page("Index", "DeleteTranslation")"
+                      data-ajax-loading="#loading-Modal"
+                      data-ajax-success="deleteResultSuccess"
+                      data-ajax-failure="deleteResultFailed">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="deleteResoueceId" name="Translation.ResourceID" value="" />
+                    <input type="hidden" id="deleteCultureName" name="Translation.CultureName" value="" />
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> <localize>Delete</localize></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+        var cName = '';
+        function setCultureName(c) {
+            cName = c;
+        }
+
+        $('#deleteModal').on('shown.bs.modal', function (e) {
+            var rId = $(e.relatedTarget).data('resource-id');
+            cName = $(e.relatedTarget).data('culture-name');
+            $("#deleteResoueceId").val(rId);
+            $("#deleteCultureName").val(cName);
+        });
+
+        $('#deleteModal').on('hidden.bs.modal', function (e) {
+            $("#deleteCultureName").val();
+            cName = '';
+        });
+
+        function deleteResultSuccess(data, textStatus, xhr) {
+            $("#result-" + cName).text("Deleted");
+            $("#result-" + cName).removeClass();
+            $("#result-" + cName).addClass("text-warning");
+            $('#deleteModal').modal('hide');
+        };
+
+        function deleteResultFailed(xhr) {
+            $("#result-" + cName).text("Not Deleted!");
+            $("#result-" + cName).removeClass();
+            $("#result-" + cName).addClass("text-danger");
+            $('#deleteModal').modal('hide');
+        };
+
+        function saveResultSuccess(data, textStatus, xhr) {
+            console.log("#result-" + cName + " : success");
+            $("#result-" + cName).text("Saved");
+            $("#result-" + cName).removeClass();
+            $("#result-" + cName).addClass("text-success");
+        };
+
+        function saveResultFailed(xhr) {
+            console.log("#result-" + cName + " : failed");
+            $("#result-" + cName).text("Not saved!");
+            $("#result-" + cName).removeClass();
+            $("#result-" + cName).addClass("text-danger");
+        };
+
+        function yandexTranslateSuccess(data, textStatus, xhr) {
+            var t = JSON.parse(data);
+            console.log("#textArea-" + cName + " : " + t.text);
+            $("#textArea-" + cName).text(t.text);
+        }
+
+        function yandexSubmit(culture) {
+            $("#translate-" + culture).attr("data-ajax-url", "@Url.Page("Index", "YandexTranslate")");
+        }
+
+        function googleSubmit(culture) {
+            $("#translate-" + culture).attr("data-ajax-url", "@Url.Page("Index", "GoogleTranslate")");
+        }
+
+        function microsoftSubmit(culture) {
+            $("#translate-" + culture).attr("data-ajax-url", "@Url.Page("Index", "MicrosoftTranslate")");
+        }
+        
+
+    </script>
+}
