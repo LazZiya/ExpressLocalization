@@ -6,20 +6,23 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using LazZiya.ExpressLocalization.DB.Models;
+using Microsoft.Extensions.Options;
+using LazZiya.ExpressLocalization.DB.TranslationTools;
 
 namespace LazZiya.ExpressLocalization.DB
 {
     /// <summary>
     /// ExpressLocalization DB Localizer
     /// </summary>
-    public class XLDbLocalizer<TContext, TXLResource, TXLCulture> : ISharedCultureLocalizer, ICulturesProvider<TXLCulture>
+    public class XLDbLocalizer<TContext, TXLResource, TXLTranslation, TXLCulture> : ISharedCultureLocalizer, ICulturesProvider<TXLCulture>
         where TContext : DbContext
         where TXLResource : class, IXLResource
+        where TXLTranslation : class, IXLTranslation
         where TXLCulture : class, IXLCulture
     {
         private readonly TContext Context;
-
-        private readonly ExpressLocalizationOptions Options;
+        private readonly IXLTranslateApiClient xlTranslate;
+        private readonly XLDbOptions xlOptions;
 
         /// <summary>
         /// Get list of currently active cultures
@@ -39,34 +42,19 @@ namespace LazZiya.ExpressLocalization.DB
         /// Initialize ExpressLocalizationDataManager
         /// </summary>
         /// <param name="context"></param>
-        public XLDbLocalizer(TContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            Options = new ExpressLocalizationOptions();
-
-            Context = context;
-        }
-
-        /// <summary>
-        /// Initialize ExpressLocalizationDataManager
-        /// </summary>
-        /// <param name="context"></param>
         /// <param name="options"></param>
-        public XLDbLocalizer(TContext context, ExpressLocalizationOptions options)
+        public XLDbLocalizer(TContext context, IXLTranslateApiClient xl, IOptions<XLDbOptions> options)
         {
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            Options = options;
-
+            xlOptions = options.Value;
+            xlTranslate = xl;
             Context = context;
         }
+
 
         /// <summary>
         /// Get localized string value for the relevant key with arguments
@@ -93,16 +81,95 @@ namespace LazZiya.ExpressLocalization.DB
         public LocalizedHtmlString GetLocalizedHtmlString(string culture, string key, params object[] args)
         {
             var trans = Context.Set<TXLResource>().AsNoTracking()
-                .Include(x => x.Translations)
-                .Where(x => x.Key != null && x.Key == key)
-                .Select(x => new
-                {
-                    Translation = x.Translations.Where(t => t.CultureName == culture).FirstOrDefault().Value
-                }).FirstOrDefault()?.Translation;
+                    .Include(x => x.Translations)
+                    .Where(x => x.Key != null && x.Key == key)
+                    .Select(x => new
+                    {
+                        Translation = x.Translations.Where(t => t.CultureName == culture).FirstOrDefault().Value
+                    }).FirstOrDefault();
 
-            return args == null
-                ? new LocalizedHtmlString(name: key, trans ?? key, true)
-                : new LocalizedHtmlString(name: key, trans ?? key, false, args);
+            if (xlOptions.RecursiveMode == RecursiveMode.None)
+            {
+                return args == null
+                    ? new LocalizedHtmlString(name: key, trans?.Translation ?? key, true)
+                    : new LocalizedHtmlString(name: key, trans?.Translation ?? key, false, args);
+            }
+            else if (xlOptions.RecursiveMode == RecursiveMode.KeyOnly)
+            {
+                // Run recursive mode by inserting missing keys
+                var res = Context.Set<TXLResource>().AsNoTracking().FirstOrDefault(x => x.Key == key);
+
+                if (res == null)
+                {
+                    var entity = xlOptions.DummyResourceEntity;
+                    entity.Key = key;
+                    entity.ID = 0;
+                    Context.Entry(entity).State = EntityState.Added;
+                    try
+                    {
+                        Context.SaveChanges();
+                        Context.Entry(entity).State = EntityState.Detached;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+
+                return args == null
+                    ? new LocalizedHtmlString(name: key, key, true)
+                    : new LocalizedHtmlString(name: key, key, false, args);
+            }
+            else if (xlOptions.RecursiveMode == RecursiveMode.Full)
+            {
+                // Run recursive mode by inserting missing keys
+                var res = Context.Set<TXLResource>().AsNoTracking().FirstOrDefault(x => x.Key == key);
+
+                if (res == null)
+                {
+                    res = (TXLResource)xlOptions.DummyResourceEntity;
+                    res.Key = key;
+                    res.ID = 0;
+                    Context.Entry(res).State = EntityState.Added;
+                    try
+                    {
+                        Context.SaveChanges();
+                        Context.Entry(res).State = EntityState.Detached;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+
+                var transEntity = Context.Set<TXLTranslation>().FirstOrDefault(x => x.CultureName == culture && x.ResourceID == res.ID);
+                if (transEntity == null)
+                {
+                    var provider = xlOptions.TranslationProvider;
+
+                    transEntity = (TXLTranslation)xlOptions.DummyTranslationEntity;
+                    transEntity.CultureName = culture;
+                    transEntity.ResourceID = res.ID;
+                    transEntity.Value = xlTranslate.TranslateAsync(provider, DefaultCulture, culture, key, "html").Result;
+                    transEntity.ID = 0;
+                    Context.Entry(transEntity).State = EntityState.Added;
+                    try
+                    {
+                        Context.SaveChanges();
+                        Context.Entry(transEntity).State = EntityState.Detached;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+
+                return args == null
+                    ? new LocalizedHtmlString(name: key, transEntity.Value, true)
+                    : new LocalizedHtmlString(name: key, transEntity.Value, false, args);
+            }
+
+            throw new Exception("Unknown error");
         }
 
         /// <summary>

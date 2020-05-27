@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Http;
 using System.Threading.Tasks;
 using LazZiya.EFGenericDataManager;
 using LazZiya.ExpressLocalization.DB.Models;
+using LazZiya.ExpressLocalization.DB.TranslationTools;
+using LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models;
 using LazZiya.TagHelpers.Alerts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
 
 namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations
 {
@@ -17,13 +17,17 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
     public class IndexModel : PageModel
     {
         private readonly IEFGenericDataManager DataManager;
-        private readonly IConfiguration Configuration;
+        private readonly IXLTranslateApiClient xlClient;
+        
 
-        public IndexModel(IEFGenericDataManager dataManager, IConfiguration configuration)
+        public IndexModel(IEFGenericDataManager dataManager, IXLTranslateApiClient client)
         {
             DataManager = dataManager;
-            Configuration = configuration;
+            xlClient = client;
         }
+        
+        [BindProperty(SupportsGet = true)]
+        public string DefaultCulture { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public int P { get; set; } = 1;
@@ -60,6 +64,8 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
             }
 
             (Cultures, TotalRecords) = await DataManager.ListAsync<XLCulture>(1, int.MaxValue, null, null);
+
+            DefaultCulture = (await DataManager.GetAsync<XLCulture>(x => x.IsDefault == true)).ID;
 
             return Page();
         }
@@ -116,34 +122,31 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
                 : StatusCode(500);
         }
 
-        public async Task<ContentResult> OnPostYandexTranslateAsync(string text, string source, string target, string format)
+        public async Task<ContentResult> OnPostOnlineTranslateAsync(TranslationProvider provider, string text, string source, string target, string format)
         {
-            // right click on the main project
-            // select "Manage use secrets"
-            // add "yandex-translate-api-key" to user secrets
-            var yandexkey = Configuration["yandex-translate-api-key"];
-
-            if (string.IsNullOrWhiteSpace(yandexkey))
+            string result;
+            switch (provider)
             {
-                throw new NullReferenceException(nameof(yandexkey));
+                case TranslationProvider.Google:
+                    result = await xlClient.GoogleTranslateAsync(source, target, text, format);
+                    break;
+
+                case TranslationProvider.Yandex:
+                    result = await xlClient.YandexTranslateAsync(source, target, text, format);
+                    break;
+
+                case TranslationProvider.MyMemory:
+                    result = await xlClient.MyMemoryTranslateAsync(source, target, text);
+                    break;
+
+                case TranslationProvider.Systran:
+                    result = await xlClient.SystranTranslateAsync(source, target, text);
+                    break;
+
+                default: result = "no provider..."; break;
             }
 
-            using (HttpClient client = new HttpClient())
-            {
-                var result = await client.GetAsync($"https://translate.yandex.net/api/v1.5/tr.json/translate?key={yandexkey}&text={text}&lang={source}-{target}&format={format}");
-                var _txt = await result.Content.ReadAsStringAsync();
-                return Content(_txt);
-            }
-        }
-
-        public async Task<ContentResult> OnPostGoogleTranslateAsync(string text, string source, string target, string format)
-        {
-            return Content("Google: " + text);
-        }
-
-        public async Task<ContentResult> OnPostMicrosoftTranslateAsync(string text, string source, string target, string format)
-        {
-            return Content("Microsoft: " + text);
+            return Content(result);
         }
     }
 }

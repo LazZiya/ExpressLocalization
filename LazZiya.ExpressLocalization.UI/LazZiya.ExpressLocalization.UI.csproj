@@ -18,10 +18,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Areas\ExpressLocalization\TranslationTools\**" />
+	  <Content Remove="Areas\ExpressLocalization\TranslationTools\**" />
+	  <EmbeddedResource Remove="Areas\ExpressLocalization\TranslationTools\**" />
+	  <None Remove="Areas\ExpressLocalization\TranslationTools\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
 		<ProjectReference Include="..\LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj" />
 		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
 		<PackageReference Include="LazZiya.TagHelpers" Version="4.0.1" Exclude="Build,Analyzers" />
+		<PackageReference Include="RestSharp" Version="106.11.4" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -12,65 +12,67 @@
     {
         var trans = Model.Resource.Translations.FirstOrDefault(x => x.CultureName == c.ID);
         var css = c.ID.Contains("-") ? $"flag-icon flag-icon-{c.ID.Split('-')[1].ToLower()}" : "";
-        <div class="card bg-light mb-5">
-            <div class="card-header">
-                <h5 class="card-title"><span class="@(css)"></span> @($"{c.EnglishName} ({c.ID})")</h5>
-            </div>
-            <div class="card-body border-secondary">
-                <div class="row">
-                    <div class="col">
-                        <form method="post"
-                              data-ajax="true"
-                              data-ajax-method="post"
-                              data-ajax-url="@Url.Page("Index", "SaveTranslation")"
-                              data-ajax-loading="#loading-@c.ID"
-                              data-ajax-begin="setCultureName('@c.ID')"
-                              data-ajax-success="saveResultSuccess"
-                              data-ajax-failure="saveResultFailed">
-                            @Html.AntiForgeryToken()
-                            <div class="form-group">
-                                <input type="hidden" name="Translation.ResourceID" value="@Model.Resource.ID" />
-                                <input type="hidden" name="Translation.CultureName" value="@c.ID" />
-                                <textarea name="Translation.Value" id="textArea-@c.ID" class="form-control" rows="5">@(trans?.Value ?? "")</textarea>
-                            </div>
-                            <div class="form-group">
-                                <span id="loading-@c.ID" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
-                                <div id="result-@c.ID" class="text-success"></div>
-                            </div>
-                            <div class="form-group">
-                                <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back"><i class="fas fa-chevron-left"></i></a>
-                                <button type="submit" class="btn btn-primary" localize-att-title="Save"><i class="fas fa-save"></i></button>
-                                <button type="button" class="btn btn-danger" 
-                                        data-resource-id="@(Model.Resource.ID)" 
-                                        data-culture-name="@(c.ID)" 
-                                        data-text-area="value-@c.ID" 
-                                        data-toggle="modal" 
-                                        data-target="#deleteModal"
-                                        localize-att-title="Delete"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </form>
-                        <!-- online tranlsate -->
-                        <form method="post" id="translate-@c.ID"
-                              data-ajax="true"
-                              data-ajax-method="post"
-                              data-ajax-begin="setCultureName('@c.ID')"
-                              data-ajax-success="yandexTranslateSuccess">
-                            <input type="hidden" name="text" value="@Model.Resource.Key" />
-                            <input type="hidden" name="source" value="en" />
-                            <input type="hidden" name="target" value="@c.ID" />
-                            <input type="hidden" name="format" value="html" />
-                            <button type="submit" onclick="yandexSubmit('@c.ID')" class="btn btn-warning" localize-att-title="Translate"><i class="fab fa-yandex-international"></i></button>
-                            <button type="submit" onclick="googleSubmit('@c.ID')" class="btn btn-primary" localize-att-title="Translate"><i class="fab fa-google"></i></button>
-                            <button type="submit" onclick="microsoftSubmit('@c.ID')" class="btn btn-success" localize-att-title="Translate"><i class="fab fa-microsoft"></i></button>
-                        </form>
-                    </div>
-                    <div class="col">
-                        <p>@Model.Resource.Key</p>
-                        <p class="text-secondary">@Model.Resource.Comment</p>
-                    </div>
+    <div class="card bg-light mb-5">
+        <div class="card-header">
+            <h5 class="card-title"><span class="@(css)"></span> @($"{c.EnglishName} ({c.ID})")</h5>
+        </div>
+        <div class="card-body border-secondary">
+            <div class="row">
+                <div class="col">
+                    <form method="post"
+                          data-ajax="true"
+                          data-ajax-method="post"
+                          data-ajax-url="@Url.Page("Index", "SaveTranslation")"
+                          data-ajax-loading="#loading-@c.ID"
+                          data-ajax-begin="setCultureName('@c.ID')"
+                          data-ajax-success="saveResultSuccess"
+                          data-ajax-failure="saveResultFailed">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <input type="hidden" name="Translation.ResourceID" value="@Model.Resource.ID" />
+                            <input type="hidden" name="Translation.CultureName" value="@c.ID" />
+                            <textarea name="Translation.Value" id="textArea-@c.ID" class="form-control" rows="5">@(trans?.Value ?? "")</textarea>
+                        </div>
+                        <div class="form-group">
+                            <span id="loading-@c.ID" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
+                            <div id="result-@c.ID" class="text-success"></div>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back"><i class="fas fa-chevron-left"></i></a>
+                            <button type="submit" class="btn btn-primary" localize-att-title="Save"><i class="fas fa-save"></i></button>
+                            <button type="button" class="btn btn-danger"
+                                    data-resource-id="@(Model.Resource.ID)"
+                                    data-culture-name="@(c.ID)"
+                                    data-text-area="value-@c.ID"
+                                    data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    localize-att-title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- online tranlsate -->
+                    <form method="post" id="translate-@c.ID" class="form-inline"
+                          data-ajax="true"
+                          data-ajax-method="post"
+                          data-ajax-url="@Url.Page("Index", "OnlineTranslate")"
+                          data-ajax-begin="setCultureName('@c.ID')"
+                          data-ajax-success="translateSuccess">
+                        <input type="hidden" name="text" value="@Model.Resource.Key" />
+                        <input type="hidden" name="source" value="@Model.DefaultCulture" />
+                        <input type="hidden" name="target" value="@c.ID" />
+                        <input type="hidden" name="format" value="html" />
+                        <select asp-items="Html.GetEnumSelectList<TranslationProvider>()" id="transProviders-@c.ID" name="provider" class="form-control"></select>
+                        <button type="submit" onclick="TranslateFormSubmit('@c.ID')" class="btn btn-warning ml-2" localize-att-title="Translate">Translate</button>
+                    </form>
+                </div>
+                <div class="col">
+                    <p>@Model.Resource.Key</p>
+                    <p class="text-secondary">@Model.Resource.Comment</p>
                 </div>
             </div>
         </div>
+    </div>
     }
 
     <paging page-no="Model.P"
@@ -99,7 +101,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" localize-content="true">Cancel</button>
-                <form method="post" 
+                <form method="post"
                       data-ajax="true"
                       data-ajax-method="post"
                       data-ajax-url="@Url.Page("Index", "DeleteTranslation")"
@@ -119,7 +121,9 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
 
+
     <script>
+        // save-delete scripts
         var cName = '';
         function setCultureName(c) {
             cName = c;
@@ -165,24 +169,37 @@
             $("#result-" + cName).addClass("text-danger");
         };
 
-        function yandexTranslateSuccess(data, textStatus, xhr) {
+        // Translate scripts
+        var translateProvider;
+
+        function translateSuccess(data, textStatus, xhr) {
             var t = JSON.parse(data);
-            console.log("#textArea-" + cName + " : " + t.text);
-            $("#textArea-" + cName).text(t.text);
+            switch (translateProvider) {
+
+                case "@(nameof(TranslationProvider.Google))":
+                    console.log("#textArea-" + cName + " : " + t.data.translations[0].translatedText);
+                    $("#textArea-" + cName).text(t.data.translations[0].translatedText);
+                    break;
+
+                case "@(nameof(TranslationProvider.Yandex))":
+                    console.log("#textArea-" + cName + " : " + t.text);
+                    $("#textArea-" + cName).text(t.text);
+                    break;
+                case "@(nameof(TranslationProvider.MyMemory))":
+                    console.log("#textArea-" + cName + " : " + t.responseData.translatedText);
+                    $("#textArea-" + cName).text(t.responseData.translatedText);
+                    break;
+
+                case "@(nameof(TranslationProvider.Systran))":
+                    console.log("#textArea-" + cName + " : " + t.outputs[0].output);
+                    $("#textArea-" + cName).text(t.outputs[0].output);
+                    break;
+            }
         }
 
-        function yandexSubmit(culture) {
-            $("#translate-" + culture).attr("data-ajax-url", "@Url.Page("Index", "YandexTranslate")");
+        function TranslateFormSubmit(culture) {
+            translateProvider = $("#transProviders-" + culture + " option:selected").text();
+            console.log("Translation provider: " + translateProvider);
         }
-
-        function googleSubmit(culture) {
-            $("#translate-" + culture).attr("data-ajax-url", "@Url.Page("Index", "GoogleTranslate")");
-        }
-
-        function microsoftSubmit(culture) {
-            $("#translate-" + culture).attr("data-ajax-url", "@Url.Page("Index", "MicrosoftTranslate")");
-        }
-        
-
     </script>
 }

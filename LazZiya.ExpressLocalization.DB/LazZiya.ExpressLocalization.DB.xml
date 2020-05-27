@@ -89,6 +89,34 @@
             Collection of translations
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.XLDbOptions">
+            <summary>
+            Define options for XL DB localization
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.RecursiveMode">
+            <summary>
+            If the key string is not found in the DB it will be inserted autoamtically to the DB.
+            Enabling recursive mode will cause a bit more processing cycles, that mean the request will take a bit longer to process.
+            default: false
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.DummyResourceEntity">
+            <summary>
+            Dummy entity to be inserted while recursive mode is enabled
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.DummyTranslationEntity">
+            <summary>
+            Dummy entity to create translations for recursive mode
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.TranslationProvider">
+            <summary>
+            Translation provider for recursive mode.
+            Default is "Yandex"
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.XLResource">
             <summary>
             ExpressLocalization default entity model
@@ -149,6 +177,26 @@
             Express Localization Resource
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode">
+            <summary>
+            Define the working mode for recursive localization of entries
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode.None">
+            <summary>
+            Don't run recursive mode
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode.KeyOnly">
+            <summary>
+            Run recursive mode for adding missed resource keys only
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode.Full">
+            <summary>
+            Run ercursive mode for adding missed keys and translations
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.XLDbExtensions">
             <summary>
             ExpressLocalization DB extensions
@@ -162,45 +210,61 @@
             <param name="builder">builder</param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``3(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
+            <summary>
+            Add ExpressLocalization support using the built-in entity models
+            </summary>
+            <typeparam name="TContext">Application db context</typeparam>
+            <param name="builder">builder</param>
+            <param name="options">XLDbOptions</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Add ExpressLocalization with DB support using customized entity models
             </summary>
             <typeparam name="TContext">DbContext</typeparam>
-            <typeparam name="TLocalizationEntity">Type of localization DbEntity</typeparam>
+            <typeparam name="TResourceEntity">Type of resource DbEntity</typeparam>
+            <typeparam name="TTranslationEntity">Type of translation entityy</typeparam>
             <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
+            <summary>
+            Add ExpressLocalization with DB support using customized entity models
+            </summary>
+            <typeparam name="TContext">DbContext</typeparam>
+            <typeparam name="TResourceEntity">Type of localization DbEntity</typeparam>
+            <typeparam name="TTranslationEntity">Type of translation entity</typeparam>
+            <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
+            <param name="options">XLDbOptions</param>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4">
             <summary>
             ExpressLocalization DB Localizer
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.ActiveCultures">
+        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.ActiveCultures">
             <summary>
             Get list of currently active cultures
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.DefaultCulture">
+        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.DefaultCulture">
             <summary>
             Get default culture
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.#ctor(`0)">
-            <summary>
-            Initialize ExpressLocalizationDataManager
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.#ctor(`0,LazZiya.ExpressLocalization.ExpressLocalizationOptions)">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.#ctor(`0,LazZiya.ExpressLocalization.DB.TranslationTools.IXLTranslateApiClient,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
             <summary>
             Initialize ExpressLocalizationDataManager
             </summary>
             <param name="context"></param>
             <param name="options"></param>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.Item(System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.Item(System.String,System.Object[])">
             <summary>
             Get localized string value for the relevant key with arguments
             </summary>
@@ -208,14 +272,14 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.Item(System.String)">
+        <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.Item(System.String)">
             <summary>
             Get localized string value for the relevant key
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedHtmlString(System.String,System.String,System.Object[])">
             <summary>
             Get culture specific localized html string for the given key with arguments
             </summary>
@@ -224,7 +288,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedHtmlString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedHtmlString(System.String,System.Object[])">
             <summary>
             Get localized html string for the given key with arguments
             </summary>
@@ -232,7 +296,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedHtmlString(System.Type,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -241,7 +305,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedHtmlString(System.Type,System.String,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -251,7 +315,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedString(System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedString(System.String,System.String,System.Object[])">
             <summary>
             Get culture specific localized string value for the given key with arguments
             </summary>
@@ -260,7 +324,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedString(System.String,System.Object[])">
             <summary>
             Get localized string value for the given key with arguments
             </summary>
@@ -268,7 +332,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedString(System.Type,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedString(System.Type,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -277,7 +341,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetLocalizedString(System.Type,System.String,System.String,System.Object[])">
             <summary>
             NOT IMPLEMENTED
             </summary>
@@ -287,14 +351,14 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.GetAllStrings(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.GetAllStrings(System.Boolean)">
             <summary>
             NOT IMPLEMETNED
             </summary>
             <param name="includeParentCultures"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.WithCulture(System.Globalization.CultureInfo)">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.WithCulture(System.Globalization.CultureInfo)">
             <summary>
             NOT IMPLEMENTED
             </summary>

@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LazZiya.ExpressLocalization.DB;
 using LazZiya.EFGenericDataManager;
+using LazZiya.ExpressLocalization.DB.Models;
+using LazZiya.ExpressLocalization.DB.TranslationTools;
 
 namespace SampleProject
 {
@@ -28,9 +30,15 @@ namespace SampleProject
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddRazorPages()
-                .AddExpressLocalizationDB<ApplicationDbContext>();
+                .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
+                {
+                    ops.RecursiveMode = RecursiveMode.Full;
+                    ops.DummyResourceEntity = new XLResource();
+                    ops.DummyTranslationEntity = new XLTranslation();
+                    ops.TranslationProvider = TranslationProvider.Google;
+                });
 
             services.AddTransient<IEFGenericDataManager, EFGenericDataManager<ApplicationDbContext>>();
         }

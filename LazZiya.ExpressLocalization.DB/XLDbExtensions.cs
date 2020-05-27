@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DB.Models;
+using Microsoft.Extensions.Options;
+using LazZiya.ExpressLocalization.DB.TranslationTools;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -26,24 +28,67 @@ namespace LazZiya.ExpressLocalization.DB
             where TContext : DbContext
         {
             return builder
-                .AddExpressLocalizationDB<TContext, XLResource, XLCulture>();
+                .AddExpressLocalizationDB<TContext, XLResource, XLTranslation, XLCulture>(x => x.RecursiveMode = RecursiveMode.Full);
+        }
+
+        /// <summary>
+        /// Add ExpressLocalization support using the built-in entity models
+        /// </summary>
+        /// <typeparam name="TContext">Application db context</typeparam>
+        /// <param name="builder">builder</param>
+        /// <param name="options">XLDbOptions</param>
+        /// <returns></returns>
+        public static IMvcBuilder AddExpressLocalizationDB<TContext>(this IMvcBuilder builder, Action<XLDbOptions> options)
+            where TContext : DbContext
+        {
+            return builder
+                .AddExpressLocalizationDB<TContext, XLResource, XLTranslation, XLCulture>(options);
         }
 
         /// <summary>
         /// Add ExpressLocalization with DB support using customized entity models
         /// </summary>
         /// <typeparam name="TContext">DbContext</typeparam>
-        /// <typeparam name="TLocalizationEntity">Type of localization DbEntity</typeparam>
+        /// <typeparam name="TResourceEntity">Type of resource DbEntity</typeparam>
+        /// <typeparam name="TTranslationEntity">Type of translation entityy</typeparam>
         /// <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext, TLocalizationEntity, TCultureEntity>(this IMvcBuilder builder)
+        public static IMvcBuilder AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(this IMvcBuilder builder)
             where TContext : DbContext
-            where TLocalizationEntity : class, IXLResource
+            where TResourceEntity : class, IXLResource
+            where TTranslationEntity : class, IXLTranslation
             where TCultureEntity : class, IXLCulture
         {
-            builder.Services.AddTransient<ISharedCultureLocalizer, XLDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
-            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TContext, TLocalizationEntity, TCultureEntity>>();
+            return builder
+                .AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(x => x.RecursiveMode = RecursiveMode.None);
+        }
+
+        /// <summary>
+        /// Add ExpressLocalization with DB support using customized entity models
+        /// </summary>
+        /// <typeparam name="TContext">DbContext</typeparam>
+        /// <typeparam name="TResourceEntity">Type of localization DbEntity</typeparam>
+        /// <typeparam name="TTranslationEntity">Type of translation entity</typeparam>
+        /// <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
+        /// <param name="options">XLDbOptions</param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(this IMvcBuilder builder, Action<XLDbOptions> options)
+            where TContext : DbContext
+            where TResourceEntity : class, IXLResource
+            where TTranslationEntity : class, IXLTranslation
+            where TCultureEntity : class, IXLCulture
+        {
+            var xlDbOps = new XLDbOptions();
+            options.Invoke(xlDbOps);
+
+            builder.Services.AddTransient<ISharedCultureLocalizer, XLDbLocalizer<TContext, TResourceEntity,TTranslationEntity, TCultureEntity>>();
+            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>>();
+            builder.Services.Configure<XLDbOptions>(options);
+            
+            if(xlDbOps.RecursiveMode == RecursiveMode.Full)
+                builder.Services.AddTransient<IXLTranslateApiClient, RapidApiClient>();
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();
