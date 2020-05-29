@@ -30,9 +30,16 @@
 	<PropertyGroup Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
 		<DocumentationFile>LazZiya.ExpressLocalization.DB.xml</DocumentationFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="TranslationServices\**" />
+	  <EmbeddedResource Remove="TranslationServices\**" />
+	  <None Remove="TranslationServices\**" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
+		<ProjectReference Include="..\..\TranslationServices\LazZiya.TranslationServices\LazZiya.TranslationServices.csproj" />
 		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
@@ -57,10 +64,6 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Include="files\license.txt" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Properties\" />
 	</ItemGroup>
 
 </Project>

@@ -62,8 +62,8 @@
                         <input type="hidden" name="source" value="@Model.DefaultCulture" />
                         <input type="hidden" name="target" value="@c.ID" />
                         <input type="hidden" name="format" value="html" />
-                        <select asp-items="Html.GetEnumSelectList<TranslationProvider>()" id="transProviders-@c.ID" name="provider" class="form-control"></select>
-                        <button type="submit" onclick="TranslateFormSubmit('@c.ID')" class="btn btn-warning ml-2" localize-att-title="Translate">Translate</button>
+                        <select asp-items="@Model.TranslationProviders" name="provider" class="form-control"></select>
+                        <button type="submit" class="btn btn-warning ml-2" localize-att-title="Translate">Translate</button>
                     </form>
                 </div>
                 <div class="col">
@@ -169,37 +169,10 @@
             $("#result-" + cName).addClass("text-danger");
         };
 
-        // Translate scripts
-        var translateProvider;
-
         function translateSuccess(data, textStatus, xhr) {
             var t = JSON.parse(data);
-            switch (translateProvider) {
-
-                case "@(nameof(TranslationProvider.Google))":
-                    console.log("#textArea-" + cName + " : " + t.data.translations[0].translatedText);
-                    $("#textArea-" + cName).text(t.data.translations[0].translatedText);
-                    break;
-
-                case "@(nameof(TranslationProvider.Yandex))":
-                    console.log("#textArea-" + cName + " : " + t.text);
-                    $("#textArea-" + cName).text(t.text);
-                    break;
-                case "@(nameof(TranslationProvider.MyMemory))":
-                    console.log("#textArea-" + cName + " : " + t.responseData.translatedText);
-                    $("#textArea-" + cName).text(t.responseData.translatedText);
-                    break;
-
-                case "@(nameof(TranslationProvider.Systran))":
-                    console.log("#textArea-" + cName + " : " + t.outputs[0].output);
-                    $("#textArea-" + cName).text(t.outputs[0].output);
-                    break;
-            }
-        }
-
-        function TranslateFormSubmit(culture) {
-            translateProvider = $("#transProviders-" + culture + " option:selected").text();
-            console.log("Translation provider: " + translateProvider);
+            console.log("Translation Result: " + t.statusCode + " : " + t.target + " : " + t.text);
+            $("#textArea-" + t.target).text(t.text);
         }
     </script>
 }

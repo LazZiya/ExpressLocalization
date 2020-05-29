@@ -1,4 +1,4 @@
-﻿namespace LazZiya.ExpressLocalization.DB.TranslationTools
+﻿namespace LazZiya.ExpressLocalization.DB.Models
 {
     /// <summary>
     /// Define the working mode for recursive localization of entries

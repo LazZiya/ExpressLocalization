@@ -9,7 +9,7 @@ using System;
 using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DB.Models;
 using Microsoft.Extensions.Options;
-using LazZiya.ExpressLocalization.DB.TranslationTools;
+using LazZiya.TranslationServices;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -88,7 +88,13 @@ namespace LazZiya.ExpressLocalization.DB
             builder.Services.Configure<XLDbOptions>(options);
             
             if(xlDbOps.RecursiveMode == RecursiveMode.Full)
-                builder.Services.AddTransient<IXLTranslateApiClient, RapidApiClient>();
+            {
+                //builder.Services.AddTransient<IXLTranslateApiClient, RapidApiClient>();
+            }
+                builder.Services.AddTransient<ITranslationService, GoogleTranslateService>();
+                builder.Services.AddTransient<ITranslationService, YandexTranslateService>();
+                builder.Services.AddTransient<ITranslationService, MyMemoryTranslateService>();
+                builder.Services.AddTransient<ITranslationService, SystranTranslateService>();
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();

@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using LazZiya.EFGenericDataManager;
 using LazZiya.ExpressLocalization.DB.Models;
-using LazZiya.ExpressLocalization.DB.TranslationTools;
-using LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models;
+using LazZiya.TranslationServices;
 using LazZiya.TagHelpers.Alerts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations
 {
@@ -17,15 +17,19 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
     public class IndexModel : PageModel
     {
         private readonly IEFGenericDataManager DataManager;
-        private readonly IXLTranslateApiClient xlClient;
-        
+        private readonly IEnumerable<ITranslationService> TranslationServices;
 
-        public IndexModel(IEFGenericDataManager dataManager, IXLTranslateApiClient client)
+        public readonly SelectListItem[] TranslationProviders;
+
+        public IndexModel(IEFGenericDataManager dataManager, IEnumerable<ITranslationService> translationServices)
         {
             DataManager = dataManager;
-            xlClient = client;
+            TranslationServices = translationServices;
+            
+            // get all registered translation services names
+            TranslationProviders = translationServices.Select(x => x.ServiceName).OrderBy(x => x).Select(x => new SelectListItem() { Text = x, Value = x }).ToArray();
         }
-        
+
         [BindProperty(SupportsGet = true)]
         public string DefaultCulture { get; set; }
 
@@ -122,31 +126,12 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
                 : StatusCode(500);
         }
 
-        public async Task<ContentResult> OnPostOnlineTranslateAsync(TranslationProvider provider, string text, string source, string target, string format)
+        public async Task<JsonResult> OnPostOnlineTranslateAsync(string provider, string text, string source, string target, string format)
         {
-            string result;
-            switch (provider)
-            {
-                case TranslationProvider.Google:
-                    result = await xlClient.GoogleTranslateAsync(source, target, text, format);
-                    break;
+            var service = TranslationServices.FirstOrDefault(x => x.ServiceName == provider);
+            var result = await service.TranslateAsync(source, target, text, format);
 
-                case TranslationProvider.Yandex:
-                    result = await xlClient.YandexTranslateAsync(source, target, text, format);
-                    break;
-
-                case TranslationProvider.MyMemory:
-                    result = await xlClient.MyMemoryTranslateAsync(source, target, text);
-                    break;
-
-                case TranslationProvider.Systran:
-                    result = await xlClient.SystranTranslateAsync(source, target, text);
-                    break;
-
-                default: result = "no provider..."; break;
-            }
-
-            return Content(result);
+            return new JsonResult(result);
         }
     }
 }

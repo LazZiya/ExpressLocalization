@@ -59,6 +59,26 @@
             Relevant culture name, must be the key of ExpressLocalizationCulture model
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.RecursiveMode">
+            <summary>
+            Define the working mode for recursive localization of entries
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.None">
+            <summary>
+            Don't run recursive mode
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.KeyOnly">
+            <summary>
+            Run recursive mode for adding missed resource keys only
+            </summary>
+        </member>
+        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.Full">
+            <summary>
+            Run ercursive mode for adding missed keys and translations
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.XLCulture">
             <summary>
             ExpressLocalization default culture model
@@ -177,26 +197,6 @@
             Express Localization Resource
             </summary>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode">
-            <summary>
-            Define the working mode for recursive localization of entries
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode.None">
-            <summary>
-            Don't run recursive mode
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode.KeyOnly">
-            <summary>
-            Run recursive mode for adding missed resource keys only
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.TranslationTools.RecursiveMode.Full">
-            <summary>
-            Run ercursive mode for adding missed keys and translations
-            </summary>
-        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.XLDbExtensions">
             <summary>
             ExpressLocalization DB extensions
@@ -257,7 +257,7 @@
             Get default culture
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.#ctor(`0,LazZiya.ExpressLocalization.DB.TranslationTools.IXLTranslateApiClient,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`4.#ctor(`0,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
             <summary>
             Initialize ExpressLocalizationDataManager
             </summary>

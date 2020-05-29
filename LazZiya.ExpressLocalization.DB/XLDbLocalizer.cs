@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using LazZiya.ExpressLocalization.DB.Models;
 using Microsoft.Extensions.Options;
-using LazZiya.ExpressLocalization.DB.TranslationTools;
+using LazZiya.TranslationServices;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -21,7 +21,7 @@ namespace LazZiya.ExpressLocalization.DB
         where TXLCulture : class, IXLCulture
     {
         private readonly TContext Context;
-        private readonly IXLTranslateApiClient xlTranslate;
+        //private readonly IXLTranslateApiClient xlTranslate;
         private readonly XLDbOptions xlOptions;
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// </summary>
         /// <param name="context"></param>
         /// <param name="options"></param>
-        public XLDbLocalizer(TContext context, IXLTranslateApiClient xl, IOptions<XLDbOptions> options)
+        public XLDbLocalizer(TContext context, IOptions<XLDbOptions> options)
         {
             if (context == null)
             {
@@ -51,7 +51,7 @@ namespace LazZiya.ExpressLocalization.DB
             }
 
             xlOptions = options.Value;
-            xlTranslate = xl;
+            //xlTranslate = xl;
             Context = context;
         }
 
@@ -150,7 +150,7 @@ namespace LazZiya.ExpressLocalization.DB
                     transEntity = (TXLTranslation)xlOptions.DummyTranslationEntity;
                     transEntity.CultureName = culture;
                     transEntity.ResourceID = res.ID;
-                    transEntity.Value = xlTranslate.TranslateAsync(provider, DefaultCulture, culture, key, "html").Result;
+                    //transEntity.Value = xlTranslate.TranslateAsync(provider, DefaultCulture, culture, key, "html").Result;
                     transEntity.ID = 0;
                     Context.Entry(transEntity).State = EntityState.Added;
                     try

@@ -1,4 +1,4 @@
-﻿using LazZiya.ExpressLocalization.DB.TranslationTools;
+﻿using LazZiya.TranslationServices;
 
 namespace LazZiya.ExpressLocalization.DB.Models
 {
