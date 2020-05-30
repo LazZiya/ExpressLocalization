@@ -8,11 +8,16 @@ namespace LazZiya.ExpressLocalization.DB.Models
     public class XLDbOptions
     {
         /// <summary>
-        /// If the key string is not found in the DB it will be inserted autoamtically to the DB.
-        /// Enabling recursive mode will cause a bit more processing cycles, that mean the request will take a bit longer to process.
+        /// If the key string is not found in the DB, it will be inserted autoamtically to the DB.
         /// default: false
         /// </summary>
-        public RecursiveMode RecursiveMode { get; set; } = RecursiveMode.None;
+        public bool KeysRecursiveMode { get; set; } = false;
+        
+        /// <summary>
+        /// If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
+        /// default: false
+        /// </summary>
+        public bool TranslationRecursiveMode { get; set; } = false;
 
         /// <summary>
         /// Dummy entity to be inserted while recursive mode is enabled
@@ -25,9 +30,9 @@ namespace LazZiya.ExpressLocalization.DB.Models
         public IXLTranslation DummyTranslationEntity { get; set; }
 
         /// <summary>
-        /// Translation provider for recursive mode.
+        /// Translation service name for recursive mode.
         /// Default is "Yandex"
         /// </summary>
-        public TranslationProvider TranslationProvider { get; set; } = TranslationProvider.Yandex;
+        public string TranslationServiceName { get; set; }
     }
 }

@@ -7,9 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LazZiya.ExpressLocalization.DB;
-using LazZiya.EFGenericDataManager;
 using LazZiya.ExpressLocalization.DB.Models;
-using LazZiya.TranslationServices;
 
 namespace SampleProject
 {
@@ -34,13 +32,12 @@ namespace SampleProject
             services.AddRazorPages()
                 .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
                 {
-                    ops.RecursiveMode = RecursiveMode.None;
+                    ops.KeysRecursiveMode = true;
+                    ops.TranslationRecursiveMode = true;
                     ops.DummyResourceEntity = new XLResource();
                     ops.DummyTranslationEntity = new XLTranslation();
-                    ops.TranslationProvider = TranslationProvider.Google;
+                    ops.TranslationServiceName = "Yandex Translate";
                 });
-
-            services.AddTransient<IEFGenericDataManager, EFGenericDataManager<ApplicationDbContext>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -36,6 +36,14 @@
 	  <EmbeddedResource Remove="TranslationServices\**" />
 	  <None Remove="TranslationServices\**" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="XLDbLocalizer.cs.backup" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="XLDbLocalizer.cs.backup" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />

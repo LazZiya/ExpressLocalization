@@ -10,6 +10,8 @@ using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DB.Models;
 using Microsoft.Extensions.Options;
 using LazZiya.TranslationServices;
+using LazZiya.EFGenericDataManager;
+using System.Linq;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -28,7 +30,7 @@ namespace LazZiya.ExpressLocalization.DB
             where TContext : DbContext
         {
             return builder
-                .AddExpressLocalizationDB<TContext, XLResource, XLTranslation, XLCulture>(x => x.RecursiveMode = RecursiveMode.Full);
+                .AddExpressLocalizationDB<TContext, XLResource, XLTranslation, XLCulture>();
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace LazZiya.ExpressLocalization.DB
             where TCultureEntity : class, IXLCulture
         {
             return builder
-                .AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(x => x.RecursiveMode = RecursiveMode.None);
+                .AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>();
         }
 
         /// <summary>
@@ -82,19 +84,18 @@ namespace LazZiya.ExpressLocalization.DB
         {
             var xlDbOps = new XLDbOptions();
             options.Invoke(xlDbOps);
-
-            builder.Services.AddTransient<ISharedCultureLocalizer, XLDbLocalizer<TContext, TResourceEntity,TTranslationEntity, TCultureEntity>>();
-            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>>();
+            builder.Services.AddTransient<IEFGenericDataManager, EFGenericDataManager<TContext>>();
+            builder.Services.AddTransient<ISharedCultureLocalizer, XLDbLocalizer<TResourceEntity,TTranslationEntity, TCultureEntity>>();
+            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
             builder.Services.Configure<XLDbOptions>(options);
             
-            if(xlDbOps.RecursiveMode == RecursiveMode.Full)
+            if(xlDbOps.TranslationRecursiveMode)
             {
-                //builder.Services.AddTransient<IXLTranslateApiClient, RapidApiClient>();
-            }
                 builder.Services.AddTransient<ITranslationService, GoogleTranslateService>();
                 builder.Services.AddTransient<ITranslationService, YandexTranslateService>();
                 builder.Services.AddTransient<ITranslationService, MyMemoryTranslateService>();
                 builder.Services.AddTransient<ITranslationService, SystranTranslateService>();
+            }
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();
@@ -103,8 +104,8 @@ namespace LazZiya.ExpressLocalization.DB
             // Configure Request Localization
             builder.Services.Configure<RequestLocalizationOptions>(ops =>
             {
-                ops.SupportedCultures = culturesService.ActiveCultures;
-                ops.SupportedUICultures = culturesService.ActiveCultures;
+                ops.SupportedCultures = culturesService.ActiveCultures.ToList();
+                ops.SupportedUICultures = culturesService.ActiveCultures.ToList();
                 ops.DefaultRequestCulture = new RequestCulture(culturesService.DefaultCulture ?? "en");
             });
 
@@ -126,7 +127,7 @@ namespace LazZiya.ExpressLocalization.DB
             });
 
             // Configure route culture provide
-            return builder.ExAddRouteValueRequestCultureProvider(culturesService.ActiveCultures, culturesService.DefaultCulture, true); ;
+            return builder.ExAddRouteValueRequestCultureProvider(culturesService.ActiveCultures.ToList(), culturesService.DefaultCulture, true); ;
         }
     }
 }

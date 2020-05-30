@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
+﻿/*
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
@@ -7,47 +9,30 @@ using System.Linq;
 using LazZiya.ExpressLocalization.DB.Models;
 using Microsoft.Extensions.Options;
 using LazZiya.TranslationServices;
-using LazZiya.EFGenericDataManager;
-using System.Linq.Expressions;
-using LazZiya.EFGenericDataManager.Models;
-using Microsoft.Extensions.Logging;
-using System.Net;
-
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
-using Newtonsoft.Json;
-#else
-using System.Text.Json;
-#endif
 
 namespace LazZiya.ExpressLocalization.DB
 {
     /// <summary>
     /// ExpressLocalization DB Localizer
     /// </summary>
-    public class XLDbLocalizer<TXLResource, TXLTranslation, TXLCulture> : ISharedCultureLocalizer, ICulturesProvider<TXLCulture>
+    public class XLDbLocalizer<TContext, TXLResource, TXLTranslation, TXLCulture> : ISharedCultureLocalizer, ICulturesProvider<TXLCulture>
+        where TContext : DbContext
         where TXLResource : class, IXLResource
         where TXLTranslation : class, IXLTranslation
         where TXLCulture : class, IXLCulture
     {
+        private readonly TContext Context;
         private readonly XLDbOptions xlOptions;
-        private readonly ITranslationService TranslationService;
-        private readonly IEFGenericDataManager DataManager;
-        private readonly ILogger Log;
 
         /// <summary>
         /// Get list of currently active cultures
         /// </summary>
-        public ICollection<CultureInfo> ActiveCultures =>
-            DataManager.ListAsync<TXLCulture, CultureInfo>(1, 100,
-                new List<Expression<Func<TXLCulture, bool>>> { { x => x.IsActive == true } },
-                new List<OrderByExpression<TXLCulture>> { new OrderByExpression<TXLCulture> { Expression = x => x.ID, OrderByDir = OrderByDir.ASC } },
-                null,
-                x => new CultureInfo(x.ID)).Result.Item1;
+        public IList<CultureInfo> ActiveCultures => Context.Set<TXLCulture>().AsNoTracking().Where(x => x.IsActive == true).Select(x => new CultureInfo(x.ID)).ToList();
 
         /// <summary>
         /// Get default culture
         /// </summary>
-        public string DefaultCulture => DataManager.GetAsync<TXLCulture>(x => x.IsDefault == true).Result?.ID;
+        public string DefaultCulture => Context.Set<TXLCulture>().AsNoTracking().SingleOrDefault(x => x.IsDefault == true)?.ID;
 
         LocalizedString IStringLocalizer.this[string name, params object[] arguments] => new LocalizedString(name, GetLocalizedString(name, arguments));
 
@@ -56,21 +41,17 @@ namespace LazZiya.ExpressLocalization.DB
         /// <summary>
         /// Initialize ExpressLocalizationDataManager
         /// </summary>
-        /// <param name="dataManager"></param>
+        /// <param name="context"></param>
         /// <param name="options"></param>
-        /// <param name="translationServices"></param>
-        /// <param name="logger"></param>
-        public XLDbLocalizer(IEFGenericDataManager dataManager, IOptions<XLDbOptions> options, IEnumerable<ITranslationService> translationServices, ILogger<XLDbLocalizer<TXLResource, TXLTranslation, TXLCulture>> logger)
+        public XLDbLocalizer(TContext context, IOptions<XLDbOptions> options)
         {
-            if (dataManager == null)
+            if (context == null)
             {
-                throw new ArgumentNullException(nameof(dataManager));
+                throw new ArgumentNullException(nameof(context));
             }
 
-            Log = logger;
-            DataManager = dataManager;
             xlOptions = options.Value;
-            TranslationService = translationServices.FirstOrDefault(x => x.ServiceName == xlOptions.TranslationServiceName);
+            Context = context;
         }
 
         /// <summary>
@@ -97,66 +78,96 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public LocalizedHtmlString GetLocalizedHtmlString(string culture, string key, params object[] args)
         {
-            var resource = DataManager.GetAsync<TXLResource>(x => x.Key == key).Result;
-            Log.LogInformation($"ExpressLocalization.DB - key exist {resource != null} - {key}");
-
-            if (resource == null)
-            {
-                // Add resource to db if recursive mode is enabled
-                if (xlOptions.KeysRecursiveMode)
-                {
-                    // Create a json object for the resource then deserialzie it to create a new resource key
-                    var dynResource = new { ID = 0, Key = key };
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
-                    var resourceJson = JsonConvert.SerializeObject(dynResource);
-                    resource = JsonConvert.DeserializeObject<TXLResource>(resourceJson);
-#else
-                    var resourceJson = JsonSerializer.Serialize(dynResource);
-                    resource = JsonSerializer.Deserialize(resourceJson, typeof(TXLResource)) as TXLResource;
-#endif
-                    var saveResult = DataManager.AddAsync<TXLResource>(resource).Result;
-                    Log.LogInformation($"ExpressLocalization.DB - New resource key 'ID={resource?.ID ?? 0}', Add result: {saveResult}");
-                }
-                else
-                {
-                    return args == null
-                        ? new LocalizedHtmlString(name: key, key, true)
-                        : new LocalizedHtmlString(name: key, key, true, args);
-                }
-            }
-
-            var translation = DataManager.GetAsync<TXLTranslation>(x => x.CultureName == culture && x.ResourceID == resource.ID).Result;
-            Log.LogInformation($"ExpressLocalization.DB - Translation exist {translation != null} - {resource.Key}");
-
-            if (translation == null)
-            {
-                // Add translation to db if recursive mode is enabled
-                if (xlOptions.TranslationRecursiveMode)
-                {
-                    // Translate key
-                    var transResponse = TranslationService.TranslateAsync(DefaultCulture, culture, key, "html").Result;
-                    Log.LogInformation($"ExpressLocalization.DB - Recursive Translation - {TranslationService.ServiceName} - {transResponse.StatusCode}");
-
-                    if (transResponse.StatusCode == HttpStatusCode.OK)
+            var trans = Context.Set<TXLResource>().AsNoTracking()
+                    .Include(x => x.Translations)
+                    .Where(x => x.Key != null && x.Key == key)
+                    .Select(x => new
                     {
-                        // Create dynamic translation object
-                        var dynTrans = new { ID = 0, ResourceID = resource.ID, CultureName = culture, Value = transResponse.Text };
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
-                        var transJson = JsonConvert.SerializeObject(dynTrans);
-                        translation = JsonConvert.DeserializeObject<TXLTranslation>(transJson);
-#else
-                        var transJson = JsonSerializer.Serialize(dynTrans);
-                        translation = JsonSerializer.Deserialize(transJson, typeof(TXLTranslation)) as TXLTranslation;
-#endif
-                        var saveResult = DataManager.AddAsync<TXLTranslation>(translation).Result;
-                        Log.LogInformation($"ExpressLocalization.DB - New translation 'ID={translation.ID}', adding result {saveResult}");
+                        Translation = x.Translations.Where(t => t.CultureName == culture).FirstOrDefault().Value
+                    }).FirstOrDefault();
+
+            if (xlOptions.RecursiveMode == RecursiveMode.None)
+            {
+                return args == null
+                    ? new LocalizedHtmlString(name: key, trans?.Translation ?? key, true)
+                    : new LocalizedHtmlString(name: key, trans?.Translation ?? key, false, args);
+            }
+            else if (xlOptions.RecursiveMode == RecursiveMode.Keys)
+            {
+                // Run recursive mode by inserting missing keys
+                var res = Context.Set<TXLResource>().AsNoTracking().FirstOrDefault(x => x.Key == key);
+
+                if (res == null)
+                {
+                    var entity = xlOptions.DummyResourceEntity;
+                    entity.Key = key;
+                    entity.ID = 0;
+                    Context.Entry(entity).State = EntityState.Added;
+                    try
+                    {
+                        Context.SaveChanges();
+                        Context.Entry(entity).State = EntityState.Detached;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
                     }
                 }
+
+                return args == null
+                    ? new LocalizedHtmlString(name: key, key, true)
+                    : new LocalizedHtmlString(name: key, key, false, args);
+            }
+            else if (xlOptions.RecursiveMode == RecursiveMode.Translations)
+            {
+                // Run recursive mode by inserting missing keys
+                var res = Context.Set<TXLResource>().AsNoTracking().FirstOrDefault(x => x.Key == key);
+
+                if (res == null)
+                {
+                    res = (TXLResource)xlOptions.DummyResourceEntity;
+                    res.Key = key;
+                    res.ID = 0;
+                    Context.Entry(res).State = EntityState.Added;
+                    try
+                    {
+                        Context.SaveChanges();
+                        Context.Entry(res).State = EntityState.Detached;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+
+                var transEntity = Context.Set<TXLTranslation>().FirstOrDefault(x => x.CultureName == culture && x.ResourceID == res.ID);
+                if (transEntity == null)
+                {
+                    var provider = xlOptions.TranslationProvider;
+
+                    transEntity = (TXLTranslation)xlOptions.DummyTranslationEntity;
+                    transEntity.CultureName = culture;
+                    transEntity.ResourceID = res.ID;
+                    //transEntity.Value = xlTranslate.TranslateAsync(provider, DefaultCulture, culture, key, "html").Result;
+                    transEntity.ID = 0;
+                    Context.Entry(transEntity).State = EntityState.Added;
+                    try
+                    {
+                        Context.SaveChanges();
+                        Context.Entry(transEntity).State = EntityState.Detached;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+
+                return args == null
+                    ? new LocalizedHtmlString(name: key, transEntity.Value, true)
+                    : new LocalizedHtmlString(name: key, transEntity.Value, false, args);
             }
 
-            return args == null
-                ? new LocalizedHtmlString(name: key, value: translation?.Value ?? key, false)
-                : new LocalizedHtmlString(name: key, value: translation?.Value ?? key, false, args);
+            throw new Exception("Unknown error");
         }
 
         /// <summary>
@@ -266,3 +277,4 @@ namespace LazZiya.ExpressLocalization.DB
         }
     }
 }
+*/

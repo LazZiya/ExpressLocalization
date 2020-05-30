@@ -7,7 +7,6 @@
 <div class="container">
     <h2 localize-content="true">Translations</h2>
     <alert></alert>
-
     @foreach (var c in Model.Cultures)
     {
         var trans = Model.Resource.Translations.FirstOrDefault(x => x.CultureName == c.ID);

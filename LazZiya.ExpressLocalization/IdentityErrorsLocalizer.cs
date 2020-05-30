@@ -39,6 +39,7 @@ namespace LazZiya.ExpressLocalization
             return new IdentityError { Code = code, Description = msg };
         }
 
+
         public override IdentityError DuplicateEmail(string email) 
             => LocalizedIdentityError(IdentityErrorMessages.DuplicateEmail, email);
 

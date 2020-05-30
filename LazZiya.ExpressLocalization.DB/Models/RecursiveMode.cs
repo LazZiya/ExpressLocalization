@@ -13,9 +13,14 @@
         /// <summary>
         /// Run recursive mode for adding missed resource keys only
         /// </summary>
-        KeyOnly,
+        Keys,
 
         /// <summary>
+        /// Run ercursive mode for adding missed translations only
+        /// </summary>
+        Translations,
+
+        /// /// <summary>
         /// Run ercursive mode for adding missed keys and translations
         /// </summary>
         Full

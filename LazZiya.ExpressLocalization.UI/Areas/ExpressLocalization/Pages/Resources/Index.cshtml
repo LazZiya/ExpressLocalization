@@ -6,67 +6,69 @@
     var dir = CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
 }
 
-<div class="container">
-    <h2 localize-content="true">Localization Resources</h2>
-    <alert></alert>
-    <table class="table table-striped">
-        <thead class="bg-dark text-light">
-            <tr>
-                <th localize-content="true" scope="col" width="10%">ID</th>
-                <th localize-content="true" scope="col" width="30%">Key</th>
-                <th localize-content="true" scope="col" width="30%">Comment</th>
-                <th localize-content="true" scope="col" width="20%">Translations</th>
-                <th scope="col" width="10%">
-                    <a asp-page="Create" class="btn btn-primary" localize-att-title="Create new resource">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </th>
-            </tr>
-        </thead>
+    <div class="container">
+        <h2 localize-content="true">Localization Resources</h2>
+        <alert></alert>
+        <h3>@Url.RouteUrl(ViewContext.RouteData.Values)</h3>
 
-        <tbody>
-            @if (Model.TotalRecords == 0)
-            {
+        <table class="table table-striped">
+            <thead class="bg-dark text-light">
                 <tr>
-                    <td colspan="5" localize-content="true" scope="row">No records!</td>
+                    <th localize-content="true" scope="col" width="10%">ID</th>
+                    <th localize-content="true" scope="col" width="30%">Key</th>
+                    <th localize-content="true" scope="col" width="30%">Comment</th>
+                    <th localize-content="true" scope="col" width="20%">Translations</th>
+                    <th scope="col" width="10%">
+                        <a asp-page="Create" class="btn btn-primary" localize-att-title="Create new resource">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </th>
                 </tr>
-            }
-            else
-            {
-                foreach (var r in Model.Resources)
+            </thead>
+
+            <tbody>
+                @if (Model.TotalRecords == 0)
                 {
                     <tr>
-                        <td>@r.ID</td>
-                        <td>@(r.Key?.Length > 100  ? r.Key?.Substring(0, 100) : r.Key)</td>
-                        <td>@(r.Comment?.Length > 100  ? r.Comment?.Substring(0, 100) : r.Comment)</td>
-                        <td>
-                            @if (r.Cultures.Count == 0)
-                            {
-                                <span localize-content="true">...</span>
-                            }
-                            else
-                            {
-                                foreach (var c in r.Cultures.OrderBy(x => x))
-                                {
-                                    <a>@c</a> @:&nbsp;
-                                }
-                            }
-                        </td>
-                        <td>
-                            @await Html.PartialAsync("_options", r)
-                        </td>
+                        <td colspan="5" localize-content="true" scope="row">No records!</td>
                     </tr>
                 }
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="5">
-                    <paging page-no="Model.P"
-                            page-size="Model.S"
-                            total-records="Model.TotalRecords"></paging>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
+                else
+                {
+                    foreach (var r in Model.Resources)
+                    {
+                        <tr>
+                            <td>@r.ID</td>
+                            <td>@(r.Key?.Length > 100  ? r.Key?.Substring(0, 100) : r.Key)</td>
+                            <td>@(r.Comment?.Length > 100  ? r.Comment?.Substring(0, 100) : r.Comment)</td>
+                            <td>
+                                @if (r.Cultures.Count == 0)
+                                {
+                                    <span localize-content="true">...</span>
+                                }
+                                else
+                                {
+                                    foreach (var c in r.Cultures.OrderBy(x => x))
+                                    {
+                                        <a>@c</a> @:&nbsp;
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @await Html.PartialAsync("_options", r)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <paging page-no="Model.P"
+                                page-size="Model.S"
+                                total-records="Model.TotalRecords"></paging>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
