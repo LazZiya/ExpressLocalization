@@ -82,19 +82,19 @@ namespace LazZiya.ExpressLocalization.DB
             where TTranslationEntity : class, IXLTranslation
             where TCultureEntity : class, IXLCulture
         {
+            builder.Services.AddScoped<IEFGenericDataManager, EFGenericDataManager<TContext>>();
+            builder.Services.AddScoped<ISharedCultureLocalizer, XLDbLocalizer<TResourceEntity,TTranslationEntity, TCultureEntity>>();
+            builder.Services.AddScoped<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
+
             var xlDbOps = new XLDbOptions();
             options.Invoke(xlDbOps);
-            builder.Services.AddTransient<IEFGenericDataManager, EFGenericDataManager<TContext>>();
-            builder.Services.AddTransient<ISharedCultureLocalizer, XLDbLocalizer<TResourceEntity,TTranslationEntity, TCultureEntity>>();
-            builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
-            builder.Services.Configure<XLDbOptions>(options);
-            
+            builder.Services.Configure<XLDbOptions>(options);            
             if(xlDbOps.OnlineLocalization)
             {
-                builder.Services.AddTransient<ITranslationService, GoogleTranslateService>();
-                builder.Services.AddTransient<ITranslationService, YandexTranslateService>();
-                builder.Services.AddTransient<ITranslationService, MyMemoryTranslateService>();
-                builder.Services.AddTransient<ITranslationService, SystranTranslateService>();
+                builder.Services.AddScoped<ITranslationService, GoogleTranslateService>();
+                builder.Services.AddScoped<ITranslationService, YandexTranslateService>();
+                builder.Services.AddScoped<ITranslationService, MyMemoryTranslateService>();
+                builder.Services.AddScoped<ITranslationService, SystranTranslateService>();
             }
 
             var sp = builder.Services.BuildServiceProvider();
@@ -108,17 +108,16 @@ namespace LazZiya.ExpressLocalization.DB
                 ops.SupportedUICultures = culturesService.ActiveCultures.ToList();
                 ops.DefaultRequestCulture = new RequestCulture(culturesService.DefaultCulture ?? "en");
             });
+            
+            // Configure identity errors localization
+            builder.Services.AddTransient<IdentityErrorDescriber, IdentityErrorsLocalizer>();
+            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<DatabaseType>>();
 
             // Configure model binding errors localization
             builder.AddMvcOptions(ops =>
             {
                 ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(dbLocalizer);
             });
-
-            // Configure identity errors localization
-            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>();
-
-            builder.Services.AddSingleton<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<DatabaseType>>();
 
             // Configure data annotations errors localization
             builder.AddDataAnnotationsLocalization(ops =>

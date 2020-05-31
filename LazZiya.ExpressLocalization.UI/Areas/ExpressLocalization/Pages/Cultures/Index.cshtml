@@ -10,7 +10,7 @@
 
 <div class="content">
     <h2 localize-content="true">Cultures</h2>
-    <alert></alert>
+    <alert localizer="_localizer"></alert>
     <table class="table table-striped">
         <thead class="bg-dark text-light">
             <tr>
@@ -20,13 +20,13 @@
                         <div class="form-group col-3">
                             <select class="form-control" name="ID" id="culturesList"></select>
                         </div>
-                        <button type="submit" asp-page="Index" asp-page-handler="AddNew" class="btn btn-primary" localize-att-title="Add new culture">
+                        <button type="submit" asp-page="Index" asp-page-handler="AddNew" class="btn btn-primary" localize-att-title="Add new culture" localize-content="false">
                             <i class="fas fa-plus"></i>
                         </button>
                     </form>
                 </td>
                 <td>
-                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#RestartApp" localize-att-title="Turn off">
+                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#RestartApp" localize-att-title="Turn off" localize-content="false">
                         <i class="fas fa-power-off"></i>
                     </a>
                 </td>

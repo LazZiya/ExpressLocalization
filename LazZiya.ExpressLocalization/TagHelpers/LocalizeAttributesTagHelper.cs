@@ -44,8 +44,8 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// <returns></returns>
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            if (output.Attributes.Any(x => x.Name.StartsWith(_LocalizeAtt)))
             //if (Localize || (Args != null && Args.Length > 0) || !string.IsNullOrEmpty(Culture) || ResourceSource != null)
+            if(output.Attributes.Any(x => x.Name.StartsWith(_LocalizeAtt)))
             {
                 //list of attributes to be localized e.g. localize-att-title="Image title"
                 var addAttributes = new List<TagHelperAttribute>();
@@ -81,7 +81,9 @@ namespace LazZiya.ExpressLocalization.TagHelpers
                     removeAttributes.ForEach(x => output.Attributes.Remove(x));
 
             }
-            else if(Localize || output.Attributes.Any(x => x.Name.StartsWith("localize-") && !x.Name.StartsWith(_LocalizeAtt)))
+
+            //if(Localize && output.Attributes.Any(x => x.Name.StartsWith("localize-") && !x.Name.StartsWith(_LocalizeAtt)))
+            if (Localize || output.Attributes.Any(x => x.Name.StartsWith("localize-") && !x.Name.StartsWith(_LocalizeAtt)))
             {
                 await base.ProcessAsync(context, output);
             }

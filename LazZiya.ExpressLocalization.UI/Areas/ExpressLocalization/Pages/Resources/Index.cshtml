@@ -9,7 +9,6 @@
     <div class="container">
         <h2 localize-content="true">Localization Resources</h2>
         <alert></alert>
-        <h3>@Url.RouteUrl(ViewContext.RouteData.Values)</h3>
 
         <table class="table table-striped">
             <thead class="bg-dark text-light">
@@ -19,7 +18,7 @@
                     <th localize-content="true" scope="col" width="30%">Comment</th>
                     <th localize-content="true" scope="col" width="20%">Translations</th>
                     <th scope="col" width="10%">
-                        <a asp-page="Create" class="btn btn-primary" localize-att-title="Create new resource">
+                        <a asp-page="Create" class="btn btn-primary" localize-att-title="Create new resource" localize-content="false">
                             <i class="fas fa-plus"></i>
                         </a>
                     </th>

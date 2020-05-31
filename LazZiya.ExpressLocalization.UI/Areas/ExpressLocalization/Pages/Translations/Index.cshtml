@@ -3,75 +3,75 @@
 @{
     ViewBag.Title = "Translations";
 }
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer
 
 <div class="container">
     <h2 localize-content="true">Translations</h2>
-    <alert></alert>
+    <alert localizer="_localizer"></alert>
     @foreach (var c in Model.Cultures)
     {
         var trans = Model.Resource.Translations.FirstOrDefault(x => x.CultureName == c.ID);
         var css = c.ID.Contains("-") ? $"flag-icon flag-icon-{c.ID.Split('-')[1].ToLower()}" : "";
-    <div class="card bg-light mb-5">
-        <div class="card-header">
-            <h5 class="card-title"><span class="@(css)"></span> @($"{c.EnglishName} ({c.ID})")</h5>
-        </div>
-        <div class="card-body border-secondary">
-            <div class="row">
-                <div class="col">
-                    <form method="post"
-                          data-ajax="true"
-                          data-ajax-method="post"
-                          data-ajax-url="@Url.Page("Index", "SaveTranslation")"
-                          data-ajax-loading="#loading-@c.ID"
-                          data-ajax-begin="setCultureName('@c.ID')"
-                          data-ajax-success="saveResultSuccess"
-                          data-ajax-failure="saveResultFailed">
-                        @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            <input type="hidden" name="Translation.ResourceID" value="@Model.Resource.ID" />
-                            <input type="hidden" name="Translation.CultureName" value="@c.ID" />
-                            <textarea name="Translation.Value" id="textArea-@c.ID" class="form-control" rows="5">@(trans?.Value ?? "")</textarea>
-                        </div>
-                        <div class="form-group">
-                            <span id="loading-@c.ID" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
-                            <div id="result-@c.ID" class="text-success"></div>
-                        </div>
-                        <div class="form-group">
-                            <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back"><i class="fas fa-chevron-left"></i></a>
-                            <button type="submit" class="btn btn-primary" localize-att-title="Save"><i class="fas fa-save"></i></button>
-                            <button type="button" class="btn btn-danger"
-                                    data-resource-id="@(Model.Resource.ID)"
-                                    data-culture-name="@(c.ID)"
-                                    data-text-area="value-@c.ID"
-                                    data-toggle="modal"
-                                    data-target="#deleteModal"
-                                    localize-att-title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <!-- online tranlsate -->
-                    <form method="post" id="translate-@c.ID" class="form-inline"
-                          data-ajax="true"
-                          data-ajax-method="post"
-                          data-ajax-url="@Url.Page("Index", "OnlineTranslate")"
-                          data-ajax-begin="setCultureName('@c.ID')"
-                          data-ajax-success="translateSuccess">
-                        <input type="hidden" name="text" value="@Model.Resource.Key" />
-                        <input type="hidden" name="source" value="@Model.DefaultCulture" />
-                        <input type="hidden" name="target" value="@c.ID" />
-                        <input type="hidden" name="format" value="html" />
-                        <select asp-items="@Model.TranslationProviders" name="provider" class="form-control"></select>
-                        <button type="submit" class="btn btn-warning ml-2" localize-att-title="Translate" localize-content="true">Translate</button>
-                    </form>
-                </div>
-                <div class="col">
-                    <p>@Model.Resource.Key</p>
-                    <p class="text-secondary">@Model.Resource.Comment</p>
+        <div class="card bg-light mb-5">
+            <div class="card-header">
+                <h5 class="card-title"><span class="@(css)"></span> @($"{c.EnglishName} ({c.ID})")</h5>
+            </div>
+            <div class="card-body border-secondary">
+                <div class="row">
+                    <div class="col">
+                        <form method="post"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-url="@Url.Page("Index", "SaveTranslation")"
+                              data-ajax-loading="#loading-@c.ID"
+                              data-ajax-success="saveResultSuccess"
+                              data-ajax-failure="saveResultFailed">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <input type="hidden" name="Translation.ResourceID" value="@Model.Resource.ID" />
+                                <input type="hidden" name="Translation.CultureName" value="@c.ID" />
+                                <textarea name="Translation.Value" id="textArea-@c.ID" class="form-control" rows="5">@(trans?.Value ?? "")</textarea>
+                            </div>
+                            <div class="form-group">
+                                <span id="loading-@c.ID" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
+                                <div id="result-@c.ID" class="text-success"></div>
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back" localize-content="false"><i class="fas fa-chevron-left"></i></a>
+                                <button type="submit" class="btn btn-primary" localize-att-title="Save" localize-content="false"><i class="fas fa-save"></i></button>
+                                <button type="button" class="btn btn-danger"
+                                        data-resource-id="@(Model.Resource.ID)"
+                                        data-culture-name="@(c.ID)"
+                                        data-text-area="value-@c.ID"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"
+                                        localize-att-title="Delete"
+                                        localize-content="false">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <!-- online tranlsate -->
+                        <form method="post" id="translate-@c.ID" class="form-inline"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-url="@Url.Page("Index", "OnlineTranslate")"
+                              data-ajax-success="translateSuccess">
+                            <input type="hidden" name="text" value="@Model.Resource.Key" />
+                            <input type="hidden" name="source" value="@Model.DefaultCulture" />
+                            <input type="hidden" name="target" value="@c.ID" />
+                            <input type="hidden" name="format" value="html" />
+                            <select asp-items="@Model.TranslationProviders" name="provider" class="form-control"></select>
+                            <button type="submit" class="btn btn-warning ml-2" localize-att-title="Translate" localize-content="true">Translate</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <p>@Model.Resource.Key</p>
+                        <p class="text-secondary">@Model.Resource.Comment</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     }
 
     <paging page-no="Model.P"
@@ -122,56 +122,45 @@
 
 
     <script>
-        // save-delete scripts
-        var cName = '';
-        function setCultureName(c) {
-            cName = c;
-        }
-
         $('#deleteModal').on('shown.bs.modal', function (e) {
             var rId = $(e.relatedTarget).data('resource-id');
-            cName = $(e.relatedTarget).data('culture-name');
             $("#deleteResoueceId").val(rId);
+
+            var cName = $(e.relatedTarget).data('culture-name');
             $("#deleteCultureName").val(cName);
         });
 
-        $('#deleteModal').on('hidden.bs.modal', function (e) {
-            $("#deleteCultureName").val();
-            cName = '';
-        });
-
         function deleteResultSuccess(data, textStatus, xhr) {
-            $("#result-" + cName).text("Deleted");
-            $("#result-" + cName).removeClass();
-            $("#result-" + cName).addClass("text-warning");
-            $('#deleteModal').modal('hide');
+            if (data.statusCode == 200) {
+                $("#result-" + data.target).text("Deleted");
+                $("#result-" + data.target).removeClass();
+                $("#result-" + data.target).addClass("text-warning");
+                $('#deleteModal').modal('hide');
+            }
         };
 
         function deleteResultFailed(xhr) {
-            $("#result-" + cName).text("Not Deleted!");
-            $("#result-" + cName).removeClass();
-            $("#result-" + cName).addClass("text-danger");
+            console.log("Delete failed!");
             $('#deleteModal').modal('hide');
         };
 
         function saveResultSuccess(data, textStatus, xhr) {
-            console.log("#result-" + cName + " : success");
-            $("#result-" + cName).text("Saved");
-            $("#result-" + cName).removeClass();
-            $("#result-" + cName).addClass("text-success");
+            console.log("Save result");
+            console.log(data);
+            if (data.statusCode == 200) {
+                $("#result-" + data.target).text("Saved");
+                $("#result-" + data.target).removeClass();
+                $("#result-" + data.target).addClass("text-success");
+            }
         };
 
         function saveResultFailed(xhr) {
-            console.log("#result-" + cName + " : failed");
-            $("#result-" + cName).text("Not saved!");
-            $("#result-" + cName).removeClass();
-            $("#result-" + cName).addClass("text-danger");
+            console.log("Save failed!");
         };
 
         function translateSuccess(data, textStatus, xhr) {
-            var t = JSON.parse(data);
-            console.log("Translation Result: " + t.statusCode + " : " + t.target + " : " + t.text);
-            $("#textArea-" + t.target).text(t.text);
+            console.log(data);
+            $("#textArea-" + data.target).text(data.text);
         }
     </script>
 }

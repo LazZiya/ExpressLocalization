@@ -25,7 +25,7 @@ namespace SampleProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -35,7 +35,7 @@ namespace SampleProject
                 {
                     ops.AutoAddKeys = true;
                     ops.OnlineLocalization = true;
-                    ops.TranslationService = typeof(MyMemoryTranslateService);
+                    ops.TranslationService = typeof(YandexTranslateService);
                 });
         }
 

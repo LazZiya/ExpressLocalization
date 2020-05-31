@@ -10,6 +10,7 @@ using LazZiya.TagHelpers.Alerts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 
 namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations
 {
@@ -50,6 +51,15 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
 
         public ICollection<XLCulture> Cultures { get; set; }
 
+        private class CRUDAjaxReponse
+        {
+            public HttpStatusCode StatusCode { get; set; }
+            /// <summary>
+            /// Target culture
+            /// </summary>
+            public string Target { get; set; }
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             if (ResourceID == 0)
@@ -74,11 +84,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
             return Page();
         }
 
-        public async Task<ContentResult> OnPostSaveTranslationAsync()
+        public async Task<JsonResult> OnPostSaveTranslationAsync()
         {
             if (!ModelState.IsValid)
             {
-                return Content("Wrong input!");
+                return new JsonResult(new CRUDAjaxReponse { StatusCode= HttpStatusCode.BadRequest, Target = Translation.CultureName });
             }
 
             // get translation from DB
@@ -98,32 +108,33 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
                 success = await DataManager.UpdateAsync<XLTranslation, int>(entity);
             }
 
-
-            return success ? Content("Saved") : Content("Not saved!");
+            return success
+                ? new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.OK, Target = Translation.CultureName })
+                : new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.InternalServerError, Target = Translation.CultureName });
         }
 
-        public async Task<StatusCodeResult> OnPostDeleteTranslationAsync()
+        public async Task<JsonResult> OnPostDeleteTranslationAsync()
         {
             if (Translation.ResourceID == 0)
             {
-                return StatusCode(400);
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureName });
             }
 
             if (string.IsNullOrWhiteSpace(Translation.CultureName))
             {
-                return StatusCode(400);
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureName });
             }
 
             var entity = await DataManager.GetAsync<XLTranslation>(x => x.ResourceID == Translation.ResourceID && x.CultureName == Translation.CultureName);
 
             if (entity == null)
             {
-                return StatusCode(404);
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.NotFound, Target = Translation.CultureName });
             }
 
             return await DataManager.DeleteAsync<XLTranslation>(entity)
-                ? StatusCode(200)
-                : StatusCode(500);
+                ? new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.OK, Target = Translation.CultureName })
+                : new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.InternalServerError, Target = Translation.CultureName });
         }
 
         public async Task<JsonResult> OnPostOnlineTranslateAsync(string provider, string text, string source, string target, string format)

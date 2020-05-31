@@ -98,7 +98,6 @@ namespace LazZiya.ExpressLocalization.DB
         public LocalizedHtmlString GetLocalizedHtmlString(string culture, string key, params object[] args)
         {
             var resource = DataManager.GetAsync<TXLResource>(x => x.Key == key).Result;
-            Log.LogInformation($"ExpressLocalization.DB - key exist {resource != null} - {key}");
 
             if (resource == null)
             {
@@ -126,30 +125,36 @@ namespace LazZiya.ExpressLocalization.DB
             }
 
             var translation = DataManager.GetAsync<TXLTranslation>(x => x.CultureName == culture && x.ResourceID == resource.ID).Result;
-            Log.LogInformation($"ExpressLocalization.DB - Translation exist {translation != null} - {resource.Key}");
 
             if (translation == null)
             {
                 // Add translation to db if recursive mode is enabled
                 if (xlOptions.OnlineLocalization)
                 {
-                    // Translate key
-                    var transResponse = TranslationService.TranslateAsync(DefaultCulture, culture, key, "html").Result;
-                    Log.LogInformation($"ExpressLocalization.DB - Recursive Translation - {TranslationService.ServiceName} - {transResponse.StatusCode}");
-
-                    if (transResponse.StatusCode == HttpStatusCode.OK)
+                    try
                     {
-                        // Create dynamic translation object
-                        var dynTrans = new { ID = 0, ResourceID = resource.ID, CultureName = culture, Value = transResponse.Text };
+                        // Translate key
+                        var transResponse = TranslationService.TranslateAsync(DefaultCulture, culture, key, "html").Result;
+                        Log.LogInformation($"ExpressLocalization.DB - Recursive Translation - {TranslationService.ServiceName} - {transResponse.StatusCode}");
+
+                        if (transResponse.StatusCode == HttpStatusCode.OK)
+                        {
+                            // Create dynamic translation object
+                            var dynTrans = new { ID = 0, ResourceID = resource.ID, CultureName = culture, Value = transResponse.Text };
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
-                        var transJson = JsonConvert.SerializeObject(dynTrans);
-                        translation = JsonConvert.DeserializeObject<TXLTranslation>(transJson);
+                            var transJson = JsonConvert.SerializeObject(dynTrans);
+                            translation = JsonConvert.DeserializeObject<TXLTranslation>(transJson);
 #else
                         var transJson = JsonSerializer.Serialize(dynTrans);
                         translation = JsonSerializer.Deserialize(transJson, typeof(TXLTranslation)) as TXLTranslation;
 #endif
-                        var saveResult = DataManager.AddAsync<TXLTranslation>(translation).Result;
-                        Log.LogInformation($"ExpressLocalization.DB - New translation 'ID={translation.ID}', adding result {saveResult}");
+                            var saveResult = DataManager.AddAsync<TXLTranslation>(translation).Result;
+                            Log.LogInformation($"ExpressLocalization.DB - New translation 'ID={translation.ID}', adding result {saveResult}");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.LogError($"ExpressLocalization.DB - Translation service error: " + e.Message);
                     }
                 }
             }
