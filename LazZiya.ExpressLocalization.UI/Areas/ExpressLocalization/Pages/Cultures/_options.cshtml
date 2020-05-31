@@ -14,7 +14,7 @@
         @if (Model.IsDefault)
         {
             <a class="dropdown-item text-secondary" href="#">
-                <i class="fas fa-lock"></i> Default culture is locked!
+                <i class="fas fa-lock"></i> <localize>Default culture is locked!</localize>
             </a>
         }
         else
@@ -23,24 +23,24 @@
             {
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activate-@(Model.ID)">
                     <i class="fas fa-check-square"></i>
-                    Enable
+                    <localize>Enable</localize>
                 </a>
             }
             else
             {
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#activate-@(Model.ID)">
                     <i class="far fa-square"></i>
-                    Disable
+                    <localize>Disable</localize>
                 </a>
             }
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#setDefault-@(Model.ID)">
                 <i class="fas fa-dot-circle"></i>
-                Set as default
+                <localize>Set as default</localize>
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#delete-@(Model.ID)">
                 <i class="fas fa-trash-alt"></i>
-                Delete
+                <localize>Delete</localize>
             </a>
         }
     </div>
@@ -81,13 +81,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="activateLabel-@(Model.ID)">@act Culture </h5>
+                <h5 class="modal-title" id="activateLabel-@(Model.ID)" localize-content="true">@act Culture </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                @act this culture?
+                <localize>@act this culture?</localize>
                 <ul>
                     <li>
                         <span class="@(css)"></span> @Model.EnglishName
@@ -95,11 +95,11 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" localize-content="true">Cancel</button>
                 <form method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="ID" />
-                    <button type="submit" asp-page-handler="Activate" class="btn btn-primary">@act</button>
+                    <button type="submit" asp-page-handler="Activate" class="btn btn-primary" localize-content="true">@act</button>
                 </form>
             </div>
         </div>
@@ -111,13 +111,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="setDefaultLabel-@(Model.ID)">Set as default</h5>
+                <h5 class="modal-title" id="setDefaultLabel-@(Model.ID)" localize-content="true">Set as default</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Set below culture as default culture? (it will be anabled as well)
+                <localize>Set below culture as default culture? (it will be anabled as well)</localize>
                 <ul>
                     <li>
                         <span class="@(css)"></span> @Model.EnglishName
@@ -125,11 +125,11 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" localize-content="true">Cancel</button>
                 <form method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="ID" />
-                    <button type="submit" asp-page-handler="SetDefault" class="btn btn-primary">Ok</button>
+                    <button type="submit" asp-page-handler="SetDefault" class="btn btn-primary" localize-content="true">Ok</button>
                 </form>
             </div>
         </div>

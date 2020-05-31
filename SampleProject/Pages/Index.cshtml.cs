@@ -21,7 +21,6 @@ namespace SampleProject.Pages
 
         public void OnGet()
         {
-
         }
 
         /// <summary>

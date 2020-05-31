@@ -119,32 +119,21 @@
             Define options for XL DB localization
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.KeysRecursiveMode">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.AutoAddKeys">
             <summary>
             If the key string is not found in the DB, it will be inserted autoamtically to the DB.
             default: false
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.TranslationRecursiveMode">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.OnlineLocalization">
             <summary>
             If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
             default: false
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.DummyResourceEntity">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.TranslationService">
             <summary>
-            Dummy entity to be inserted while recursive mode is enabled
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.DummyTranslationEntity">
-            <summary>
-            Dummy entity to create translations for recursive mode
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.TranslationServiceName">
-            <summary>
-            Translation service name for recursive mode.
-            Default is "Yandex"
+            Type of the translation service to use for OnlineLocalization
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.XLResource">

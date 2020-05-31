@@ -1,4 +1,5 @@
 ﻿using LazZiya.TranslationServices;
+using System;
 
 namespace LazZiya.ExpressLocalization.DB.Models
 {
@@ -11,28 +12,17 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// If the key string is not found in the DB, it will be inserted autoamtically to the DB.
         /// default: false
         /// </summary>
-        public bool KeysRecursiveMode { get; set; } = false;
+        public bool AutoAddKeys { get; set; } = false;
         
         /// <summary>
         /// If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
         /// default: false
         /// </summary>
-        public bool TranslationRecursiveMode { get; set; } = false;
+        public bool OnlineLocalization { get; set; } = false;
 
         /// <summary>
-        /// Dummy entity to be inserted while recursive mode is enabled
+        /// Type of the translation service to use for OnlineLocalization
         /// </summary>
-        public IXLResource DummyResourceEntity { get; set; }
-
-        /// <summary>
-        /// Dummy entity to create translations for recursive mode
-        /// </summary>
-        public IXLTranslation DummyTranslationEntity { get; set; }
-
-        /// <summary>
-        /// Translation service name for recursive mode.
-        /// Default is "Yandex"
-        /// </summary>
-        public string TranslationServiceName { get; set; }
+        public Type TranslationService { get; set; }
     }
 }

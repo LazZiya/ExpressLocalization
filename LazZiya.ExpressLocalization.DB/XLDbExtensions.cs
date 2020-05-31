@@ -89,7 +89,7 @@ namespace LazZiya.ExpressLocalization.DB
             builder.Services.AddTransient<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
             builder.Services.Configure<XLDbOptions>(options);
             
-            if(xlDbOps.TranslationRecursiveMode)
+            if(xlDbOps.OnlineLocalization)
             {
                 builder.Services.AddTransient<ITranslationService, GoogleTranslateService>();
                 builder.Services.AddTransient<ITranslationService, YandexTranslateService>();

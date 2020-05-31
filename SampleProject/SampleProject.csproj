@@ -28,8 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\TagHelpers\LazZiya.TagHelpers\LazZiya.TagHelpers.csproj" />
     <ProjectReference Include="..\LazZiya.ExpressLocalization.UI\LazZiya.ExpressLocalization.UI.csproj" />
-    <PackageReference Include="LazZiya.TagHelpers" Version="4.0.1" Exclude="Build,Analyzers" />
   </ItemGroup>
 
 </Project>

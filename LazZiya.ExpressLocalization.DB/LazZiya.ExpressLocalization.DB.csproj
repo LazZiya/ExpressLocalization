@@ -14,8 +14,9 @@
 		<PackageProjectUrl>https://github.com/LazZiya/ExpressLocalization/wiki</PackageProjectUrl>
 		<PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
 		<PackageReleaseNotes>
-			- ExpressLocalization with DB support
 			- .net5 support
+			- Localization with DB support
+			- Localization during runtime!
 			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
 		</PackageReleaseNotes>
 		<Version>1.0.0-beta1</Version>

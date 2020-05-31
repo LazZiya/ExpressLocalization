@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LazZiya.ExpressLocalization.DB;
 using LazZiya.ExpressLocalization.DB.Models;
+using LazZiya.TranslationServices;
 
 namespace SampleProject
 {
@@ -32,11 +33,9 @@ namespace SampleProject
             services.AddRazorPages()
                 .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
                 {
-                    ops.KeysRecursiveMode = true;
-                    ops.TranslationRecursiveMode = true;
-                    ops.DummyResourceEntity = new XLResource();
-                    ops.DummyTranslationEntity = new XLTranslation();
-                    ops.TranslationServiceName = "Yandex Translate";
+                    ops.AutoAddKeys = true;
+                    ops.OnlineLocalization = true;
+                    ops.TranslationService = typeof(MyMemoryTranslateService);
                 });
         }
 

@@ -4,7 +4,9 @@
     ViewBag.Title = "Cultures";
     var culture = CultureInfo.CurrentCulture.Name.Split('-')[0];
     var dir = CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+
 }
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer 
 
 <div class="content">
     <h2 localize-content="true">Cultures</h2>

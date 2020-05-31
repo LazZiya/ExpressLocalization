@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject", "SampleProj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.TranslationServices", "..\TranslationServices\LazZiya.TranslationServices\LazZiya.TranslationServices.csproj", "{AE2CFD31-3605-4538-AF17-0D990EA58679}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.TagHelpers", "..\TagHelpers\LazZiya.TagHelpers\LazZiya.TagHelpers.csproj", "{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

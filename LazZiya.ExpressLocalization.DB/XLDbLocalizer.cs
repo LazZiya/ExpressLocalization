@@ -70,7 +70,7 @@ namespace LazZiya.ExpressLocalization.DB
             Log = logger;
             DataManager = dataManager;
             xlOptions = options.Value;
-            TranslationService = translationServices.FirstOrDefault(x => x.ServiceName == xlOptions.TranslationServiceName);
+            TranslationService = translationServices.FirstOrDefault(x => x.GetType() == xlOptions.TranslationService);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace LazZiya.ExpressLocalization.DB
             if (resource == null)
             {
                 // Add resource to db if recursive mode is enabled
-                if (xlOptions.KeysRecursiveMode)
+                if (xlOptions.AutoAddKeys)
                 {
                     // Create a json object for the resource then deserialzie it to create a new resource key
                     var dynResource = new { ID = 0, Key = key };
@@ -131,7 +131,7 @@ namespace LazZiya.ExpressLocalization.DB
             if (translation == null)
             {
                 // Add translation to db if recursive mode is enabled
-                if (xlOptions.TranslationRecursiveMode)
+                if (xlOptions.OnlineLocalization)
                 {
                     // Translate key
                     var transResponse = TranslationService.TranslateAsync(DefaultCulture, culture, key, "html").Result;
