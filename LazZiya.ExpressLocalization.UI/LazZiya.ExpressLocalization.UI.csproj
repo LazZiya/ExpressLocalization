@@ -26,7 +26,6 @@
 	<ItemGroup>
 		<PackageReference Include="LazZiya.ExpressLocalization.DB" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
 		<PackageReference Include="LazZiya.TagHelpers" Version="5.0.0-beta1" Exclude="Build,Analyzers" />
-		<PackageReference Include="RestSharp" Version="106.11.4" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
