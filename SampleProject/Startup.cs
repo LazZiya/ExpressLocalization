@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LazZiya.ExpressLocalization.DB;
-using LazZiya.ExpressLocalization.DB.Models;
 using LazZiya.TranslationServices;
 
 namespace SampleProject
@@ -35,7 +34,7 @@ namespace SampleProject
                 {
                     ops.AutoAddKeys = true;
                     ops.OnlineLocalization = true;
-                    ops.TranslationService = typeof(YandexTranslateService);
+                    ops.TranslationService = typeof(MyMemoryTranslateService);
                 });
         }
 
