@@ -135,8 +135,12 @@
                 $("#result-" + data.target).text("Deleted");
                 $("#result-" + data.target).removeClass();
                 $("#result-" + data.target).addClass("text-warning");
-                $('#deleteModal').modal('hide');
+            } else {
+                $("#result-" + data.target).text("Error! " + data.statusCode);
+                $("#result-" + data.target).removeClass();
+                $("#result-" + data.target).addClass("text-danger");
             }
+            $('#deleteModal').modal('hide');
         };
 
         function deleteResultFailed(xhr) {
@@ -151,6 +155,10 @@
                 $("#result-" + data.target).text("Saved");
                 $("#result-" + data.target).removeClass();
                 $("#result-" + data.target).addClass("text-success");
+            } else {
+                $("#result-" + data.target).text("Error! " + data.statusCode);
+                $("#result-" + data.target).removeClass();
+                $("#result-" + data.target).addClass("text-danger");
             }
         };
 

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LazZiya.ExpressLocalization.UI</name>
+    </assembly>
+    <members>
+        <member name="T:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models.CultureItemModel">
+            <summary>
+            Culture input model
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.IndexModel.OnGetSystemCultures(System.String)">
+            <summary>
+            Return a list of cultures
+            </summary>
+            <param name="search"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.CRUDAjaxReponse.Target">
+            <summary>
+            Target culture
+            </summary>
+        </member>
+    </members>
+</doc>

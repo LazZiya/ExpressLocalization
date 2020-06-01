@@ -16,12 +16,11 @@
 		<PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
 		<PackageReleaseNotes>
 			New:
-			- ExpressLocalization with DB support
 			- .net5 support
-			- DB localization moved to a new nuget LazZiya.ExpressLocalizatin.DB
+			- ExpressLocalization with DB support (LazZiya.ExpressLocalizatin.DB)
 			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
 		</PackageReleaseNotes>
-		<Version>5.0.0-beta2-2</Version>
+		<Version>5.0.0-beta2</Version>
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 		<FileVersion>5.0.0.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -64,13 +63,6 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="5.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Compile Remove="_DB\**" />
-	  <EmbeddedResource Remove="_DB\**" />
-	  <None Remove="_DB\**" />
-	</ItemGroup>
-
 
 	<ItemGroup>
 		<None Update="files\icon.ico">

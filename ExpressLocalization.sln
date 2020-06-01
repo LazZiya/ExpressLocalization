@@ -13,13 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{681CFE58-A3FA-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.ExpressLocalization.UI", "LazZiya.ExpressLocalization.UI\LazZiya.ExpressLocalization.UI.csproj", "{A8D47169-31D4-4421-8378-771B88695448}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.EFGenericDataManager", "..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj", "{52FBAEED-107F-4A7A-B541-27B6BE700177}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject", "SampleProject\SampleProject.csproj", "{41637779-4AC2-46A5-91F3-744EBFD13547}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.TranslationServices", "..\TranslationServices\LazZiya.TranslationServices\LazZiya.TranslationServices.csproj", "{AE2CFD31-3605-4538-AF17-0D990EA58679}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazZiya.TagHelpers", "..\TagHelpers\LazZiya.TagHelpers\LazZiya.TagHelpers.csproj", "{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,22 +33,10 @@ Global
 		{A8D47169-31D4-4421-8378-771B88695448}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8D47169-31D4-4421-8378-771B88695448}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8D47169-31D4-4421-8378-771B88695448}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52FBAEED-107F-4A7A-B541-27B6BE700177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52FBAEED-107F-4A7A-B541-27B6BE700177}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52FBAEED-107F-4A7A-B541-27B6BE700177}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52FBAEED-107F-4A7A-B541-27B6BE700177}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41637779-4AC2-46A5-91F3-744EBFD13547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41637779-4AC2-46A5-91F3-744EBFD13547}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41637779-4AC2-46A5-91F3-744EBFD13547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41637779-4AC2-46A5-91F3-744EBFD13547}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE2CFD31-3605-4538-AF17-0D990EA58679}.Release|Any CPU.Build.0 = Release|Any CPU
-		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{256C92D5-0B1F-4E0F-B1D3-07F67C60C38C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

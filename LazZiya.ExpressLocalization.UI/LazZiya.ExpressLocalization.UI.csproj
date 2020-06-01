@@ -3,7 +3,31 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>Interface for managing localization with ExpressLocalization package and ability to use online translation tools.</Description>
+		<Version>1.0.0-beta1</Version>
+		<Authors>Ziya Mollamahmut</Authors>
+		<Company>Ziyad.info</Company>
+		<Copyright>Ziyad.info</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/LazZiya/ExpressLocalization/wiki</PackageProjectUrl>
+		<ApplicationIcon>files\icon.ico</ApplicationIcon>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryUrl>https://github.com/LazZiya/ExpressLocalization</RepositoryUrl>
+		<RepositoryType></RepositoryType>
+		<PackageTags>asp.net, core, razor, mvc, localization, globalization, translation,ui</PackageTags>
+		<PackageReleaseNotes>Manage cultures, resource keys and translations with ability to use online translation</PackageReleaseNotes>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<DocumentationFile>LazZiya.ExpressLocalization.UI.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="LazZiya.ExpressLocalization.DB" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TagHelpers" Version="5.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="RestSharp" Version="106.11.4" Exclude="Build,Analyzers" />
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -18,30 +42,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Areas\ExpressLocalization\TranslationTools\**" />
-	  <Content Remove="Areas\ExpressLocalization\TranslationTools\**" />
-	  <EmbeddedResource Remove="Areas\ExpressLocalization\TranslationTools\**" />
-	  <None Remove="Areas\ExpressLocalization\TranslationTools\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
-		<ProjectReference Include="..\..\TagHelpers\LazZiya.TagHelpers\LazZiya.TagHelpers.csproj" />
-		<ProjectReference Include="..\LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj" />
-		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
-		<PackageReference Include="RestSharp" Version="106.11.4" Exclude="Build,Analyzers" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Update="files\icon.ico">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="files\icon.png" />
+		<None Include="files\icon.png" Pack="true" PackagePath="">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Include="files\license.txt" Pack="true" PackagePath="" />
 		<None Include="README.txt" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Areas\ExpressLocalization\Pages\Translations\" />
 	</ItemGroup>
 </Project>
