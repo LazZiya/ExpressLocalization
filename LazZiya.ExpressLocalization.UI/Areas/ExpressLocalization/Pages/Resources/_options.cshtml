@@ -1,6 +1,9 @@
 ﻿@model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models.ResourceListItem
 @{
     var dropDownDir = CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "dropright" : "dropleft";
+    var routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
+    var urlPath = ViewContext.HttpContext.Request.QueryString.Value;
+    var returnUrl = $"{routeUrl}{urlPath}";
 }
 
 <!-- Default dropleft button -->
@@ -9,11 +12,11 @@
         <i class="fas fa-cog"></i>
     </button>
     <div class="dropdown-menu">
-            <a class="dropdown-item" asp-page="Edit" asp-route-id="@Model.ID">
+            <a class="dropdown-item" asp-page="Edit" asp-route-id="@Model.ID" asp-route-returnUrl="@returnUrl">
                 <i class="fas fa-edit"></i>
                 <localize>Edit</localize>
             </a>
-        <a class="dropdown-item" asp-page="/Translations/Index" asp-route-resourceid="@Model.ID">
+        <a class="dropdown-item" asp-page="/Translations/Index" asp-route-resourceid="@Model.ID" asp-route-returnUrl="@returnUrl">
                 <i class="fas fa-language"></i>
                 <localize>Translations</localize>
             </a>

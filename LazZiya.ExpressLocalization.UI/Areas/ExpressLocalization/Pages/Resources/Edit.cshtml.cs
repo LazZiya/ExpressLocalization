@@ -24,6 +24,9 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
         public ResourceInputModel InputModel { get; set; }
 
         [BindProperty(SupportsGet =true)]
+        public string ReturnUrl { get; set; }
+
+        [BindProperty(SupportsGet =true)]
         public int ID { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {

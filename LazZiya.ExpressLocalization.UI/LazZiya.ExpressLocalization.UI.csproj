@@ -23,11 +23,20 @@
 		<DocumentationFile>LazZiya.ExpressLocalization.UI.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="LazZiya.ExpressLocalization.DB" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
-		<PackageReference Include="LazZiya.TagHelpers" Version="5.0.0-beta1" Exclude="Build,Analyzers" />
-	</ItemGroup>
+	<PropertyGroup>
+		<UseReference>Projects</UseReference>
+	</PropertyGroup>
 
+	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
+		<ProjectReference Include="..\LazZiya.ExpressLocalization.DB\LazZiya.ExpressLocalization.DB.csproj" />
+		<PackageReference Include="LazZiya.TagHelpers" Version="5.0.0-beta1" Exclude="Build,Analyzers" />		
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
+		<PackageReference Include="LazZiya.ExpressLocalization.DB" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TagHelpers" Version="5.0.0-beta1" Exclude="Build,Analyzers" />		
+	</ItemGroup>
+	
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>

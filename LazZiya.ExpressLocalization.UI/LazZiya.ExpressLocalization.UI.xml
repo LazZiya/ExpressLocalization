@@ -16,6 +16,69 @@
             <param name="search"></param>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel">
+            <summary>
+            Culture translations page
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.#ctor(LazZiya.EFGenericDataManager.IEFGenericDataManager)">
+            <summary>
+            Initialize culture translations page
+            </summary>
+            <param name="dataManager"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.P">
+            <summary>
+            Page no
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.S">
+            <summary>
+            Page size
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.TotalRecords">
+            <summary>
+            Total records
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.CultureName">
+            <summary>
+            Culture name to retrive translations for
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.QKey">
+            <summary>
+            Search by resource key 
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.QValue">
+            <summary>
+            Search by translation
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.QID">
+            <summary>
+            Search by ID
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.Translations">
+            <summary>
+            List of translations
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.TargetCulture">
+            <summary>
+            optionally set target culture 
+            to navigate directly to  the culture edit box
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.ReturnUrl">
+            <summary>
+            just in case coming from different pages (Resources or Cultures...)
+            to return to the desired page.
+            </summary>
+        </member>
         <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.CRUDAjaxReponse.Target">
             <summary>
             Target culture

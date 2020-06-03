@@ -34,6 +34,20 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
         [BindProperty(SupportsGet = true)]
         public string DefaultCulture { get; set; }
 
+        /// <summary>
+        /// optionally set target culture 
+        /// to navigate directly to  the culture edit box
+        /// </summary>
+        [BindProperty(SupportsGet = true)]
+        public string TargetCulture { get; set; }
+
+        /// <summary>
+        /// just in case coming from different pages (Resources or Cultures...)
+        /// to return to the desired page.
+        /// </summary>
+        [BindProperty(SupportsGet =true)]
+        public string ReturnUrl { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public int P { get; set; } = 1;
 
@@ -77,7 +91,13 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
                 return RedirectToPage("Index");
             }
 
-            (Cultures, TotalRecords) = await DataManager.ListAsync<XLCulture>(1, int.MaxValue, null, null);
+            var culturesExp = new List<Expression<Func<XLCulture, bool>>> { };
+            if (!string.IsNullOrWhiteSpace(TargetCulture))
+            {
+                culturesExp.Add(x => x.ID == TargetCulture);
+            }
+
+            (Cultures, TotalRecords) = await DataManager.ListAsync<XLCulture>(1, int.MaxValue, culturesExp, null);
 
             DefaultCulture = (await DataManager.GetAsync<XLCulture>(x => x.IsDefault == true)).ID;
 

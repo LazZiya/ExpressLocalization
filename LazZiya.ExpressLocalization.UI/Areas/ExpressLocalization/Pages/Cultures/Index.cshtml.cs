@@ -181,15 +181,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             var expList = new List<Expression<Func<XLCulture, bool>>> { };
             if (!string.IsNullOrWhiteSpace(Q))
             {
-                // split the search text
-                var keyWords = Q.Split(new[] { ' ', ',', ':' });
-#if NETCOREAPP2_0
-                // add search expression
-                expList.Add(x => keyWords.Any(kw => x.ID != null && x.ID.StartsWith(kw, StringComparison.OrdinalIgnoreCase)));
-#else
-                // add search expression
-                expList.Add(x => keyWords.Any(kw => x.ID != null && x.ID.Contains(kw, StringComparison.OrdinalIgnoreCase)));
-#endif
+                expList.Add(x => x.ID != null && x.ID.Contains(Q) || x.EnglishName != null && x.EnglishName.Contains(Q));
             }
 
             if (Def != null)

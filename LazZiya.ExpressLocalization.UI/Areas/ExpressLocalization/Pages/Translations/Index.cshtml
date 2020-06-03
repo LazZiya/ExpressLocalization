@@ -37,7 +37,14 @@
                                 <div id="result-@c.ID" class="text-success"></div>
                             </div>
                             <div class="form-group">
-                                <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back" localize-content="false"><i class="fas fa-chevron-left"></i></a>
+                                @if (string.IsNullOrWhiteSpace(Model.ReturnUrl))
+                                {
+                                    <a class="btn btn-light border-secondary" asp-page="/Resources/Index" asp-area="ExpressLocalization" localize-att-title="Back" localize-content="false"><i class="fas fa-chevron-left"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-light border-secondary" href="@Model.ReturnUrl" localize-att-title="Back" localize-content="false"><i class="fas fa-chevron-left"></i></a>
+                                }
                                 <button type="submit" class="btn btn-primary" localize-att-title="Save" localize-content="false"><i class="fas fa-save"></i></button>
                                 <button type="button" class="btn btn-danger"
                                         data-resource-id="@(Model.Resource.ID)"
@@ -61,7 +68,14 @@
                             <input type="hidden" name="source" value="@Model.DefaultCulture" />
                             <input type="hidden" name="target" value="@c.ID" />
                             <input type="hidden" name="format" value="html" />
-                            <select asp-items="@Model.TranslationProviders" name="provider" class="form-control"></select>
+
+                            <select name="provider" class="form-control">
+                                @foreach(var p in Model.TranslationProviders)
+                                {
+                                    <option value="@p.Value">@p.Text</option>
+                                }
+                            </select>
+
                             <button type="submit" class="btn btn-warning ml-2" localize-att-title="Translate" localize-content="true">Translate</button>
                         </form>
                     </div>

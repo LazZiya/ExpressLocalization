@@ -29,6 +29,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
         public int TotalRecords { get; set; } = 0;
 
         // Search string
+        [BindProperty(SupportsGet = true)]
         public string Q { get; set; }
 
         public ICollection<ResourceListItem> Resources { get; set; }
@@ -46,15 +47,8 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
             
             if (!string.IsNullOrWhiteSpace(Q))
             {
-                // split the search text
-                var keyWords = Q.Split(new[] { ' ', ',', ':' });
-#if NETCOREAPP2_0
                 // add search expression
-                searchExpressions.Add(x => keyWords.Any(kw => x.Key != null && x.Key.StartsWith(kw, StringComparison.OrdinalIgnoreCase)));
-#else
-                // add search expression
-                searchExpressions.Add(x => keyWords.Any(kw => x.Key != null && x.Key.Contains(kw, StringComparison.OrdinalIgnoreCase)));
-#endif
+                searchExpressions.Add(x => x.Key != null && x.Key.Contains(Q) || x.Comment!=null && x.Comment.Contains(Q));
             }
 
             var orderByList = new List<OrderByExpression<XLResource>> { };
@@ -79,14 +73,14 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
             if (id == 0)
             {
                 TempData.Danger("Resource ID can't be empty");
-                return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
+                return RedirectToPage("Index");
             }
 
             var entity = await DataManager.GetAsync<XLResource>(x => x.ID == id);
             if (entity == null)
             {
                 TempData.Danger("Resource not found!");
-                return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
+                return RedirectToPage("Index");
             }
 
             if (await DataManager.DeleteAsync(entity))
@@ -94,7 +88,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
             else
                 TempData.Danger("Unknown error occord!");
 
-            return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
+            return RedirectToPage("Index");
         }
     }
 }

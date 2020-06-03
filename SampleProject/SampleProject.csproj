@@ -27,8 +27,15 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-preview.4.20261.3" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="LazZiya.ExpressLocalization.UI" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+	<PropertyGroup>
+		<UseReference>Projects</UseReference>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
+		<ProjectReference Include="..\LazZiya.ExpressLocalization.UI\LazZiya.ExpressLocalization.UI.csproj" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
+		<PackageReference Include="LazZiya.ExpressLocalization.UI" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+	</ItemGroup>
 </Project>

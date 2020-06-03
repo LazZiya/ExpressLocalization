@@ -20,8 +20,14 @@
             <span asp-validation-for="InputModel.Comment" class="text-danger"></span>
         </div>
         <input type="hidden" asp-for="ID" />
-
-        <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        @if (string.IsNullOrWhiteSpace(Model.ReturnUrl))
+        {
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        }
+        else
+        {
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">Cancel</a>
+        }
         <button type="submit" class="btn btn-primary" localize-att-title="Update" localize-content="true">
             Update
         </button>

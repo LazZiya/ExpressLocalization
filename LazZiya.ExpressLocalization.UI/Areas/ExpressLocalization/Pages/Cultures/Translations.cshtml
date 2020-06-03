@@ -1,0 +1,73 @@
+﻿@page
+@model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel
+@{
+    ViewBag.Title = "Culture Translations";
+}
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer
+
+<div class="content">
+    <h2 localize-content="true">Culture Translations</h2>
+    <alert localizer="_localizer"></alert>
+    <form method="get" class="bg-dark text-light p-2">
+        <h4 localize-content="true">Search</h4>
+        <div class="form-row">
+            <div class="col-1">
+                <input type="text" asp-for="@Model.QID" class="form-control" localize-att-placeholder="ID" />
+            </div>
+            <div class="col-5">
+                <input type="text" asp-for="@Model.QKey" class="form-control" localize-att-placeholder="Default Text" />
+            </div>
+            <div class="col-5">
+                <input type="text" asp-for="@Model.QValue" class="form-control" localize-att-placeholder="Translation" />
+            </div>
+            <div class="col-1">
+                <input type="hidden" asp-for="@Model.CultureName" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead class="bg-dark text-light">
+            <tr>
+                <th localize-content="true" scope="col" width="10%">ID</th>
+                <th localize-content="true" scope="col" width="40%">Default Text</th>
+                <th localize-content="true" scope="col" width="40%">Translation</th>
+                <th localize-content="true" scope="col" width="10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.TotalRecords == 0)
+            {
+                <tr>
+                    <td colspan="4" localize-content="true">No records!</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var t in Model.Translations)
+                {
+                    <tr>
+                        <td>@t.ID</td>
+                        <td>@t.Key</td>
+                        <td>@t.Value</td>
+                        <td>
+                            @await Html.PartialAsync("_tOptions", t)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <paging page-no="Model.P"
+                            page-size="Model.S"
+                            total-records="Model.TotalRecords">
+                    </paging>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

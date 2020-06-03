@@ -31,8 +31,19 @@
 	<PropertyGroup>
 		<DocumentationFile>LazZiya.ExpressLocalization.DB.xml</DocumentationFile>
 	</PropertyGroup>
-	
-	<ItemGroup>
+
+	<PropertyGroup>
+		<UseReference>Projects</UseReference>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
+		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
+		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
+		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
 		<PackageReference Include="LazZiya.ExpressLocalization" Version="5.0.0-beta2" Exclude="Build,Analyzers" />
 		<PackageReference Include="LazZiya.EFGenericDataManager" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
 		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
