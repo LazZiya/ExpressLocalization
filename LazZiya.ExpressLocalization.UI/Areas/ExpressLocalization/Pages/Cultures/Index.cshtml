@@ -2,6 +2,8 @@
 @model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.IndexModel
 @{
     ViewBag.Title = "Cultures";
+    // set culture name for select2 drop down language
+    // get only first two letters
     var culture = CultureInfo.CurrentCulture.Name.Split('-')[0];
     var dir = CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
 

@@ -50,7 +50,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
         /// Culture name to retrive translations for
         /// </summary>
         [BindProperty(SupportsGet = true)]
-        public string CultureName { get; set; }
+        public string CultureID { get; set; }
 
         /// <summary>
         /// Search by resource key 
@@ -77,13 +77,13 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (string.IsNullOrWhiteSpace(CultureName))
+            if (string.IsNullOrWhiteSpace(CultureID))
             {
                 TempData.Danger("Culture name can't be empty!");
                 return Page();
             }
 
-            if (await DataManager.Count<XLCulture>(x => x.ID == CultureName) == 0)
+            if (await DataManager.Count<XLCulture>(x => x.ID == CultureID) == 0)
             {
                 TempData.Danger("Culture not found!");
                 return Page();
@@ -97,7 +97,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
         public async Task<(ICollection<TranslationItemModel> items, int total)> ListTranslationsAsync()
         {
             var searchExpressions = new List<Expression<Func<XLTranslation, bool>>> { };
-            searchExpressions.Add(x => x.CultureName == CultureName);
+            searchExpressions.Add(x => x.CultureID == CultureID);
 
             if (QID != null && QID.Value != 0)
             {
@@ -126,7 +126,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 Key = x.Resource.Key.Length > 50 ? x.Resource.Key.Substring(0, 50) + " ..." : x.Resource.Key,
                 Value = x.Value.Length > 50 ? x.Value.Substring(0, 50) + " ..." : x.Value,
                 KeyID = x.ResourceID,
-                CultureName = x.CultureName
+                CultureID = x.CultureID
             };
 
             return await DataManager.ListAsync(P, S, searchExpressions, orderBy, includes, select);

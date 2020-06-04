@@ -33,8 +33,9 @@ namespace SampleProject
                 .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
                 {
                     ops.AutoAddKeys = true;
-                    ops.OnlineLocalization = true;
+                    ops.OnlineTranslation = true;
                     ops.TranslationService = typeof(MyMemoryTranslateService);
+                    ops.ServeUnapprovedTranslations = true;
                 });
         }
 

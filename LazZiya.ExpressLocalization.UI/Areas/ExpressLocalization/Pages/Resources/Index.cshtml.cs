@@ -28,9 +28,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
         public int S { get; set; } = 10;
         public int TotalRecords { get; set; } = 0;
 
-        // Search string
-        [BindProperty(SupportsGet = true)]
-        public string Q { get; set; }
+        /// <summary>
+        /// use for resource search 
+        /// </summary>
+        [BindProperty(SupportsGet =true)]
+        public ResourceSearchModel SearchModel { get; set; }
 
         public ICollection<ResourceListItem> Resources { get; set; }
 
@@ -45,10 +47,19 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
         {
             var searchExpressions = new List<Expression<Func<XLResource, bool>>> { };
             
-            if (!string.IsNullOrWhiteSpace(Q))
+            if (!string.IsNullOrWhiteSpace(SearchModel.Key))
             {
-                // add search expression
-                searchExpressions.Add(x => x.Key != null && x.Key.Contains(Q) || x.Comment!=null && x.Comment.Contains(Q));
+                searchExpressions.Add(x => x.Key != null && x.Key.Contains(SearchModel.Key));
+            }
+            
+            if (!string.IsNullOrWhiteSpace(SearchModel.Comment))
+            {
+                searchExpressions.Add(x => x.Comment!=null && x.Comment.Contains(SearchModel.Comment));
+            }
+
+            if(SearchModel.ID != null && SearchModel.ID.Value > 0)
+            {
+                searchExpressions.Add(x => x.ID == SearchModel.ID);
             }
 
             var orderByList = new List<OrderByExpression<XLResource>> { };
@@ -62,7 +73,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resourc
                 ID = x.ID,
                 Key = x.Key,
                 Comment = x.Comment,
-                Cultures = x.Translations.Select(t => t.CultureName).ToList()
+                Cultures = x.Translations.Select(t => t.CultureID).ToList()
             };
 
             return await DataManager.ListAsync(P, S, searchExpressions, orderByList, includes, select);

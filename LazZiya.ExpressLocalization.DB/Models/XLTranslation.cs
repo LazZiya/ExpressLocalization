@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using LazZiya.EFGenericDataManager.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LazZiya.ExpressLocalization.DB.Models
 {
@@ -18,10 +19,10 @@ namespace LazZiya.ExpressLocalization.DB.Models
         public string Value { get; set; }
 
         /// <summary>
-        /// Relevant culture name
+        /// Culture ID (two letter ISO name)
         /// </summary>
         [ForeignKey("Culture")]
-        public string CultureName { get; set; }
+        public string CultureID { get; set; }
 
         /// <summary>
         /// Relevant ExpressLocalization culture entity
@@ -38,5 +39,11 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// Express Localization Resource
         /// </summary>
         public XLResource Resource { get; set; }
+
+        /// <summary>
+        /// Enable, disable translation.
+        /// Use for marking auto-translations before approval as false
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

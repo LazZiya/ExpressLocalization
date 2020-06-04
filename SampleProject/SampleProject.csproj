@@ -15,6 +15,12 @@
 		<Compile Remove="Data\Migrations\20200523090103_SeedExpressLocalizationValues.Designer.cs" />
 		<Compile Remove="Data\Migrations\20200523161417_ExRelations.cs" />
 		<Compile Remove="Data\Migrations\20200523161417_ExRelations.Designer.cs" />
+		<Compile Remove="Data\Migrations\20200604131042_NNN.cs" />
+		<Compile Remove="Data\Migrations\20200604131042_NNN.Designer.cs" />
+		<Compile Remove="Data\Migrations\20200604131322_SeedXLDbValues.cs" />
+		<Compile Remove="Data\Migrations\20200604131322_SeedXLDbValues.Designer.cs" />
+		<Compile Remove="Data\Migrations\20200604131356_SeedXLDbValues.cs" />
+		<Compile Remove="Data\Migrations\20200604131356_SeedXLDbValues.Designer.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

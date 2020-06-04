@@ -12,7 +12,7 @@ namespace SampleProject.Data
             : base(options)
         {
         }
-
+        
         // Cultures table will hold the supported cultures entities
         public DbSet<XLCulture> XLCultures { get; set; }
 

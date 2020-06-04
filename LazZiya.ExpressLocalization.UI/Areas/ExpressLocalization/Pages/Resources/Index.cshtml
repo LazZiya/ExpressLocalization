@@ -9,6 +9,25 @@
     <div class="container">
         <h2 localize-content="true">Localization Resources</h2>
         <alert></alert>
+        <form method="get" class="bg-dark text-light p-2">
+            <h4 localize-content="true">Search</h4>
+            <div class="form-row">
+                <div class="col-1">
+                    <input type="text" asp-for="@Model.SearchModel.ID" class="form-control" localize-att-placeholder="ID" />
+                </div>
+                <div class="col-5">
+                    <input type="text" asp-for="@Model.SearchModel.Key" class="form-control" localize-att-placeholder="Key" />
+                </div>
+                <div class="col-5">
+                    <input type="text" asp-for="@Model.SearchModel.Comment" class="form-control" localize-att-placeholder="Comment" />
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
         <table class="table table-striped">
             <thead class="bg-dark text-light">
                 <tr>

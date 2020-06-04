@@ -42,7 +42,7 @@
             Total records
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.CultureName">
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel.CultureID">
             <summary>
             Culture name to retrive translations for
             </summary>
@@ -67,6 +67,11 @@
             List of translations
             </summary>
         </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Resources.IndexModel.SearchModel">
+            <summary>
+            use for resource search 
+            </summary>
+        </member>
         <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.TargetCulture">
             <summary>
             optionally set target culture 
@@ -77,6 +82,26 @@
             <summary>
             just in case coming from different pages (Resources or Cultures...)
             to return to the desired page.
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.ResourceID">
+            <summary>
+            Resource ID
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.Resource">
+            <summary>
+            Resource entity including related translations
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.Translation">
+            <summary>
+            Model item to be used for add/update
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.Cultures">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations.IndexModel.CRUDAjaxReponse.Target">

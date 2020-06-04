@@ -2,7 +2,7 @@
 
 namespace SampleProject.Data.Migrations
 {
-    public partial class SeedXLStores : Migration
+    public partial class SeedXLDbValues : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,15 +28,15 @@ namespace SampleProject.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "XLTranslations",
-                columns: new[] { "ID", "CultureName", "ResourceID", "Value" },
+                columns: new[] { "ID", "CultureID", "IsActive", "ResourceID", "Value" },
                 values: new object[,]
                 {
-                    { 1, "tr", 1, "Hoşgeldiniz" },
-                    { 4, "ar", 1, "أهلا و سهلا" },
-                    { 2, "tr", 2, "Anasayfa" },
-                    { 5, "ar", 2, "الرئيسية" },
-                    { 3, "tr", 3, "Gizlilik" },
-                    { 6, "ar", 3, "الخصوصية" }
+                    { 1, "tr", true, 1, "Hoşgeldiniz" },
+                    { 4, "ar", true, 1, "أهلا و سهلا" },
+                    { 2, "tr", true, 2, "Anasayfa" },
+                    { 5, "ar", true, 2, "الرئيسية" },
+                    { 3, "tr", true, 3, "Gizlilik" },
+                    { 6, "ar", true, 3, "الخصوصية" }
                 });
         }
 

@@ -5,7 +5,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
     /// <summary>
     /// Interface to implement ExpressLocalization resource translation models
     /// </summary>
-    public interface IXLTranslation : IHasId<int>
+    public interface IXLTranslation : IHasId<int>, IActive
     {
         /// <summary>
         /// The resource localized value
@@ -20,6 +20,6 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// <summary>
         /// Relevant culture name, must be the key of ExpressLocalizationCulture model
         /// </summary>
-        string CultureName { get; set; }
+        string CultureID { get; set; }
     }
 }

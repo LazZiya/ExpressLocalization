@@ -54,7 +54,7 @@
             Express Localization resource ID
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.IXLTranslation.CultureName">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.IXLTranslation.CultureID">
             <summary>
             Relevant culture name, must be the key of ExpressLocalizationCulture model
             </summary>
@@ -125,7 +125,7 @@
             default: false
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.OnlineLocalization">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.OnlineTranslation">
             <summary>
             If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
             default: false
@@ -134,6 +134,12 @@
         <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.TranslationService">
             <summary>
             Type of the translation service to use for OnlineLocalization
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLDbOptions.ServeUnapprovedTranslations">
+            <summary>
+            Online translations is marked as false by default, and it should be approved manually to be set to true.
+            Enable this option to serve unapproved translations we well.
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.XLResource">
@@ -176,9 +182,9 @@
             The resource localized value
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLTranslation.CultureName">
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLTranslation.CultureID">
             <summary>
-            Relevant culture name
+            Culture ID (two letter ISO name)
             </summary>
         </member>
         <member name="P:LazZiya.ExpressLocalization.DB.Models.XLTranslation.Culture">
@@ -194,6 +200,12 @@
         <member name="P:LazZiya.ExpressLocalization.DB.Models.XLTranslation.Resource">
             <summary>
             Express Localization Resource
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.XLTranslation.IsActive">
+            <summary>
+            Enable, disable translation.
+            Use for marking auto-translations before approval as false
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.XLDbExtensions">

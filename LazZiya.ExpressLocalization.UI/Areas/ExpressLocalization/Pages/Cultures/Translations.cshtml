@@ -2,11 +2,13 @@
 @model LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel
 @{
     ViewBag.Title = "Culture Translations";
+    var css = Model.CultureID.Contains("-") ? $"flag-icon flag-icon-{Model.CultureID.Split('-')[1].ToLower()}" : "";
 }
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer
 
 <div class="content">
     <h2 localize-content="true">Culture Translations</h2>
+    <h4 class="text-muted"><span class="@(css)"></span> @(CultureInfo.GetCultureInfo(Model.CultureID).EnglishName) (@Model.CultureID)</h4>
     <alert localizer="_localizer"></alert>
     <form method="get" class="bg-dark text-light p-2">
         <h4 localize-content="true">Search</h4>
@@ -21,7 +23,7 @@
                 <input type="text" asp-for="@Model.QValue" class="form-control" localize-att-placeholder="Translation" />
             </div>
             <div class="col-1">
-                <input type="hidden" asp-for="@Model.CultureName" />
+                <input type="hidden" asp-for="@Model.CultureID" />
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-search"></i>
                 </button>

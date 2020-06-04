@@ -28,4 +28,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models
 
         public ICollection<string> Cultures { get; set; }
     }
+
+    public class ResourceSearchModel
+    {
+        public int? ID { get; set; }
+        public string Key { get; set; }
+        public string Comment { get; set; }
+    }
 }

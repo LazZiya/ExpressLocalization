@@ -17,11 +17,17 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
         /// default: false
         /// </summary>
-        public bool OnlineLocalization { get; set; } = false;
+        public bool OnlineTranslation { get; set; } = false;
 
         /// <summary>
         /// Type of the translation service to use for OnlineLocalization
         /// </summary>
         public Type TranslationService { get; set; }
+
+        /// <summary>
+        /// Online translations is marked as false by default, and it should be approved manually to be set to true.
+        /// Enable this option to serve unapproved translations we well.
+        /// </summary>
+        public bool ServeUnapprovedTranslations { get; set; } = false;
     }
 }

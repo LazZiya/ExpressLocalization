@@ -124,12 +124,12 @@ namespace LazZiya.ExpressLocalization.DB
                 }
             }
 
-            var translation = DataManager.GetAsync<TXLTranslation>(x => x.CultureName == culture && x.ResourceID == resource.ID).Result;
+            var translation = DataManager.GetAsync<TXLTranslation>(x => x.CultureID == culture && x.ResourceID == resource.ID).Result;
 
             if (translation == null)
             {
                 // Add translation to db if recursive mode is enabled
-                if (xlOptions.OnlineLocalization)
+                if (xlOptions.OnlineTranslation)
                 {
                     try
                     {
@@ -140,7 +140,7 @@ namespace LazZiya.ExpressLocalization.DB
                         if (transResponse.StatusCode == HttpStatusCode.OK)
                         {
                             // Create dynamic translation object
-                            var dynTrans = new { ID = 0, ResourceID = resource.ID, CultureName = culture, Value = transResponse.Text };
+                            var dynTrans = new { ID = 0, ResourceID = resource.ID, CultureID = culture, Value = transResponse.Text, IsActive = false };
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
                             var transJson = JsonConvert.SerializeObject(dynTrans);
                             translation = JsonConvert.DeserializeObject<TXLTranslation>(transJson);
@@ -157,6 +157,13 @@ namespace LazZiya.ExpressLocalization.DB
                         Log.LogError($"ExpressLocalization.DB - Translation service error: " + e.Message);
                     }
                 }
+            }
+            
+            if (!xlOptions.ServeUnapprovedTranslations && !translation.IsActive)
+            {
+                return args == null
+                    ? new LocalizedHtmlString(name: key, key, false)
+                    : new LocalizedHtmlString(name: key, value: key, false, args);
             }
 
             return args == null

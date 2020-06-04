@@ -89,7 +89,7 @@ namespace LazZiya.ExpressLocalization.DB
             var xlDbOps = new XLDbOptions();
             options.Invoke(xlDbOps);
             builder.Services.Configure<XLDbOptions>(options);            
-            if(xlDbOps.OnlineLocalization)
+            if(xlDbOps.OnlineTranslation)
             {
                 builder.Services.AddScoped<ITranslationService, GoogleTranslateService>();
                 builder.Services.AddScoped<ITranslationService, YandexTranslateService>();

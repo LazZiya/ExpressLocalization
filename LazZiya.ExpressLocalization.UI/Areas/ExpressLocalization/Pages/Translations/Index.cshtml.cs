@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations
 {
@@ -19,14 +21,16 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
     {
         private readonly IEFGenericDataManager DataManager;
         private readonly IEnumerable<ITranslationService> TranslationServices;
+        private readonly ILogger Log;
 
         public readonly SelectListItem[] TranslationProviders;
 
-        public IndexModel(IEFGenericDataManager dataManager, IEnumerable<ITranslationService> translationServices)
+        public IndexModel(IEFGenericDataManager dataManager, IEnumerable<ITranslationService> translationServices, ILogger<IndexModel> log)
         {
+            Log = log;
             DataManager = dataManager;
             TranslationServices = translationServices;
-            
+
             // get all registered translation services names
             TranslationProviders = translationServices.Select(x => x.ServiceName).OrderBy(x => x).Select(x => new SelectListItem() { Text = x, Value = x }).ToArray();
         }
@@ -45,24 +49,29 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
         /// just in case coming from different pages (Resources or Cultures...)
         /// to return to the desired page.
         /// </summary>
-        [BindProperty(SupportsGet =true)]
+        [BindProperty(SupportsGet = true)]
         public string ReturnUrl { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public int P { get; set; } = 1;
-
-        [BindProperty(SupportsGet = true)]
-        public int S { get; set; } = 10;
-        public int TotalRecords { get; set; } = 0;
-
+        /// <summary>
+        /// Resource ID
+        /// </summary>
         [BindProperty(SupportsGet = true)]
         public int ResourceID { get; set; }
 
+        /// <summary>
+        /// Resource entity including related translations
+        /// </summary>
         public XLResource Resource { get; set; }
 
+        /// <summary>
+        /// Model item to be used for add/update
+        /// </summary>
         [BindProperty]
         public XLTranslation Translation { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ICollection<XLCulture> Cultures { get; set; }
 
         private class CRUDAjaxReponse
@@ -82,7 +91,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
                 return RedirectToPage("Resources");
             }
 
-            var include = new List<Expression<Func<XLResource, object>>> { x => x.Translations.OrderBy(t => t.CultureName).Skip((P - 1) * S).Take(S) };
+            var include = new List<Expression<Func<XLResource, object>>> { x => x.Translations };
             Resource = await DataManager.GetAsync<XLResource>(x => x.ID == ResourceID, include);
 
             if (Resource == null)
@@ -97,7 +106,8 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
                 culturesExp.Add(x => x.ID == TargetCulture);
             }
 
-            (Cultures, TotalRecords) = await DataManager.ListAsync<XLCulture>(1, int.MaxValue, culturesExp, null);
+            int _ = 0;
+            (Cultures, _) = await DataManager.ListAsync<XLCulture>(1, int.MaxValue, culturesExp, null);
 
             DefaultCulture = (await DataManager.GetAsync<XLCulture>(x => x.IsDefault == true)).ID;
 
@@ -108,11 +118,11 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
         {
             if (!ModelState.IsValid)
             {
-                return new JsonResult(new CRUDAjaxReponse { StatusCode= HttpStatusCode.BadRequest, Target = Translation.CultureName });
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureID });
             }
 
             // get translation from DB
-            var entity = await DataManager.GetAsync<XLTranslation>(x => x.ResourceID == Translation.ResourceID && x.CultureName == Translation.CultureName);
+            var entity = await DataManager.GetAsync<XLTranslation>(x => x.ResourceID == Translation.ResourceID && x.CultureID == Translation.CultureID);
 
             bool success;
 
@@ -123,38 +133,40 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
             }
             else
             {
+                Log.LogInformation($"UPDATE TRANSLATION: {entity.IsActive}  {Translation.IsActive}");
                 // Update existing translation if record is exist for this resource and culture 
                 entity.Value = Translation.Value;
+                entity.IsActive = Translation.IsActive;
                 success = await DataManager.UpdateAsync<XLTranslation, int>(entity);
             }
 
             return success
-                ? new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.OK, Target = Translation.CultureName })
-                : new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.InternalServerError, Target = Translation.CultureName });
+                ? new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.OK, Target = Translation.CultureID })
+                : new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.InternalServerError, Target = Translation.CultureID });
         }
 
         public async Task<JsonResult> OnPostDeleteTranslationAsync()
         {
             if (Translation.ResourceID == 0)
             {
-                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureName });
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureID });
             }
 
-            if (string.IsNullOrWhiteSpace(Translation.CultureName))
+            if (string.IsNullOrWhiteSpace(Translation.CultureID))
             {
-                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureName });
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.BadRequest, Target = Translation.CultureID });
             }
 
-            var entity = await DataManager.GetAsync<XLTranslation>(x => x.ResourceID == Translation.ResourceID && x.CultureName == Translation.CultureName);
+            var entity = await DataManager.GetAsync<XLTranslation>(x => x.ResourceID == Translation.ResourceID && x.CultureID == Translation.CultureID);
 
             if (entity == null)
             {
-                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.NotFound, Target = Translation.CultureName });
+                return new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.NotFound, Target = Translation.CultureID });
             }
 
             return await DataManager.DeleteAsync<XLTranslation>(entity)
-                ? new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.OK, Target = Translation.CultureName })
-                : new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.InternalServerError, Target = Translation.CultureName });
+                ? new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.OK, Target = Translation.CultureID })
+                : new JsonResult(new CRUDAjaxReponse { StatusCode = HttpStatusCode.InternalServerError, Target = Translation.CultureID });
         }
 
         public async Task<JsonResult> OnPostOnlineTranslateAsync(string provider, string text, string source, string target, string format)

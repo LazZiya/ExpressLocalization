@@ -2,7 +2,7 @@
 
 namespace SampleProject.Data.Migrations
 {
-    public partial class XLStores : Migration
+    public partial class CreateXLDbSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,15 +41,16 @@ namespace SampleProject.Data.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CultureName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ResourceID = table.Column<int>(type: "int", nullable: false)
+                    CultureID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ResourceID = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_XLTranslations", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_XLTranslations_XLCultures_CultureName",
-                        column: x => x.CultureName,
+                        name: "FK_XLTranslations_XLCultures_CultureID",
+                        column: x => x.CultureID,
                         principalTable: "XLCultures",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -62,9 +63,9 @@ namespace SampleProject.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_XLTranslations_CultureName",
+                name: "IX_XLTranslations_CultureID",
                 table: "XLTranslations",
-                column: "CultureName");
+                column: "CultureID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_XLTranslations_ResourceID",

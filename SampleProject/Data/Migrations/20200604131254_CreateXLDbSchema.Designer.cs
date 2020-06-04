@@ -10,8 +10,8 @@ using SampleProject.Data;
 namespace SampleProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200525083449_XLStores")]
-    partial class XLStores
+    [Migration("20200604131254_CreateXLDbSchema")]
+    partial class CreateXLDbSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,8 +65,11 @@ namespace SampleProject.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CultureName")
+                    b.Property<string>("CultureID")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ResourceID")
                         .HasColumnType("int");
@@ -76,7 +79,7 @@ namespace SampleProject.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CultureName");
+                    b.HasIndex("CultureID");
 
                     b.HasIndex("ResourceID");
 
@@ -287,7 +290,7 @@ namespace SampleProject.Data.Migrations
                 {
                     b.HasOne("LazZiya.ExpressLocalization.DB.Models.XLCulture", "Culture")
                         .WithMany("Translations")
-                        .HasForeignKey("CultureName")
+                        .HasForeignKey("CultureID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LazZiya.ExpressLocalization.DB.Models.XLResource", "Resource")

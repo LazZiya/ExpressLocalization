@@ -10,6 +10,6 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models
         public string Key { get; set; }
         public string Value { get; set; }
         public int KeyID { get; set; }
-        public string CultureName { get; set; }
+        public string CultureID { get; set; }
     }
 }
