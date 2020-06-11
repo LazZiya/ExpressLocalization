@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Welcome" xml:space="preserve">
+    <value>Hoşgeldiniz</value>
+    <comment />
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Anasayfa</value>
+    <comment />
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Gizlilik</value>
+    <comment />
+  </data>
+  <data name="Learn about &lt;a href=&quot;{0}&quot;&gt;building Web apps with ASP.NET Core&lt;/a&gt;." xml:space="preserve">
+    <value>&lt;a href="{0}"&gt;ASP.NET Core ile Web uygulamaları oluşturma&lt;/a&gt; hakkında bilgi edinin.</value>
+    <comment />
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Kayıt ol</value>
+    <comment />
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Oturum Aç</value>
+    <comment />
+  </data>
+  <data name="Cultures" xml:space="preserve">
+    <value>Kültürler</value>
+    <comment />
+  </data>
+  <data name="Resources" xml:space="preserve">
+    <value>kaynaklar</value>
+    <comment />
+  </data>
+  <data name="Add new culture" xml:space="preserve">
+    <value>Yeni kültür ekle</value>
+    <comment />
+  </data>
+  <data name="Turn off" xml:space="preserve">
+    <value>Kapat</value>
+    <comment />
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>İsim</value>
+    <comment />
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Varsayılan</value>
+    <comment />
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktif</value>
+    <comment />
+  </data>
+  <data name="Translations" xml:space="preserve">
+    <value>Çeviriler</value>
+    <comment />
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Devre Dışı</value>
+    <comment />
+  </data>
+  <data name="Set as default" xml:space="preserve">
+    <value>Varsayılan olarak ayarla</value>
+    <comment />
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+    <comment />
+  </data>
+  <data name="Confirm delete" xml:space="preserve">
+    <value>Silmeyi onayla</value>
+    <comment />
+  </data>
+  <data name="Delete this culture and all relevant resources?" xml:space="preserve">
+    <value>Bu kültür ve ilgili tüm kaynaklar silinsin mi?</value>
+    <comment />
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Vazgeç</value>
+    <comment />
+  </data>
+  <data name="Disable Culture" xml:space="preserve">
+    <value>Kültürü Devre Dışı Bırak</value>
+    <comment />
+  </data>
+  <data name="Disable this culture?" xml:space="preserve">
+    <value>Bu kültür devre dışı bırakılsın mı?</value>
+    <comment />
+  </data>
+  <data name="Set below culture as default culture? (it will be enabled as well)" xml:space="preserve">
+    <value>Bu kültürü varsayılan kültür olarak mı kuracaksın? (bu da geçerli kılınacak)</value>
+    <comment />
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Tamam</value>
+    <comment />
+  </data>
+  <data name="Default culture is locked!" xml:space="preserve">
+    <value>Varsayılan kültür kilitli!</value>
+    <comment />
+  </data>
+  <data name="Turn off?" xml:space="preserve">
+    <value>Kapat</value>
+    <comment />
+  </data>
+  <data name="Are you sure you want to turn off the app?" xml:space="preserve">
+    <value>Uygulamayı kapatmak istediğinizden emin misiniz?</value>
+    <comment />
+  </data>
+  <data name="Turn off only after changing the supported languages." xml:space="preserve">
+    <value>Yalnızca desteklenen dilleri değiştirdikten sonra kapatın.</value>
+    <comment />
+  </data>
+  <data name="To restart the app after turning off visit any page." xml:space="preserve">
+    <value>Kapattıktan sonra uygulamayı yeniden başlatmak için herhangi bir sayfayı ziyaret edin.</value>
+    <comment />
+  </data>
+  <data name="Localization Resources" xml:space="preserve">
+    <value>Yerelleştirme Kaynakları</value>
+    <comment />
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Ara</value>
+    <comment />
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+    <comment />
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+    <comment />
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Yorum</value>
+    <comment />
+  </data>
+  <data name="Create new resource" xml:space="preserve">
+    <value>Yeni Kaynak Oluştur</value>
+    <comment />
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+    <comment />
+  </data>
+  <data name="Delete this record?" xml:space="preserve">
+    <value>Bu kayÄ±t silinsin mi? QSql</value>
+    <comment />
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Geri</value>
+    <comment />
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Kayıt etmek</value>
+    <comment />
+  </data>
+  <data name="Translate" xml:space="preserve">
+    <value>Çeviri</value>
+    <comment />
+  </data>
+  <data name="Edit resource" xml:space="preserve">
+    <value>kaynak düzenle</value>
+    <comment />
+  </data>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>Alan zorunludur.</value>
+    <comment />
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Güncelle</value>
+    <comment />
+  </data>
+  <data name="No records!" xml:space="preserve">
+    <value>Kayıt Yok!</value>
+    <comment />
+  </data>
+  <data name="Culture Translations" xml:space="preserve">
+    <value>Kültür Çevirileri</value>
+    <comment />
+  </data>
+  <data name="Default Text" xml:space="preserve">
+    <value>Varsayılan Metin</value>
+    <comment />
+  </data>
+  <data name="Translation" xml:space="preserve">
+    <value>Çeviri</value>
+    <comment />
+  </data>
+  <data name="Generate Resx" xml:space="preserve">
+    <value>Resx Oluştur</value>
+    <comment />
+  </data>
+  <data name="Generate Resx File" xml:space="preserve">
+    <value>Resx Dosyası Oluştur</value>
+    <comment />
+  </data>
+  <data name="&lt;p&gt;Generating .resx file can take a while. After the file is generated the application pool will be recycled!&lt;/p&gt;&#xD;&#xA;                    &lt;p&gt;Proceed with generating .resx file for below culture?&lt;/p&gt;" xml:space="preserve">
+    <value>&lt;p&gt;.resx dosyasının oluşturulması biraz zaman alabilir. Dosya oluşturulduktan sonra uygulama havuzu geri çevrilir!&lt;/p&gt;
+                    &lt;p&gt;Aşağıdaki kültür için .resx dosyasını oluşturma işlemine devam edilsin mi?&lt;/p&gt;</value>
+    <comment />
+  </data>
+  <data name="Resource file generated successfully." xml:space="preserve">
+    <value>Kaynak dosya başarıyla oluşturuldu.</value>
+    <comment />
+  </data>
+  <data name="Error while creating resource file!" xml:space="preserve">
+    <value>Kaynak dosya oluşturulurken hata oluştu!</value>
+    <comment />
+  </data>
+  <data name="Add new resource" xml:space="preserve">
+    <value>Yeni Kaynak Ekle</value>
+    <comment />
+  </data>
+</root>

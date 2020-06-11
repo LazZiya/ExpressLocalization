@@ -15,6 +15,11 @@
             <i class="fas fa-language"></i>
             <localize>Translations</localize>
         </a>
+        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#generateResx-@(Model.ID)">
+            <i class="fas fa-file-export"></i>
+            <localize>Export to resource file</localize>
+        </a>
+        <div class="dropdown-divider"></div>
         @if (Model.IsDefault)
         {
             <a class="dropdown-item text-secondary" href="#">
@@ -54,7 +59,7 @@
 <div class="modal fade" id="delete-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="deleteLabel-@(Model.ID)" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-danger text-light">
                 <h5 class="modal-title" id="deleteLabel-@(Model.ID)" localize-content="true">Confirm delete</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -121,7 +126,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <localize>Set below culture as default culture? (it will be anabled as well)</localize>
+                <localize>Set below culture as default culture? (it will be enabled as well)</localize>
                 <ul>
                     <li>
                         <span class="@(css)"></span> @Model.EnglishName
@@ -136,6 +141,67 @@
                     <button type="submit" asp-page-handler="SetDefault" class="btn btn-primary" localize-content="true">Ok</button>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Generate Resx File -->
+<div class="modal fade" id="generateResx-@(Model.ID)" tabindex="-1" role="dialog" aria-labelledby="generateResx-@(Model.ID)" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="setDefaultLabel-@(Model.ID)" localize-content="true">Generate Resx File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <localize>
+                        <p>Generating .resx file can take a while. After the file is generated the application pool will be recycled!</p>
+                        <p>Proceed with generating .resx file for below culture?</p>
+                    </localize>
+                    <ul>
+                        <li>
+                            <span class="@(css)"></span> @Model.EnglishName
+                        </li>
+                    </ul>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="approvedOnly" id="approvedOnly1" value="true" checked>
+                            <label class="form-check-label" for="approvedOnly1" localize-content="true">
+                                Export approved translations only.
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="approvedOnly" id="approvedOnly2" value="false">
+                            <label class="form-check-label" for="approvedOnly2" localize-content="true">
+                                Export all translations (including not approved ones).
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="overwrite" id="overwrite1" value="true">
+                            <label class="form-check-label" for="overwrite1" localize-content="true">
+                                Overwrite existing translations.
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="overwrite" id="overwrite2" value="false" checked>
+                            <label class="form-check-label" for="overwrite2" localize-content="true">
+                                Don't overwrite existing translations.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" localize-content="true">Cancel</button>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="ID" />
+                    <button type="submit" asp-page-handler="GenerateResxFile" class="btn btn-warning" localize-content="true">Generate Resx File</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

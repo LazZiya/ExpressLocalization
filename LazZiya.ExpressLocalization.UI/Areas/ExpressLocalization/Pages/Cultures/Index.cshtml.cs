@@ -7,28 +7,35 @@ using System.Threading.Tasks;
 using LazZiya.EFGenericDataManager;
 using LazZiya.EFGenericDataManager.Models;
 using LazZiya.ExpressLocalization.DB.Models;
+using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Models;
 using LazZiya.TagHelpers.Alerts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures
 {
     [ValidateAntiForgeryToken]
     public class IndexModel : PageModel
     {
-        private readonly IEFGenericDataManager DataManager;
-        private readonly IApplicationLifetime applicationLifetime;
-        public IndexModel(IEFGenericDataManager manager, IApplicationLifetime lifetime)
+        private readonly IEFGenericDataManager _dataManager;
+        private readonly IApplicationLifetime _applicationLifetime;
+        private readonly ILogger _logger;
+        private readonly XLDbOptions _options;
+        public IndexModel(IEFGenericDataManager manager, IApplicationLifetime lifetime, IOptions<XLDbOptions> options, ILogger<IndexModel> logger)
         {
-            DataManager = manager;
-            applicationLifetime = lifetime;
+            _dataManager = manager;
+            _applicationLifetime = lifetime;
+            _options = options.Value;
+            _logger = logger;
         }
 
         public IActionResult OnPostRestartApp()
         {
-            applicationLifetime.StopApplication();
+            _applicationLifetime.StopApplication();
             return new EmptyResult();
         }
 
@@ -56,6 +63,9 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
 
         public ICollection<CultureItemModel> SystemCultures { get; set; }
 
+        // total number of items exported to resource file
+        private int GrossTotalNewItems { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             (SupportedCultures, TotalRecords) = await ListSupportedCulturesAsync();
@@ -79,9 +89,9 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 IsActive = false
             };
 
-            if (await DataManager.Count<XLCulture>(x => x.ID == ID) > 0)
+            if (await _dataManager.Count<XLCulture>(x => x.ID == ID) > 0)
                 TempData.Warning("Culture already exists!");
-            else if (await DataManager.AddAsync(culture))
+            else if (await _dataManager.AddAsync(culture))
                 TempData.Success("New culture added");
             else
                 TempData.Danger("Culture not added!");
@@ -96,7 +106,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var entity = await DataManager.GetAsync<XLCulture>(x => x.ID == ID);
+            var entity = await _dataManager.GetAsync<XLCulture>(x => x.ID == ID);
             if (entity == null)
             {
                 TempData.Danger("Culture not found!");
@@ -109,7 +119,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            if (await DataManager.DeleteAsync(entity))
+            if (await _dataManager.DeleteAsync(entity))
                 TempData.Success("Deleted!");
             else
                 TempData.Danger("Unknown error occord!");
@@ -125,7 +135,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var entity = await DataManager.GetAsync<XLCulture>(x => x.ID == ID);
+            var entity = await _dataManager.GetAsync<XLCulture>(x => x.ID == ID);
             if (entity == null)
             {
                 TempData.Danger("Culture not found!");
@@ -140,7 +150,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
 
             entity.IsActive = !entity.IsActive;
 
-            if (await DataManager.UpdateAsync<XLCulture, string>(entity))
+            if (await _dataManager.UpdateAsync<XLCulture, string>(entity))
             {
                 if (entity.IsActive)
                     TempData.Success("Culture enabled!");
@@ -161,14 +171,14 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            var entity = await DataManager.GetAsync<XLCulture>(x => x.ID == ID);
+            var entity = await _dataManager.GetAsync<XLCulture>(x => x.ID == ID);
             if (entity == null)
             {
                 TempData.Danger("Culture not found!");
                 return LocalRedirect(Url.Page("Index", new { area = "ExpressLocalization" }));
             }
 
-            if (await DataManager.SetAsDefault<XLCulture, string>(entity.ID))
+            if (await _dataManager.SetAsDefault<XLCulture, string>(entity.ID))
                 TempData.Success("Culture enabled and set as default!");
             else
                 TempData.Danger("Unknown error occord!");
@@ -200,7 +210,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             orderByList.Add(new OrderByExpression<XLCulture> { Expression = x => x.IsDefault, OrderByDir = OrderByDir.ASC });
             orderByList.Add(new OrderByExpression<XLCulture> { Expression = x => x.IsActive, OrderByDir = OrderByDir.ASC });
 
-            return await DataManager.ListAsync(P, S, expList, orderByList);
+            return await _dataManager.ListAsync(P, S, expList, orderByList);
         }
 
         /// <summary>
@@ -213,9 +223,9 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             var keyWords = search.Split(' ');
 #if NETCOREAPP2_0
             SystemCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                .Where(x => keyWords.All(kw => x.Name.StartsWith(kw, StringComparison.OrdinalIgnoreCase) 
-                        || x.EnglishName.StartsWith(kw, StringComparison.OrdinalIgnoreCase) 
-                        || x.NativeName.StartsWith(kw, StringComparison.OrdinalIgnoreCase) 
+                .Where(x => keyWords.All(kw => x.Name.StartsWith(kw, StringComparison.OrdinalIgnoreCase)
+                        || x.EnglishName.StartsWith(kw, StringComparison.OrdinalIgnoreCase)
+                        || x.NativeName.StartsWith(kw, StringComparison.OrdinalIgnoreCase)
                         || x.DisplayName.StartsWith(kw, StringComparison.OrdinalIgnoreCase)))
                 .Select(x => new CultureItemModel { ID = x.Name, Text = x.EnglishName }).ToList();
 #else
@@ -227,6 +237,81 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                             .Select(x => new CultureItemModel { ID = x.Name, Text = x.EnglishName }).ToList();
 #endif
             return new JsonResult(SystemCultures);
+        }
+
+        /// <summary>
+        /// Generate resx file for the selected culture
+        /// </summary>
+        /// <param name="id">Culture id (two letter name)</param>
+        /// <param name="approvedOnly">export all or only approved items</param>
+        /// <param name="overwrite">overwrite existing items</param>
+        /// <returns></returns>
+        public async Task<IActionResult> OnPostGenerateResxFile(string id, bool approvedOnly, bool overwrite)
+        {
+            var searchExp = new List<Expression<Func<XLTranslation, bool>>> { };
+            searchExp.Add(x => x.CultureID == id);
+
+            if (approvedOnly)
+            {
+                searchExp.Add(x => x.IsActive == true);
+            }
+
+            var orderByExp = new List<OrderByExpression<XLTranslation>> { };
+            orderByExp.Add(new OrderByExpression<XLTranslation> { Expression = x => x.ID, OrderByDir = OrderByDir.ASC });
+
+            Expression<Func<XLTranslation, ResxElement>> select = x => new ResxElement
+            {
+                Key = x.Resource.Key,
+                Comment = x.Resource.Comment,
+                Value = x.Value
+            };
+
+            var budleSize = 100;
+
+            var newElements = await Export(1, budleSize, id, overwrite, searchExp, orderByExp, select);
+
+            if (newElements != null)
+                TempData.Success($"Exporting to resource file finished successfully. Total new items {newElements}.");
+            else
+                TempData.Danger("Error while creating resource file!");
+
+            return RedirectToPage("Index");
+        }
+
+        private async Task<int?> Export(int p, int s, string cultureId, bool overwrite,
+            List<Expression<Func<XLTranslation, bool>>> searchExp,
+            List<OrderByExpression<XLTranslation>> orderByExp,
+            Expression<Func<XLTranslation, ResxElement>> select)
+        {
+            (var items, var resxElementCount) = await _dataManager.ListAsync<XLTranslation, ResxElement>(p, s, searchExp, orderByExp, null, select);
+
+            // Create resx manager that will do element addition operation
+            var resxManager = new ResxManager(_options.ResourceType, _options.ResourcesPath, cultureId);
+
+            // add range of elements and return total number of affected rows
+            var totalNew = await resxManager.AddRangeAsync(items, overwrite);
+            _logger.LogInformation($"Total new {totalNew}");
+
+            // add new total to the gross total
+            GrossTotalNewItems += totalNew;
+            _logger.LogInformation($"Total gross {GrossTotalNewItems}");
+
+            // continue exporting next bundle if any...
+            if (resxElementCount > (p * s))
+                await Export(p++, s, cultureId, overwrite, searchExp, orderByExp, select);
+
+            // save the resource file for changes to take effect
+            var saved = GrossTotalNewItems > 0 ? await resxManager.SaveAsync() : false;
+
+            if (GrossTotalNewItems > 0 && !saved)
+            {
+                _logger.LogError("Error saving resource file!");
+                return null;
+            }
+
+            _logger.LogInformation($"Resource file '{resxManager.TargetResourceFile}' - Gross Total New items {GrossTotalNewItems} - Save process {saved}.");
+
+            return GrossTotalNewItems;
         }
     }
 }

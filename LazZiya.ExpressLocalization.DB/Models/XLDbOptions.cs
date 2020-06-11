@@ -29,5 +29,15 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// Enable this option to serve unapproved translations we well.
         /// </summary>
         public bool ServeUnapprovedTranslations { get; set; } = false;
+
+        /// <summary>
+        /// Path to resx files location, use for exporting db entities to resx
+        /// </summary>
+        public string ResourcesPath { get; set; }
+        
+        /// <summary>
+        /// Type of resx file used for resource file based localization
+        /// </summary>
+        public Type ResourceType { get; set; }
     }
 }

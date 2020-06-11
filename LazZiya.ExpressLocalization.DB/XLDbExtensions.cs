@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using LazZiya.TranslationServices;
 using LazZiya.EFGenericDataManager;
 using System.Linq;
+using LazZiya.ExpressLocalization.ResxTools;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -21,7 +22,7 @@ namespace LazZiya.ExpressLocalization.DB
     public static class XLDbExtensions
     {
         /// <summary>
-        /// Add ExpressLocalization support using the built-in entity models
+        /// Add ExpressLocalization with database support using the built-in entity models
         /// </summary>
         /// <typeparam name="TContext">Application db context</typeparam>
         /// <param name="builder">builder</param>
@@ -89,13 +90,6 @@ namespace LazZiya.ExpressLocalization.DB
             var xlDbOps = new XLDbOptions();
             options.Invoke(xlDbOps);
             builder.Services.Configure<XLDbOptions>(options);            
-            if(xlDbOps.OnlineTranslation)
-            {
-                builder.Services.AddScoped<ITranslationService, GoogleTranslateService>();
-                builder.Services.AddScoped<ITranslationService, YandexTranslateService>();
-                builder.Services.AddScoped<ITranslationService, MyMemoryTranslateService>();
-                builder.Services.AddScoped<ITranslationService, SystranTranslateService>();
-            }
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();

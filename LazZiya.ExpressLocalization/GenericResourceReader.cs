@@ -8,7 +8,7 @@ namespace LazZiya.ExpressLocalization
     /// <summary>
     /// Reads resource key and return relevant localized string value
     /// </summary>
-    internal class GenericResourceReader
+    public class GenericResourceReader
     {
         /// <summary>
         /// Reads resource key and return relevant localized string value
@@ -18,7 +18,7 @@ namespace LazZiya.ExpressLocalization
         /// <param name="args"></param>
         /// <param name="resourceSource">resx type to get values from</param>
         /// <returns></returns>
-        internal static string GetString(Type resourceSource, string culture, string code, params object[] args)
+        public static string GetString(Type resourceSource, string culture, string code, params object[] args)
         {
             return string.Format(GetHtmlString(resourceSource, culture, code, args).Value, args);
         }

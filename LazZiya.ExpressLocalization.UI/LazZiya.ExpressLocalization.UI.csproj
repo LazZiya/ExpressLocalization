@@ -5,7 +5,7 @@
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>Interface for managing localization with ExpressLocalization package and ability to use online translation tools.</Description>
-		<Version>1.0.0-beta1</Version>
+		<Version>1.0.0-beta2</Version>
 		<Authors>Ziya Mollamahmut</Authors>
 		<Company>Ziyad.info</Company>
 		<Copyright>Ziyad.info</Copyright>
@@ -33,7 +33,7 @@
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
-		<PackageReference Include="LazZiya.ExpressLocalization.DB" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.ExpressLocalization.DB" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
 		<PackageReference Include="LazZiya.TagHelpers" Version="5.0.0-beta1" Exclude="Build,Analyzers" />		
 	</ItemGroup>
 	

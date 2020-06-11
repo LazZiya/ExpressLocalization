@@ -63,6 +63,17 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="5.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <EmbeddedResource Remove="ResxTools\DummyResource.resx" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Content Include="ResxTools\DummyResource.resx">
+	    <Generator></Generator>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="files\icon.ico">

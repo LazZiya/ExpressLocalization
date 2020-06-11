@@ -39,9 +39,19 @@
 
 	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
 		<ProjectReference Include="..\LazZiya.ExpressLocalization.UI\LazZiya.ExpressLocalization.UI.csproj" />
+		<PackageReference Include="LazZiya.TranslationServices.IBMWatsonTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.MyMemoryTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.SystranTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.YandexTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.GoogleTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
-		<PackageReference Include="LazZiya.ExpressLocalization.UI" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.ExpressLocalization.UI" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.IBMWatsonTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.MyMemoryTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.SystranTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.YandexTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices.GoogleTranslate" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
 	</ItemGroup>
 </Project>

@@ -16,6 +16,15 @@
             <param name="search"></param>
             <returns></returns>
         </member>
+        <member name="M:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.IndexModel.OnPostGenerateResxFile(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Generate resx file for the selected culture
+            </summary>
+            <param name="id">Culture id (two letter name)</param>
+            <param name="approvedOnly">export all or only approved items</param>
+            <param name="overwrite">overwrite existing items</param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Cultures.TranslationsModel">
             <summary>
             Culture translations page

@@ -784,6 +784,113 @@
             <param name="defCulture">default culture name</param>
             <returns>ProviderCultureResult</returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.ResxTools.DummyResource">
+            <summary>
+            Dummy class to create new resource files
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.ResxTools.IResourceFile">
+            <summary>
+            Interface to implement resx files type
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.ResxTools.ResxManager">
+            <summary>
+            Resx files writer
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.#ctor(System.Type,System.String,System.String)">
+            <summary>
+            Initialize new instance of resource manager
+            </summary>
+            <param name="TResxFileType">Type of the resource file</param>
+            <param name="resxFolderUri">Localization resources folder path</param>
+            <param name="culture"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ResxTools.ResxManager.TargetResourceFile">
+            <summary>
+            Retrive the name of the target resource file
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.AddAsync(LazZiya.ExpressLocalization.DB.Models.ResxElement,System.Boolean)">
+            <summary>
+            Add an element to the resource file
+            </summary>
+            <param name="element"></param>
+            <param name="overWriteExistingKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.AddRangeAsync(System.Collections.Generic.ICollection{LazZiya.ExpressLocalization.DB.Models.ResxElement},System.Boolean)">
+            <summary>
+            Add array of elements to the resource file
+            </summary>
+            <param name="elements"></param>
+            <param name="overWriteExistingKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.DeleteAsync(System.String)">
+            <summary>
+            Async delete a resource key from resource file
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.FindAsync(System.String)">
+            <summary>
+            Find resource by its key value
+            </summary>
+            <param name="key"></param>
+            <returns>XElement</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.SaveAsync">
+            <summary>
+            save the resource file
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.Models.ResxElement">
+            <summary>
+            Model for exporting DB entities to Resx file
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.Models.ResxElement.#ctor">
+            <summary>
+            Initialize a new instance of ResxElement
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.Models.ResxElement.#ctor(System.Xml.Linq.XElement)">
+            <summary>
+            Initializes a new instance of ResxElement from XElement
+            </summary>
+            <param name="element"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ResxElement.Key">
+            <summary>
+            Resource key
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ResxElement.Value">
+            <summary>
+            Resource value
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ResxElement.Comment">
+            <summary>
+            Comment...
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.DB.Models.ResxElement.XElement">
+            <summary>
+            Converts current ResxElement to XElement (resource file element)
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.Models.ResxElement.Equals(LazZiya.ExpressLocalization.DB.Models.ResxElement)">
+            <summary>
+            Determine if two elements are equal
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.RouteSegmentCultureProvider">
             <summary>
             Register Route segment based request localization culture provider

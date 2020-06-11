@@ -8,6 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LazZiya.ExpressLocalization.DB;
 using LazZiya.TranslationServices;
+using LazZiya.TranslationServices.IBMWatsonTranslate;
+using LazZiya.TranslationServices.MyMemoryTranslate;
+using LazZiya.TranslationServices.SystranTranslate;
+using LazZiya.TranslationServices.YandexTranslate;
+using LazZiya.TranslationServices.GoogleTranslate;
+using SampleProject.LocalizationResources;
 
 namespace SampleProject
 {
@@ -29,6 +35,12 @@ namespace SampleProject
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddScoped<ITranslationService, IBMWatsonTranslateService>();
+            services.AddScoped<ITranslationService, MyMemoryTranslateService>();
+            services.AddScoped<ITranslationService, SystranTranslateService>();
+            services.AddScoped<ITranslationService, YandexTranslateService>();
+            services.AddScoped<ITranslationService, GoogleTranslateService>();
+
             services.AddRazorPages()
                 .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
                 {
@@ -36,6 +48,8 @@ namespace SampleProject
                     ops.OnlineTranslation = true;
                     ops.TranslationService = typeof(MyMemoryTranslateService);
                     ops.ServeUnapprovedTranslations = true;
+                    ops.ResourcesPath = "LocalizationResources";
+                    ops.ResourceType = typeof(LocSource);
                 });
         }
 

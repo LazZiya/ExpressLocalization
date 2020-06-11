@@ -24,6 +24,9 @@ namespace LazZiya.ExpressLocalization.DB
     /// <summary>
     /// ExpressLocalization DB Localizer
     /// </summary>
+    /// <typeparam name="TXLResource">Type of ExpressLocalization DB resource entity</typeparam>
+    /// <typeparam name="TXLTranslation">Type of ExpressLocalization DB translation entity</typeparam>
+    /// <typeparam name="TXLCulture">Type of ExpressLocalization DB culture entity</typeparam>
     public class XLDbLocalizer<TXLResource, TXLTranslation, TXLCulture> : ISharedCultureLocalizer, ICulturesProvider<TXLCulture>
         where TXLResource : class, IXLResource
         where TXLTranslation : class, IXLTranslation

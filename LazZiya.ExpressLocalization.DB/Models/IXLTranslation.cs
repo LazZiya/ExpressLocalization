@@ -21,5 +21,10 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// Relevant culture name, must be the key of ExpressLocalizationCulture model
         /// </summary>
         string CultureID { get; set; }
+
+        /// <summary>
+        /// Relevant resource entity
+        /// </summary>
+        IXLResource Resource { get; set; }
     }
 }

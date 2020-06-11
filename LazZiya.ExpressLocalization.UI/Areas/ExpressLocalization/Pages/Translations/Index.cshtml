@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="approved-@c.ID" name="Translation.IsActive" asp-for="@trans.IsActive" />
-                                    <label class="form-check-label" for="approved-@c.ID">
+                                    <label class="form-check-label" for="approved-@c.ID" localize-content="true">
                                         Approved
                                     </label>
                                 </div>
@@ -54,6 +54,7 @@
                                     <a class="btn btn-light border-secondary" href="@Model.ReturnUrl" localize-att-title="Back" localize-content="false"><i class="fas fa-chevron-left"></i></a>
                                 }
                                 <button type="submit" class="btn btn-primary" localize-att-title="Save" localize-content="false"><i class="fas fa-save"></i></button>
+                                <button type="button" class="btn btn-secondary" localize-att-title="Export to resource file" localize-content="false"><i class="fas fa-file-export"></i></button>
                                 <button type="button" class="btn btn-danger"
                                         data-resource-id="@(Model.Resource.ID)"
                                         data-culture-id="@(c.ID)"
@@ -125,6 +126,35 @@
                     <input type="hidden" id="deleteResoueceId" name="Translation.ResourceID" value="" />
                     <input type="hidden" id="deleteCultureId" name="Translation.CultureID" value="" />
                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> <localize>Delete</localize></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Generate Resx File -->
+<div class="modal fade" id="generateResx-@(Model.ResourceID)" tabindex="-1" role="dialog" aria-labelledby="generateResx-@(Model.ResourceID)" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="setDefaultLabel-@(Model.ResourceID)" localize-content="true">Generate Resx File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <localize>
+                    <p>Generating .resx file can take a while. After the file is generated the application pool will be recycled!</p>
+                    <p>Proceed with generating .resx file for below culture?</p>
+                </localize>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" localize-content="true">Cancel</button>
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="ResourceID" />
+                    <input type="hidden" name="CultureID" value="" id="resxCultureId" />
+                    <button type="submit" asp-page-handler="GenerateResxFile" class="btn btn-warning" localize-content="true">Export to resource file</button>
                 </form>
             </div>
         </div>

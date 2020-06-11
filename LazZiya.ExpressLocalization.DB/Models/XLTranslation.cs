@@ -1,5 +1,4 @@
-﻿using LazZiya.EFGenericDataManager.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LazZiya.ExpressLocalization.DB.Models
 {
@@ -38,7 +37,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// <summary>
         /// Express Localization Resource
         /// </summary>
-        public XLResource Resource { get; set; }
+        public IXLResource Resource { get; set; }
 
         /// <summary>
         /// Enable, disable translation.

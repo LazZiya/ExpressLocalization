@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<ApplicationIcon>files\icon.ico</ApplicationIcon>
 		<PackageIcon>icon.png</PackageIcon>
@@ -17,9 +17,10 @@
 			- .net5 support
 			- Localization with DB support
 			- Localization during runtime!
+			- Translation services updated to beta2
 			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
 		</PackageReleaseNotes>
-		<Version>1.0.0-beta1</Version>
+		<Version>1.0.0-beta2</Version>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -39,27 +40,15 @@
 	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
 		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
 		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
-		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
 		<PackageReference Include="LazZiya.ExpressLocalization" Version="5.0.0-beta2" Exclude="Build,Analyzers" />
 		<PackageReference Include="LazZiya.EFGenericDataManager" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
-		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
-	</ItemGroup>
-	
-	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" Exclude="Build,Analyzers" />
-	</ItemGroup>
-	
-	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" Exclude="Build,Analyzers" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" Version="5.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup>
