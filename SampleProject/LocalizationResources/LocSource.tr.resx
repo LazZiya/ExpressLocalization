@@ -310,4 +310,72 @@
     <value>Yeni Kaynak Ekle</value>
     <comment />
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Onaylandı</value>
+    <comment />
+  </data>
+  <data name="Export to Resx" xml:space="preserve">
+    <value>Dışarı Aktar</value>
+    <comment />
+  </data>
+  <data name="Export to resource file" xml:space="preserve">
+    <value>Kaynak dosyasına dışa aktarma</value>
+    <comment />
+  </data>
+  <data name="Resource file updated successfully. Total new items 0." xml:space="preserve">
+    <value>Kaynak dosya başarıyla güncellendi. Toplam yeni ürün 0.</value>
+    <comment />
+  </data>
+  <data name="..." xml:space="preserve">
+    <value>...</value>
+    <comment />
+  </data>
+  <data name="Resource file updated successfully. Total new items 1." xml:space="preserve">
+    <value>Kaynak dosya başarıyla güncellendi. Toplam yeni ürün 1.</value>
+    <comment />
+  </data>
+  <data name="Resource file updated successfully. Total new items 4." xml:space="preserve">
+    <value>Kaynak dosya başarıyla güncellendi. Toplam yeni ürün 4.</value>
+    <comment />
+  </data>
+  <data name="&lt;p&gt;Generating .resx file can take a while. After the file is generated the application pool will be recycled!&lt;/p&gt;&#xD;&#xA;                        &lt;p&gt;Proceed with generating .resx file for below culture?&lt;/p&gt;" xml:space="preserve">
+    <value>&lt;p&gt; .Resx dosyası oluşturmak biraz zaman alabilir. Dosya oluşturulduktan sonra uygulama havuzu geri dönüştürülecektir! &lt;/p&gt;&lt;p&gt; Aşağıdaki kültür için .resx dosyası oluşturmaya devam et? &lt;/p&gt;</value>
+    <comment />
+  </data>
+  <data name="Export approved translations only." xml:space="preserve">
+    <value>Yalnızca onaylı çevirileri dışa aktarın.</value>
+    <comment />
+  </data>
+  <data name="Export all translations (including not approved ones)" xml:space="preserve">
+    <value>Tüm çevirileri dışa aktar (onaylanmamışlar dahil)</value>
+    <comment />
+  </data>
+  <data name="Resource file updated successfully. Total new items 18." xml:space="preserve">
+    <value>Kaynak dosya başarıyla güncellendi. Toplam yeni ürün 18.</value>
+    <comment />
+  </data>
+  <data name="Exporting to resource file finished successfully. Total new items 0." xml:space="preserve">
+    <value>Kaynak dosyaya aktarma işlemi başarıyla tamamlandı. Toplam yeni ürün 0.</value>
+    <comment />
+  </data>
+  <data name="Export all translations (including not approved ones)." xml:space="preserve">
+    <value>Tüm çevirileri dışa aktarın (onaylanmamışlar dahil).</value>
+    <comment />
+  </data>
+  <data name="Overwrite existing translations." xml:space="preserve">
+    <value>Varolan çevirilerin üzerine yazılsın.</value>
+    <comment />
+  </data>
+  <data name="Don't overwrite existing translations." xml:space="preserve">
+    <value>Varolan çevirilerin üzerine yazılmasın.</value>
+    <comment />
+  </data>
+  <data name="Exporting to resource file finished successfully. Total new items 8." xml:space="preserve">
+    <value>Kaynak dosyaya aktarma işlemi başarıyla tamamlandı. Toplam yeni ürün 8.</value>
+    <comment />
+  </data>
+  <data name="Exporting to resource file finished successfully. Total new items 46." xml:space="preserve">
+    <value>Kaynak dosyaya aktarma işlemi başarıyla tamamlandı. Toplam yeni ürün 46.</value>
+    <comment />
+  </data>
 </root>
