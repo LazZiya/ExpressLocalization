@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
+﻿using LazZiya.ExpressLocalization.ResxTools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,48 +6,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace LazZiya.ExpressLocalization.ResxTools
+namespace LazZiya.ExpressLocalization.Json
 {
     /// <summary>
     /// Resx files writer
     /// </summary>
-    public class ResxManager
+    public class JsonManager
     {
         private readonly XDocument _xd;
-        
+
         /// <summary>
-        /// Initialize new instance of resource manager
+        /// Initialize new instance of json manager
         /// </summary>
-        /// <param name="TResxFileType">Type of the resource file</param>
-        /// <param name="resxFolderUri">Localization resources folder path</param>
-        /// <param name="culture"></param>
-        public ResxManager(Type TResxFileType, string resxFolderUri ="", string culture = "", string fileExt = "resx")
+        public JsonManager(Type TResxFileType, string jsonFolderUri = "", string culture = "")
         {
-            TargetResourceFile = string.IsNullOrWhiteSpace(culture)
-                ? Path.Combine(resxFolderUri, $"{TResxFileType.Name}.{fileExt}")
-                : Path.Combine(resxFolderUri, $"{TResxFileType.Name}.{culture}.{fileExt}");
+            TargetJsonFile = string.IsNullOrWhiteSpace(culture)
+                ? Path.Combine(jsonFolderUri, $"{TResxFileType.Name}.json")
+                : Path.Combine(jsonFolderUri, $"{TResxFileType.Name}.{culture}.json");
 
-            if (!File.Exists(TargetResourceFile))
-            {
-                try
-                {
-                    var dummyFileLoc = typeof(DummyResource).Assembly.Location;
-                    var dummyFile = $"{dummyFileLoc.Substring(0, dummyFileLoc.LastIndexOf('\\'))}\\ResxTools\\{nameof(DummyResource)}.resx";
-                    File.Copy(dummyFile, TargetResourceFile);
-                }
-                catch (Exception e)
-                {
-                    throw new FileLoadException($"Can't load or create resource file. {e.Message}");
-                }
-            }
-
-            _xd = XDocument.Load(TargetResourceFile);
+            _xd = XDocument.Load(TargetJsonFile);
         }
 
         /// <summary>
         /// Retrive the name of the target resource file
         /// </summary>
-        public string TargetResourceFile { get; private set; }
+        public string TargetJsonFile { get; private set; }
 
         /// <summary>
         /// Add an element to the resource file
@@ -178,7 +161,7 @@ namespace LazZiya.ExpressLocalization.ResxTools
 
             try
             {
-                _xd.Save(TargetResourceFile);
+                _xd.Save(TargetJsonFile);
                 tsk.SetResult(true);
             }
             catch (Exception e)

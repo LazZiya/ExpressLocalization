@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 
-namespace LazZiya.ExpressLocalization.DB.Models
+namespace LazZiya.ExpressLocalization.ResxTools
 {
     /// <summary>
     /// Model for exporting DB entities to Resx file
@@ -43,9 +43,14 @@ namespace LazZiya.ExpressLocalization.DB.Models
         public string Comment { get; set; }
 
         /// <summary>
+        /// A boolean value to indicate if the translation is approved
+        /// </summary>
+        public bool Approved { get; set; }
+        
+        /// <summary>
         /// Converts current ResxElement to XElement (resource file element)
         /// </summary>
-        public XElement XElement => new XElement("data", new XAttribute("name", Key),
+        public XElement ToXElement() => new XElement("data", new XAttribute("name", Key),
                                                               new XAttribute($"{XNamespace.Xml + "space"}", "preserve"),
                                                               new XElement("value", Value),
                                                               new XElement("comment", Comment));

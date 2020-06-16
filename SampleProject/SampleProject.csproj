@@ -24,6 +24,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="LocalizationResources\LocSource.ar.xml" />
+	  <None Remove="XmlResources\AnotherResource.fr.xml" />
+	  <None Remove="XmlResources\AnotherResource.tr.xml" />
+	  <None Remove="XmlResources\XmlResource.ar.xml" />
+	  <None Remove="XmlResources\XmlResource.tr.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="XmlResources\AnotherResource.fr.xml" />
+	  <EmbeddedResource Include="XmlResources\AnotherResource.tr.xml" />
+	  <EmbeddedResource Include="XmlResources\AnotherResource.ar.xml" />
+	  <EmbeddedResource Include="XmlResources\XmlResource.ar.xml" />
+	  <EmbeddedResource Include="XmlResources\XmlResource.tr.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.0-preview.5.20279.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0-preview.5.20279.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.0-preview.5.20279.2" />

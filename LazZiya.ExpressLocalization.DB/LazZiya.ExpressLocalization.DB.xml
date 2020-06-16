@@ -64,31 +64,6 @@
             Relevant resource entity
             </summary>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.Models.RecursiveMode">
-            <summary>
-            Define the working mode for recursive localization of entries
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.None">
-            <summary>
-            Don't run recursive mode
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.Keys">
-            <summary>
-            Run recursive mode for adding missed resource keys only
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.Translations">
-            <summary>
-            Run ercursive mode for adding missed translations only
-            </summary>
-        </member>
-        <member name="F:LazZiya.ExpressLocalization.DB.Models.RecursiveMode.Full">
-            /// <summary>
-            Run ercursive mode for adding missed keys and translations
-            </summary>
-        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.XLCulture">
             <summary>
             ExpressLocalization default culture model

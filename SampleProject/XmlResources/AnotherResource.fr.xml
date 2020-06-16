@@ -117,44 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Welcome" xml:space="preserve">
-    <value>Hoşgeldiniz</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Learn about &lt;a href=&quot;{0}&quot;&gt;building Web apps with ASP.NET Core&lt;/a&gt;." xml:space="preserve">
-    <value>&lt;a href="{0}"&gt;ASP.NET Core ile Web uygulamaları oluşturma&lt;/a&gt; hakkında bilgi edinin.</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Kayıt ol</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Oturum Aç</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Ana Sayfa</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Gizlilik</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Cultures" xml:space="preserve">
-    <value>Kültürler</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Resources" xml:space="preserve">
-    <value>kaynaklar</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Privacy Policy" xml:space="preserve">
-    <value>Gizlilik Politikası</value>
-    <comment>AutoKey</comment>
-  </data>
-  <data name="Use this page to detail your site's privacy policy." xml:space="preserve">
-    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
-    <comment>AutoKey</comment>
-  </data>
 </root>

@@ -4,7 +4,22 @@
     ViewData["Title"] = "Home page";
 }
 
+<alert></alert>
 <div class="text-center">
     <h1 class="display-4" localize-content>Welcome</h1>
-    <p localize-args="@(new[]{"https://docs.microsoft.com/aspnet/core"})">Learn about <a href="{0}">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4" localize-content 
+        localize-translation-service="typeof(LazZiya.TranslationServices.MyMemoryTranslate.MyMemoryTranslateService)" 
+        localize-culture="fr" 
+        localize-translation-from="tr">Hoşbulduk güzelim</h1>
+    <h1 localize-att-title="Hello" localize-content="false">Hello</h1>
+    <p localize-args="@(new object[]{"https://docs.microsoft.com/aspnet/core"})">
+        Learn about <a href="{0}">building Web apps with ASP.NET Core</a>.
+    </p>
+</div>
+
+<div class="container">
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Transfer to Resx</button>
+    </form>
 </div>

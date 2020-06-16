@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
+﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.ExpressLocalization.Translate;
+using LazZiya.TranslationServices;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -10,7 +15,9 @@ namespace LazZiya.ExpressLocalization.TagHelpers
     /// </summary>
     public class LocalizationTagHelperBase : TagHelper
     {
-        private readonly ISharedCultureLocalizer _loc;
+        private readonly IHtmlExpressLocalizerFactory _localizerFactory;
+        private readonly IHtmlTranslatorFactory _translatorFactory;
+        private readonly ExpressLocalizationOptions _options;
 
         /// <summary>
         /// pass array of objects for arguments
@@ -19,24 +26,42 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         public object[] Args { get; set; }
 
         /// <summary>
-        /// localization string with reference to the specified culture
+        /// Localize or translate contents to the specified target culture. Default is current culture.
         /// </summary>
         [HtmlAttributeName("localize-culture")]
         public string Culture { get; set; } = string.Empty;
 
         /// <summary>
-        /// type of the source of localized resources file that containes the local culture strings
+        /// Manually specify the content culture. Default is request default culture.
+        /// </summary>
+        [HtmlAttributeName("localize-translation-from")]
+        public string TranslationFromCulture { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Type of translation service.
+        /// </summary>
+        [HtmlAttributeName("localize-translation-service")]
+        public Type TranslationServiceType { get; set; }
+        
+        /// <summary>
+        /// Type of the localized resource
         /// </summary>
         [HtmlAttributeName("localize-source")]
         public Type ResourceSource { get; set; }
 
         /// <summary>
-        /// inject SharedCultureLocalizer
+        /// Initialize a new instance of LocaizationTagHelperBase
         /// </summary>
-        /// <param name="loc"></param>
-        public LocalizationTagHelperBase(ISharedCultureLocalizer loc)
+        /// <param name="provider"></param>
+        /// <param name="options"></param>
+        public LocalizationTagHelperBase(IServiceProvider provider, IOptions<ExpressLocalizationOptions> options)
         {
-            _loc = loc;
+            _localizerFactory = provider.GetRequiredService<IHtmlExpressLocalizerFactory>();
+
+            _options = options.Value;
+            
+            if(_options.OnlineTranslation)
+                _translatorFactory = provider.GetRequiredService<IHtmlTranslatorFactory>();
         }
 
         /// <summary>
@@ -54,25 +79,43 @@ namespace LazZiya.ExpressLocalization.TagHelpers
                 var str = content.GetContent().Trim();
 
                 LocalizedHtmlString _localStr;
-                
-                if (!string.IsNullOrEmpty(Culture) && ResourceSource != null)
-                    //localize from specified culture and resource type
-                    _localStr = _loc.GetLocalizedHtmlString(ResourceSource, Culture, str, Args);
 
-                else if (!string.IsNullOrEmpty(Culture) && ResourceSource == null)
-                    //localize from specified culture and default view localization resource 
-                    //type that is defined in startup in .AddExpressLocalization<T1, T2> 
-                    //where T2 is the view localization resource
-                    _localStr = _loc.GetLocalizedHtmlString(Culture, str, Args);
+                if (string.IsNullOrWhiteSpace(Culture))
+                {
+                    var _loc = ResourceSource == null
+                        ? _localizerFactory.Create()
+                        : _localizerFactory.Create(ResourceSource);
 
-                else if (string.IsNullOrEmpty(Culture) && ResourceSource != null)
-                    //localize from specified resource type using CultureInfo.CurrentCulture.Name
-                    _localStr = _loc.GetLocalizedHtmlString(ResourceSource, str, Args);
+                    _localStr = Args == null
+                        ? _loc[str]
+                        : _loc[str, Args];
+                }
                 else
-                    //use default localization
-                    _localStr = _loc.GetLocalizedHtmlString(str, Args);
-                    
-                output.Content.SetHtmlContent(_localStr);
+                {
+                    using (var cs = new CultureSwitcher(Culture))
+                    {
+                        var _loc = ResourceSource == null
+                            ? _localizerFactory.Create()
+                            : _localizerFactory.Create(ResourceSource);
+
+                        _localStr = Args == null
+                            ? _loc[str]
+                            : _loc[str, Args];
+                    }
+                }
+
+                if (_localStr.IsResourceNotFound && _options.OnlineTranslation)
+                {
+                    var _loc = TranslationServiceType != null && TranslationServiceType.GetInterface(typeof(ITranslationService).FullName) != null
+                        ? _translatorFactory.Create(TranslationServiceType)
+                        : _translatorFactory.Create();
+
+                    _localStr = Args == null
+                        ? _loc[str, TranslationFromCulture, Culture]
+                        : _loc[str, TranslationFromCulture, Culture];
+                }
+
+                output.Content.SetHtmlContent(_localStr.Value);
             }
         }
     }

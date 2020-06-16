@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 
 using System;
 
@@ -35,9 +34,8 @@ namespace LazZiya.ExpressLocalization
         public bool ConfigureRedirectPaths { get; set; } = true;
 
         /// <summary>
-        /// The default culture to set during redirection to login event if no culture was set.
+        /// The default culture to use for online translation.
         /// </summary>
-        [Obsolete("DefaultCultureName will be removed in a future version. It is not necessary since we already providing default culture in localization options setup.")]
         public string DefaultCultureName { get; set; } = "en";
 
         /// <summary>
@@ -64,5 +62,22 @@ namespace LazZiya.ExpressLocalization
         /// Set to false if you don't want to use express validation attributes.
         /// </summary>
         public bool UseExpressValidationAttributes { get; set; } = true;
+
+        /// <summary>
+        /// If the key string is not found in the DB, it will be inserted autoamtically to the DB.
+        /// default: false
+        /// </summary>
+        public bool AutoAddKeys { get; set; } = false;
+
+        /// <summary>
+        /// If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
+        /// default: false
+        /// </summary>
+        public bool OnlineTranslation { get; set; } = false;
+
+        /// <summary>
+        /// Type of the translation service to use for OnlineLocalization
+        /// </summary>
+        public Type TranslationService { get; set; }
     }
 }

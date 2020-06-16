@@ -37,6 +37,7 @@ namespace LazZiya.ExpressLocalization
         {
             CultureInfo.CurrentCulture = cultureInfo;
             CultureInfo.CurrentUICulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         }
 
         /// <summary>

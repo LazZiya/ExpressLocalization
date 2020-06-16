@@ -6,14 +6,15 @@ using SampleProject.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using LazZiya.ExpressLocalization.DB;
 using LazZiya.TranslationServices;
 using LazZiya.TranslationServices.IBMWatsonTranslate;
 using LazZiya.TranslationServices.MyMemoryTranslate;
 using LazZiya.TranslationServices.SystranTranslate;
 using LazZiya.TranslationServices.YandexTranslate;
 using LazZiya.TranslationServices.GoogleTranslate;
-using SampleProject.LocalizationResources;
+using System.Globalization;
+using LazZiya.ExpressLocalization.Xml;
+using SampleProject.XmlResources;
 
 namespace SampleProject
 {
@@ -40,7 +41,27 @@ namespace SampleProject
             services.AddScoped<ITranslationService, SystranTranslateService>();
             services.AddScoped<ITranslationService, YandexTranslateService>();
             services.AddScoped<ITranslationService, GoogleTranslateService>();
+            /*
+            services.AddRazorPages()
+                .AddExpressLocalization<LocSource>(ops =>
+                {
+                    ops.ResourcesPath = "LocalizationResources";
 
+                    var cultures = new CultureInfo[] { new CultureInfo("en"), new CultureInfo("tr"), new CultureInfo("ar") };
+                    ops.RequestLocalizationOptions = o =>
+                    {
+                        o.SupportedCultures = cultures;
+                        o.SupportedUICultures = cultures;
+                        o.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+                    };
+
+                    ops.AutoAddKeys = false;
+                    ops.OnlineTranslation = true;
+                    ops.TranslationService = typeof(MyMemoryTranslateService);
+                });
+            */
+
+            /*
             services.AddRazorPages()
                 .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
                 {
@@ -50,6 +71,28 @@ namespace SampleProject
                     ops.ServeUnapprovedTranslations = true;
                     ops.ResourcesPath = "LocalizationResources";
                     ops.ResourceType = typeof(LocSource);
+                });
+            */
+
+            var cultures = new CultureInfo[]
+            {
+                new CultureInfo("en"),
+                new CultureInfo("tr"),
+                new CultureInfo("ar")
+            };
+
+            services.Configure<RequestLocalizationOptions>(ops =>
+            {
+                ops.SupportedCultures = cultures;
+                ops.SupportedUICultures = cultures;
+                ops.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+            });
+
+            services.AddRazorPages()
+                .AddExpressLocalizationXml<AnotherResource, YandexTranslateService>((x) =>
+                {
+                    x.ResourcesPath = "XmlResources";
+                    x.OnlineTranslation = true;
                 });
         }
 

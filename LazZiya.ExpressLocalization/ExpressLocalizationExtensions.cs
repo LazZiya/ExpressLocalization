@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using LazZiya.ExpressLocalization.DataAnnotations;
+using Microsoft.Extensions.Localization;
 
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Microsoft.AspNetCore.Routing;
@@ -50,6 +51,7 @@ namespace LazZiya.ExpressLocalization
             var _ops = new RequestLocalizationOptions();
             _options.RequestLocalizationOptions.Invoke(_ops);
 
+            builder.Services.Configure<ExpressLocalizationOptions>(options);
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             if (_options.ConfigureRedirectPaths)
@@ -89,7 +91,7 @@ namespace LazZiya.ExpressLocalization
 
             var _ops = new RequestLocalizationOptions();
             _options.RequestLocalizationOptions.Invoke(_ops);
-
+            builder.Services.Configure<ExpressLocalizationOptions>(options);
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             if (_options.ConfigureRedirectPaths)
@@ -133,7 +135,7 @@ namespace LazZiya.ExpressLocalization
 
             var _ops = new RequestLocalizationOptions();
             _options.RequestLocalizationOptions.Invoke(_ops);
-
+            builder.Services.Configure<ExpressLocalizationOptions>(options);
             builder.Services.Configure<RequestLocalizationOptions>(_options.RequestLocalizationOptions);
 
             if (_options.ConfigureRedirectPaths)
@@ -197,7 +199,8 @@ namespace LazZiya.ExpressLocalization
         /// <returns></returns>
         public static IMvcBuilder ExAddSharedCultureLocalizer<TViewLocalizationResource>(this IMvcBuilder builder) where TViewLocalizationResource : class
         {
-            builder.Services.AddSingleton<ISharedCultureLocalizer, SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
+            //builder.Services.AddSingleton<ISharedCultureLocalizer, SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
+            builder.Services.AddScoped<ISharedCultureLocalizer, SharedCultureLocalizer<TViewLocalizationResource>>();
 
             return builder;
         }

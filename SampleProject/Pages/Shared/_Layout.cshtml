@@ -33,16 +33,16 @@
                     </language-nav>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" localize-content>Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" localize-content="false">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy" localize-content>Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy" asp-route-culture="@CultureInfo.CurrentCulture.Name" localize-content="false">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/ExpressLocalization/Cultures" localize-content>Cultures</a>
+                            <a class="nav-link text-dark" href="/ExpressLocalization/Cultures" localize-content="false">Cultures</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/ExpressLocalization/Resources" localize-content>Resources</a>
+                            <a class="nav-link text-dark" href="/ExpressLocalization/Resources" localize-content="false">Resources</a>
                         </li>
                     </ul>
                 </div>
@@ -57,7 +57,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - ExpressLocalization - <a asp-area="" asp-page="/Privacy" localize-content>Privacy</a>
+            &copy; 2020 - ExpressLocalization - <a asp-area="" asp-page="/Privacy" localize-content="false">Privacy</a>
         </div>
     </footer>
 

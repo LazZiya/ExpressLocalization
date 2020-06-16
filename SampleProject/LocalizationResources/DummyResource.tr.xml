@@ -98,95 +98,43 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Welcome" xml:space="preserve">
-    <value>أهلا و سهلا</value>
-    <comment />
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>الرئيسية</value>
-    <comment />
-  </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>الخصوصية</value>
-    <comment />
-  </data>
-  <data name="Active" xml:space="preserve">
-    <value>فعال</value>
-    <comment />
+    <value>Hoşgeldiniz</value>
+    <comment>AutoKey</comment>
   </data>
   <data name="Learn about &lt;a href=&quot;{0}&quot;&gt;building Web apps with ASP.NET Core&lt;/a&gt;." xml:space="preserve">
-    <value>معرفة المزيد عن &lt;a href="{0}"&gt;بناء تطبيقات الانترنت مع ASP.NET Core&lt;/a&gt;.</value>
-    <comment />
-  </data>
-  <data name="Set below culture as default culture? (it will be enabled as well)" xml:space="preserve">
-    <value>هل تريد تعيين الثقافة أدناه على أنها الثقافة الافتراضية؟ (سيتم تمكينه أيضًا)</value>
-    <comment />
-  </data>
-  <data name="Localization Resources" xml:space="preserve">
-    <value>مصادر الترجمة</value>
-    <comment />
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>بحث</value>
-    <comment />
-  </data>
-  <data name="ID" xml:space="preserve">
-    <value>الكود</value>
-    <comment />
-  </data>
-  <data name="Key" xml:space="preserve">
-    <value>مفتاح</value>
-    <comment />
-  </data>
-  <data name="Comment" xml:space="preserve">
-    <value>تعقيب</value>
-    <comment />
-  </data>
-  <data name="Translations" xml:space="preserve">
-    <value>ترجمات</value>
-    <comment />
-  </data>
-  <data name="Create new resource" xml:space="preserve">
-    <value>تكوين مصدر جديد</value>
-    <comment />
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>تحرير</value>
-    <comment />
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>حذف</value>
-    <comment />
-  </data>
-  <data name="Confirm delete" xml:space="preserve">
-    <value>تأكيد الحذف</value>
-    <comment />
-  </data>
-  <data name="Delete this record?" xml:space="preserve">
-    <value>حذف هذا السجل ؟</value>
-    <comment />
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>الغاء</value>
-    <comment />
+    <value>&lt;a href="{0}"&gt;ASP.NET Core ile Web uygulamaları oluşturma&lt;/a&gt; hakkında bilgi edinin.</value>
+    <comment>AutoKey</comment>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>تسجيل</value>
-    <comment />
+    <value>Kayıt ol</value>
+    <comment>AutoKey</comment>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>تسجيل الدخول</value>
-    <comment />
+    <value>Oturum Aç</value>
+    <comment>AutoKey</comment>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Ana Sayfa</value>
+    <comment>AutoKey</comment>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Gizlilik</value>
+    <comment>AutoKey</comment>
   </data>
   <data name="Cultures" xml:space="preserve">
-    <value>الثقافات</value>
-    <comment />
+    <value>Kültürler</value>
+    <comment>AutoKey</comment>
   </data>
   <data name="Resources" xml:space="preserve">
-    <value>الموارد</value>
-    <comment />
+    <value>kaynaklar</value>
+    <comment>AutoKey</comment>
   </data>
-  <data name="Culture Translations" xml:space="preserve">
-    <value>ترجمات الثقافة</value>
-    <comment />
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Gizlilik Politikası</value>
+    <comment>AutoKey</comment>
+  </data>
+  <data name="Use this page to detail your site's privacy policy." xml:space="preserve">
+    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
+    <comment>AutoKey</comment>
   </data>
 </root>

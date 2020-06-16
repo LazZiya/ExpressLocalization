@@ -1,20 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text.Encodings.Web;
+using LazZiya.ExpressLocalization.ResxTools;
+using LazZiya.TranslationServices;
+using System.Linq;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
+using Newtonsoft.Json;
+#else
+using System.Text.Json;
+#endif
 
 namespace LazZiya.ExpressLocalization
 {
     /// <summary>
     /// Access shared localization resources under folder
     /// </summary>
-    public class SharedCultureLocalizer : ISharedCultureLocalizer
+    public class SharedCultureLocalizer<T> : ISharedCultureLocalizer
+        where T : class
     {
         private readonly IHtmlLocalizer _localizer;
+        private readonly ITranslationService _translationService;
+        private readonly ExpressLocalizationOptions _options;
+        private readonly Type _resType;
+        private readonly ILogger _logger;
+        private string _culture { get; set; } = CultureInfo.CurrentCulture.Name;
+        private string _defaultCultre { get; set; }
 
         LocalizedString IStringLocalizer.this[string name, params object[] arguments] => new LocalizedString(name, GetLocalizedString(name, arguments));
 
@@ -23,31 +41,62 @@ namespace LazZiya.ExpressLocalization
         /// <summary>
         /// Shared culture localizer for razor pages views
         /// </summary>
-        /// <param name="factory"></param>
-        /// <param name="type"></param>
-        public SharedCultureLocalizer(IHtmlLocalizerFactory factory, Type type)
+        /// <param name="provider"></param>
+        public SharedCultureLocalizer(IHtmlLocalizerFactory factory,
+                                      IOptions<ExpressLocalizationOptions> options,
+                                      IEnumerable<ITranslationService> services,
+                                      ILogger<SharedCultureLocalizer<T>> logger)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            _resType = typeof(T);
+            _logger = logger;
 
-            var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
-            _localizer = factory.Create(type.Name, assemblyName.Name);
+            var assemblyName = new AssemblyName(_resType.GetTypeInfo().Assembly.FullName);
+            _localizer = factory.Create(_resType.Name, assemblyName.Name);
+
+            _options = options.Value;
+
+            _translationService = services.FirstOrDefault(x => x.GetType() == _options.TranslationService);
+            var RequestOps = new RequestLocalizationOptions();
+            _options.RequestLocalizationOptions.Invoke(RequestOps);
+
+            _defaultCultre = RequestOps.DefaultRequestCulture.Culture.Name;
         }
 
+        private LocalizedHtmlString Localizer(string key, params object[] args)
+        {
+            var result = args == null ? _localizer[key] : _localizer[key, args];
+            
+            if (!result.IsResourceNotFound)
+                return result;
+            
+            if (result.IsResourceNotFound)
+            {
+                // Add resource to db if recursive mode is enabled
+                if (_options.AutoAddKeys)
+                {
+                    var trans = _options.OnlineTranslation
+                        ? _translationService.TranslateAsync(_defaultCultre, _culture, key, "html").Result.Text
+                        : key;
+
+                    var xDoc = new ResxManager(typeof(DummyResource), Path.Combine(_options.ResourcesPath), _culture, "xml");
+                    var addResult = xDoc.AddAsync(new ResxElement() { Key = key, Value = trans, Approved = false, Comment = "AutoKey" }).Result;
+                    _logger.LogInformation("Add to resource result" + addResult);
+
+                    if (addResult)
+                    {
+                        var saved = xDoc.SaveAsync().Result;
+                        _logger.LogInformation($"Add result to xdoc {addResult && saved}");
+                    }
+                }
+            }
+            return result;
+        }
         /// <summary>
         /// Get localized formatted string for the provided text
         /// </summary>
         /// <param name="key">The text to be localized</param>
         /// <returns></returns>
-        public string this[string key]
-        {
-            get
-            {
-                return GetLocalizedString(key);
-            }
-        }
+        public string this[string key] => GetLocalizedString(key);
 
         /// <summary>
         /// Get localized formatted string for the provided text with args
@@ -55,13 +104,7 @@ namespace LazZiya.ExpressLocalization
         /// <param name="key">The text to be localized</param>
         /// <param name="args">List of object arguments for formatted texts</param>
         /// <returns></returns>
-        public string this[string key, params object[] args]
-        {
-            get
-            {
-                return GetLocalizedString(key, args);
-            }
-        }
+        public string this[string key, params object[] args] => GetLocalizedString(key, args);
 
 
         /// <summary>
@@ -75,9 +118,9 @@ namespace LazZiya.ExpressLocalization
             var sw = new StringWriter();
 
             if (args == null)
-                _localizer[key].WriteTo(sw, HtmlEncoder.Default);
+                Localizer(key).WriteTo(sw, HtmlEncoder.Default);
             else
-                _localizer[key, args].WriteTo(sw, HtmlEncoder.Default);
+                Localizer(key, args).WriteTo(sw, HtmlEncoder.Default);
 
             return sw.ToString();
         }
@@ -96,9 +139,9 @@ namespace LazZiya.ExpressLocalization
             using (var csw = new CultureSwitcher(culture))
             {
                 if (args == null)
-                    _localizer[key].WriteTo(sw, HtmlEncoder.Default);
+                    Localizer(key).WriteTo(sw, HtmlEncoder.Default);
                 else
-                    _localizer[key, args].WriteTo(sw, HtmlEncoder.Default);
+                    Localizer(key, args).WriteTo(sw, HtmlEncoder.Default);
             }
 
             return sw.ToString();
@@ -143,8 +186,8 @@ namespace LazZiya.ExpressLocalization
         public LocalizedHtmlString GetLocalizedHtmlString(string key, params object[] args)
         {
             return args == null
-                ? _localizer[key]
-                : _localizer[key, args];
+                ? Localizer(key)
+                : Localizer(key, args);
         }
 
         /// <summary>
@@ -163,8 +206,8 @@ namespace LazZiya.ExpressLocalization
             {
                 htmlStr = args == null
 
-                    ? _localizer[key]
-                    : _localizer[key, args];
+                    ? Localizer(key)
+                    : Localizer(key, args);
             }
 
             return htmlStr;
