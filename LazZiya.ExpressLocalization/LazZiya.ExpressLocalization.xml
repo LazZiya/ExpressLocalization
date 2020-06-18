@@ -31,6 +31,41 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.Common.ITranslationServiceFactory">
+            <summary>
+            Interface to create ITranslationServices
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.ITranslationServiceFactory.Create">
+            <summary>
+            Create new ITranslationService based on the default ITranslationService type defined in startup
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.ITranslationServiceFactory.Create``1">
+            <summary>
+            Create new ITranslationService
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Common.TranslationServiceFactory`1">
+            <summary>
+            TranslationServiceFactory
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.TranslationServiceFactory`1.Create">
+            <summary>
+            Create new ITranslationService based on the default ITranslationService type defined in startup
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.TranslationServiceFactory`1.Create``1">
+            <summary>
+            Create new ITranslationService based on the T type
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.CultureSwitcher">
             <summary>
             Switches the current culture to a specific culture then return to the original culture and dispose.

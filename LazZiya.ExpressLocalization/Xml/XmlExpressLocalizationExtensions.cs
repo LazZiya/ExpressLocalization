@@ -48,7 +48,8 @@ namespace LazZiya.ExpressLocalization.Xml
             where U : ITranslationService
         {
             builder.Services.AddScoped<IHtmlTranslatorFactory, HtmlTranslatorFactory<U>>();
-            builder.Services.AddScoped<IHtmlTranslator, HtmlTranslator<U>>();
+            //builder.Services.AddScoped<IHtmlTranslator, HtmlTranslator<U>>();
+            builder.Services.AddScoped<ITranslationServiceFactory, TranslationServiceFactory<U>>();
 
             return builder.AddExpressLocalizationXml<T>(xOps);
         }
