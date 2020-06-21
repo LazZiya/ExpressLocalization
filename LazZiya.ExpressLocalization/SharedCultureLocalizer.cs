@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text.Encodings.Web;
 using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.TranslationServices;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
@@ -42,20 +41,20 @@ namespace LazZiya.ExpressLocalization
         /// Shared culture localizer for razor pages views
         /// </summary>
         /// <param name="provider"></param>
-        public SharedCultureLocalizer(IHtmlLocalizerFactory factory,
+        public SharedCultureLocalizer(IHtmlLocalizerFactory htmlLocalizerFactory,
+                                      ITranslationServiceFactory translationServiceFactory,
                                       IOptions<ExpressLocalizationOptions> options,
-                                      IEnumerable<ITranslationService> services,
                                       ILogger<SharedCultureLocalizer<T>> logger)
         {
             _resType = typeof(T);
             _logger = logger;
 
             var assemblyName = new AssemblyName(_resType.GetTypeInfo().Assembly.FullName);
-            _localizer = factory.Create(_resType.Name, assemblyName.Name);
+            _localizer = htmlLocalizerFactory.Create(_resType.Name, assemblyName.Name);
 
             _options = options.Value;
 
-            _translationService = services.FirstOrDefault(x => x.GetType() == _options.TranslationService);
+            _translationService = translationServiceFactory.Create(_options.TranslationService);
             var RequestOps = new RequestLocalizationOptions();
             _options.RequestLocalizationOptions.Invoke(RequestOps);
 

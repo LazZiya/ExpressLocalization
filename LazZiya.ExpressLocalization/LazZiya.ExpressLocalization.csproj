@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -17,10 +16,13 @@
 		<PackageReleaseNotes>
 			New:
 			- .net5 support
-			- ExpressLocalization with DB support (LazZiya.ExpressLocalizatin.DB)
+			- ExpressLocalization with DB support
+			- ExpressLocalization with Xml support
+			- Online tranlsation for localizable resources
+			- Auto add missing keys and translations
 			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
 		</PackageReleaseNotes>
-		<Version>5.0.0-beta2</Version>
+		<Version>5.0.0-beta3</Version>
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 		<FileVersion>5.0.0.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -33,8 +35,16 @@
 		<DocumentationFile>LazZiya.ExpressLocalization.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
+	<PropertyGroup>
+		<UseReference>Projects</UseReference>
+	</PropertyGroup>
+	
+	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
+		<ProjectReference Include="..\..\TranslationServices\LazZiya.TranslationServices\LazZiya.TranslationServices.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
+		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta3" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
@@ -74,11 +84,15 @@
 	
 	<ItemGroup>
 	  <None Remove="Xml\XmlHtmlLocalizer.backup" />
+	  <None Remove="Xml\XmlTemplate.xml" />
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <Content Include="ResxTools\DummyResource.resx">
 	    <Generator></Generator>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Xml\XmlTemplate.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>

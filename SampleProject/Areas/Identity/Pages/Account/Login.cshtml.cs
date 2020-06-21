@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using LazZiya.ExpressLocalization.DataAnnotations;
 using LazZiya.TagHelpers.Alerts;
-using LazZiya.ExpressLocalization;
+using Microsoft.Extensions.Localization;
 
 namespace SampleProject.Areas.Identity.Pages.Account
 {
@@ -20,17 +20,14 @@ namespace SampleProject.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly ISharedCultureLocalizer _localizer;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager,
-            ISharedCultureLocalizer localizer)
+            UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _localizer = localizer;
         }
 
         [BindProperty]

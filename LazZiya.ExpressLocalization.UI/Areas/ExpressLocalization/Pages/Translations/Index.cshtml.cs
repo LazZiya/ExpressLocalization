@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Translations
 {
@@ -20,19 +19,24 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
     public class IndexModel : PageModel
     {
         private readonly IEFGenericDataManager DataManager;
-        private readonly IEnumerable<ITranslationService> TranslationServices;
+        private readonly ITranslationServiceFactory _translationServiceFactory;
         private readonly ILogger Log;
 
-        public readonly SelectListItem[] TranslationProviders;
+        public readonly List<SelectListItem> TranslationProviders;
 
-        public IndexModel(IEFGenericDataManager dataManager, IEnumerable<ITranslationService> translationServices, ILogger<IndexModel> log)
+        public IndexModel(IEFGenericDataManager dataManager, ITranslationServiceFactory translationServiceFactory, ILogger<IndexModel> log)
         {
             Log = log;
             DataManager = dataManager;
-            TranslationServices = translationServices;
-
+            _translationServiceFactory = translationServiceFactory;
+            
             // get all registered translation services names
-            TranslationProviders = translationServices.Select(x => x.ServiceName).OrderBy(x => x).Select(x => new SelectListItem() { Text = x, Value = x }).ToArray();
+            TranslationProviders = new List<SelectListItem>();
+            
+            foreach(var ts in translationServiceFactory.ServiceNames())
+            {
+                TranslationProviders.Add(new SelectListItem { Text = ts, Value = ts });
+            }
         }
 
         [BindProperty(SupportsGet = true)]
@@ -171,7 +175,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Transla
 
         public async Task<JsonResult> OnPostOnlineTranslateAsync(string provider, string text, string source, string target, string format)
         {
-            var service = TranslationServices.FirstOrDefault(x => x.ServiceName == provider);
+            var service = _translationServiceFactory.Create(provider);
             var result = await service.TranslateAsync(source, target, text, format);
 
             return new JsonResult(result);

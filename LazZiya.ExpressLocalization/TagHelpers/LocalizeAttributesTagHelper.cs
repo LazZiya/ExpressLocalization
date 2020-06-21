@@ -1,9 +1,5 @@
 ﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,9 +13,7 @@ namespace LazZiya.ExpressLocalization.TagHelpers
     [HtmlTargetElement(Attributes = "localize*")]
     public class LocalizeAttributesTagHelper : LocalizationTagHelperBase
     {
-        private readonly IHtmlExpressLocalizerFactory _localizerFactory;
-        private readonly IHtmlTranslatorFactory _translatorFactory;
-        private readonly ExpressLocalizationOptions _options;
+        private readonly IStringExpressLocalizerFactory _stringFactory;
 
         private readonly string _LocalizeAtt = "localize-att-";
 
@@ -38,18 +32,12 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// <summary>
         /// Initialize a new instance of LocaizatAttributesTagHelper
         /// </summary>
-        /// <param name="provider"></param>
-        /// <param name="options"></param>
-        public LocalizeAttributesTagHelper(IServiceProvider provider, IOptions<ExpressLocalizationOptions> options)
-            : base(provider, options)
+        /// <param name="htmlFactory"></param>
+        /// <param name="stringFactory"></param>
+        public LocalizeAttributesTagHelper(IHtmlExpressLocalizerFactory htmlFactory, IStringExpressLocalizerFactory stringFactory)
+            : base(htmlFactory)
         {
-            _localizerFactory = provider.GetRequiredService<IHtmlExpressLocalizerFactory>();
-            _options = options.Value;
-
-            if (_options.OnlineTranslation)
-            {
-                _translatorFactory = provider.GetRequiredService<IHtmlTranslatorFactory>();
-            }
+            _stringFactory = stringFactory;
         }
 
         /// <summary>
@@ -76,15 +64,10 @@ namespace LazZiya.ExpressLocalization.TagHelpers
                     //find all custom attributes that starts with localize-att-*
                     if (att.Name.StartsWith(_LocalizeAtt))
                     {
-                        var _loc = _localizerFactory.Create();
+                        var _loc = _stringFactory.Create();
+
                         //get localized attribute value
                         var localAttValue = _loc[att.Value.ToString()];
-
-                        if (localAttValue.IsResourceNotFound && _options.OnlineTranslation)
-                        {
-                            var _trns = _translatorFactory.Create();
-                            localAttValue = _trns[att.Value.ToString()];
-                        }
 
                         //add new ttribute with new name and locized value to the list
                         addAttributes.Add(new TagHelperAttribute(att.Name.Replace(_LocalizeAtt, ""), localAttValue));

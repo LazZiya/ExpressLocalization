@@ -24,7 +24,7 @@ namespace LazZiya.ExpressLocalization
         /// <summary>
         /// The path to the resources folder e.g. "LocalizationResources"
         /// </summary>
-        public string ResourcesPath { get; set; } = "";
+        public string ResourcesPath { get; set; } = "LocalizationResources";
 
         /// <summary>
         /// Optional : Add culture parameter to login, logout and access denied paths.
@@ -79,5 +79,10 @@ namespace LazZiya.ExpressLocalization
         /// Type of the translation service to use for OnlineLocalization
         /// </summary>
         public Type TranslationService { get; set; }
+        
+        /// <summary>
+        /// Serve auto online translations. False by default
+        /// </summary>
+        public bool ServeUnApprovedTranslations { get; set; } = false;
     }
 }

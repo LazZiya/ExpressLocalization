@@ -1,10 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Translate;
-using LazZiya.TranslationServices;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -16,8 +12,6 @@ namespace LazZiya.ExpressLocalization.TagHelpers
     public class LocalizationTagHelperBase : TagHelper
     {
         private readonly IHtmlExpressLocalizerFactory _localizerFactory;
-        private readonly IHtmlTranslatorFactory _translatorFactory;
-        private readonly ExpressLocalizationOptions _options;
 
         /// <summary>
         /// pass array of objects for arguments
@@ -34,15 +28,15 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// <summary>
         /// Manually specify the content culture. Default is request default culture.
         /// </summary>
-        [HtmlAttributeName("localize-translation-from")]
-        public string TranslationFromCulture { get; set; } = string.Empty;
+        //[HtmlAttributeName("localize-translation-from")]
+        //public string TranslationFromCulture { get; set; } = string.Empty;
 
         /// <summary>
         /// Type of translation service.
         /// </summary>
-        [HtmlAttributeName("localize-translation-service")]
-        public Type TranslationServiceType { get; set; }
-        
+        //[HtmlAttributeName("localize-translation-service")]
+        //public Type TranslationServiceType { get; set; }
+
         /// <summary>
         /// Type of the localized resource
         /// </summary>
@@ -52,16 +46,10 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// <summary>
         /// Initialize a new instance of LocaizationTagHelperBase
         /// </summary>
-        /// <param name="provider"></param>
-        /// <param name="options"></param>
-        public LocalizationTagHelperBase(IServiceProvider provider, IOptions<ExpressLocalizationOptions> options)
+        /// <param name="localizerFactory"></param>
+        public LocalizationTagHelperBase(IHtmlExpressLocalizerFactory localizerFactory)
         {
-            _localizerFactory = provider.GetRequiredService<IHtmlExpressLocalizerFactory>();
-
-            _options = options.Value;
-            
-            if(_options.OnlineTranslation)
-                _translatorFactory = provider.GetRequiredService<IHtmlTranslatorFactory>();
+            _localizerFactory = localizerFactory;
         }
 
         /// <summary>
@@ -76,47 +64,35 @@ namespace LazZiya.ExpressLocalization.TagHelpers
 
             if (!string.IsNullOrWhiteSpace(content.GetContent()))
             {
-                var str = content.GetContent().Trim();
+                var str = content.GetContent().ReplaceWhitespace(" ");
 
                 LocalizedHtmlString _localStr;
 
                 if (string.IsNullOrWhiteSpace(Culture))
                 {
-                    var _loc = ResourceSource == null
-                        ? _localizerFactory.Create()
-                        : _localizerFactory.Create(ResourceSource);
-
-                    _localStr = Args == null
-                        ? _loc[str]
-                        : _loc[str, Args];
+                    _localStr = GetLocalizedHtmlString(str);
                 }
                 else
                 {
                     using (var cs = new CultureSwitcher(Culture))
                     {
-                        var _loc = ResourceSource == null
-                            ? _localizerFactory.Create()
-                            : _localizerFactory.Create(ResourceSource);
-
-                        _localStr = Args == null
-                            ? _loc[str]
-                            : _loc[str, Args];
+                        _localStr = GetLocalizedHtmlString(str);
                     }
-                }
-
-                if (_localStr.IsResourceNotFound && _options.OnlineTranslation)
-                {
-                    var _loc = TranslationServiceType != null && TranslationServiceType.GetInterface(typeof(ITranslationService).FullName) != null
-                        ? _translatorFactory.Create(TranslationServiceType)
-                        : _translatorFactory.Create();
-
-                    _localStr = Args == null
-                        ? _loc[str, TranslationFromCulture, Culture]
-                        : _loc[str, TranslationFromCulture, Culture];
                 }
 
                 output.Content.SetHtmlContent(_localStr.Value);
             }
+        }
+
+        private LocalizedHtmlString GetLocalizedHtmlString(string str)
+        {
+            var _loc = ResourceSource == null
+                ? _localizerFactory.Create()
+                : _localizerFactory.Create(ResourceSource);
+
+            return Args == null
+                ? _loc[str]
+                : _loc[str, Args];
         }
     }
 }

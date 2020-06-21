@@ -61,9 +61,9 @@ namespace LazZiya.ExpressLocalization.DB
         /// </summary>
         /// <param name="dataManager"></param>
         /// <param name="options"></param>
-        /// <param name="translationServices"></param>
+        /// <param name="translationServiceFactory"></param>
         /// <param name="logger"></param>
-        public XLDbLocalizer(IEFGenericDataManager dataManager, IOptions<XLDbOptions> options, IEnumerable<ITranslationService> translationServices, ILogger<XLDbLocalizer<TXLResource, TXLTranslation, TXLCulture>> logger)
+        public XLDbLocalizer(IEFGenericDataManager dataManager, IOptions<XLDbOptions> options, ITranslationServiceFactory translationServiceFactory, ILogger<XLDbLocalizer<TXLResource, TXLTranslation, TXLCulture>> logger)
         {
             if (dataManager == null)
             {
@@ -73,7 +73,9 @@ namespace LazZiya.ExpressLocalization.DB
             Log = logger;
             DataManager = dataManager;
             xlOptions = options.Value;
-            TranslationService = translationServices.FirstOrDefault(x => x.GetType() == xlOptions.TranslationService);
+            
+            if(xlOptions.OnlineTranslation)
+                TranslationService = translationServiceFactory.Create(xlOptions.TranslationService);
         }
 
         /// <summary>

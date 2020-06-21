@@ -1,5 +1,4 @@
 ﻿using LazZiya.TranslationServices;
-using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,55 +10,55 @@ using System.Net;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
+
     /// <summary>
     /// HtmlTranslator
     /// </summary>
-    public class HtmlTranslator<TService> : HtmlTranslator
+    public class StringTranslator<TService> : StringTranslator
         where TService : ITranslationService
     {
         /// <summary>
         /// Initialize new intance of HtmlTranslator
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="translationServices"></param>
         /// <param name="logger"></param>
-        public HtmlTranslator(IEnumerable<ITranslationService> translationServices, IOptions<ExpressLocalizationOptions> options, ILogger<HtmlTranslator> logger)
+        /// <param name="translationServices"></param>
+        public StringTranslator(IEnumerable<ITranslationService> translationServices, IOptions<ExpressLocalizationOptions> options, ILogger<StringTranslator> logger)
             : base(typeof(TService), translationServices, options, logger)
         {
         }
     }
 
-
     /// <summary>
     /// HtmlTranslator
     /// </summary>
-    public class HtmlTranslator : IHtmlTranslator
+    public class StringTranslator : IStringTranslator
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly ITranslationService _translationService;
         private readonly ILogger _logger;
-
+   
         /// <summary>
         /// Initialize new intance of HtmlTranslator
         /// </summary>
         /// <param name="options"></param>
+        /// <param name="tServiceType"></param>
         /// <param name="translationServices"></param>
         /// <param name="logger"></param>
-        /// <param name="tServiceType"></param>
-        public HtmlTranslator(Type tServiceType, IEnumerable<ITranslationService> translationServices, IOptions<ExpressLocalizationOptions> options, ILogger<HtmlTranslator> logger)
+        public StringTranslator(Type tServiceType, IEnumerable<ITranslationService> translationServices, IOptions<ExpressLocalizationOptions> options, ILogger<StringTranslator> logger)
         {
             _options = options;
             _translationService = translationServices.FirstOrDefault(x => x.GetType() == tServiceType);
             _logger = logger;
         }
-
+        
         /// <summary>
         /// Initialize new intance of HtmlTranslator
         /// </summary>
         /// <param name="options"></param>
         /// <param name="translationService"></param>
         /// <param name="logger"></param>
-        public HtmlTranslator(ITranslationService translationService, IOptions<ExpressLocalizationOptions> options, ILogger<HtmlTranslator> logger)
+        public StringTranslator(ITranslationService translationService, IOptions<ExpressLocalizationOptions> options, ILogger<StringTranslator> logger)
         {
             _options = options;
             _translationService = translationService;
@@ -67,42 +66,42 @@ namespace LazZiya.ExpressLocalization.Translate
         }
 
         /// <summary>
-        /// Get translated html string
+        /// Get translated string
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public LocalizedHtmlString this[string name] =>
-            GetTranslatedHtmlString(name, fromLanguage: null, toLanguage: null);
+        public LocalizedString this[string name] => 
+            GetTranslatedString(name, fromLanguage: null, toLanguage: null);
 
         /// <summary>
-        /// Get translated html string
+        /// Get translated string
         /// </summary>
         /// <param name="name"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public LocalizedHtmlString this[string name, params object[] arguments] =>
-            GetTranslatedHtmlString(name, fromLanguage: null, toLanguage: null, arguments: arguments);
+        public LocalizedString this[string name, params object[] arguments] => 
+            GetTranslatedString(name, fromLanguage: null, toLanguage: null, arguments: arguments);
 
         /// <summary>
-        /// Get translated html string to the target language
+        /// Get translated string to the target language
         /// </summary>
         /// <param name="name"></param>
         /// <param name="toLanguage"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public LocalizedHtmlString this[string name, string toLanguage, params object[] arguments] =>
-            GetTranslatedHtmlString(name, fromLanguage: null, toLanguage: toLanguage, arguments: arguments);
+        public LocalizedString this[string name, string toLanguage, params object[] arguments] => 
+            GetTranslatedString(name, fromLanguage: null, toLanguage: toLanguage, arguments: arguments);
 
         /// <summary>
-        /// Get translated html string for specified source-target language
+        /// Get translated string for specified source-target language
         /// </summary>
         /// <param name="name"></param>
         /// <param name="fromLanguage"></param>
         /// <param name="toLanguage"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public LocalizedHtmlString this[string name, string fromLanguage, string toLanguage, params object[] arguments] =>
-            GetTranslatedHtmlString(name, fromLanguage: fromLanguage, toLanguage: toLanguage, arguments: null);
+        public LocalizedString this[string name, string fromLanguage, string toLanguage, params object[] arguments] => 
+            GetTranslatedString(name, fromLanguage: fromLanguage, toLanguage: toLanguage, arguments: arguments);
 
         /// <summary>
         /// NOT IMPLEMENTED
@@ -121,7 +120,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public LocalizedString GetString(string name)
         {
-            return GetLocalizedString(name, fromLanguage: null, toLanguage: null);
+            return GetTranslatedString(name, fromLanguage: null, toLanguage: null, arguments: null);
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public LocalizedString GetString(string name, string toLanguage)
         {
-            return GetLocalizedString(name, fromLanguage: null, toLanguage: toLanguage);
+            return GetTranslatedString(name, fromLanguage: null, toLanguage: toLanguage, arguments: null);
         }
 
         /// <summary>
@@ -144,7 +143,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public LocalizedString GetString(string name, string fromLanguage, string toLanguage)
         {
-            return GetLocalizedString(name, fromLanguage: fromLanguage, toLanguage: toLanguage);
+            return GetTranslatedString(name, fromLanguage: fromLanguage, toLanguage: toLanguage, arguments: null);
         }
 
         /// <summary>
@@ -155,7 +154,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public LocalizedString GetString(string name, params object[] arguments)
         {
-            return GetLocalizedString(name, fromLanguage: null, toLanguage: null, arguments: arguments);
+            return GetTranslatedString(name, fromLanguage: null, toLanguage: null, arguments: arguments);
         }
 
         /// <summary>
@@ -167,7 +166,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public LocalizedString GetString(string name, string toLanguage, params object[] arguments)
         {
-            return GetLocalizedString(name, fromLanguage: null, toLanguage: toLanguage, arguments: arguments);
+            return GetTranslatedString(name, fromLanguage: null, toLanguage: toLanguage, arguments: arguments);
         }
 
         /// <summary>
@@ -180,15 +179,15 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public LocalizedString GetString(string name, string fromLanguage, string toLanguage, params object[] arguments)
         {
-            return GetLocalizedString(name, fromLanguage: fromLanguage, toLanguage: toLanguage, arguments: arguments);
+            return GetTranslatedString(name, fromLanguage: fromLanguage, toLanguage: toLanguage, arguments: arguments);
         }
 
         /// <summary>
-        /// NOT IMPLEMENTED
+        /// NOT IMPLEMENTED, Use <see cref="CultureSwitcher"/> instead.
         /// </summary>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public IHtmlLocalizer WithCulture(CultureInfo culture)
+        public IStringLocalizer WithCulture(CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -201,30 +200,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <param name="toLanguage"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        private LocalizedHtmlString GetTranslatedHtmlString(string key, string fromLanguage, string toLanguage, params object[] arguments)
-        {
-            var trans = Translate(key, fromLanguage, toLanguage, "html");
-
-            _logger.LogInformation($"Translation status: {trans.StatusCode}");
-
-            if (trans.StatusCode != HttpStatusCode.OK)
-            {
-                var value = arguments == null || arguments.Length == 0
-                    ? key
-                    : string.Format(key, arguments);
-
-                return new LocalizedHtmlString(key, value, true);
-            }
-            
-
-            var tValue = arguments == null || arguments.Length == 0
-                ? trans.Text
-                : string.Format(trans.Text, arguments);
-
-            return new LocalizedHtmlString(key, tValue, false);
-        }
-
-        private LocalizedString GetLocalizedString(string key, string fromLanguage, string toLanguage, params object[] arguments)
+        private LocalizedString GetTranslatedString(string key, string fromLanguage, string toLanguage, params object[] arguments)
         {
             var trans = Translate(key, fromLanguage, toLanguage, "text");
 
@@ -252,7 +228,7 @@ namespace LazZiya.ExpressLocalization.Translate
 
             var _target = string.IsNullOrWhiteSpace(to)
                 ? CultureInfo.CurrentCulture.Name
-                : to;
+                : to;            
 
             var trans = _translationService.TranslateAsync(_source, _target, key, format);
 

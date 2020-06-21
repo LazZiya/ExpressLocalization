@@ -6,21 +6,21 @@ using System;
 namespace LazZiya.ExpressLocalization.Translate
 {
     /// <summary>
-    /// HtmlTranslatorFactory
+    /// StringTranslatorFactory
     /// </summary>
-    public class HtmlTranslatorFactory : IHtmlTranslatorFactory
+    public class StringTranslatorFactory : IStringTranslatorFactory
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly ITranslationServiceFactory _translationServiceFactory;
-        private readonly ILogger<HtmlTranslator> _logger;
+        private readonly ILogger<StringTranslator> _logger;
 
         /// <summary>
-        /// Initialize a new intance of HtmlTranslatorFactory
+        /// Initialize a new intance of StringTranslatorFactory
         /// </summary>
         /// <param name="options"></param>
         /// <param name="translationServiceFactory"></param>
         /// <param name="logger"></param>
-        public HtmlTranslatorFactory(IOptions<ExpressLocalizationOptions> options, ITranslationServiceFactory translationServiceFactory, ILogger<HtmlTranslator> logger)
+        public StringTranslatorFactory(IOptions<ExpressLocalizationOptions> options, ITranslationServiceFactory translationServiceFactory, ILogger<StringTranslator> logger)
         {
             _options = options;
             _translationServiceFactory = translationServiceFactory;
@@ -28,20 +28,20 @@ namespace LazZiya.ExpressLocalization.Translate
         }
 
         /// <summary>
-        /// Create a new instance of HtmlTranslator
+        /// Create a new instance of StringTranslator
         /// </summary>
         /// <returns></returns>
-        public IHtmlTranslator Create()
+        public IStringTranslator Create()
         {
             var tService = _translationServiceFactory.Create();
-            return new HtmlTranslator(tService, _options, _logger);
+            return new StringTranslator(tService, _options, _logger);
         }
         
         /// <summary>
         /// Create a new instance of HtmlTranslator
         /// </summary>
         /// <returns></returns>
-        public IHtmlTranslator Create(Type type)
+        public IStringTranslator Create(Type type)
         {
             if (type == null)
                 throw new NullReferenceException(nameof(ITranslationService));
@@ -50,7 +50,7 @@ namespace LazZiya.ExpressLocalization.Translate
                 throw new Exception($"The provided type is of type {type.FullName}, but this service must implement {typeof(ITranslationService)}");
 
             var tService = _translationServiceFactory.Create(type);
-            return new HtmlTranslator(tService, _options, _logger);
+            return new StringTranslator(tService, _options, _logger);
         }
         
         /// <summary>
@@ -58,11 +58,11 @@ namespace LazZiya.ExpressLocalization.Translate
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
-        public IHtmlTranslator Create<TService>()
+        public IStringTranslator Create<TService>()
             where TService : ITranslationService
         {
             var tService = _translationServiceFactory.Create<TService>();
-            return new HtmlTranslator(tService, _options, _logger);
+            return new StringTranslator(tService, _options, _logger);
         }
     }
 }

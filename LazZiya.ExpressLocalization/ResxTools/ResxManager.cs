@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

@@ -1,7 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Xml;
+﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Options;
-using System;
 using System.Threading.Tasks;
 
 namespace LazZiya.ExpressLocalization.TagHelpers
@@ -14,10 +12,9 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// <summary>
         /// Initialize a new instance of LocalizeTagHelper
         /// </summary>
-        /// <param name="provider"></param>
-        /// <param name="options"></param>
-        public LocalizeTagHelper(IServiceProvider provider, IOptions<ExpressLocalizationOptions> options) 
-            : base(provider, options)
+        /// <param name="localizerFactory"></param>
+        public LocalizeTagHelper(IHtmlExpressLocalizerFactory localizerFactory) 
+            : base(localizerFactory)
         {
         }
 

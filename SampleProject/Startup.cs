@@ -14,7 +14,8 @@ using LazZiya.TranslationServices.YandexTranslate;
 using LazZiya.TranslationServices.GoogleTranslate;
 using System.Globalization;
 using LazZiya.ExpressLocalization.Xml;
-using SampleProject.XmlResources;
+using LazZiya.ExpressLocalization.DB;
+using SampleProject.LocalizationResources;
 
 namespace SampleProject
 {
@@ -36,11 +37,11 @@ namespace SampleProject
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddScoped<ITranslationService, IBMWatsonTranslateService>();
-            services.AddScoped<ITranslationService, MyMemoryTranslateService>();
-            services.AddScoped<ITranslationService, SystranTranslateService>();
-            services.AddScoped<ITranslationService, YandexTranslateService>();
-            services.AddScoped<ITranslationService, GoogleTranslateService>();
+            services.AddTransient<ITranslationService, IBMWatsonTranslateService>();
+            services.AddTransient<ITranslationService, MyMemoryTranslateService>();
+            services.AddTransient<ITranslationService, SystranTranslateService>();
+            services.AddTransient<ITranslationService, YandexTranslateService>();
+            services.AddTransient<ITranslationService, GoogleTranslateService>();
             /*
             services.AddRazorPages()
                 .AddExpressLocalization<LocSource>(ops =>
@@ -60,20 +61,19 @@ namespace SampleProject
                     ops.TranslationService = typeof(MyMemoryTranslateService);
                 });
             */
-
             /*
             services.AddRazorPages()
                 .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
                 {
                     ops.AutoAddKeys = true;
-                    ops.OnlineTranslation = true;
+                    ops.OnlineTranslation = false;
                     ops.TranslationService = typeof(MyMemoryTranslateService);
                     ops.ServeUnapprovedTranslations = true;
                     ops.ResourcesPath = "LocalizationResources";
                     ops.ResourceType = typeof(LocSource);
                 });
+            
             */
-
             var cultures = new CultureInfo[]
             {
                 new CultureInfo("en"),
@@ -89,10 +89,12 @@ namespace SampleProject
             });
 
             services.AddRazorPages()
-                .AddExpressLocalizationXml<AnotherResource, YandexTranslateService>((x) =>
+                .AddExpressLocalizationXml<XmlResource, MyMemoryTranslateService>((x) =>
                 {
-                    x.ResourcesPath = "XmlResources";
+                    x.ResourcesPath = "LocalizationResources";
                     x.OnlineTranslation = true;
+                    x.AutoAddKeys = true;
+                    x.ServeUnApprovedTranslations = true;
                 });
         }
 

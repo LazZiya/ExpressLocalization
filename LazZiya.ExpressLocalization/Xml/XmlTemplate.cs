@@ -1,9 +1,9 @@
 ﻿namespace LazZiya.ExpressLocalization.Xml
 {
     /// <summary>
-    /// Interface to implement Xml based localization resources
+    /// Dummy class for accessing path of the XmlTemplate.xml file
     /// </summary>
-    public interface IXmlResource
+    internal class XmlTemplate
     {
     }
 }

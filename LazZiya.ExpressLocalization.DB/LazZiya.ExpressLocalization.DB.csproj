@@ -40,14 +40,14 @@
 	<ItemGroup Condition="'$(UseReference)' == 'Projects'">
 		<ProjectReference Include="..\LazZiya.ExpressLocalization\LazZiya.ExpressLocalization.csproj" />
 		<ProjectReference Include="..\..\EFGenericDataManager\LazZiya.EFGenericDataManager\LazZiya.EFGenericDataManager.csproj" />
-		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
+		<ProjectReference Include="..\..\TranslationServices\LazZiya.TranslationServices\LazZiya.TranslationServices.csproj" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(UseReference)' == 'Nugets'">
 		<PackageReference Include="LazZiya.ExpressLocalization" Version="5.0.0-beta2" Exclude="Build,Analyzers" />
 		<PackageReference Include="LazZiya.EFGenericDataManager" Version="1.0.0-beta1" Exclude="Build,Analyzers" />
-		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta2" Exclude="Build,Analyzers" />
+		<PackageReference Include="LazZiya.TranslationServices" Version="1.0.0-beta3" Exclude="Build,Analyzers" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" Exclude="Build,Analyzers" />
 	</ItemGroup>
 
@@ -60,5 +60,4 @@
 		</None>
 		<None Include="files\license.txt" Pack="true" PackagePath="" />
 	</ItemGroup>
-
 </Project>

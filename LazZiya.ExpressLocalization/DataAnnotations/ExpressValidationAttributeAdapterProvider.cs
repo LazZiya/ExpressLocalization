@@ -26,7 +26,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
             if (type == typeof(ExRequiredAttribute))
                 return new RequiredAttributeAdapter((RequiredAttribute)attribute, stringLocalizer);
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
+/*#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
             if(type == typeof(ExMaxLengthAttribute))
                 return new MaxLengthAttributeAdapter((MaxLengthAttribute)attribute, stringLocalizer);
             
@@ -44,8 +44,8 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
 
             if (type == typeof(ExStringLengthAttribute))
                 return new StringLengthAttributeAdapter((StringLengthAttribute)attribute, stringLocalizer);
-
-#elif NETCOREAPP3_0 || NETCOREAPP3_1
+/
+#else*/
             if (type == typeof(ExMaxLengthAttribute))
                 return new ExMaxLengthAttributeAdapter((ExMaxLengthAttribute)attribute, stringLocalizer);
 
@@ -63,8 +63,8 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
                 
             if (type == typeof(ExStringLengthAttribute))
                 return new ExStringLengthAttributeAdapter((ExStringLengthAttribute)attribute, stringLocalizer);
-#endif
-
+/*#endif
+            */
             return base.GetAttributeAdapter(attribute, stringLocalizer);
         }
     }

@@ -261,13 +261,13 @@
             Get default culture
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.#ctor(LazZiya.EFGenericDataManager.IEFGenericDataManager,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.DB.Models.XLDbOptions},System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.DB.XLDbLocalizer{`0,`1,`2}})">
+        <member name="M:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.#ctor(LazZiya.EFGenericDataManager.IEFGenericDataManager,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.DB.Models.XLDbOptions},LazZiya.TranslationServices.ITranslationServiceFactory,Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.DB.XLDbLocalizer{`0,`1,`2}})">
             <summary>
             Initialize ExpressLocalizationDataManager
             </summary>
             <param name="dataManager"></param>
             <param name="options"></param>
-            <param name="translationServices"></param>
+            <param name="translationServiceFactory"></param>
             <param name="logger"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3.Item(System.String,System.Object[])">

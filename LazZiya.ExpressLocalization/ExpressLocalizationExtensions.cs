@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using LazZiya.ExpressLocalization.DataAnnotations;
-using Microsoft.Extensions.Localization;
 
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Microsoft.AspNetCore.Routing;
@@ -158,7 +156,8 @@ namespace LazZiya.ExpressLocalization
         /// <param name="builder"></param>
         /// <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(this IMvcBuilder builder, bool useExpressValidationAttributes) where TDataAnnotationsLocalizationResource : class
+        public static IMvcBuilder ExAddDataAnnotationsLocalization<TDataAnnotationsLocalizationResource>(this IMvcBuilder builder, bool useExpressValidationAttributes) 
+            where TDataAnnotationsLocalizationResource : class
         {
             builder.AddDataAnnotationsLocalization(ops =>
             {
@@ -180,7 +179,8 @@ namespace LazZiya.ExpressLocalization
         /// <typeparam name="TModelBindingLocalizationResource">Type of ModelBinding localization resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddModelBindingLocalization<TModelBindingLocalizationResource>(this IMvcBuilder builder) where TModelBindingLocalizationResource : class
+        public static IMvcBuilder ExAddModelBindingLocalization<TModelBindingLocalizationResource>(this IMvcBuilder builder) 
+            where TModelBindingLocalizationResource : class
         {
             builder.AddMvcOptions(ops =>
             {
@@ -197,7 +197,8 @@ namespace LazZiya.ExpressLocalization
         /// <typeparam name="TViewLocalizationResource">Type of shared localization resource for razor pages</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddSharedCultureLocalizer<TViewLocalizationResource>(this IMvcBuilder builder) where TViewLocalizationResource : class
+        public static IMvcBuilder ExAddSharedCultureLocalizer<TViewLocalizationResource>(this IMvcBuilder builder) 
+            where TViewLocalizationResource : class
         {
             //builder.Services.AddSingleton<ISharedCultureLocalizer, SharedCultureLocalizer>((x) => new SharedCultureLocalizer(x.GetRequiredService<IHtmlLocalizerFactory>(), typeof(TViewLocalizationResource)));
             builder.Services.AddScoped<ISharedCultureLocalizer, SharedCultureLocalizer<TViewLocalizationResource>>();
@@ -212,7 +213,8 @@ namespace LazZiya.ExpressLocalization
         /// <typeparam name="TIdentityErrorsLocalizationResource">Type of IdentityErro messages localizaton resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>(this IMvcBuilder builder) where TIdentityErrorsLocalizationResource : class
+        public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>(this IMvcBuilder builder) 
+            where TIdentityErrorsLocalizationResource : class
         {
             builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>(ops => new IdentityErrorsLocalizer(typeof(TIdentityErrorsLocalizationResource)));
 

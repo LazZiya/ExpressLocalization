@@ -31,40 +31,10 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.ITranslationServiceFactory">
+        <member name="T:LazZiya.ExpressLocalization.Common.Trimmer">
             <summary>
-            Interface to create ITranslationServices
+            Trim all whitespaces in a string (start, end and between)
             </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Common.ITranslationServiceFactory.Create">
-            <summary>
-            Create new ITranslationService based on the default ITranslationService type defined in startup
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Common.ITranslationServiceFactory.Create``1">
-            <summary>
-            Create new ITranslationService
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.TranslationServiceFactory`1">
-            <summary>
-            TranslationServiceFactory
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Common.TranslationServiceFactory`1.Create">
-            <summary>
-            Create new ITranslationService based on the default ITranslationService type defined in startup
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Common.TranslationServiceFactory`1.Create``1">
-            <summary>
-            Create new ITranslationService based on the T type
-            </summary>
-            <typeparam name="TService"></typeparam>
-            <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.CultureSwitcher">
             <summary>
@@ -394,6 +364,11 @@
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.TranslationService">
             <summary>
             Type of the translation service to use for OnlineLocalization
+            </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ServeUnApprovedTranslations">
+            <summary>
+            Serve auto online translations. False by default
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.GenericResourceReader">
@@ -1056,7 +1031,7 @@
             Access shared localization resources under folder
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer`1.#ctor(Microsoft.AspNetCore.Mvc.Localization.IHtmlLocalizerFactory,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.SharedCultureLocalizer{`0}})">
+        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer`1.#ctor(Microsoft.AspNetCore.Mvc.Localization.IHtmlLocalizerFactory,LazZiya.TranslationServices.ITranslationServiceFactory,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.SharedCultureLocalizer{`0}})">
             <summary>
             Shared culture localizer for razor pages views
             </summary>
@@ -1182,27 +1157,16 @@
             Localize or translate contents to the specified target culture. Default is current culture.
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.TranslationFromCulture">
-            <summary>
-            Manually specify the content culture. Default is request default culture.
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.TranslationServiceType">
-            <summary>
-            Type of translation service.
-            </summary>
-        </member>
         <member name="P:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ResourceSource">
             <summary>
             Type of the localized resource
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.#ctor(System.IServiceProvider,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.#ctor(LazZiya.ExpressLocalization.Common.IHtmlExpressLocalizerFactory)">
             <summary>
             Initialize a new instance of LocaizationTagHelperBase
             </summary>
-            <param name="provider"></param>
-            <param name="options"></param>
+            <param name="localizerFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizationTagHelperBase.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <summary>
@@ -1228,12 +1192,12 @@
             localize custom attribute fields
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.#ctor(System.IServiceProvider,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.#ctor(LazZiya.ExpressLocalization.Common.IHtmlExpressLocalizerFactory,LazZiya.ExpressLocalization.Common.IStringExpressLocalizerFactory)">
             <summary>
             Initialize a new instance of LocaizatAttributesTagHelper
             </summary>
-            <param name="provider"></param>
-            <param name="options"></param>
+            <param name="htmlFactory"></param>
+            <param name="stringFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeAttributesTagHelper.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <summary>
@@ -1248,12 +1212,11 @@
             Localization tag helper, localize text inside <![CDATA[<localize>Hellow</localize>]]>
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.#ctor(System.IServiceProvider,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.#ctor(LazZiya.ExpressLocalization.Common.IHtmlExpressLocalizerFactory)">
             <summary>
             Initialize a new instance of LocalizeTagHelper
             </summary>
-            <param name="provider"></param>
-            <param name="options"></param>
+            <param name="localizerFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.TagHelpers.LocalizeTagHelper.ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <summary>
@@ -1267,9 +1230,8 @@
             <summary>
             HtmlTranslator
             </summary>
-            <typeparam name="T"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslator`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslator`1.#ctor(System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
             <summary>
             Initialize new intance of HtmlTranslator
             </summary>
@@ -1282,13 +1244,21 @@
             HtmlTranslator
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslator.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslator.#ctor(System.Type,System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
             <summary>
             Initialize new intance of HtmlTranslator
             </summary>
-            <param name="type"></param>
             <param name="options"></param>
             <param name="translationServices"></param>
+            <param name="logger"></param>
+            <param name="tServiceType"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslator.#ctor(LazZiya.TranslationServices.ITranslationService,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
+            <summary>
+            Initialize new intance of HtmlTranslator
+            </summary>
+            <param name="options"></param>
+            <param name="translationService"></param>
             <param name="logger"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Translate.HtmlTranslator.Item(System.String)">
@@ -1400,56 +1370,42 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory`1">
+        <member name="T:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory">
             <summary>
             HtmlTranslatorFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.TranslationServices.ITranslationServiceFactory,Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.HtmlTranslator})">
             <summary>
             Initialize a new intance of HtmlTranslatorFactory
             </summary>
             <param name="options"></param>
-            <param name="translationServices"></param>
+            <param name="translationServiceFactory"></param>
+            <param name="logger"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory`1.Create">
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory.Create">
             <summary>
             Create a new instance of HtmlTranslator
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory`1.Create(System.Type)">
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory.Create(System.Type)">
             <summary>
             Create a new instance of HtmlTranslator
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory`1.Create``1">
+        <member name="M:LazZiya.ExpressLocalization.Translate.HtmlTranslatorFactory.Create``1">
             <summary>
             Create new instance of IHtmlTranslator
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TService"></typeparam>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Translate.IHtmlTranslator">
             <summary>
             IHtmlTranslator interface
             </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.Item(System.String)">
-            <summary>
-            Get translated html string
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.Item(System.String,System.Object[])">
-            <summary>
-            Get translated html string
-            </summary>
-            <param name="name"></param>
-            <param name="arguments"></param>
-            <returns></returns>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.Item(System.String,System.String,System.Object[])">
             <summary>
@@ -1467,28 +1423,6 @@
             <param name="name"></param>
             <param name="fromLanguage"></param>
             <param name="toLanguage"></param>
-            <param name="arguments"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.GetAllStrings(System.Boolean)">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="includeParentCultures"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.GetString(System.String)">
-            <summary>
-            Get translated string
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.GetString(System.String,System.Object[])">
-            <summary>
-            Get translated string
-            </summary>
-            <param name="name"></param>
             <param name="arguments"></param>
             <returns></returns>
         </member>
@@ -1528,13 +1462,6 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.IHtmlTranslator.WithCulture(System.Globalization.CultureInfo)">
-            <summary>
-            NOT IMPLEMENTED
-            </summary>
-            <param name="culture"></param>
-            <returns></returns>
-        </member>
         <member name="T:LazZiya.ExpressLocalization.Translate.IHtmlTranslatorFactory">
             <summary>
             IHtmlTranslatorFactory
@@ -1559,66 +1486,341 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Xml.IXmlResource">
+        <member name="T:LazZiya.ExpressLocalization.Translate.IStringTranslator">
             <summary>
-            Interface to implement Xml based localization resources
+            IStringTranslator interface
             </summary>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Translate.IStringTranslator.Item(System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string to the target language
+            </summary>
+            <param name="name"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Translate.IStringTranslator.Item(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Get translated html string for specified source-target language
+            </summary>
+            <param name="name"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslator.GetString(System.String,System.String)">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="toLanguage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslator.GetString(System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslator.GetString(System.String,System.String,System.String)">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslator.GetString(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Translate.IStringTranslatorFactory">
+            <summary>
+            IHtmlTranslatorFactory
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslatorFactory.Create">
+            <summary>
+            Create new instance of IStringTranslator using the default translation service
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslatorFactory.Create(System.Type)">
+            <summary>
+            Create new instance of IStringTranslator using the specified type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.IStringTranslatorFactory.Create``1">
+            <summary>
+            Create new instance of IStringTranslator
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Translate.StringTranslator`1">
+            <summary>
+            HtmlTranslator
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator`1.#ctor(System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.StringTranslator})">
+            <summary>
+            Initialize new intance of HtmlTranslator
+            </summary>
+            <param name="options"></param>
+            <param name="logger"></param>
+            <param name="translationServices"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Translate.StringTranslator">
+            <summary>
+            HtmlTranslator
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.#ctor(System.Type,System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.StringTranslator})">
+            <summary>
+            Initialize new intance of HtmlTranslator
+            </summary>
+            <param name="options"></param>
+            <param name="tServiceType"></param>
+            <param name="translationServices"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.#ctor(LazZiya.TranslationServices.ITranslationService,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.StringTranslator})">
+            <summary>
+            Initialize new intance of HtmlTranslator
+            </summary>
+            <param name="options"></param>
+            <param name="translationService"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Translate.StringTranslator.Item(System.String)">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Translate.StringTranslator.Item(System.String,System.Object[])">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Translate.StringTranslator.Item(System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string to the target language
+            </summary>
+            <param name="name"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Translate.StringTranslator.Item(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string for specified source-target language
+            </summary>
+            <param name="name"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetAllStrings(System.Boolean)">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="includeParentCultures"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetString(System.String)">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetString(System.String,System.String)">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="toLanguage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetString(System.String,System.String,System.String)">
+            <summary>
+            Get translated string
+            </summary>
+            <param name="name"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetString(System.String,System.Object[])">
+            <summary>
+            Get translated string with arguments
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetString(System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string with arguments
+            </summary>
+            <param name="name"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetString(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Get translated string with arguments
+            </summary>
+            <param name="name"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.WithCulture(System.Globalization.CultureInfo)">
+            <summary>
+            NOT IMPLEMENTED, Use <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/> instead.
+            </summary>
+            <param name="culture"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.GetTranslatedString(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Return a localized string
+            </summary>
+            <param name="key"></param>
+            <param name="fromLanguage"></param>
+            <param name="toLanguage"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Translate.StringTranslatorFactory">
+            <summary>
+            StringTranslatorFactory
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslatorFactory.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.TranslationServices.ITranslationServiceFactory,Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.Translate.StringTranslator})">
+            <summary>
+            Initialize a new intance of StringTranslatorFactory
+            </summary>
+            <param name="options"></param>
+            <param name="translationServiceFactory"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslatorFactory.Create">
+            <summary>
+            Create a new instance of StringTranslator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslatorFactory.Create(System.Type)">
+            <summary>
+            Create a new instance of HtmlTranslator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslatorFactory.Create``1">
+            <summary>
+            Create new instance of IHtmlTranslator
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions">
             <summary>
             ExpressLocalization extensions for Xml based resources
             </summary>
         </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add ExpressLocalization with Xml based resources.
+            </summary>
+            <param name="builder"></param>
+            <typeparam name="T">Resource type</typeparam>
+            <returns></returns>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
-            Add ExpressLocalization with Xml based resources. XmlResource type must implemet <see cref="T:LazZiya.ExpressLocalization.Xml.IXmlResource"/>
+            Add ExpressLocalization with Xml based resources
             </summary>
             <param name="builder"></param>
             <param name="xOps"></param>
-            <typeparam name="T">XmlResource type, must implement IXmlResource</typeparam>
-            <see cref="T:LazZiya.ExpressLocalization.Xml.IXmlResource"/>
+            <typeparam name="T">Resource type</typeparam>
             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
-            Add ExpressLocalization with Xml based resources. XmlResource type must implemet <see cref="T:LazZiya.ExpressLocalization.Xml.IXmlResource"/>
+            Add ExpressLocalization with Xml based resources.
             </summary>
             <param name="builder"></param>
             <param name="xOps"></param>
-            <typeparam name="T">IXmlResource</typeparam>
+            <typeparam name="T">Resource type</typeparam>
             <typeparam name="U">ITranslationService</typeparam>
-            <see cref="T:LazZiya.ExpressLocalization.Xml.IXmlResource"/>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.ExAddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
+            <summary>
+            Add DataAnnotatons localization to the project.
+            <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+            </summary>
+            <typeparam name="T">Type of DataAnnotations localization resource</typeparam>
+            <param name="builder"></param>
+            <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1">
             <summary>
             Generic XmlHtmlLocalizer based on speificed type
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IHtmlTranslator,LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Initialize a new instance of XmlHtmlLocalizer with the specified resource type
             </summary>
             <param name="options"></param>
+            <param name="htmlTranslator"></param>
+            <param name="stringTranslator"></param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer">
             <summary>
             XmlHtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IHtmlTranslator,LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Initialize new instance of XmlStringLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IHtmlTranslator,LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Initialize new instance of XmlStringLocalizer
             </summary>
             <param name="baseName"></param>
             <param name="location"></param>
             <param name="options"></param>
+            <param name="htmlTranslator"></param>
+            <param name="stringTranslator"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.Item(System.String)">
             <summary>
@@ -1659,7 +1861,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            Change localization culture
+            NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
@@ -1668,7 +1870,7 @@
             <summary>
             Return a localized string
             </summary>
-            <param name="key"></param>
+            <param name="name"></param>
             <param name="arguments"></param>
             <returns></returns>
         </member>
@@ -1677,11 +1879,13 @@
             XmlHtmlLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IHtmlTranslator,LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Instantiate a new XmlStringLocalizerFactory
             </summary>
             <param name="options"></param>
+            <param name="htmlTranslator"></param>
+            <param name="stringTranslator"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizerFactory`1.Create">
             <summary>
@@ -1708,31 +1912,33 @@
             <summary>
             Generic XmlStringLocalizer based on speificed type
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Initialize a new instance of XmlStringLocalizer with the specified resource type
             </summary>
             <param name="options"></param>
+            <param name="stringTranslator"></param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer">
             <summary>
             Xml localizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Initialze new instance of XmlStringLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Initialzie new instance of XmlStringLocalizer
             </summary>
             <param name="xmlBaseName"></param>
             <param name="location"></param>
             <param name="options"></param>
+            <param name="stringTranslator"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.Item(System.String)">
             <summary>
@@ -1758,10 +1964,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            Change localization culture. 
-            THIS METHOD IS NOT AVAILABLE FOR .NET5
-            USE CultureSwitcher INSTEAD
-            <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/>
+            NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
@@ -1771,11 +1974,12 @@
             XmlStringLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
             <summary>
             Instantiate a new XmlStringLocalizerFactory
             </summary>
             <param name="options"></param>
+            <param name="stringTranslator"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.Create">
             <summary>
@@ -1797,6 +2001,11 @@
             <param name="baseName"></param>
             <param name="location"></param>
             <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Xml.XmlTemplate">
+            <summary>
+            Dummy class for accessing path of the XmlTemplate.xml file
+            </summary>
         </member>
     </members>
 </doc>

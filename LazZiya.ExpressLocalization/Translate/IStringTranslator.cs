@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
     /// <summary>
-    /// IHtmlTranslator interface
+    /// IStringTranslator interface
     /// </summary>
-    public interface IHtmlTranslator : IHtmlLocalizer
+    public interface IStringTranslator : IStringLocalizer
     {
         /// <summary>
-        /// Get translated html string to the target language
+        /// Get translated string to the target language
         /// </summary>
         /// <param name="name"></param>
         /// <param name="toLanguage"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        LocalizedHtmlString this[string name, string toLanguage, params object[] arguments] { get; }
+        LocalizedString this[string name, string toLanguage, params object[] arguments] { get; }
 
         /// <summary>
         /// Get translated html string for specified source-target language
@@ -25,7 +24,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <param name="toLanguage"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        LocalizedHtmlString this[string name, string fromLanguage, string toLanguage, params object[] arguments] { get; }
+        LocalizedString this[string name, string fromLanguage, string toLanguage, params object[] arguments] { get; }
 
         /// <summary>
         /// Get translated string

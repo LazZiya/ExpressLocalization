@@ -2,8 +2,6 @@
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
-using LazZiya.ExpressLocalization;
-using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.TagHelpers.Alerts;
 using Microsoft.AspNetCore.Http;
@@ -22,17 +20,16 @@ namespace SampleProject.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly IHtmlLocalizer _loc;
 
-        public IndexModel(ILogger<IndexModel> logger, IHtmlExpressLocalizerFactory factory)
+        public IndexModel(ILogger<IndexModel> logger, IHtmlLocalizer<IndexModel> localizer)
         {
             _logger = logger;
 
-            _loc = factory.Create();
+            _loc = localizer;
         }
 
         public void OnGet()
         {
-            using(var cs = new CultureSwitcher("tr"))
-                TempData.Success(_loc["Welcome"].Value);
+            TempData.Success(_loc["Welcome to Planet Earth!"].Value);
         }
 
         public async void OnPostAsync()

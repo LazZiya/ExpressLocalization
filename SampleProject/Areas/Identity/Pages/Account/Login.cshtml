@@ -1,10 +1,13 @@
 ﻿@page
 @model LoginModel
+@*inject LazZiya.ExpressLocalization.Common.IStringExpressLocalizerFactory factory *@
+@inject Microsoft.Extensions.Localization.IStringLocalizer _localizer
 
 @{
     ViewData["Title"] = "Log in";
+    //var _localizer = factory.Create();
 }
-@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer 
+
 
 <h1 localize-content>@ViewData["Title"]</h1>
 <alert localizer="_localizer"></alert>
