@@ -205,43 +205,42 @@ namespace LazZiya.ExpressLocalization.Translate
         {
             var trans = Translate(key, fromLanguage, toLanguage, "html");
 
-            _logger.LogInformation($"Translation status: {trans.StatusCode}");
+            var value = key;
+            var isResourceNotFound = true;
 
-            if (trans.StatusCode != HttpStatusCode.OK)
+            if (trans.StatusCode == HttpStatusCode.OK)
             {
-                var value = arguments == null || arguments.Length == 0
-                    ? key
-                    : string.Format(key, arguments);
-
-                return new LocalizedHtmlString(key, value, true);
+                value = trans.Text;
+                isResourceNotFound = false;
             }
-            
 
-            var tValue = arguments == null || arguments.Length == 0
-                ? trans.Text
-                : string.Format(trans.Text, arguments);
+            if (arguments != null && arguments.Length > 0)
+            {
+                value = string.Format(value, arguments);
+            }
 
-            return new LocalizedHtmlString(key, tValue, false);
+            return new LocalizedHtmlString(key, value, isResourceNotFound);
         }
 
         private LocalizedString GetLocalizedString(string key, string fromLanguage, string toLanguage, params object[] arguments)
         {
             var trans = Translate(key, fromLanguage, toLanguage, "text");
 
-            if (trans.StatusCode != HttpStatusCode.OK)
-            {
-                var value = arguments == null || arguments.Length == 0
-                    ? key
-                    : string.Format(key, arguments);
+            var value = key;
+            var isResourceNotFound = true;
 
-                return new LocalizedString(key, value, true);
+            if (trans.StatusCode == HttpStatusCode.OK)
+            {
+                value = trans.Text;
+                isResourceNotFound = false;
             }
 
-            var tValue = arguments == null || arguments.Length == 0
-                ? trans.Text
-                : string.Format(trans.Text, arguments);
+            if (arguments != null && arguments.Length > 0)
+            {
+                value = string.Format(value, arguments);
+            }
 
-            return new LocalizedString(key, tValue, false);
+            return new LocalizedString(key, value, isResourceNotFound);
         }
 
         private TranslationResult Translate(string key, string from, string to, string format)

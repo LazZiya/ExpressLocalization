@@ -1,5 +1,4 @@
-﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Messages;
+﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
@@ -13,10 +12,12 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
     {
         private readonly string RegexPattern;
         private readonly IStringLocalizer Localizer;
-        public ExRegularExpressionAttributeAdapter(ExRegularExpressionAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
+        private readonly bool _spoortResx;
+        public ExRegularExpressionAttributeAdapter(ExRegularExpressionAttribute attribute, IStringLocalizer stringLocalizer, bool supportResx) : base(attribute, stringLocalizer)
         {
             RegexPattern = attribute.Pattern;
             Localizer = stringLocalizer;
+            _spoortResx = supportResx;
         }
 
         public override void AddValidation(ClientModelValidationContext context)
@@ -37,16 +38,16 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
 
             return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), RegexPattern);
         }
-        
+
         private string GetRequiredErrorMessage(ModelValidationContextBase validationContext)
         {
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            var msg = typeof(T) == typeof(DatabaseType)
-                ? Localizer[DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName()]
-                : GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name, 
-                    DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName());
+            var msg = _spoortResx
+                ? GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name,
+                    DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName())
+                : Localizer[DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName()].Value;
 
             return msg;
         }

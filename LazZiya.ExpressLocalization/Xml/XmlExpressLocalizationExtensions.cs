@@ -5,6 +5,7 @@ using LazZiya.TranslationServices;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using System;
 
@@ -19,88 +20,95 @@ namespace LazZiya.ExpressLocalization.Xml
         /// Add ExpressLocalization with Xml based resources.
         /// </summary>
         /// <param name="builder"></param>
-        /// <typeparam name="T">Resource type</typeparam>
+        /// <typeparam name="TResource">Resource type</typeparam>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationXml<T>(this IMvcBuilder builder)
-            where T : class
+        public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder)
+            where TResource : class
         {
+            builder.Services.TryAddTransient<IStringLocalizer, XmlStringLocalizer<TResource>>();
+            builder.Services.TryAddTransient(typeof(IStringLocalizer<>), typeof(XmlStringLocalizer<>));
+            builder.Services.TryAddSingleton<IStringLocalizerFactory, XmlStringLocalizerFactory<TResource>>();
+            builder.Services.TryAddSingleton<IStringExpressLocalizerFactory, XmlStringLocalizerFactory<TResource>>();
 
-            builder.Services.AddTransient<IStringLocalizer, XmlStringLocalizer<T>>();
-            builder.Services.AddTransient(typeof(IStringLocalizer<>), typeof(XmlStringLocalizer<>));
-            builder.Services.AddTransient<IStringLocalizerFactory, XmlStringLocalizerFactory<T>>();
-            builder.Services.AddTransient<IStringExpressLocalizerFactory, XmlStringLocalizerFactory<T>>();
-            
-            builder.Services.AddTransient<IHtmlLocalizer, XmlHtmlLocalizer<T>>();
-            builder.Services.AddTransient(typeof(IHtmlLocalizer<>), typeof(XmlHtmlLocalizer<>));
-            builder.Services.AddTransient<IHtmlLocalizerFactory, XmlHtmlLocalizerFactory<T>>();
-            builder.Services.AddTransient<IHtmlExpressLocalizerFactory, XmlHtmlLocalizerFactory<T>>();
+            builder.Services.TryAddTransient<IHtmlLocalizer, XmlHtmlLocalizer<TResource>>();
+            builder.Services.TryAddTransient(typeof(IHtmlLocalizer<>), typeof(XmlHtmlLocalizer<>));
+            builder.Services.TryAddSingleton<IHtmlLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
+            builder.Services.TryAddSingleton<IHtmlExpressLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
 
-            builder.ExAddDataAnnotationsLocalization<T>(true);
+            builder.ExAddDataAnnotationsLocalizationXml<TResource>();
 
             return builder;
         }
-        
+
         /// <summary>
         /// Add ExpressLocalization with Xml based resources
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="xOps"></param>
-        /// <typeparam name="T">Resource type</typeparam>
+        /// <typeparam name="TResource">Resource type</typeparam>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationXml<T>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
-            where T : class
+        public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
+            where TResource : class
         {
             builder.Services.Configure<ExpressLocalizationOptions>(xOps);
 
-            return builder.AddExpressLocalizationXml<T>();
+            return builder.AddExpressLocalizationXml<TResource>();
         }
-        
+
         /// <summary>
         /// Add ExpressLocalization with Xml based resources.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="xOps"></param>
-        /// <typeparam name="T">Resource type</typeparam>
-        /// <typeparam name="U">ITranslationService</typeparam>
+        /// <typeparam name="TResource">Resource type</typeparam>
+        /// <typeparam name="TTransService">ITranslationService</typeparam>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationXml<T, U>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
-            where T : class
-            where U : ITranslationService
+        public static IMvcBuilder AddExpressLocalizationXml<TResource, TTransService>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
+            where TResource : class
+            where TTransService : ITranslationService
         {
-            builder.Services.AddTransient<IStringTranslator, StringTranslator<U>>();
-            builder.Services.AddTransient<IHtmlTranslator, HtmlTranslator<U>>();
-            builder.Services.AddTransient<IHtmlTranslatorFactory, HtmlTranslatorFactory>();
-            builder.Services.AddTransient<IStringTranslatorFactory, StringTranslatorFactory>();
+            builder.Services.TryAddTransient<IStringTranslator, StringTranslator<TTransService>>();
+            builder.Services.TryAddTransient<IHtmlTranslator, HtmlTranslator<TTransService>>();
+            builder.Services.TryAddSingleton<IHtmlTranslatorFactory, HtmlTranslatorFactory>();
+            builder.Services.TryAddSingleton<IStringTranslatorFactory, StringTranslatorFactory>();
 
-            builder.Services.AddTransient<ITranslationServiceFactory, TranslationServiceFactory<U>>();
+            builder.Services.TryAddSingleton<ITranslationServiceFactory, TranslationServiceFactory<TTransService>>();
 
-            return builder.AddExpressLocalizationXml<T>(xOps);
+            return builder.AddExpressLocalizationXml<TResource>(xOps);
         }
 
-
         /// <summary>
-        /// Add DataAnnotatons localization to the project.
-        /// <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+        /// Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
         /// </summary>
-        /// <typeparam name="T">Type of DataAnnotations localization resource</typeparam>
+        /// <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
         /// <param name="builder"></param>
-        /// <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
         /// <returns></returns>
-        private static IMvcBuilder ExAddDataAnnotationsLocalization<T>(this IMvcBuilder builder, bool useExpressValidationAttributes)
-            where T : class
+        private static IMvcBuilder ExAddDataAnnotationsLocalizationXml<TResource>(this IMvcBuilder builder)
+            where TResource : class
         {
+            // Add ExpressValdiationAttributes to provide error messages by default without using ErrorMessage="..."
+            // After removing support for old behaviour use below implementation
+            // builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<T>>();
+            
+            // This is a temporary solution to provide support for the old behaviour with resx files
+            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<TResource>>((x) => new ExpressValidationAttributeAdapterProvider<TResource>(false));
+
+            // Add data annotations locailzation
             builder.AddDataAnnotationsLocalization(ops =>
             {
-                // This will look for localization resource with type of T
-                ops.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(T));
+                // This will look for localization resource with type of T (shared resource)
+                ops.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(TResource));
 
-                // This will look for locaization resources of caller page type 
-                // e.g. LoginModel.en.xml
+                // This will look for localization resources depending on specific type, e.g. LoginModel.en.xml
                 //ops.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(t);
             });
 
-            if (useExpressValidationAttributes)
-                builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<T>>();
+            // Add ModelBinding errors localization
+            builder.AddMvcOptions(ops =>
+            {
+                var factory = builder.Services.BuildServiceProvider().GetService(typeof(IStringExpressLocalizerFactory)) as IStringExpressLocalizerFactory;
+                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(factory);
+            });
 
             return builder;
         }

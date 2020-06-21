@@ -56,6 +56,14 @@
             dispose...
             </summary>
         </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute,Microsoft.Extensions.Localization.IStringLocalizer,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+            <param name="supportResx">Support for old behaviour. This is temporary and to be removed in a feature release.</param>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute">
             <summary>
             Provides an attribute that compares two properties, and produces localized error message.
@@ -98,6 +106,12 @@
             <summary>
             Registeres express valdiation attributes
             </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider`1.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="supportResX">provide support for old behaviour (temporary)</param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute">
             <summary>
@@ -855,12 +869,12 @@
             ModelBindingErrors Localizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,LazZiya.ExpressLocalization.ISharedCultureLocalizer)">
+        <member name="M:LazZiya.ExpressLocalization.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,LazZiya.ExpressLocalization.Common.IStringExpressLocalizerFactory)">
             <summary>
             Use DB for localization
             </summary>
             <param name="provider"></param>
-            <param name="dbLocalizer">DB localizer service</param>
+            <param name="factory">localizer factory</param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,System.Type)">
             <summary>
@@ -1756,7 +1770,7 @@
             Add ExpressLocalization with Xml based resources.
             </summary>
             <param name="builder"></param>
-            <typeparam name="T">Resource type</typeparam>
+            <typeparam name="TResource">Resource type</typeparam>
             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
@@ -1765,7 +1779,7 @@
             </summary>
             <param name="builder"></param>
             <param name="xOps"></param>
-            <typeparam name="T">Resource type</typeparam>
+            <typeparam name="TResource">Resource type</typeparam>
             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
@@ -1774,8 +1788,8 @@
             </summary>
             <param name="builder"></param>
             <param name="xOps"></param>
-            <typeparam name="T">Resource type</typeparam>
-            <typeparam name="U">ITranslationService</typeparam>
+            <typeparam name="TResource">Resource type</typeparam>
+            <typeparam name="TTransService">ITranslationService</typeparam>
             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.ExAddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
@@ -1783,7 +1797,7 @@
             Add DataAnnotatons localization to the project.
             <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
             </summary>
-            <typeparam name="T">Type of DataAnnotations localization resource</typeparam>
+            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
             <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
             <returns></returns>
@@ -1906,6 +1920,21 @@
             </summary>
             <param name="baseName"></param>
             <param name="location"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlLocalizerHelper.XmlDocumentFullPath(System.String,System.String)">
+            <summary>
+            Helper method to create full path for current culture xml resource file
+            </summary>
+            <param name="baseName"></param>
+            <param name="location"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlLocalizerHelper.GetXmlDocument(System.String)">
+            <summary>
+            Helper method to create Xml resource file
+            </summary>
+            <param name="fPath"></param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1">

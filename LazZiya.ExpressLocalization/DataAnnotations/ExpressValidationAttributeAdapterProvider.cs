@@ -16,6 +16,17 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
     public class ExpressValidationAttributeAdapterProvider<T> : ValidationAttributeAdapterProvider, IValidationAttributeAdapterProvider
         where T : class
     {
+        private readonly bool _supportResX;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="supportResX">provide support for old behaviour (temporary)</param>
+        public ExpressValidationAttributeAdapterProvider(bool supportResX)
+        {
+            _supportResX = supportResX;
+        }
+
         IAttributeAdapter IValidationAttributeAdapterProvider.GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
         {
             if (attribute == null)
@@ -53,13 +64,13 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
                 return new ExMinLengthAttributeAdapter((ExMinLengthAttribute)attribute, stringLocalizer);
             
             if (type == typeof(ExCompareAttribute))
-                return new ExCompareAttributeAdapter<T>((ExCompareAttribute)attribute, stringLocalizer);
+                return new ExCompareAttributeAdapter<T>((ExCompareAttribute)attribute, stringLocalizer, _supportResX);
             
             if (type == typeof(ExRangeAttribute))
-                return new ExRangeAttributeAdapter<T>((ExRangeAttribute)attribute, stringLocalizer);
+                return new ExRangeAttributeAdapter<T>((ExRangeAttribute)attribute, stringLocalizer, _supportResX);
 
             if (type == typeof(ExRegularExpressionAttribute))
-                return new ExRegularExpressionAttributeAdapter<T>((ExRegularExpressionAttribute)attribute, stringLocalizer);
+                return new ExRegularExpressionAttributeAdapter<T>((ExRegularExpressionAttribute)attribute, stringLocalizer, _supportResX);
                 
             if (type == typeof(ExStringLengthAttribute))
                 return new ExStringLengthAttributeAdapter((ExStringLengthAttribute)attribute, stringLocalizer);

@@ -27,7 +27,7 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <data isActive="true">
+  <data isActive="false">
     <key>Welcome</key>
     <value>欢迎！</value>
     <comment>AUTO</comment>

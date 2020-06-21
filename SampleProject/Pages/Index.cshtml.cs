@@ -20,7 +20,7 @@ namespace SampleProject.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly IHtmlLocalizer _loc;
 
-        public IndexModel(ILogger<IndexModel> logger, IHtmlLocalizer<IndexModel> localizer)
+        public IndexModel(ILogger<IndexModel> logger, IHtmlLocalizer localizer)
         {
             _logger = logger;
 

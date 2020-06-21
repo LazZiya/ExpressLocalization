@@ -3,9 +3,9 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Xml.Linq;
 
-namespace LazZiya.ExpressLocalization.Common
+namespace LazZiya.ExpressLocalization.Xml
 {
-    internal static class LocalizedStringExtensions
+    internal static class XmlLocalizedStringExtensions
     {
         internal static XElement ToXElement(this LocalizedHtmlString str, bool isActive = false)
         {

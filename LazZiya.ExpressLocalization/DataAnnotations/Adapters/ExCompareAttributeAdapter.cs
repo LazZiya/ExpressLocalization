@@ -1,5 +1,4 @@
-﻿using LazZiya.ExpressLocalization.Common;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
 using System;
@@ -13,10 +12,19 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
         // name of the other attribute
         private string _att { get; set; }
         private readonly IStringLocalizer Localizer;
-        public ExCompareAttributeAdapter(ExCompareAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
+        private readonly bool _supportResx;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <param name="stringLocalizer"></param>
+        /// <param name="supportResx">Support for old behaviour. This is temporary and to be removed in a feature release.</param>
+        public ExCompareAttributeAdapter(ExCompareAttribute attribute, IStringLocalizer stringLocalizer, bool supportResx) : base(attribute, stringLocalizer)
         {
             _att = attribute.OtherProperty;
             Localizer = stringLocalizer;
+            _supportResx = supportResx;
         }
 
         public override void AddValidation(ClientModelValidationContext context)
@@ -34,11 +42,11 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            var attLocalizedName = typeof(T) == typeof(DatabaseType)
-                ? Localizer[_att]
-                : GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name, _att);
+            var _locAtt = _supportResx
+                 ? GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name, _att)
+                 : Localizer[_att].Value;
 
-            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), attLocalizedName);
+            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), _locAtt);
         }
     }
 }

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using LazZiya.ExpressLocalization;
 using LazZiya.ExpressLocalization.DataAnnotations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
@@ -24,19 +24,20 @@ namespace SampleProject.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly ISharedCultureLocalizer _localizer;
+        private readonly IHtmlLocalizer _htmlLocalizer;
+        
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            ISharedCultureLocalizer localizer)
+            IHtmlLocalizer htmlLocalizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _localizer = localizer;
+            _htmlLocalizer = htmlLocalizer;
         }
 
         [BindProperty]
@@ -91,8 +92,8 @@ namespace SampleProject.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    var locliazedTitle = _localizer["Confirm your email"];
-                    var localizedBody = _localizer["Please confirm your account by <a href='{0}'>clicking here</a>.", HtmlEncoder.Default.Encode(callbackUrl)];
+                    var locliazedTitle = _htmlLocalizer["Confirm your email"].Value;
+                    var localizedBody = _htmlLocalizer["Please confirm your account by <a href='{0}'>clicking here</a>.", HtmlEncoder.Default.Encode(callbackUrl)].Value;
                     await _emailSender.SendEmailAsync(Input.Email, locliazedTitle, localizedBody);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

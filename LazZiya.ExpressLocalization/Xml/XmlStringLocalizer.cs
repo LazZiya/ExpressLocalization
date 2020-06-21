@@ -1,14 +1,10 @@
-﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Translate;
+﻿using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using System.Xml.XPath;
 
 namespace LazZiya.ExpressLocalization.Xml
 {
@@ -36,9 +32,9 @@ namespace LazZiya.ExpressLocalization.Xml
     public class XmlStringLocalizer : IStringLocalizer
     {
         private readonly ExpressLocalizationOptions _options;
-        private readonly string _xmlResPath;
-        private readonly XDocument _xmlDoc;
         private readonly IStringTranslator _stringTranslator;
+        private readonly string _baseName;
+        private readonly string _location;
 
         /// <summary>
         /// Initialze new instance of XmlStringLocalizer
@@ -59,24 +55,8 @@ namespace LazZiya.ExpressLocalization.Xml
         {
             _options = options.Value;
 
-            _xmlResPath = Path.Combine(location, $"{xmlBaseName}.{CultureInfo.CurrentCulture.Name}.xml");
-
-            if (!File.Exists(_xmlResPath))
-            {
-                try
-                {
-                    // Create a copy of the template xml resource
-                    var path = typeof(XmlTemplate).Assembly.Location;
-                    var folder = path.Substring(0, path.LastIndexOf('\\'));
-                    File.Copy($"{folder}\\Xml\\XmlTemplate.xml", _xmlResPath);
-                }
-                catch (Exception e)
-                {
-                    throw new FileLoadException($"Can't load or create resource file. {e.Message}");
-                }
-            }
-
-            _xmlDoc = XDocument.Load(_xmlResPath);
+            _baseName = xmlBaseName;
+            _location = location;
 
             _stringTranslator = stringTranslator;
         }
@@ -103,6 +83,8 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
+            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
+            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
             return _xmlDoc.Root.Descendants("data").Select(x => new LocalizedString(x.Element("key").Value, x.Element("value").Value, false));
         }
 
@@ -118,6 +100,9 @@ namespace LazZiya.ExpressLocalization.Xml
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
+            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
+            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
+
             var elmnt = _xmlDoc.Root.Descendants("data").FirstOrDefault(x => x.Element("key").Value.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             var locStr = new LocalizedString(name, string.Format(name, arguments), true);
@@ -135,14 +120,14 @@ namespace LazZiya.ExpressLocalization.Xml
                     // Call the translator function without arguments, 
                     // so we can insert the raw string in xml file
                     // requrired to keep placeholders {0} in the raw string
-                    locStr = _stringTranslator[name, arguments];
+                    locStr = _stringTranslator[name];
                 }
 
                 if (_options.AutoAddKeys)
                 {
                     if (_options.AutoAddKeys)
                     {
-                        locStr.WriteTo(_xmlDoc, _xmlResPath);
+                        locStr.WriteTo(_xmlDoc, _path);
                     }
                 }
             }

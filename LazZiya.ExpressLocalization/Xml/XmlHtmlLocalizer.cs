@@ -1,14 +1,11 @@
-﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Translate;
+﻿using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace LazZiya.ExpressLocalization.Xml
 {
@@ -37,8 +34,8 @@ namespace LazZiya.ExpressLocalization.Xml
     public class XmlHtmlLocalizer : IHtmlLocalizer
     {
         private readonly ExpressLocalizationOptions _options;
-        private readonly string _xmlResPath;
-        private readonly XDocument _xmlDoc;
+        private readonly string _baseName;
+        private readonly string _location;
         private readonly IHtmlTranslator _htmlTranslator;
         private readonly IStringTranslator _stringTranslator;
         
@@ -62,23 +59,8 @@ namespace LazZiya.ExpressLocalization.Xml
         {
             _options = options.Value;
 
-            _xmlResPath = Path.Combine(location, $"{baseName}.{CultureInfo.CurrentCulture.Name}.xml");
-
-            if (!File.Exists(_xmlResPath))
-            {
-                try
-                {
-                    var path = typeof(XmlTemplate).Assembly.Location;
-                    var folder = path.Substring(0, path.LastIndexOf('\\'));
-                    File.Copy($"{folder}\\Xml\\XmlTemplate.xml", _xmlResPath);
-                }
-                catch (Exception e)
-                {
-                    throw new FileLoadException($"Can't load or create resource file. {e.Message}");
-                }
-            }
-
-            _xmlDoc = XDocument.Load(_xmlResPath);
+            _baseName = baseName;
+            _location = location;
 
             _htmlTranslator = htmlTranslator;
             _stringTranslator = stringTranslator;
@@ -121,6 +103,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
+            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
+            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
+
             return _xmlDoc.Root.Descendants("data").Select(x => new LocalizedString(x.Element("key").Value, x.Element("value").Value, false));
         }
 
@@ -142,6 +127,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         private LocalizedHtmlString GetLocalizedHtmlString(string name, params object[] arguments)
         {
+            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
+            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
+
             var elmnt = _xmlDoc.Root.Descendants("data").FirstOrDefault(x => x.Element("key").Value.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             var locStr = new LocalizedHtmlString(name, string.Format(name, arguments), true);
@@ -164,7 +152,8 @@ namespace LazZiya.ExpressLocalization.Xml
 
                 if (_options.AutoAddKeys)
                 {
-                    locStr.WriteTo(_xmlDoc, _xmlResPath);
+                    locStr.WriteTo(_xmlDoc, _path);
+                    
                 }
             }
 
@@ -176,6 +165,9 @@ namespace LazZiya.ExpressLocalization.Xml
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
+            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
+            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
+
             var elmnt = _xmlDoc.Root.Descendants("data").FirstOrDefault(x => x.Element("key").Value.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             var locStr = new LocalizedString(name, string.Format(name, arguments), true);
@@ -200,7 +192,7 @@ namespace LazZiya.ExpressLocalization.Xml
                 {
                     if (_options.AutoAddKeys)
                     {
-                        locStr.WriteTo(_xmlDoc, _xmlResPath);
+                        locStr.WriteTo(_xmlDoc, _path);
                     }
                 }
             }

@@ -110,7 +110,7 @@ namespace LazZiya.ExpressLocalization.DB
             // Configure model binding errors localization
             builder.AddMvcOptions(ops =>
             {
-                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(dbLocalizer);
+                //ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(dbLocalizer);
             });
 
             // Configure data annotations errors localization
