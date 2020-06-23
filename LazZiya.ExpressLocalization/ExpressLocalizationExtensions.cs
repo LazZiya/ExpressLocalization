@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using LazZiya.ExpressLocalization.DataAnnotations;
+using LazZiya.ExpressLocalization.Identity;
+using LazZiya.ExpressLocalization.ModelBinding;
+using LazZiya.ExpressLocalization.Routing;
 
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Microsoft.AspNetCore.Routing;

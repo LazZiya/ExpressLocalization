@@ -11,6 +11,7 @@ using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.TranslationServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
+using LazZiya.ExpressLocalization.Common;
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Newtonsoft.Json;
 #else

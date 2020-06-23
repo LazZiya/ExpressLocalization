@@ -26,18 +26,6 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         public string Culture { get; set; } = string.Empty;
 
         /// <summary>
-        /// Manually specify the content culture. Default is request default culture.
-        /// </summary>
-        //[HtmlAttributeName("localize-translation-from")]
-        //public string TranslationFromCulture { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Type of translation service.
-        /// </summary>
-        //[HtmlAttributeName("localize-translation-service")]
-        //public Type TranslationServiceType { get; set; }
-
-        /// <summary>
         /// Type of the localized resource
         /// </summary>
         [HtmlAttributeName("localize-source")]

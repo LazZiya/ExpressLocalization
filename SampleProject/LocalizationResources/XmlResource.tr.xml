@@ -152,4 +152,19 @@
     <value>'{0}' değeri {1} için geçerli değil.</value>
     <comment>AUTO</comment>
   </data>
+  <data isActive="false">
+    <key>Passwords must have at least one non alphanumeric character.</key>
+    <value>Parolaların en az bir alfasayısal olmayan karakteri olmalıdır.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Passwords must have at least one digit ('0'-'9').</key>
+    <value>Parolalar en az bir basamak içermelidir ('0' - '9').</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Passwords must have at least one uppercase ('A'-'Z').</key>
+    <value>Parolaların en az bir büyük harfi olmalıdır ('A' - 'Z').</value>
+    <comment>AUTO</comment>
+  </data>
 </root>

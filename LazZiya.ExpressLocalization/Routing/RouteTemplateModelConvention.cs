@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace LazZiya.ExpressLocalization
+namespace LazZiya.ExpressLocalization.Routing
 {
     /// <summary>
     /// Configure global template for page route, so culture parameter will be placed at the beginning of the URL

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace LazZiya.ExpressLocalization
+namespace LazZiya.ExpressLocalization.Common
 {
     /// <summary>
     /// Switches the current culture to a specific culture then return to the original culture and dispose.

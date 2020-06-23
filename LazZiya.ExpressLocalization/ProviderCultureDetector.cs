@@ -14,7 +14,9 @@ namespace LazZiya.ExpressLocalization
     {
 
         /// <summary>
-        /// Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, if no culture is detected it will return default culture.
+        /// Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, 
+        /// if no culture is detected it will return default culture.
+        /// Use to detect the current culture for cookie authentication events.
         /// </summary>
         /// <param name="providers">List of currently registered culture providers</param>
         /// <param name="httpContext">requests HttpContext</param>

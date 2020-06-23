@@ -13,6 +13,7 @@ using LazZiya.TranslationServices;
 using LazZiya.EFGenericDataManager;
 using System.Linq;
 using LazZiya.ExpressLocalization.ResxTools;
+using LazZiya.ExpressLocalization.Identity;
 
 namespace LazZiya.ExpressLocalization.DB
 {

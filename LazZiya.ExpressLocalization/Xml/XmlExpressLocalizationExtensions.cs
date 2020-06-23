@@ -1,7 +1,10 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DataAnnotations;
+using LazZiya.ExpressLocalization.Identity;
+using LazZiya.ExpressLocalization.ModelBinding;
 using LazZiya.ExpressLocalization.Translate;
 using LazZiya.TranslationServices;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
@@ -109,6 +112,9 @@ namespace LazZiya.ExpressLocalization.Xml
                 var factory = builder.Services.BuildServiceProvider().GetService(typeof(IStringExpressLocalizerFactory)) as IStringExpressLocalizerFactory;
                 ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(factory);
             });
+
+            // Add Identity Erros localization
+            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>();
 
             return builder;
         }

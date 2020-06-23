@@ -1,10 +1,9 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using Microsoft.Extensions.Localization;
 using System;
 
-namespace LazZiya.ExpressLocalization
+namespace LazZiya.ExpressLocalization.ModelBinding
 {
     /// <summary>
     /// ModelBindingErrors Localizer

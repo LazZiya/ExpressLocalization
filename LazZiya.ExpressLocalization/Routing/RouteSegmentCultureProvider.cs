@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LazZiya.ExpressLocalization
+namespace LazZiya.ExpressLocalization.Routing
 {
     /// <summary>
     /// Register Route segment based request localization culture provider

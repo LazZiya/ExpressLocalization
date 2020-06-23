@@ -4,6 +4,26 @@
         <name>LazZiya.ExpressLocalization</name>
     </assembly>
     <members>
+        <member name="T:LazZiya.ExpressLocalization.Common.CultureSwitcher">
+            <summary>
+            Switches the current culture to a specific culture then return to the original culture and dispose.
+            Since Localizer.WithCultre has became obsolete, 
+            this is a solution to retrive a string from specific culture resource file
+            <see ref="https://github.com/aspnet/AspNetCore/issues/7756"/>
+            <see ref="https://github.com/jcemoller/culture-switcher/blob/master/src/CultureSwitcher.cs"/>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.CultureSwitcher.#ctor(System.String)">
+            <summary>
+            Since Localizer.WithCultre has became obsolete, 
+            this is a solution to retrive a string from specific culture resource file
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.CultureSwitcher.Dispose">
+            <summary>
+            dispose...
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.Common.DatabaseType">
             <summary>
             Use this just to pass type T for DB localization
@@ -31,29 +51,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.Trimmer">
+        <member name="T:LazZiya.ExpressLocalization.Common.TextTrimmer">
             <summary>
             Trim all whitespaces in a string (start, end and between)
-            </summary>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.CultureSwitcher">
-            <summary>
-            Switches the current culture to a specific culture then return to the original culture and dispose.
-            Since Localizer.WithCultre has became obsolete, 
-            this is a solution to retrive a string from specific culture resource file
-            <see ref="https://github.com/aspnet/AspNetCore/issues/7756"/>
-            <see ref="https://github.com/jcemoller/culture-switcher/blob/master/src/CultureSwitcher.cs"/>
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.CultureSwitcher.#ctor(System.String)">
-            <summary>
-            Since Localizer.WithCultre has became obsolete, 
-            this is a solution to retrive a string from specific culture resource file
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.CultureSwitcher.Dispose">
-            <summary>
-            dispose...
             </summary>
         </member>
         <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute,Microsoft.Extensions.Localization.IStringLocalizer,System.Boolean)">
@@ -410,22 +410,164 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.IdentityErrorsLocalizer">
+        <member name="T:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer">
             <summary>
             Identity describer errors localizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.IdentityErrorsLocalizer.#ctor(System.Type)">
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.#ctor(System.Type)">
             <summary>
             Initialize identity errors localization based on resx files
             </summary>
             <param name="resType"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.IdentityErrorsLocalizer.#ctor(LazZiya.ExpressLocalization.ISharedCultureLocalizer)">
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.#ctor(Microsoft.Extensions.Localization.IStringLocalizer)">
             <summary>
             Initialize identity erroors localization based on DB locailzer
             </summary>
             <param name="localizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.DuplicateEmail(System.String)">
+            <summary>
+            "Email '{0}' is already taken."
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.DuplicateUserName(System.String)">
+            <summary>
+            "User name '{0}' is already taken."
+            </summary>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.InvalidEmail(System.String)">
+            <summary>
+            "Email '{0}' is invalid."
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.DuplicateRoleName(System.String)">
+            <summary>
+            "Role name '{0}' is already taken."
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.InvalidRoleName(System.String)">
+            <summary>
+            "Role name '{0}' is invalid."
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.InvalidToken">
+            <summary>
+            "Invalid token."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.InvalidUserName(System.String)">
+            <summary>
+            "User name '{0}' is invalid, can only contain letters or digits."
+            </summary>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.LoginAlreadyAssociated">
+            <summary>
+            "A user with this login already exists."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordMismatch">
+            <summary>
+            "Incorrect password."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordRequiresDigit">
+            <summary>
+            "Passwords must have at least one digit ('0'-'9')."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordRequiresLower">
+            <summary>
+            "Passwords must have at least one lowercase ('a'-'z')."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordRequiresNonAlphanumeric">
+            <summary>
+            "Passwords must have at least one non alphanumeric character."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordRequiresUniqueChars(System.Int32)">
+            <summary>
+            "Passwords must use at least {0} different characters."
+            </summary>
+            <param name="uniqueChars"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordRequiresUpper">
+            <summary>
+            "Passwords must have at least one uppercase ('A'-'Z')."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.PasswordTooShort(System.Int32)">
+            <summary>
+            "Passwords must be at least {0} characters."
+            </summary>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.UserAlreadyHasPassword">
+            <summary>
+            "User already has a password set."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.UserAlreadyInRole(System.String)">
+            <summary>
+            "User already in role '{0}'."
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.UserNotInRole(System.String)">
+            <summary>
+            "User is not in role '{0}'."
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.UserLockoutNotEnabled">
+            <summary>
+            "Lockout is not enabled for this user."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.RecoveryCodeRedemptionFailed">
+            <summary>
+            "Recovery code redemption failed."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.ConcurrencyFailure">
+            <summary>
+            "Optimistic concurrency failure, object has been modified."
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.DefaultError">
+            <summary>
+            "An unknown failure has occurred."
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.ISharedCultureLocalizer">
             <summary>
@@ -522,57 +664,6 @@
             <param name="key"></param>
             <param name="args"></param>
             <returns>localized string</returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Json.JsonManager">
-            <summary>
-            Resx files writer
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Json.JsonManager.#ctor(System.Type,System.String,System.String)">
-            <summary>
-            Initialize new instance of json manager
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.Json.JsonManager.TargetJsonFile">
-            <summary>
-            Retrive the name of the target resource file
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Json.JsonManager.AddAsync(LazZiya.ExpressLocalization.ResxTools.ResxElement,System.Boolean)">
-            <summary>
-            Add an element to the resource file
-            </summary>
-            <param name="element"></param>
-            <param name="overWriteExistingKeys"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Json.JsonManager.AddRangeAsync(System.Collections.Generic.ICollection{LazZiya.ExpressLocalization.ResxTools.ResxElement},System.Boolean)">
-            <summary>
-            Add array of elements to the resource file
-            </summary>
-            <param name="elements"></param>
-            <param name="overWriteExistingKeys"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Json.JsonManager.DeleteAsync(System.String)">
-            <summary>
-            Async delete a resource key from resource file
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Json.JsonManager.FindAsync(System.String)">
-            <summary>
-            Find resource by its key value
-            </summary>
-            <param name="key"></param>
-            <returns>XElement</returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Json.JsonManager.SaveAsync">
-            <summary>
-            save the resource file
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Messages.DataAnnotationsErrorMessages">
             <summary>
@@ -864,19 +955,19 @@
             </para>
             </summary>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.ModelBindingErrorsLocalizer">
+        <member name="T:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer">
             <summary>
             ModelBindingErrors Localizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,LazZiya.ExpressLocalization.Common.IStringExpressLocalizerFactory)">
+        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,LazZiya.ExpressLocalization.Common.IStringExpressLocalizerFactory)">
             <summary>
             Use DB for localization
             </summary>
             <param name="provider"></param>
             <param name="factory">localizer factory</param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,System.Type)">
+        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,System.Type)">
             <summary>
             Use resx file for locaization
             </summary>
@@ -890,7 +981,8 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.ProviderCultureDetector.DetectCurrentCulture(System.Collections.Generic.IList{Microsoft.AspNetCore.Localization.IRequestCultureProvider},Microsoft.AspNetCore.Http.HttpContext,System.Collections.Generic.IList{System.Globalization.CultureInfo},System.String)">
             <summary>
-            Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, if no culture is detected it will return default culture.
+            Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, 
+            if no culture is detected it will return default culture.
             </summary>
             <param name="providers">List of currently registered culture providers</param>
             <param name="httpContext">requests HttpContext</param>
@@ -1010,31 +1102,31 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.RouteSegmentCultureProvider">
+        <member name="T:LazZiya.ExpressLocalization.Routing.RouteSegmentCultureProvider">
             <summary>
             Register Route segment based request localization culture provider
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.RouteSegmentCultureProvider.#ctor(System.Collections.Generic.IList{System.Globalization.CultureInfo},System.String)">
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteSegmentCultureProvider.#ctor(System.Collections.Generic.IList{System.Globalization.CultureInfo},System.String)">
             <summary>
             Register Route value based request localization culture provider
             </summary>
             <param name="supportedCultures">list of supported cultures</param>
             <param name="defaultCulture">default culture name e.g. en-US</param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.RouteSegmentCultureProvider.DetermineProviderCultureResult(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteSegmentCultureProvider.DetermineProviderCultureResult(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             Determine the culture resut according to the {culture} route paramter value
             </summary>
             <param name="httpContext"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.RouteTemplateModelConvention">
+        <member name="T:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConvention">
             <summary>
             Configure global template for page route, so culture parameter will be placed at the beginning of the URL
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.RouteTemplateModelConvention.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteModel)">
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConvention.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteModel)">
             <summary>
             automatically invoked
             </summary>
@@ -1713,7 +1805,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Translate.StringTranslator.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            NOT IMPLEMENTED, Use <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/> instead.
+            NOT IMPLEMENTED, Use <see cref="!:CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
@@ -1792,14 +1884,12 @@
             <typeparam name="TTransService">ITranslationService</typeparam>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.ExAddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.ExAddDataAnnotationsLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
-            Add DataAnnotatons localization to the project.
-            <para>Related resource files can be downloaded from: https://github.com/LazZiya/ExpressLocalization.Resources </para>
+            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
             </summary>
             <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
-            <param name="useExpressValidationAttributes">Express validiation attributes provides already localized eror messages</param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1">
@@ -1875,7 +1965,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/> instead.
+            NOT IMPLEMENTED! use <see cref="!:CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
@@ -1993,7 +2083,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.CultureSwitcher"/> instead.
+            NOT IMPLEMENTED! use <see cref="!:CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
