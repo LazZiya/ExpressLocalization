@@ -8,21 +8,18 @@ using System.Threading.Tasks;
 namespace LazZiya.ExpressLocalization.Routing
 {
     /// <summary>
-    /// Register Route segment based request localization culture provider
+    /// Route segment request culture provider
     /// </summary>
-    public class RouteSegmentCultureProvider : IRequestCultureProvider
+    public class RouteSegmentRequestCultureProvider : IRequestCultureProvider
     {
-        private readonly string DefaultCulture;
         private readonly IList<CultureInfo> SupportedCultures;
 
         /// <summary>
-        /// Register Route value based request localization culture provider
+        /// Initialize new intance of RouteSegmentRequestCultureProvider
         /// </summary>
         /// <param name="supportedCultures">list of supported cultures</param>
-        /// <param name="defaultCulture">default culture name e.g. en-US</param>
-        public RouteSegmentCultureProvider(IList<CultureInfo> supportedCultures, string defaultCulture)
+        public RouteSegmentRequestCultureProvider(IList<CultureInfo> supportedCultures)
         {
-            DefaultCulture = defaultCulture;
             SupportedCultures = supportedCultures;
         }
 

@@ -311,15 +311,13 @@
         </member>
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.RequestLocalizationOptions">
             <summary>
-            Specific options for the Mİcrosoft.AspNetCore.Localizarion.RequestLocalizatonMiddleware
+            IMPORTANT: This property setup moved to startup. For more details see <a href="https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>
             </summary>
         </member>
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.UseAllCultureProviders">
-             <summary>
-             Optional, default value true.
-            <para>true to register all culture providers (Route, QueryString, Cookie, AcceptLanguageHeader) </para>
-            <para>false to use only Route culture provider.</para>
-             </summary>
+            <summary>
+            IMPORTANT: This property setup moved to startup. For more details see <a href="https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>
+            </summary>
         </member>
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ResourcesPath">
             <summary>
@@ -983,6 +981,7 @@
             <summary>
             Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, 
             if no culture is detected it will return default culture.
+            Use to detect the current culture for cookie authentication events.
             </summary>
             <param name="providers">List of currently registered culture providers</param>
             <param name="httpContext">requests HttpContext</param>
@@ -1102,19 +1101,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Routing.RouteSegmentCultureProvider">
+        <member name="T:LazZiya.ExpressLocalization.Routing.RouteSegmentRequestCultureProvider">
             <summary>
-            Register Route segment based request localization culture provider
+            Route segment request culture provider
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Routing.RouteSegmentCultureProvider.#ctor(System.Collections.Generic.IList{System.Globalization.CultureInfo},System.String)">
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteSegmentRequestCultureProvider.#ctor(System.Collections.Generic.IList{System.Globalization.CultureInfo})">
             <summary>
-            Register Route value based request localization culture provider
+            Initialize new intance of RouteSegmentRequestCultureProvider
             </summary>
             <param name="supportedCultures">list of supported cultures</param>
-            <param name="defaultCulture">default culture name e.g. en-US</param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Routing.RouteSegmentCultureProvider.DetermineProviderCultureResult(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteSegmentRequestCultureProvider.DetermineProviderCultureResult(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             Determine the culture resut according to the {culture} route paramter value
             </summary>

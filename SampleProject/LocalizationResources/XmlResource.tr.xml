@@ -167,4 +167,14 @@
     <value>Parolaların en az bir büyük harfi olmalıdır ('A' - 'Z').</value>
     <comment>AUTO</comment>
   </data>
+  <data isActive="false">
+    <key>Privacy Policy</key>
+    <value>Gizlilik Politikası</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Use this page to detail your site's privacy policy.</key>
+    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
+    <comment>AUTO</comment>
+  </data>
 </root>

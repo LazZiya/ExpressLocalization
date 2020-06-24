@@ -238,11 +238,11 @@ namespace LazZiya.ExpressLocalization
             builder.Services.Configure<RequestLocalizationOptions>(ops =>
             {
                 if (useAllProviders)
-                    ops.RequestCultureProviders.Insert(0, new RouteSegmentCultureProvider(cultures, defaultCulture));
+                    ops.RequestCultureProviders.Insert(0, new RouteSegmentRequestCultureProvider(cultures));
                 else
                 {
                     ops.RequestCultureProviders.Clear();
-                    ops.RequestCultureProviders.Add(new RouteSegmentCultureProvider(cultures, defaultCulture));
+                    ops.RequestCultureProviders.Add(new RouteSegmentRequestCultureProvider(cultures));
                 }
 
                 _providers = ops.RequestCultureProviders;
@@ -251,7 +251,7 @@ namespace LazZiya.ExpressLocalization
 
             builder.AddRazorPagesOptions(x =>
             {
-                x.Conventions?.Add(new RouteTemplateModelConvention());
+                x.Conventions?.Add(new RouteTemplateModelConventionRazorPages());
             });
 
             return builder;

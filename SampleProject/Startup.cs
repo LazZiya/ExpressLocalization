@@ -16,6 +16,7 @@ using System.Globalization;
 using LazZiya.ExpressLocalization.Xml;
 using LazZiya.ExpressLocalization.DB;
 using SampleProject.LocalizationResources;
+using LazZiya.ExpressLocalization.Routing;
 
 namespace SampleProject
 {
@@ -86,9 +87,11 @@ namespace SampleProject
                 ops.SupportedCultures = cultures;
                 ops.SupportedUICultures = cultures;
                 ops.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+                ops.RequestCultureProviders.Insert(0, new RouteSegmentRequestCultureProvider(cultures));
             });
 
             services.AddRazorPages()
+                .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
                 .AddExpressLocalizationXml<XmlResource, MyMemoryTranslateService>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";

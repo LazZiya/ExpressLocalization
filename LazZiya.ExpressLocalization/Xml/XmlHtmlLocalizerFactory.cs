@@ -22,7 +22,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="options"></param>
         /// <param name="htmlTranslator"></param>
         /// <param name="stringTranslator"></param>
-        public XmlHtmlLocalizerFactory(IOptions<ExpressLocalizationOptions> options, IHtmlTranslator htmlTranslator, IStringTranslator stringTranslator)
+        public XmlHtmlLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
+                                       IHtmlTranslator htmlTranslator, 
+                                       IStringTranslator stringTranslator)
         {
             _options = options;
             _htmlTranslator = htmlTranslator;

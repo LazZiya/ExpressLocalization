@@ -78,7 +78,7 @@ namespace LazZiya.ExpressLocalization
                         ? _translationService.TranslateAsync(_defaultCultre, _culture, key, "html").Result.Text
                         : key;
 
-                    var xDoc = new ResxManager(typeof(DummyResource), Path.Combine(_options.ResourcesPath), _culture, "xml");
+                    var xDoc = new ResxManager(typeof(ResxTemplate), Path.Combine(_options.ResourcesPath), _culture, "xml");
                     var addResult = xDoc.AddAsync(new ResxElement() { Key = key, Value = trans, Approved = false, Comment = "AutoKey" }).Result;
                     _logger.LogInformation("Add to resource result" + addResult);
 

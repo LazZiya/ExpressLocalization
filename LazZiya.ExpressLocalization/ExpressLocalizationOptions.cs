@@ -10,15 +10,15 @@ namespace LazZiya.ExpressLocalization
     public class ExpressLocalizationOptions
     {
         /// <summary>
-        /// Specific options for the Mİcrosoft.AspNetCore.Localizarion.RequestLocalizatonMiddleware
+        /// IMPORTANT: This property setup moved to startup. For more details see <a href="https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>
         /// </summary>
+        [Obsolete("This property is deprected. Please use regular setup instead. See <a href=\"https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>")]
         public Action<RequestLocalizationOptions> RequestLocalizationOptions { get; set; }
 
         /// <summary>
-        /// Optional, default value true.
-        ///<para>true to register all culture providers (Route, QueryString, Cookie, AcceptLanguageHeader) </para>
-        ///<para>false to use only Route culture provider.</para>
+        /// IMPORTANT: This property setup moved to startup. For more details see <a href="https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>
         /// </summary>
+        [Obsolete("This property is deprected. See <a href=\"https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>")]
         public bool UseAllCultureProviders { get; set; } = true;
 
         /// <summary>

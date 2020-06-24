@@ -1,4 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Translate;
+﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System;
@@ -20,7 +21,8 @@ namespace LazZiya.ExpressLocalization.Xml
         /// </summary>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
-        public XmlStringLocalizer(IOptions<ExpressLocalizationOptions> options, IStringTranslator stringTranslator) : base(typeof(TResource), options, stringTranslator)
+        public XmlStringLocalizer(IOptions<ExpressLocalizationOptions> options, 
+                                  IStringTranslator stringTranslator) : base(typeof(TResource), options, stringTranslator)
         {
 
         }
@@ -39,7 +41,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <summary>
         /// Initialze new instance of XmlStringLocalizer
         /// </summary>
-        public XmlStringLocalizer(Type xmlResType, IOptions<ExpressLocalizationOptions> options, IStringTranslator stringTranslator)
+        public XmlStringLocalizer(Type xmlResType, 
+                                  IOptions<ExpressLocalizationOptions> options, 
+                                  IStringTranslator stringTranslator)
             : this(xmlResType.Name, options.Value.ResourcesPath, options, stringTranslator)
         {
         }
@@ -51,13 +55,14 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="location"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
-        public XmlStringLocalizer(string xmlBaseName, string location, IOptions<ExpressLocalizationOptions> options, IStringTranslator stringTranslator)
+        public XmlStringLocalizer(string xmlBaseName, 
+                                  string location, 
+                                  IOptions<ExpressLocalizationOptions> options, 
+                                  IStringTranslator stringTranslator)
         {
             _options = options.Value;
-
             _baseName = xmlBaseName;
             _location = location;
-
             _stringTranslator = stringTranslator;
         }
 

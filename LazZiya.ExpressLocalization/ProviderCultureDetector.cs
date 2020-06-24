@@ -12,7 +12,6 @@ namespace LazZiya.ExpressLocalization
     /// </summary>
     public class ProviderCultureDetector
     {
-
         /// <summary>
         /// Detect the culture for the current request according to the available cultures and their availability in the registered culture providers, 
         /// if no culture is detected it will return default culture.

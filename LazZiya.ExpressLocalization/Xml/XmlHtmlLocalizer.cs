@@ -1,4 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Translate;
+﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -22,7 +23,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="options"></param>
         /// <param name="htmlTranslator"></param>
         /// <param name="stringTranslator"></param>
-        public XmlHtmlLocalizer(IOptions<ExpressLocalizationOptions> options, IHtmlTranslator htmlTranslator, IStringTranslator stringTranslator)
+        public XmlHtmlLocalizer(IOptions<ExpressLocalizationOptions> options, 
+                                IHtmlTranslator htmlTranslator, 
+                                IStringTranslator stringTranslator)
             : base(typeof(TResource), options, htmlTranslator, stringTranslator)
         {
         }
@@ -42,7 +45,10 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <summary>
         /// Initialize new instance of XmlStringLocalizer
         /// </summary>
-        public XmlHtmlLocalizer(Type type, IOptions<ExpressLocalizationOptions> options, IHtmlTranslator htmlTranslator, IStringTranslator stringTranslator)
+        public XmlHtmlLocalizer(Type type, 
+                                IOptions<ExpressLocalizationOptions> options, 
+                                IHtmlTranslator htmlTranslator, 
+                                IStringTranslator stringTranslator)
             : this(type.Name, options.Value.ResourcesPath, options, htmlTranslator, stringTranslator)
         {
         }
@@ -55,13 +61,15 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="options"></param>
         /// <param name="htmlTranslator"></param>
         /// <param name="stringTranslator"></param>
-        public XmlHtmlLocalizer(string baseName, string location, IOptions<ExpressLocalizationOptions> options, IHtmlTranslator htmlTranslator, IStringTranslator stringTranslator)
+        public XmlHtmlLocalizer(string baseName, 
+                                string location, 
+                                IOptions<ExpressLocalizationOptions> options, 
+                                IHtmlTranslator htmlTranslator, 
+                                IStringTranslator stringTranslator)
         {
             _options = options.Value;
-
             _baseName = baseName;
             _location = location;
-
             _htmlTranslator = htmlTranslator;
             _stringTranslator = stringTranslator;
         }        

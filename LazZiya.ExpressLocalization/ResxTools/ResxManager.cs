@@ -13,25 +13,38 @@ namespace LazZiya.ExpressLocalization.ResxTools
     public class ResxManager
     {
         private readonly XDocument _xd;
-        
+
         /// <summary>
         /// Initialize new instance of resource manager
         /// </summary>
-        /// <param name="TResxFileType">Type of the resource file</param>
-        /// <param name="resxFolderUri">Localization resources folder path</param>
+        /// <param name="resxType">Type of the resource file</param>
+        /// <param name="location">Localization resources folder path</param>
         /// <param name="culture"></param>
-        public ResxManager(Type TResxFileType, string resxFolderUri ="", string culture = "", string fileExt = "resx")
-        {
+        /// <param name="ext"></param>
+        public ResxManager(Type resxType, string location = "", string culture = "", string ext="resx")
+            : this(resxType.Name, location, culture, ext)
+        { 
+        }
+
+        /// <summary>
+        /// Initialize a new instance of ResxManager
+        /// </summary>
+        /// <param name="baseName"></param>
+        /// <param name="location"></param>
+        /// <param name="culture"></param>
+        /// <param name="ext"></param>
+        public ResxManager(string baseName, string location = "", string culture = "", string ext="resx")
+        { 
             TargetResourceFile = string.IsNullOrWhiteSpace(culture)
-                ? Path.Combine(resxFolderUri, $"{TResxFileType.Name}.{fileExt}")
-                : Path.Combine(resxFolderUri, $"{TResxFileType.Name}.{culture}.{fileExt}");
+                ? Path.Combine(location, $"{baseName}.{ext}")
+                : Path.Combine(location, $"{baseName}.{culture}.{ext}");
 
             if (!File.Exists(TargetResourceFile))
             {
                 try
                 {
-                    var dummyFileLoc = typeof(DummyResource).Assembly.Location;
-                    var dummyFile = $"{dummyFileLoc.Substring(0, dummyFileLoc.LastIndexOf('\\'))}\\ResxTools\\{nameof(DummyResource)}.resx";
+                    var dummyFileLoc = typeof(ResxTemplate).Assembly.Location;
+                    var dummyFile = $"{dummyFileLoc.Substring(0, dummyFileLoc.LastIndexOf('\\'))}\\ResxTools\\{nameof(ResxTemplate)}.resx";
                     File.Copy(dummyFile, TargetResourceFile);
                 }
                 catch (Exception e)

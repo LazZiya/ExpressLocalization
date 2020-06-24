@@ -3,7 +3,7 @@
     /// <summary>
     /// Dummy class to create new resource files
     /// </summary>
-    public class DummyResource : IResourceFile
+    public class ResxTemplate : IResourceFile
     {
     }
 }

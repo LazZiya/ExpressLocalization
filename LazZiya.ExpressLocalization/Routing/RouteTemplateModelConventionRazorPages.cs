@@ -5,7 +5,7 @@ namespace LazZiya.ExpressLocalization.Routing
     /// <summary>
     /// Configure global template for page route, so culture parameter will be placed at the beginning of the URL
     /// </summary>
-    public class RouteTemplateModelConvention : IPageRouteModelConvention
+    public class RouteTemplateModelConventionRazorPages : IPageRouteModelConvention
     {
         /// <summary>
         /// automatically invoked
