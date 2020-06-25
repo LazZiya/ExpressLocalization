@@ -102,6 +102,19 @@
             </summary>
             <param name="length"></param>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExpressLocalizationExtensions">
+            <summary>
+            Extesnions for adding DataAnnotation Localization
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExpressLocalizationExtensions.AddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+            </summary>
+            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider`1">
             <summary>
             Registeres express valdiation attributes
@@ -406,6 +419,19 @@
             <param name="culture">Culture name e.g. ar-SY</param>
             <param name="code">key name to look for</param>
             <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Identity.ExpressLocalizationExtensions">
+            <summary>
+            Extesnions for adding Identity errors localization
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Identity.ExpressLocalizationExtensions.AddIdentityErrorsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+            </summary>
+            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
+            <param name="builder"></param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer">
@@ -953,6 +979,19 @@
             </para>
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.ModelBinding.ExpressLocalizationExtensions">
+            <summary>
+            Extesnions for adding DataAnnotation Localization
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ExpressLocalizationExtensions.AddModelBindingLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+            </summary>
+            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer">
             <summary>
             ModelBindingErrors Localizer
@@ -988,11 +1027,6 @@
             <param name="cultures">List of supported cultures</param>
             <param name="defCulture">default culture name</param>
             <returns>ProviderCultureResult</returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.ResxTools.DummyResource">
-            <summary>
-            Dummy class to create new resource files
-            </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.ResxTools.IResourceFile">
             <summary>
@@ -1056,9 +1090,19 @@
             <summary>
             Initialize new instance of resource manager
             </summary>
-            <param name="TResxFileType">Type of the resource file</param>
-            <param name="resxFolderUri">Localization resources folder path</param>
+            <param name="resxType">Type of the resource file</param>
+            <param name="location">Localization resources folder path</param>
             <param name="culture"></param>
+            <param name="ext"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initialize a new instance of ResxManager
+            </summary>
+            <param name="baseName"></param>
+            <param name="location"></param>
+            <param name="culture"></param>
+            <param name="ext"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.ResxTools.ResxManager.TargetResourceFile">
             <summary>
@@ -1101,6 +1145,248 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.ResxTools.ResxTemplate">
+            <summary>
+            Dummy class to create new resource files
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions">
+            <summary>
+            ExpressLocalization extensions for .resx resource files based resources
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions.AddExpressLocalizationResx``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add ExpressLocalization with .resx resource files based resources.
+            </summary>
+            <param name="builder"></param>
+            <typeparam name="TResource">Resource type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions.AddExpressLocalizationResx``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add ExpressLocalization with Xml based resources
+            </summary>
+            <param name="builder"></param>
+            <param name="xOps"></param>
+            <typeparam name="TResource">Resource type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1">
+            <summary>
+            Resource file based HtmlLocalizer
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+            <summary>
+            Initialize new instance of ResxHtmlLocalizer
+            </summary>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+            <param name="htmlTranslator"></param>
+            <param name="stringLocalizerFactory"></param>
+            <param name="htmlLocalizerFactory"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer">
+            <summary>
+            Resource file based HtmlLocalizer
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+            <summary>
+            Initialize new instance of ResxStringLocalizer
+            </summary>
+            <param name="resxType"></param>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+            <param name="htmlTranslator"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+            <summary>
+            Initialize new instance of ResxHtmlLocalizer
+            </summary>
+            <param name="baseName"></param>
+            <param name="location"></param>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+            <param name="htmlTranslator"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.Item(System.String)">
+            <summary>
+            Get LocalizedHtmlString
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.Item(System.String,System.Object[])">
+            <summary>
+            Get LocalizedHtmlString with arguments
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.GetAllStrings(System.Boolean)">
+            <summary>
+            NOT IMPLEMENTED
+            </summary>
+            <param name="includeParentCultures"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.GetString(System.String)">
+            <summary>
+            Get LocalizedString
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.GetString(System.String,System.Object[])">
+            <summary>
+            Get LocalizedString with arguments
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.WithCulture(System.Globalization.CultureInfo)">
+            <summary>
+            NOT IMPLEMENTED, Use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
+            </summary>
+            <param name="culture"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1">
+            <summary>
+            ResxHtmlLocalizerFactory
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+            <summary>
+            Initialize a new instance of ResxHtmlLocalizerFactory
+            </summary>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+            <param name="htmlTranslator"></param>
+            <param name="stringLocalizerFactory"></param>
+            <param name="htmlLocalizerFactory"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.Create">
+            <summary>
+            Create a new instance of IHtmlLocalizer based on the default shared resource
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.Create(System.Type)">
+            <summary>
+            Create a new instance of IHtmlLocalizer based on the given resource type
+            </summary>
+            <param name="resourceSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.Create(System.String,System.String)">
+            <summary>
+            Create a new instance of IHtmlLocalizer based on the given base name and location
+            </summary>
+            <param name="baseName"></param>
+            <param name="location"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1">
+            <summary>
+            Resouece file based StringLocalizer
+            </summary>
+            <typeparam name="TResource"></typeparam>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+            <summary>
+            Initialize a new instance of ResxSteingLocalizer
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer">
+            <summary>
+            String localizer based on .resx resource files 
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+            <summary>
+            Initialize new instance of ResxStringLocalizer
+            </summary>
+            <param name="resxType"></param>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+            <summary>
+            Initialize new instance of ResxStringLocalizer
+            </summary>
+            <param name="baseName"></param>
+            <param name="location"></param>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.Item(System.String)">
+            <summary>
+            Get localized string
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.Item(System.String,System.Object[])">
+            <summary>
+            Get localized string with arguments
+            </summary>
+            <param name="name"></param>
+            <param name="arguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.GetAllStrings(System.Boolean)">
+            <summary>
+            Get all localized strings
+            </summary>
+            <param name="includeParentCultures"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.WithCulture(System.Globalization.CultureInfo)">
+            <summary>
+            NOT IMPLEMENTED, Use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
+            </summary>
+            <param name="culture"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1">
+            <summary>
+            ResxStringLocalizerFactory
+            </summary>
+            <typeparam name="TResource"></typeparam>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+            <summary>
+            Initialize a new instance of ResxStringLocalizerFactory
+            </summary>
+            <param name="options"></param>
+            <param name="stringTranslator"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.Create">
+            <summary>
+            Create new IStringLocalizer with the default shared resource
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.Create(System.Type)">
+            <summary>
+            Create a new IStringLocalizer based on the given resource type
+            </summary>
+            <param name="resourceSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.Create(System.String,System.String)">
+            <summary>
+            Create a new IStringLocalizer based on the specified name and location
+            </summary>
+            <param name="baseName"></param>
+            <param name="location"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.Routing.RouteSegmentRequestCultureProvider">
             <summary>
             Route segment request culture provider
@@ -1119,12 +1405,34 @@
             <param name="httpContext"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConvention">
+        <member name="T:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConventionMvc">
             <summary>
             Configure global template for page route, so culture parameter will be placed at the beginning of the URL
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConvention.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteModel)">
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConventionMvc.#ctor">
+            <summary>
+            Initialize a new instance of RouteTemplateModelConventionMvc to configure a global {culture?} route
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConventionMvc.#ctor(System.String)">
+            <summary>
+            Initialize a new instance of RouteTemplateModelConventionMvc to configure a global {culture?} route
+            </summary>
+            <param name="cultureSegment"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConventionMvc.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.ApplicationModel)">
+            <summary>
+            Add {culture?} route segment
+            </summary>
+            <param name="application"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConventionRazorPages">
+            <summary>
+            Configure global template for page route, so culture parameter will be placed at the beginning of the URL
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Routing.RouteTemplateModelConventionRazorPages.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteModel)">
             <summary>
             automatically invoked
             </summary>
@@ -1135,11 +1443,12 @@
             Access shared localization resources under folder
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer`1.#ctor(Microsoft.AspNetCore.Mvc.Localization.IHtmlLocalizerFactory,LazZiya.TranslationServices.ITranslationServiceFactory,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.SharedCultureLocalizer{`0}})">
+        <member name="M:LazZiya.ExpressLocalization.SharedCultureLocalizer`1.#ctor(Microsoft.AspNetCore.Mvc.Localization.IHtmlLocalizerFactory,Microsoft.Extensions.Logging.ILogger{LazZiya.ExpressLocalization.SharedCultureLocalizer{`0}})">
             <summary>
             Shared culture localizer for razor pages views
             </summary>
-            <param name="provider"></param>
+            <param name="htmlLocalizerFactory"></param>
+            <param name="logger"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.SharedCultureLocalizer`1.Item(System.String)">
             <summary>
@@ -1328,6 +1637,19 @@
             </summary>
             <param name="context"></param>
             <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Translate.ExpressLocalizationExtensions">
+            <summary>
+            Extensions to use translation services with ExpressLocalization
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Translate.ExpressLocalizationExtensions.WithTranslationService``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add ExpressLocalization with Xml based resources.
+            </summary>
+            <param name="builder"></param>
+            <typeparam name="TTransService">ITranslationService</typeparam>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Translate.HtmlTranslator`1">
@@ -1850,12 +2172,12 @@
             <typeparam name="TService"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions">
+        <member name="T:LazZiya.ExpressLocalization.Xml.ExpressLocalizationExtensions">
             <summary>
             ExpressLocalization extensions for Xml based resources
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.ExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Add ExpressLocalization with Xml based resources.
             </summary>
@@ -1863,31 +2185,13 @@
             <typeparam name="TResource">Resource type</typeparam>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.ExpressLocalizationExtensions.AddExpressLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Add ExpressLocalization with Xml based resources
             </summary>
             <param name="builder"></param>
             <param name="xOps"></param>
             <typeparam name="TResource">Resource type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.AddExpressLocalizationXml``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
-            <summary>
-            Add ExpressLocalization with Xml based resources.
-            </summary>
-            <param name="builder"></param>
-            <param name="xOps"></param>
-            <typeparam name="TResource">Resource type</typeparam>
-            <typeparam name="TTransService">ITranslationService</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlExpressLocalizationExtensions.ExAddDataAnnotationsLocalizationXml``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
-            <summary>
-            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
-            </summary>
-            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
-            <param name="builder"></param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1">
@@ -1963,7 +2267,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            NOT IMPLEMENTED! use <see cref="!:CultureSwitcher"/> instead.
+            NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
@@ -2081,7 +2385,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
-            NOT IMPLEMENTED! use <see cref="!:CultureSwitcher"/> instead.
+            NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>

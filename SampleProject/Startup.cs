@@ -17,6 +17,8 @@ using LazZiya.ExpressLocalization.Xml;
 using LazZiya.ExpressLocalization.DB;
 using SampleProject.LocalizationResources;
 using LazZiya.ExpressLocalization.Routing;
+using LazZiya.ExpressLocalization.Translate;
+using LazZiya.ExpressLocalization.Resx;
 
 namespace SampleProject
 {
@@ -92,13 +94,13 @@ namespace SampleProject
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
-                .AddExpressLocalizationXml<XmlResource, MyMemoryTranslateService>((x) =>
+                .AddExpressLocalizationXml<XmlResource>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";
                     x.OnlineTranslation = true;
                     x.AutoAddKeys = true;
                     x.ServeUnApprovedTranslations = true;
-                });
+                }).WithTranslationService<MyMemoryTranslateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

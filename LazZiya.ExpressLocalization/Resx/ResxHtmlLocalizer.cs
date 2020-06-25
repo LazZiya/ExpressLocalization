@@ -1,4 +1,6 @@
-﻿using LazZiya.ExpressLocalization.Translate;
+﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.ExpressLocalization.ResxTools;
+using LazZiya.ExpressLocalization.Translate;
 using LazZiya.ExpressLocalization.Xml;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
@@ -25,12 +27,9 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="htmlLocalizerFactory"></param>
         public ResxHtmlLocalizer(IOptions<ExpressLocalizationOptions> options, 
                                  IStringTranslator stringTranslator, 
-                                 IHtmlTranslator htmlTranslator, 
-                                 IStringLocalizerFactory stringLocalizerFactory, 
-                                 IHtmlLocalizerFactory htmlLocalizerFactory)
-            : base(typeof(TResource), options, stringTranslator, htmlTranslator, stringLocalizerFactory, htmlLocalizerFactory)
+                                 IHtmlTranslator htmlTranslator)
+            : base(typeof(TResource), options, stringTranslator, htmlTranslator)
         {
-
         }
     }
 
@@ -40,8 +39,6 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxHtmlLocalizer : IHtmlLocalizer
     {
         private readonly ExpressLocalizationOptions _options;
-        private readonly IStringLocalizer _stringLocalizer;
-        private readonly IHtmlLocalizer _htmlLocalizer;
         private readonly IStringTranslator _stringTranslator;
         private readonly IHtmlTranslator _htmlTranslator;
         private readonly string _baseName;
@@ -54,15 +51,11 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
         /// <param name="htmlTranslator"></param>
-        /// <param name="stringLocalizerFactory"></param>
-        /// <param name="htmlLocalizerFactory"></param>
         public ResxHtmlLocalizer(Type resxType, 
                                  IOptions<ExpressLocalizationOptions> options, 
                                  IStringTranslator stringTranslator, 
-                                 IHtmlTranslator htmlTranslator, 
-                                 IStringLocalizerFactory stringLocalizerFactory, 
-                                 IHtmlLocalizerFactory htmlLocalizerFactory)
-            : this(resxType.Name, options.Value.ResourcesPath, options, stringTranslator, htmlTranslator, stringLocalizerFactory, htmlLocalizerFactory)
+                                 IHtmlTranslator htmlTranslator)
+            : this(resxType.Name, options.Value.ResourcesPath, options, stringTranslator, htmlTranslator)
         {
         }
 
@@ -74,23 +67,17 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
         /// <param name="htmlTranslator"></param>
-        /// <param name="stringLocalizerFactory"></param>
-        /// <param name="htmlLocalizerFactory"></param>
         public ResxHtmlLocalizer(string baseName, 
                                  string location, 
                                  IOptions<ExpressLocalizationOptions> options, 
                                  IStringTranslator stringTranslator, 
-                                 IHtmlTranslator htmlTranslator, 
-                                 IStringLocalizerFactory stringLocalizerFactory, 
-                                 IHtmlLocalizerFactory htmlLocalizerFactory)
+                                 IHtmlTranslator htmlTranslator)
         {
             _options = options.Value;
             _baseName = baseName;
             _location = location;
             _stringTranslator = stringTranslator;
             _htmlTranslator = htmlTranslator;
-            _stringLocalizer = stringLocalizerFactory.Create(baseName, location);
-            _htmlLocalizer = htmlLocalizerFactory.Create(baseName, location);
         }
 
         /// <summary>
@@ -98,7 +85,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public LocalizedHtmlString this[string name] => throw new NotImplementedException();
+        public LocalizedHtmlString this[string name] => GetLocalizedHtmlString(name);
 
         /// <summary>
         /// Get LocalizedHtmlString with arguments
@@ -106,7 +93,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="name"></param>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public LocalizedHtmlString this[string name, params object[] arguments] => throw new NotImplementedException();
+        public LocalizedHtmlString this[string name, params object[] arguments] => GetLocalizedHtmlString(name, arguments);
 
         /// <summary>
         /// NOT IMPLEMENTED
@@ -125,7 +112,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public LocalizedString GetString(string name)
         {
-            throw new NotImplementedException();
+            return GetLocalizedString(name);
         }
 
         /// <summary>
@@ -136,7 +123,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public LocalizedString GetString(string name, params object[] arguments)
         {
-            throw new NotImplementedException();
+            return GetLocalizedString(name, arguments);
         }
 
         /// <summary>
@@ -151,64 +138,48 @@ namespace LazZiya.ExpressLocalization.Resx
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var locStr = arguments == null ? _stringLocalizer[name] : _stringLocalizer[name, arguments];
+            var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
+            var resElement = resxManager.FindAsync(name).Result;
 
-            if (locStr.ResourceNotFound)
+            LocalizedString locStr;
+
+            if (resElement == null)
             {
-                if (_options.OnlineTranslation)
-                {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _stringTranslator[name];
-                }
-
-                if (_options.AutoAddKeys)
-                {
-                    var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
-                    var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
-
-                    // Add LocaizedString to a temporary xml file 
-                    // temp xml file has the same name and directory
-                    // it only has .xml extension instead of .resx
-                    locStr.WriteTo(_xmlDoc, _path);
-                }
+                locStr = arguments == null
+                    ? new LocalizedString(name, name, true)
+                    : new LocalizedString(name, string.Format(name, arguments), true);
+            }
+            else
+            {
+                locStr = arguments == null
+                    ? new LocalizedString(name, resElement.Element("value").Value, false)
+                    : new LocalizedString(name, string.Format(resElement.Element("value").Value, arguments), false);
             }
 
-            return arguments == null
-                ? locStr
-                : new LocalizedString(name, string.Format(locStr.Value), locStr.ResourceNotFound);
+            return locStr;
         }
         
         private LocalizedHtmlString GetLocalizedHtmlString(string name, params object[] arguments)
         {
-            var locStr = arguments == null ? _htmlLocalizer[name] : _htmlLocalizer[name, arguments];
+            var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
+            var resElement = resxManager.FindAsync(name).Result;
 
-            if (locStr.IsResourceNotFound)
+            LocalizedHtmlString locStr;
+
+            if (resElement == null)
             {
-                if (_options.OnlineTranslation)
-                {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _htmlLocalizer[name];
-                }
-
-                if (_options.AutoAddKeys)
-                {
-                    var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
-                    var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
-
-                    // Add LocaizedString to a temporary xml file 
-                    // temp xml file has the same name and directory
-                    // it only has .xml extension instead of .resx
-                    locStr.WriteTo(_xmlDoc, _path);
-                }
+                locStr = arguments == null
+                    ? new LocalizedHtmlString(name, name, true)
+                    : new LocalizedHtmlString(name, string.Format(name, arguments), true);
+            }
+            else
+            {
+                locStr = arguments == null
+                    ? new LocalizedHtmlString(name, resElement.Element("value").Value, false)
+                    : new LocalizedHtmlString(name, string.Format(resElement.Element("value").Value, arguments), false);
             }
 
-            return arguments == null
-                ? locStr
-                : new LocalizedHtmlString(name, string.Format(locStr.Value), locStr.IsResourceNotFound);
+            return locStr;
         }
     }
 }

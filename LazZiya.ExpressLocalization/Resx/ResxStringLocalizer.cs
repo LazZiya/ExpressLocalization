@@ -1,4 +1,5 @@
 ﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.ExpressLocalization.Translate;
 using LazZiya.ExpressLocalization.Xml;
 using Microsoft.Extensions.Localization;
@@ -21,9 +22,8 @@ namespace LazZiya.ExpressLocalization.Resx
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
         public ResxStringLocalizer(IOptions<ExpressLocalizationOptions> options, 
-                                   IStringTranslator stringTranslator, 
-                                   IStringLocalizerFactory factory)
-            : base(typeof(TResource), options, stringTranslator, factory)
+                                   IStringTranslator stringTranslator)
+            : base(typeof(TResource), options, stringTranslator)
         {
         }
     }
@@ -34,7 +34,6 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxStringLocalizer : IStringLocalizer
     {
         private readonly ExpressLocalizationOptions _options;
-        private readonly IStringLocalizer _localizer;
         private readonly IStringTranslator _stringTranslator;
         private readonly string _baseName;
         private readonly string _location;
@@ -45,12 +44,10 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="resxType"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
-        /// <param name="factory"></param>
         public ResxStringLocalizer(Type resxType, 
                                    IOptions<ExpressLocalizationOptions> options, 
-                                   IStringTranslator stringTranslator, 
-                                   IStringLocalizerFactory factory)
-            :this(resxType.Name, options.Value.ResourcesPath, options, stringTranslator, factory)
+                                   IStringTranslator stringTranslator)
+            :this(resxType.Name, options.Value.ResourcesPath, options, stringTranslator)
         {
         }
 
@@ -61,18 +58,15 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="location"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
-        /// <param name="factory"></param>
         public ResxStringLocalizer(string baseName, 
                                    string location, 
                                    IOptions<ExpressLocalizationOptions> options, 
-                                   IStringTranslator stringTranslator, 
-                                   IStringLocalizerFactory factory)
+                                   IStringTranslator stringTranslator)
         {
             _options = options.Value;
             _baseName = baseName;
             _location = location;
             _stringTranslator = stringTranslator;
-            _localizer = factory.Create(baseName, location);
         }
 
         /// <summary>
@@ -112,33 +106,25 @@ namespace LazZiya.ExpressLocalization.Resx
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var locStr = arguments == null ? _localizer[name] : _localizer[name, arguments];
+            var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
+            var resElement = resxManager.FindAsync(name).Result;
+            
+            LocalizedString locStr;
 
-            if (locStr.ResourceNotFound)
+            if(resElement == null)
             {
-                if (_options.OnlineTranslation)
-                {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _stringTranslator[name];
-                }
-
-                if (_options.AutoAddKeys)
-                {
-                    var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
-                    var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
-
-                    // Add LocaizedString to a temporary xml file 
-                    // temp xml file has the same name and directory
-                    // it only has .xml extension instead of .resx
-                    locStr.WriteTo(_xmlDoc, _path);  
-                }
+                locStr = arguments == null
+                    ? new LocalizedString(name, name, true)
+                    : new LocalizedString(name, string.Format(name, arguments), true);
+            }
+            else
+            {
+                locStr = arguments == null
+                    ? new LocalizedString(name, resElement.Element("value").Value, false)
+                    : new LocalizedString(name, string.Format(resElement.Element("value").Value, arguments), false);
             }
 
-            return arguments == null
-                ? locStr
-                : new LocalizedString(name, string.Format(locStr.Value), locStr.ResourceNotFound);
+            return locStr;
         }
     }
 }

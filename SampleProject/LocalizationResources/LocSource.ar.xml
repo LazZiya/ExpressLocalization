@@ -43,28 +43,33 @@
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
-    <key>First number</key>
-    <value>العدد الأول</value>
+    <key>Welcome to Planet Earth!</key>
+    <value>مرحباً بك في كوكب الأرض</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
-    <key>Second number</key>
-    <value>العدد في الدورة الثانية</value>
+    <key>Hello</key>
+    <value>اهلاً بيك</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
-    <key>Multiply</key>
-    <value>ضرب</value>
+    <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
+    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
-    <key>The value '{0}' is not valid for {1}.</key>
-    <value>القيمة &amp;quot;{0}&amp;quot; غير صالحة لـ {1}.</value>
+    <key>Welcome to Planet Earth!</key>
+    <value>مرحباً بك في كوكب الأرض</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
-    <key>The value '{0}' is invalid.</key>
-    <value>القيمة غير صالحة.</value>
+    <key>Hello</key>
+    <value>اهلاً بيك</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
+    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
     <comment>AUTO</comment>
   </data>
 </root>

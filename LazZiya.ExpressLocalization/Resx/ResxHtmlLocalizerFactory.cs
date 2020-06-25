@@ -16,8 +16,6 @@ namespace LazZiya.ExpressLocalization.Resx
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IStringTranslator _stringTranslator;
         private readonly IHtmlTranslator _htmlTranslator;
-        private readonly IStringLocalizerFactory _stringLocalizerFactory;
-        private readonly IHtmlLocalizerFactory _htmlLocalizerFactory;
 
         /// <summary>
         /// Initialize a new instance of ResxHtmlLocalizerFactory
@@ -29,15 +27,11 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="htmlLocalizerFactory"></param>
         public ResxHtmlLocalizerFactory(IOptions<ExpressLocalizationOptions> options,
                                         IStringTranslator stringTranslator,
-                                        IHtmlTranslator htmlTranslator,
-                                        IStringLocalizerFactory stringLocalizerFactory,
-                                        IHtmlLocalizerFactory htmlLocalizerFactory)
+                                        IHtmlTranslator htmlTranslator)
         {
             _options = options;
             _stringTranslator = stringTranslator;
             _htmlTranslator = htmlTranslator;
-            _stringLocalizerFactory = stringLocalizerFactory;
-            _htmlLocalizerFactory = htmlLocalizerFactory;
         }
 
         /// <summary>
@@ -46,7 +40,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new ResxHtmlLocalizer<TResource>(_options, _stringTranslator, _htmlTranslator, _stringLocalizerFactory, _htmlLocalizerFactory);
+            return new ResxHtmlLocalizer<TResource>(_options, _stringTranslator, _htmlTranslator);
         }
 
         /// <summary>
@@ -56,7 +50,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            return new ResxHtmlLocalizer(resourceSource, _options, _stringTranslator, _htmlTranslator, _stringLocalizerFactory, _htmlLocalizerFactory);
+            return new ResxHtmlLocalizer(resourceSource, _options, _stringTranslator, _htmlTranslator);
         }
 
         /// <summary>
@@ -67,7 +61,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(string baseName, string location)
         {
-            return new ResxHtmlLocalizer(baseName, location, _options, _stringTranslator, _htmlTranslator, _stringLocalizerFactory, _htmlLocalizerFactory);
+            return new ResxHtmlLocalizer(baseName, location, _options, _stringTranslator, _htmlTranslator);
         }
     }
 }

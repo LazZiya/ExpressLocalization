@@ -14,7 +14,7 @@ namespace LazZiya.ExpressLocalization.Xml
                                         new XElement("value", str.Value),
                                         new XElement("comment", "AUTO"));
         }
-        
+
         internal static XElement ToXElement(this LocalizedString str, bool isActive = false)
         {
             return new XElement("data", new XAttribute("isActive", isActive),
@@ -27,8 +27,11 @@ namespace LazZiya.ExpressLocalization.Xml
         {
             try
             {
-                xDocument.Root.Add(str.ToXElement());
-                xDocument.Save(path);
+                lock (xDocument)
+                {
+                    xDocument.Root.Add(str.ToXElement());
+                    xDocument.Save(path);
+                }
             }
             catch (Exception e)
             {
@@ -37,13 +40,16 @@ namespace LazZiya.ExpressLocalization.Xml
 
             return true;
         }
-        
+
         internal static bool WriteTo(this LocalizedString str, XDocument xDocument, string path)
         {
             try
             {
-                xDocument.Root.Add(str.ToXElement());
-                xDocument.Save(path);
+                lock (xDocument)
+                {
+                    xDocument.Root.Add(str.ToXElement());
+                    xDocument.Save(path);
+                }
             }
             catch (Exception e)
             {

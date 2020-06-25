@@ -110,15 +110,11 @@ namespace LazZiya.ExpressLocalization.Xml
 
             var elmnt = _xmlDoc.Root.Descendants("data").FirstOrDefault(x => x.Element("key").Value.Equals(name, StringComparison.OrdinalIgnoreCase));
 
-            var locStr = new LocalizedString(name, string.Format(name, arguments), true);
+            var locStr = elmnt == null
+                ? new LocalizedString(name, name, true)
+                : new LocalizedString(name, elmnt.Element("value").Value, false);
 
-            if (elmnt != null)
-            {
-                var value = string.Format(elmnt.Element("value").Value, arguments);
-
-                locStr = new LocalizedString(name, value, true);
-            }
-            else
+            if(locStr.ResourceNotFound)
             {
                 if (_options.OnlineTranslation)
                 {
@@ -137,7 +133,7 @@ namespace LazZiya.ExpressLocalization.Xml
                 }
             }
 
-            // rebind the format to value
+            // rebind the arguments to value string
             return arguments == null
                 ? locStr
                 : new LocalizedString(name, string.Format(locStr.Value, arguments), locStr.ResourceNotFound);

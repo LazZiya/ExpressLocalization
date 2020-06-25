@@ -43,6 +43,16 @@
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
+    <key>Privacy Policy</key>
+    <value>Gizlilik Politikası</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Use this page to detail your site's privacy policy.</key>
+    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
     <key>Log in</key>
     <value>Oturum aç</value>
     <comment>AUTO</comment>
@@ -69,7 +79,7 @@
   </data>
   <data isActive="false">
     <key>Password</key>
-    <value>Parola</value>
+    <value>Şifre</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
@@ -104,7 +114,7 @@
   </data>
   <data isActive="false">
     <key>Register</key>
-    <value>Kayıt ol</value>
+    <value>Kayıt Ol</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
@@ -124,57 +134,12 @@
   </data>
   <data isActive="false">
     <key>'{0}' and '{1}' do not match.</key>
-    <value>'{0}' ve '{1}' eşleşmiyor.</value>
+    <value>&amp;#39;{0}&amp;#39; ve &amp;#39;{1}&amp;#39; eşleşmiyor.</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
     <key>Use another service to register.</key>
     <value>Kaydolmak için başka bir hizmet kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>First number</key>
-    <value>İlk Sayı</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Second number</key>
-    <value>İkinci sayı</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Multiply</key>
-    <value>Çoğalt</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The value '{0}' is not valid for {1}.</key>
-    <value>'{0}' değeri {1} için geçerli değil.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Passwords must have at least one non alphanumeric character.</key>
-    <value>Parolaların en az bir alfasayısal olmayan karakteri olmalıdır.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Passwords must have at least one digit ('0'-'9').</key>
-    <value>Parolalar en az bir basamak içermelidir ('0' - '9').</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Passwords must have at least one uppercase ('A'-'Z').</key>
-    <value>Parolaların en az bir büyük harfi olmalıdır ('A' - 'Z').</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Privacy Policy</key>
-    <value>Gizlilik Politikası</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Use this page to detail your site's privacy policy.</key>
-    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
     <comment>AUTO</comment>
   </data>
 </root>
