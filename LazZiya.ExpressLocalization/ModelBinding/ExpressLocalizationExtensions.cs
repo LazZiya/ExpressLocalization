@@ -11,11 +11,9 @@ namespace LazZiya.ExpressLocalization.ModelBinding
         /// <summary>
         /// Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
         /// </summary>
-        /// <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddModelBindingLocalization<TResource>(this IMvcBuilder builder)
-            where TResource : class
+        public static IMvcBuilder AddModelBindingLocalization(this IMvcBuilder builder)
         {
             // Add ModelBinding errors localization
             builder.AddMvcOptions(ops =>

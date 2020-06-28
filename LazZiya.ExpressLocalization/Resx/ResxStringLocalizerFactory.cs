@@ -10,7 +10,7 @@ namespace LazZiya.ExpressLocalization.Resx
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
     public class ResxStringLocalizerFactory<TResource> : IStringExpressLocalizerFactory
-        where TResource : class
+        where TResource : IXLResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
 

@@ -1,9 +1,11 @@
-﻿namespace LazZiya.ExpressLocalization.ResxTools
+﻿using LazZiya.ExpressLocalization.Common;
+
+namespace LazZiya.ExpressLocalization.ResxTools
 {
     /// <summary>
     /// Dummy class to create new resource files
     /// </summary>
-    public class ResxTemplate : IResourceFile
+    public class ResxTemplate : IXLResource
     {
     }
 }

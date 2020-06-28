@@ -95,7 +95,7 @@ namespace SampleProject
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
-                .AddExpressLocalizationResx<LocSource>((x) =>
+                .AddExpressLocalizationDB<ApplicationDbContext>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";
                     x.OnlineTranslation = true;

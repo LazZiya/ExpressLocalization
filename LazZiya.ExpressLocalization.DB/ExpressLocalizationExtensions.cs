@@ -1,26 +1,23 @@
 ﻿using LazZiya.ExpressLocalization.DataAnnotations;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DB.Models;
-using Microsoft.Extensions.Options;
-using LazZiya.TranslationServices;
 using LazZiya.EFGenericDataManager;
 using System.Linq;
-using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.ExpressLocalization.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using LazZiya.ExpressLocalization.ModelBinding;
 
 namespace LazZiya.ExpressLocalization.DB
 {
     /// <summary>
     /// ExpressLocalization DB extensions
     /// </summary>
-    public static class XLDbExtensions
+    public static class ExpressLocalizationExtensions
     {
         /// <summary>
         /// Add ExpressLocalization with database support using the built-in entity models
@@ -39,10 +36,10 @@ namespace LazZiya.ExpressLocalization.DB
         /// Add ExpressLocalization support using the built-in entity models
         /// </summary>
         /// <typeparam name="TContext">Application db context</typeparam>
-        /// <param name="builder">builder</param>
-        /// <param name="options">XLDbOptions</param>
+        /// <param name="builder"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext>(this IMvcBuilder builder, Action<XLDbOptions> options)
+        public static IMvcBuilder AddExpressLocalizationDB<TContext>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
             where TContext : DbContext
         {
             return builder
@@ -78,19 +75,17 @@ namespace LazZiya.ExpressLocalization.DB
         /// <param name="options">XLDbOptions</param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(this IMvcBuilder builder, Action<XLDbOptions> options)
+        public static IMvcBuilder AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
             where TContext : DbContext
             where TResourceEntity : class, IXLResource
             where TTranslationEntity : class, IXLTranslation
             where TCultureEntity : class, IXLCulture
         {
-            builder.Services.AddScoped<IEFGenericDataManager, EFGenericDataManager<TContext>>();
-            builder.Services.AddScoped<ISharedCultureLocalizer, XLDbLocalizer<TResourceEntity,TTranslationEntity, TCultureEntity>>();
-            builder.Services.AddScoped<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
+            builder.Services.TryAddScoped<IEFGenericDataManager, EFGenericDataManager<TContext>>();
+            builder.Services.TryAddScoped<ISharedCultureLocalizer, XLDbLocalizer<TResourceEntity,TTranslationEntity, TCultureEntity>>();
+            builder.Services.TryAddScoped<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
 
-            var xlDbOps = new XLDbOptions();
-            options.Invoke(xlDbOps);
-            builder.Services.Configure<XLDbOptions>(options);            
+            builder.Services.Configure<ExpressLocalizationOptions>(options);            
 
             var sp = builder.Services.BuildServiceProvider();
             var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();
@@ -104,16 +99,9 @@ namespace LazZiya.ExpressLocalization.DB
                 ops.DefaultRequestCulture = new RequestCulture(culturesService.DefaultCulture ?? "en");
             });
             
-            // Configure identity errors localization
-            builder.Services.AddTransient<IdentityErrorDescriber, IdentityErrorsLocalizer>();
-            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<DatabaseType>>();
-
-            // Configure model binding errors localization
-            builder.AddMvcOptions(ops =>
-            {
-                //ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(dbLocalizer);
-            });
-
+            // Configure express validiation attributes
+            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider>();
+            
             // Configure data annotations errors localization
             builder.AddDataAnnotationsLocalization(ops =>
             {
@@ -121,7 +109,8 @@ namespace LazZiya.ExpressLocalization.DB
             });
 
             // Configure route culture provide
-            return builder.ExAddRouteValueRequestCultureProvider(culturesService.ActiveCultures.ToList(), culturesService.DefaultCulture, true); ;
+            return builder.AddModelBindingLocalization()
+                          .AddIdentityErrorsLocalization();
         }
     }
 }

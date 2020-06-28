@@ -14,7 +14,7 @@ namespace LazZiya.ExpressLocalization.Resx
     /// Resource file based HtmlLocalizer
     /// </summary>
     public class ResxHtmlLocalizer<TResource> : ResxHtmlLocalizer
-        where TResource : class
+        where TResource : IXLResource
     {
         /// <summary>
         /// Initialize new instance of ResxHtmlLocalizer

@@ -4,6 +4,51 @@
         <name>LazZiya.ExpressLocalization.DB</name>
     </assembly>
     <members>
+        <member name="T:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions">
+            <summary>
+            ExpressLocalization DB extensions
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDB``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add ExpressLocalization with database support using the built-in entity models
+            </summary>
+            <typeparam name="TContext">Application db context</typeparam>
+            <param name="builder">builder</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDB``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add ExpressLocalization support using the built-in entity models
+            </summary>
+            <typeparam name="TContext">Application db context</typeparam>
+            <param name="builder"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add ExpressLocalization with DB support using customized entity models
+            </summary>
+            <typeparam name="TContext">DbContext</typeparam>
+            <typeparam name="TResourceEntity">Type of resource DbEntity</typeparam>
+            <typeparam name="TTranslationEntity">Type of translation entityy</typeparam>
+            <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add ExpressLocalization with DB support using customized entity models
+            </summary>
+            <typeparam name="TContext">DbContext</typeparam>
+            <typeparam name="TResourceEntity">Type of localization DbEntity</typeparam>
+            <typeparam name="TTranslationEntity">Type of translation entity</typeparam>
+            <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
+            <param name="options">XLDbOptions</param>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.IXLCulture">
             <summary>
             Interface for Express Localization culture
@@ -197,51 +242,6 @@
             Enable, disable translation.
             Use for marking auto-translations before approval as false
             </summary>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.DB.XLDbExtensions">
-            <summary>
-            ExpressLocalization DB extensions
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
-            <summary>
-            Add ExpressLocalization with database support using the built-in entity models
-            </summary>
-            <typeparam name="TContext">Application db context</typeparam>
-            <param name="builder">builder</param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
-            <summary>
-            Add ExpressLocalization support using the built-in entity models
-            </summary>
-            <typeparam name="TContext">Application db context</typeparam>
-            <param name="builder">builder</param>
-            <param name="options">XLDbOptions</param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
-            <summary>
-            Add ExpressLocalization with DB support using customized entity models
-            </summary>
-            <typeparam name="TContext">DbContext</typeparam>
-            <typeparam name="TResourceEntity">Type of resource DbEntity</typeparam>
-            <typeparam name="TTranslationEntity">Type of translation entityy</typeparam>
-            <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
-            <param name="builder"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.XLDbExtensions.AddExpressLocalizationDB``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.DB.Models.XLDbOptions})">
-            <summary>
-            Add ExpressLocalization with DB support using customized entity models
-            </summary>
-            <typeparam name="TContext">DbContext</typeparam>
-            <typeparam name="TResourceEntity">Type of localization DbEntity</typeparam>
-            <typeparam name="TTranslationEntity">Type of translation entity</typeparam>
-            <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
-            <param name="options">XLDbOptions</param>
-            <param name="builder"></param>
-            <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.XLDbLocalizer`3">
             <summary>

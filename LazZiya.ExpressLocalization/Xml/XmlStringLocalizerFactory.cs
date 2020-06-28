@@ -10,7 +10,7 @@ namespace LazZiya.ExpressLocalization.Xml
     /// XmlStringLocalizerFactory
     /// </summary>
     public class XmlStringLocalizerFactory<TResource> : IStringExpressLocalizerFactory
-        where TResource : class
+        where TResource : IXLResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IStringTranslator _stringTranslator;

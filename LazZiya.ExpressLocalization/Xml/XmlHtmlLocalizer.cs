@@ -15,7 +15,7 @@ namespace LazZiya.ExpressLocalization.Xml
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
     public class XmlHtmlLocalizer<TResource> : XmlHtmlLocalizer, IHtmlLocalizer<TResource>
-        where TResource : class
+        where TResource : IXLResource
     {
         /// <summary>
         /// Initialize a new instance of XmlHtmlLocalizer with the specified resource type

@@ -1,8 +1,8 @@
-﻿using LazZiya.ExpressLocalization.ResxTools;
+﻿using LazZiya.ExpressLocalization.Common;
 
 namespace SampleProject.LocalizationResources
 {
-    public class LocSource : IResourceFile
+    public class LocSource : IXLResource
     {
     }
 }

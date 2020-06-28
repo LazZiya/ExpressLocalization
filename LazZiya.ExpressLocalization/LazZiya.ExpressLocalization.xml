@@ -51,18 +51,22 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.Common.IXLResource">
+            <summary>
+            Common interface for managing ExpressLocalization resource types
+            </summary>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.Common.TextTrimmer">
             <summary>
             Trim all whitespaces in a string (start, end and between)
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute,Microsoft.Extensions.Localization.IStringLocalizer,System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
             <summary>
             
             </summary>
             <param name="attribute"></param>
             <param name="stringLocalizer"></param>
-            <param name="supportResx">Support for old behaviour. This is temporary and to be removed in a feature release.</param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute">
             <summary>
@@ -109,22 +113,21 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExpressLocalizationExtensions.AddDataAnnotationsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
-            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+            Add DataAnnotations localization with specified resource type.
             </summary>
             <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider`1">
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider">
             <summary>
             Registeres express valdiation attributes
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider`1.#ctor(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExpressValidationAttributeAdapterProvider.#ctor">
             <summary>
             
             </summary>
-            <param name="supportResX">provide support for old behaviour (temporary)</param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute">
             <summary>
@@ -421,11 +424,10 @@
             Extesnions for adding Identity errors localization
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Identity.ExpressLocalizationExtensions.AddIdentityErrorsLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:LazZiya.ExpressLocalization.Identity.ExpressLocalizationExtensions.AddIdentityErrorsLocalization(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
             </summary>
-            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
@@ -979,11 +981,10 @@
             Extesnions for adding DataAnnotation Localization
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ExpressLocalizationExtensions.AddModelBindingLocalization``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ExpressLocalizationExtensions.AddModelBindingLocalization(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
             </summary>
-            <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
             <param name="builder"></param>
             <returns></returns>
         </member>
@@ -1022,11 +1023,6 @@
             <param name="cultures">List of supported cultures</param>
             <param name="defCulture">default culture name</param>
             <returns>ProviderCultureResult</returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.ResxTools.IResourceFile">
-            <summary>
-            Interface to implement resx files type
-            </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.ResxTools.ResxElement">
             <summary>

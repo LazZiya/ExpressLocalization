@@ -170,8 +170,7 @@ namespace LazZiya.ExpressLocalization
             });
 
             if (useExpressValidationAttributes)
-                builder.Services.AddSingleton<IValidationAttributeAdapterProvider, 
-                    ExpressValidationAttributeAdapterProvider<TDataAnnotationsLocalizationResource>>((x) => new ExpressValidationAttributeAdapterProvider<TDataAnnotationsLocalizationResource>(true));
+                builder.Services.AddSingleton<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider>();
 
             return builder;
         }

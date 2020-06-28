@@ -22,7 +22,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <typeparam name="TResource">Resource type</typeparam>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder)
-            where TResource : class
+            where TResource : IXLResource
         {
             builder.Services.TryAddTransient<IStringLocalizer, XmlStringLocalizer<TResource>>();
             builder.Services.TryAddTransient(typeof(IStringLocalizer<>), typeof(XmlStringLocalizer<>));
@@ -35,8 +35,8 @@ namespace LazZiya.ExpressLocalization.Xml
             builder.Services.TryAddSingleton<IHtmlExpressLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
 
             return builder.AddDataAnnotationsLocalization<TResource>()
-                          .AddModelBindingLocalization<TResource>()
-                          .AddIdentityErrorsLocalization<TResource>();
+                          .AddModelBindingLocalization()
+                          .AddIdentityErrorsLocalization();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <typeparam name="TResource">Resource type</typeparam>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
-            where TResource : class
+            where TResource : IXLResource
         {
             builder.Services.Configure<ExpressLocalizationOptions>(xOps);
 

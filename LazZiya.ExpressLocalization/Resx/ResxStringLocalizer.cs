@@ -14,7 +14,7 @@ namespace LazZiya.ExpressLocalization.Resx
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
     public class ResxStringLocalizer<TResource> : ResxStringLocalizer
-        where TResource : class
+        where TResource : IXLResource
     {
 
         /// <summary>

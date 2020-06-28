@@ -3,21 +3,17 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Globalization;
 
 namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
 {
-    internal class ExRegularExpressionAttributeAdapter<T> : AttributeAdapterBase<ExRegularExpressionAttribute>
-        where T : class
+    internal class ExRegularExpressionAttributeAdapter : AttributeAdapterBase<ExRegularExpressionAttribute>
     {
         private readonly string RegexPattern;
         private readonly IStringLocalizer Localizer;
-        private readonly bool _spoortResx;
-        public ExRegularExpressionAttributeAdapter(ExRegularExpressionAttribute attribute, IStringLocalizer stringLocalizer, bool supportResx) : base(attribute, stringLocalizer)
+        public ExRegularExpressionAttributeAdapter(ExRegularExpressionAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
             RegexPattern = attribute.Pattern;
             Localizer = stringLocalizer;
-            _spoortResx = supportResx;
         }
 
         public override void AddValidation(ClientModelValidationContext context)
@@ -44,10 +40,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            var msg = _spoortResx
-                ? GenericResourceReader.GetString(typeof(T), CultureInfo.CurrentCulture.Name,
-                    DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName())
-                : Localizer[DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName()].Value;
+            var msg = Localizer[DataAnnotationsErrorMessages.RequiredAttribute_ValidationError, validationContext.ModelMetadata.GetDisplayName()].Value;
 
             return msg;
         }

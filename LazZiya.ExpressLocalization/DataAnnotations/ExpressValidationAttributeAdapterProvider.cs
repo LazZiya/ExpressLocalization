@@ -13,18 +13,13 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
     /// <summary>
     /// Registeres express valdiation attributes
     /// </summary>
-    public class ExpressValidationAttributeAdapterProvider<T> : ValidationAttributeAdapterProvider, IValidationAttributeAdapterProvider
-        where T : class
+    public class ExpressValidationAttributeAdapterProvider : ValidationAttributeAdapterProvider, IValidationAttributeAdapterProvider
     {
-        private readonly bool _supportResX;
-        
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="supportResX">provide support for old behaviour (temporary)</param>
-        public ExpressValidationAttributeAdapterProvider(bool supportResX)
+        public ExpressValidationAttributeAdapterProvider()
         {
-            _supportResX = supportResX;
         }
 
         IAttributeAdapter IValidationAttributeAdapterProvider.GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
@@ -64,13 +59,13 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
                 return new ExMinLengthAttributeAdapter((ExMinLengthAttribute)attribute, stringLocalizer);
             
             if (type == typeof(ExCompareAttribute))
-                return new ExCompareAttributeAdapter<T>((ExCompareAttribute)attribute, stringLocalizer, _supportResX);
+                return new ExCompareAttributeAdapter((ExCompareAttribute)attribute, stringLocalizer);
             
             if (type == typeof(ExRangeAttribute))
-                return new ExRangeAttributeAdapter<T>((ExRangeAttribute)attribute, stringLocalizer, _supportResX);
+                return new ExRangeAttributeAdapter((ExRangeAttribute)attribute, stringLocalizer);
 
             if (type == typeof(ExRegularExpressionAttribute))
-                return new ExRegularExpressionAttributeAdapter<T>((ExRegularExpressionAttribute)attribute, stringLocalizer, _supportResX);
+                return new ExRegularExpressionAttributeAdapter((ExRegularExpressionAttribute)attribute, stringLocalizer);
                 
             if (type == typeof(ExStringLengthAttribute))
                 return new ExStringLengthAttributeAdapter((ExStringLengthAttribute)attribute, stringLocalizer);

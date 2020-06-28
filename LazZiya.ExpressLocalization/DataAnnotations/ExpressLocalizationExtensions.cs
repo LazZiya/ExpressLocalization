@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.DataAnnotations;
+﻿using LazZiya.ExpressLocalization.Common;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LazZiya.ExpressLocalization.DataAnnotations
@@ -7,22 +8,18 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
     /// Extesnions for adding DataAnnotation Localization
     /// </summary>
     public static class ExpressLocalizationExtensions
-    {
+    {        
         /// <summary>
-        /// Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+        /// Add DataAnnotations localization with specified resource type.
         /// </summary>
         /// <typeparam name="TResource">Type of DataAnnotations localization resource</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
         public static IMvcBuilder AddDataAnnotationsLocalization<TResource>(this IMvcBuilder builder)
-            where TResource : class
+            where TResource : IXLResource
         {
             // Add ExpressValdiationAttributes to provide error messages by default without using ErrorMessage="..."
-            // After removing support for old behaviour use below implementation
-            // builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<T>>();
-
-            // This is a temporary solution to provide support for the old behaviour with resx files
-            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider<TResource>>((x) => new ExpressValidationAttributeAdapterProvider<TResource>(false));
+            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider>();
 
             // Add data annotations locailzation
             builder.AddDataAnnotationsLocalization(ops =>
