@@ -1,5 +1,4 @@
 ﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System;
@@ -14,18 +13,14 @@ namespace LazZiya.ExpressLocalization.Resx
         where TResource : class
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
-        private readonly IStringTranslator _stringTranslator;
 
         /// <summary>
         /// Initialize a new instance of ResxStringLocalizerFactory
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="stringTranslator"></param>
-        public ResxStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options,
-                                          IStringTranslator stringTranslator)
+        public ResxStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options)
         {
             _options = options;
-            _stringTranslator = stringTranslator;
         }
 
         /// <summary>
@@ -34,7 +29,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new ResxStringLocalizer<TResource>(_options, _stringTranslator);
+            return new ResxStringLocalizer<TResource>(_options);
         }
 
         /// <summary>
@@ -44,7 +39,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            return new ResxStringLocalizer(resourceSource, _options, _stringTranslator);
+            return new ResxStringLocalizer(resourceSource, _options.Value.ResourcesPath);
         }
 
         /// <summary>
@@ -55,7 +50,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return new ResxStringLocalizer(baseName, location, _options, _stringTranslator);
+            return new ResxStringLocalizer(baseName, location);
         }
     }
 }

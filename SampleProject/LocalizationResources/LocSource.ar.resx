@@ -117,99 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Hello" xml:space="preserve">
-    <value>Merhaba</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Anasayfa</value>
-  </data>
-  <data name="Learn about &lt;a href=&quot;{0}&quot;&gt;building Web apps with ASP.NET Core&lt;/a&gt;." xml:space="preserve">
-    <value>Asp.Net Core ile &lt;a href="{0}"&gt;web uygulamaları geliştirme&lt;/a&gt; hakkında bilgi edin.</value>
-  </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Hoşgeldin</value>
+    <value>أهلا بالحبيب</value>
   </data>
   <data name="Welcome to Planet Earth!" xml:space="preserve">
-    <value>Dünya gezegenine hoşgeldin!</value>
-  </data>
-  <data name="Use another service to register." xml:space="preserve">
-    <value>Kaydolmak için başka bir hizmet kullanın.</value>
+    <value>مرحباً بك في كوكب الأرض</value>
     <comment>AUTO</comment>
   </data>
-  <data name="Log in" xml:space="preserve">
-    <value>Giriş</value>
+  <data name="Hello" xml:space="preserve">
+    <value>اهلاً بيك</value>
     <comment>AUTO</comment>
   </data>
-  <data name="Use a local account to log in." xml:space="preserve">
-    <value>Giriş yapmak için yerel bir hesap kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>E-posta</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="The {0} field is required." xml:space="preserve">
-    <value>Alan zorunludur.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="The {0} field is not a valid e-mail address." xml:space="preserve">
-    <value>{0} alanı geçerli bir e-posta adresi değil.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Şifre</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Remember me?" xml:space="preserve">
-    <value>Beni Hatırla ?</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Forgot your password?" xml:space="preserve">
-    <value>Parolanızı mı unuttunuz?</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Register as a new user" xml:space="preserve">
-    <value>Yeni kullanıcı olarak kayıt ol</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Resend email confirmation" xml:space="preserve">
-    <value>E-posta onayını tekrar gönder</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Use another service to log in." xml:space="preserve">
-    <value>Giriş yapmak için başka bir hizmet kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="There are no external authentication services configured. See &lt;a href=&quot;{0}&quot;&gt;this article&lt;/a&gt; for details on setting up this ASP.NET application to support logging in via external services." xml:space="preserve">
-    <value>Yapılandırılmış harici kimlik doğrulama hizmetleri yok. Bu ASP.NET uygulamasını harici hizmetler yoluyla oturum açmayı destekleyecek şekilde ayarlama hakkında ayrıntılar için &lt;a href="{0}"&gt;bu makaleye&lt;/a&gt; bakın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Kayıt Ol</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Create a new account." xml:space="preserve">
-    <value>Yeni bir hesap oluştur</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="The field {0} must be a string with a maximum length of {1}." xml:space="preserve">
-    <value>{0} alanı, maksimum uzunluğu {1} olan bir dize olmalıdır.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Confirm password" xml:space="preserve">
-    <value>Şifreyi Onayla</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Privacy Policy" xml:space="preserve">
-    <value>Gizlilik Politikası</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Use this page to detail your site's privacy policy." xml:space="preserve">
-    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="'{0}' and '{1}' do not match." xml:space="preserve">
-    <value>&amp;#39;{0}&amp;#39; ve &amp;#39;{1}&amp;#39; eşleşmiyor.</value>
+  <data name="Learn about &lt;a href=&quot;{0}&quot;&gt;building Web apps with ASP.NET Core&lt;/a&gt;." xml:space="preserve">
+    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
     <comment>AUTO</comment>
   </data>
 </root>

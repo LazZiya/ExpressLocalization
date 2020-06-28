@@ -386,11 +386,6 @@
             default: false
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.TranslationService">
-            <summary>
-            Type of the translation service to use for OnlineLocalization
-            </summary>
-        </member>
         <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ServeUnApprovedTranslations">
             <summary>
             Serve auto online translations. False by default
@@ -1094,6 +1089,7 @@
             <param name="location">Localization resources folder path</param>
             <param name="culture"></param>
             <param name="ext"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
@@ -1103,6 +1099,7 @@
             <param name="location"></param>
             <param name="culture"></param>
             <param name="ext"></param>
+            <param name="logger"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.ResxTools.ResxManager.TargetResourceFile">
             <summary>
@@ -1117,7 +1114,7 @@
             <param name="overWriteExistingKeys"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.AddRangeAsync(System.Collections.Generic.ICollection{LazZiya.ExpressLocalization.ResxTools.ResxElement},System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.AddRangeAsync(System.Collections.Generic.IEnumerable{LazZiya.ExpressLocalization.ResxTools.ResxElement},System.Boolean)">
             <summary>
             Add array of elements to the resource file
             </summary>
@@ -1138,6 +1135,20 @@
             </summary>
             <param name="key"></param>
             <returns>XElement</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.Find(System.String)">
+            <summary>
+            Find resource by its key value
+            </summary>
+            <param name="key"></param>
+            <returns>XElement</returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.ToResxAsync(System.Boolean)">
+            <summary>
+            Add all elements in xml to resx file. CAUTION: THIS COMMAND WILL RECYCLE THE APPPOOL! 
+            </summary>
+            <param name="onlyApproved"></param>
+            <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.SaveAsync">
             <summary>
@@ -1177,39 +1188,30 @@
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Initialize new instance of ResxHtmlLocalizer
             </summary>
             <param name="options"></param>
-            <param name="stringTranslator"></param>
-            <param name="htmlTranslator"></param>
-            <param name="stringLocalizerFactory"></param>
-            <param name="htmlLocalizerFactory"></param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer">
             <summary>
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(System.Type,System.String)">
             <summary>
             Initialize new instance of ResxStringLocalizer
             </summary>
             <param name="resxType"></param>
-            <param name="options"></param>
-            <param name="stringTranslator"></param>
-            <param name="htmlTranslator"></param>
+            <param name="location"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(System.String,System.String)">
             <summary>
             Initialize new instance of ResxHtmlLocalizer
             </summary>
             <param name="baseName"></param>
             <param name="location"></param>
-            <param name="options"></param>
-            <param name="stringTranslator"></param>
-            <param name="htmlTranslator"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.Item(System.String)">
             <summary>
@@ -1260,15 +1262,11 @@
             ResxHtmlLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Initialize a new instance of ResxHtmlLocalizerFactory
             </summary>
             <param name="options"></param>
-            <param name="stringTranslator"></param>
-            <param name="htmlTranslator"></param>
-            <param name="stringLocalizerFactory"></param>
-            <param name="htmlLocalizerFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.Create">
             <summary>
@@ -1297,7 +1295,7 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Initialize a new instance of ResxSteingLocalizer
             </summary>
@@ -1307,22 +1305,20 @@
             String localizer based on .resx resource files 
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.Type,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.Type,System.String)">
             <summary>
             Initialize new instance of ResxStringLocalizer
             </summary>
             <param name="resxType"></param>
-            <param name="options"></param>
-            <param name="stringTranslator"></param>
+            <param name="location"></param>
+            <param name="logger"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.String,System.String)">
             <summary>
             Initialize new instance of ResxStringLocalizer
             </summary>
             <param name="baseName"></param>
             <param name="location"></param>
-            <param name="options"></param>
-            <param name="stringTranslator"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.Item(System.String)">
             <summary>
@@ -1359,12 +1355,11 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Initialize a new instance of ResxStringLocalizerFactory
             </summary>
             <param name="options"></param>
-            <param name="stringTranslator"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.Create">
             <summary>

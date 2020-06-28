@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,9 +22,10 @@ namespace LazZiya.ExpressLocalization.ResxTools
         /// <param name="location">Localization resources folder path</param>
         /// <param name="culture"></param>
         /// <param name="ext"></param>
-        public ResxManager(Type resxType, string location = "", string culture = "", string ext="resx")
+        /// <param name="logger"></param>
+        public ResxManager(Type resxType, string location = "", string culture = "", string ext = "resx")
             : this(resxType.Name, location, culture, ext)
-        { 
+        {
         }
 
         /// <summary>
@@ -33,27 +35,15 @@ namespace LazZiya.ExpressLocalization.ResxTools
         /// <param name="location"></param>
         /// <param name="culture"></param>
         /// <param name="ext"></param>
-        public ResxManager(string baseName, string location = "", string culture = "", string ext="resx")
-        { 
+        /// <param name="logger"></param>
+        public ResxManager(string baseName, string location = "", string culture = "", string ext = "resx")
+        {
             TargetResourceFile = string.IsNullOrWhiteSpace(culture)
                 ? Path.Combine(location, $"{baseName}.{ext}")
                 : Path.Combine(location, $"{baseName}.{culture}.{ext}");
 
-            if (!File.Exists(TargetResourceFile))
-            {
-                try
-                {
-                    var dummyFileLoc = typeof(ResxTemplate).Assembly.Location;
-                    var dummyFile = $"{dummyFileLoc.Substring(0, dummyFileLoc.LastIndexOf('\\'))}\\ResxTools\\{nameof(ResxTemplate)}.resx";
-                    File.Copy(dummyFile, TargetResourceFile);
-                }
-                catch (Exception e)
-                {
-                    throw new FileLoadException($"Can't load or create resource file. {e.Message}");
-                }
-            }
-
-            _xd = XDocument.Load(TargetResourceFile);
+            if (File.Exists(TargetResourceFile))
+                _xd = XDocument.Load(TargetResourceFile);
         }
 
         /// <summary>
@@ -81,15 +71,13 @@ namespace LazZiya.ExpressLocalization.ResxTools
                 }
                 catch (Exception e)
                 {
-                    tsk.SetResult(false);
+                    throw e;
                 }
-                return await tsk.Task;
             }
 
             if (elmnt != null && overWriteExistingKeys == false)
             {
                 tsk.SetResult(false);
-                return await tsk.Task;
             }
 
             if (elmnt != null && overWriteExistingKeys == true)
@@ -101,13 +89,10 @@ namespace LazZiya.ExpressLocalization.ResxTools
                 }
                 catch (Exception e)
                 {
-                    tsk.SetResult(false);
+                    throw e;
                 }
-                return await tsk.Task;
             }
 
-            // if we get here something went wront
-            tsk.SetResult(false);
             return await tsk.Task;
         }
 
@@ -117,13 +102,17 @@ namespace LazZiya.ExpressLocalization.ResxTools
         /// <param name="elements"></param>
         /// <param name="overWriteExistingKeys"></param>
         /// <returns></returns>
-        public async Task<int> AddRangeAsync(ICollection<ResxElement> elements, bool overWriteExistingKeys = false)
+        public async Task<int> AddRangeAsync(IEnumerable<ResxElement> elements, bool overWriteExistingKeys = false)
         {
             var total = 0;
 
             foreach (var e in elements.Distinct())
-                if (await AddAsync(e, overWriteExistingKeys))
+            {
+                var success = await AddAsync(e, overWriteExistingKeys);
+                
+                if (success)
                     total++;
+            }
 
             return total;
         }
@@ -178,6 +167,73 @@ namespace LazZiya.ExpressLocalization.ResxTools
             });
 
             return await tsk.Task;
+        }
+
+        /// <summary>
+        /// Find resource by its key value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>XElement</returns>
+        public XElement Find(string key)
+        {
+            var elmnt = _xd?.Root.Elements("data").FirstOrDefault(x => x.Attribute("name").Value.Equals(key, StringComparison.OrdinalIgnoreCase));
+
+            return elmnt;
+        }
+
+        /// <summary>
+        /// Add all elements in xml to resx file. CAUTION: THIS COMMAND WILL RECYCLE THE APPPOOL! 
+        /// </summary>
+        /// <param name="onlyApproved"></param>
+        /// <returns></returns>
+        public async Task<int> ToResxAsync(bool onlyApproved = false)
+        {
+            var sourceXmlFile = TargetResourceFile.Replace(".resx", ".xml");
+
+            if (!File.Exists(TargetResourceFile))
+            {
+                try
+                {
+                    var dummyFileLoc = typeof(ResxTemplate).Assembly.Location;
+                    var dummyFile = $"{dummyFileLoc.Substring(0, dummyFileLoc.LastIndexOf('\\'))}\\ResxTools\\{nameof(ResxTemplate)}.resx";
+                    File.Copy(dummyFile, TargetResourceFile);
+                }
+                catch (Exception e)
+                {
+                    throw new FileLoadException($"Can't load or create resource file. {e.Message}");
+                }
+            }
+
+            var xmlRes = XDocument.Load(sourceXmlFile);
+
+            var elements = onlyApproved
+                ? xmlRes.Root.Descendants("data")
+                             .Where(x => x.Attribute("isActive").Value == "true")
+                             .Select(x => new ResxElement
+                             {
+                                 Key = x.Element("key")?.Value,
+                                 Value = x.Element("value")?.Value,
+                                 Comment = x.Element("comment")?.Value
+                             })
+                : xmlRes.Root.Descendants("data")
+                             .Select(x => new ResxElement
+                             {
+                                 Key = x.Element("key")?.Value,
+                                 Value = x.Element("value")?.Value,
+                                 Comment = x.Element("comment")?.Value
+                             });
+
+            var totalAdded = await AddRangeAsync(elements);
+
+            if (totalAdded > 0)
+            {
+                var success = await SaveAsync();
+
+                if (!success)
+                    totalAdded = 0;
+            }
+
+            return totalAdded;
         }
 
         /// <summary>

@@ -1,8 +1,7 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.ResxTools;
-using LazZiya.ExpressLocalization.Translate;
-using LazZiya.ExpressLocalization.Xml;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -21,9 +20,8 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <summary>
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        public ResxStringLocalizer(IOptions<ExpressLocalizationOptions> options, 
-                                   IStringTranslator stringTranslator)
-            : base(typeof(TResource), options, stringTranslator)
+        public ResxStringLocalizer(IOptions<ExpressLocalizationOptions> options)
+            : base(typeof(TResource), options.Value.ResourcesPath)
         {
         }
     }
@@ -33,8 +31,6 @@ namespace LazZiya.ExpressLocalization.Resx
     /// </summary>
     public class ResxStringLocalizer : IStringLocalizer
     {
-        private readonly ExpressLocalizationOptions _options;
-        private readonly IStringTranslator _stringTranslator;
         private readonly string _baseName;
         private readonly string _location;
         
@@ -42,12 +38,10 @@ namespace LazZiya.ExpressLocalization.Resx
         /// Initialize new instance of ResxStringLocalizer
         /// </summary>
         /// <param name="resxType"></param>
-        /// <param name="options"></param>
-        /// <param name="stringTranslator"></param>
-        public ResxStringLocalizer(Type resxType, 
-                                   IOptions<ExpressLocalizationOptions> options, 
-                                   IStringTranslator stringTranslator)
-            :this(resxType.Name, options.Value.ResourcesPath, options, stringTranslator)
+        /// <param name="location"></param>
+        /// <param name="logger"></param>
+        public ResxStringLocalizer(Type resxType, string location)
+            :this(resxType.Name, location)
         {
         }
 
@@ -56,17 +50,10 @@ namespace LazZiya.ExpressLocalization.Resx
         /// </summary>
         /// <param name="baseName"></param>
         /// <param name="location"></param>
-        /// <param name="options"></param>
-        /// <param name="stringTranslator"></param>
-        public ResxStringLocalizer(string baseName, 
-                                   string location, 
-                                   IOptions<ExpressLocalizationOptions> options, 
-                                   IStringTranslator stringTranslator)
+        public ResxStringLocalizer(string baseName, string location)
         {
-            _options = options.Value;
             _baseName = baseName;
             _location = location;
-            _stringTranslator = stringTranslator;
         }
 
         /// <summary>
@@ -107,7 +94,7 @@ namespace LazZiya.ExpressLocalization.Resx
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
             var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
-            var resElement = resxManager.FindAsync(name).Result;
+            var resElement = resxManager.Find(name);
             
             LocalizedString locStr;
 

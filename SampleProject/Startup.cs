@@ -77,6 +77,7 @@ namespace SampleProject
                 });
             
             */
+            
             var cultures = new CultureInfo[]
             {
                 new CultureInfo("en"),
@@ -94,7 +95,7 @@ namespace SampleProject
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
-                .AddExpressLocalizationXml<XmlResource>((x) =>
+                .AddExpressLocalizationResx<LocSource>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";
                     x.OnlineTranslation = true;

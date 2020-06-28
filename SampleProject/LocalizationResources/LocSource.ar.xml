@@ -72,4 +72,9 @@
     <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
     <comment>AUTO</comment>
   </data>
+  <data isActive="false">
+    <key>Welcome</key>
+    <value>مرحبا</value>
+    <comment>AUTO</comment>
+  </data>
 </root>

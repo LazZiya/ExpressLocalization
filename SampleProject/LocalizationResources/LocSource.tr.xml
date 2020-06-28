@@ -27,12 +27,12 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <data isActive="false">
+  <data isActive="true">
     <key>Welcome to Planet Earth!</key>
     <value>Dünya Gezegeni&amp;#39;ne hoş geldiniz!</value>
     <comment>AUTO</comment>
   </data>
-  <data isActive="false">
+  <data isActive="true">
     <key>Hello</key>
     <value>Merhaba</value>
     <comment>AUTO</comment>
@@ -43,18 +43,8 @@
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
-    <key>Privacy Policy</key>
-    <value>Gizlilik Politikası</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Use this page to detail your site's privacy policy.</key>
-    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
     <key>Log in</key>
-    <value>Oturum aç</value>
+    <value>Giriş</value>
     <comment>AUTO</comment>
   </data>
   <data isActive="false">
@@ -137,9 +127,19 @@
     <value>&amp;#39;{0}&amp;#39; ve &amp;#39;{1}&amp;#39; eşleşmiyor.</value>
     <comment>AUTO</comment>
   </data>
-  <data isActive="false">
+  <data isActive="true">
     <key>Use another service to register.</key>
     <value>Kaydolmak için başka bir hizmet kullanın.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Privacy Policy</key>
+    <value>Gizlilik Politikası</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Use this page to detail your site's privacy policy.</key>
+    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
     <comment>AUTO</comment>
   </data>
 </root>

@@ -76,11 +76,6 @@ namespace LazZiya.ExpressLocalization
         public bool OnlineTranslation { get; set; } = false;
 
         /// <summary>
-        /// Type of the translation service to use for OnlineLocalization
-        /// </summary>
-        public Type TranslationService { get; set; }
-        
-        /// <summary>
         /// Serve auto online translations. False by default
         /// </summary>
         public bool ServeUnApprovedTranslations { get; set; } = false;

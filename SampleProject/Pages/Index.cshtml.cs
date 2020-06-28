@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.TagHelpers.Alerts;
@@ -29,20 +30,14 @@ namespace SampleProject.Pages
 
         public void OnGet()
         {
-            TempData.Success(_loc["Welcome to Planet Earth!"].Value);
         }
 
-        public async void OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var xdo = XDocument.Load(@".\LocalizationResources\DummyResource.tr.xml");
             var resxMan = new ResxManager(typeof(LocSource), "LocalizationResources", CultureInfo.CurrentCulture.Name);
-            var elements = xdo.Root.Elements("data").Select(x => new ResxElement { Key = x.Attribute("name").Value, Value = x.Element("value").Value, Comment = x.Element("comment").Value }).ToList();
-            var added = await resxMan.AddRangeAsync(elements);
-            if (added > 0)
-            {
-                var success = await resxMan.SaveAsync();
-                _logger.LogInformation("Transfer complete status : " + added + " - " + success);
-            }
+            var done = await resxMan.ToResxAsync(false);
+            TempData.Info($"Total transferred items: {done}");
+            return Page();
         }
 
         /// <summary>
