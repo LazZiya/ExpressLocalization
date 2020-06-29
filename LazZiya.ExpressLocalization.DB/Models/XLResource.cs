@@ -5,7 +5,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
     /// <summary>
     /// ExpressLocalization default entity model
     /// </summary>
-    public class XLResource : IXLResource
+    public class XLResource : IXLDbResource
     {
         /// <summary>
         /// ID
@@ -25,6 +25,6 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// <summary>
         /// Collection of translations
         /// </summary>
-        public ICollection<IXLTranslation> Translations { get; set; }
+        public ICollection<IXLDbTranslation> Translations { get; set; }
     }
 }

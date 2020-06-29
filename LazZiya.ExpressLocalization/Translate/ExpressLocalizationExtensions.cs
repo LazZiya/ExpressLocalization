@@ -1,6 +1,5 @@
 ﻿using LazZiya.TranslationServices;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
@@ -18,12 +17,12 @@ namespace LazZiya.ExpressLocalization.Translate
         public static IMvcBuilder WithTranslationService<TTransService>(this IMvcBuilder builder)
             where TTransService : ITranslationService
         {
-            builder.Services.TryAddTransient<IStringTranslator, StringTranslator<TTransService>>();
-            builder.Services.TryAddTransient<IHtmlTranslator, HtmlTranslator<TTransService>>();
-            builder.Services.TryAddSingleton<IHtmlTranslatorFactory, HtmlTranslatorFactory>();
-            builder.Services.TryAddSingleton<IStringTranslatorFactory, StringTranslatorFactory>();
+            builder.Services.AddSingleton<IStringTranslator, StringTranslator<TTransService>>();
+            builder.Services.AddSingleton<IHtmlTranslator, HtmlTranslator<TTransService>>();
+            builder.Services.AddSingleton<IHtmlTranslatorFactory, HtmlTranslatorFactory>();
+            builder.Services.AddSingleton<IStringTranslatorFactory, StringTranslatorFactory>();
 
-            builder.Services.TryAddSingleton<ITranslationServiceFactory, TranslationServiceFactory<TTransService>>();
+            builder.Services.AddSingleton<ITranslationServiceFactory, TranslationServiceFactory<TTransService>>();
 
             return builder;
         }

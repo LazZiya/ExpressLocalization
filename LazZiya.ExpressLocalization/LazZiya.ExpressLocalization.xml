@@ -1307,7 +1307,6 @@
             </summary>
             <param name="resxType"></param>
             <param name="location"></param>
-            <param name="logger"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.String,System.String)">
             <summary>

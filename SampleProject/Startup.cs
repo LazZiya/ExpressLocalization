@@ -35,7 +35,7 @@ namespace SampleProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient, ServiceLifetime.Transient);
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -95,7 +95,7 @@ namespace SampleProject
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
-                .AddExpressLocalizationDB<ApplicationDbContext>((x) =>
+                .AddExpressLocalizationDb<ApplicationDbContext>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";
                     x.OnlineTranslation = true;

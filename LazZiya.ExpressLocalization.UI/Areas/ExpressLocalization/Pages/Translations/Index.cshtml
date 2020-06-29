@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Translations";
 }
-@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer
+@inject Microsoft.Extensions.Localization.IStringLocalizer _localizer;
 
 <div class="container">
     <h2 localize-content="true">Translations</h2>

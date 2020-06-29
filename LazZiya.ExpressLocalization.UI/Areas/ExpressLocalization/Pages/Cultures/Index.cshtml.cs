@@ -24,8 +24,8 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
         private readonly IEFGenericDataManager _dataManager;
         private readonly IApplicationLifetime _applicationLifetime;
         private readonly ILogger _logger;
-        private readonly XLDbOptions _options;
-        public IndexModel(IEFGenericDataManager manager, IApplicationLifetime lifetime, IOptions<XLDbOptions> options, ILogger<IndexModel> logger)
+        private readonly ExpressLocalizationOptions _options;
+        public IndexModel(IEFGenericDataManager manager, IApplicationLifetime lifetime, IOptions<ExpressLocalizationOptions> options, ILogger<IndexModel> logger)
         {
             _dataManager = manager;
             _applicationLifetime = lifetime;
@@ -246,7 +246,7 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
         /// <param name="approvedOnly">export all or only approved items</param>
         /// <param name="overwrite">overwrite existing items</param>
         /// <returns></returns>
-        public async Task<IActionResult> OnPostGenerateResxFile(string id, bool approvedOnly, bool overwrite)
+        /*public async Task<IActionResult> OnPostGenerateResxFile(string id, bool approvedOnly, bool overwrite)
         {
             var searchExp = new List<Expression<Func<XLTranslation, bool>>> { };
             searchExp.Add(x => x.CultureID == id);
@@ -276,8 +276,8 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
                 TempData.Danger("Error while creating resource file!");
 
             return RedirectToPage("Index");
-        }
-
+        }*/
+        /*
         private async Task<int?> Export(int p, int s, string cultureId, bool overwrite,
             List<Expression<Func<XLTranslation, bool>>> searchExp,
             List<OrderByExpression<XLTranslation>> orderByExp,
@@ -312,6 +312,6 @@ namespace LazZiya.ExpressLocalization.UI.Areas.ExpressLocalization.Pages.Culture
             _logger.LogInformation($"Resource file '{resxManager.TargetResourceFile}' - Gross Total New items {GrossTotalNewItems} - Save process {saved}.");
 
             return GrossTotalNewItems;
-        }
+        }*/
     }
 }

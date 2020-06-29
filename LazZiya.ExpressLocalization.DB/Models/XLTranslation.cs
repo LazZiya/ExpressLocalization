@@ -5,7 +5,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
     /// <summary>
     /// Express Localization translation
     /// </summary>
-    public class XLTranslation : IXLTranslation
+    public class XLTranslation : IXLDbTranslation
     {
         /// <summary>
         /// ID
@@ -37,7 +37,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// <summary>
         /// Express Localization Resource
         /// </summary>
-        public IXLResource Resource { get; set; }
+        public IXLDbResource Resource { get; set; }
 
         /// <summary>
         /// Enable, disable translation.

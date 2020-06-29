@@ -17,6 +17,6 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// <summary>
         /// Collection of translations
         /// </summary>
-        ICollection<IXLTranslation> Translations { get; set; }
+        ICollection<IXLDbTranslation> Translations { get; set; }
     }
 }

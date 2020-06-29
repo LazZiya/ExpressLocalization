@@ -1,16 +1,16 @@
 ﻿using LazZiya.ExpressLocalization.DataAnnotations;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using LazZiya.ExpressLocalization.DB.Models;
 using LazZiya.EFGenericDataManager;
-using System.Linq;
 using LazZiya.ExpressLocalization.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using LazZiya.ExpressLocalization.ModelBinding;
+using Microsoft.Extensions.Localization;
+using LazZiya.ExpressLocalization.Common;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace LazZiya.ExpressLocalization.DB
 {
@@ -25,11 +25,11 @@ namespace LazZiya.ExpressLocalization.DB
         /// <typeparam name="TContext">Application db context</typeparam>
         /// <param name="builder">builder</param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext>(this IMvcBuilder builder)
+        public static IMvcBuilder AddExpressLocalizationDb<TContext>(this IMvcBuilder builder)
             where TContext : DbContext
         {
             return builder
-                .AddExpressLocalizationDB<TContext, XLResource, XLTranslation, XLCulture>();
+                .AddExpressLocalizationDb<TContext, XLResource, XLTranslation, XLCulture>();
         }
 
         /// <summary>
@@ -39,78 +39,87 @@ namespace LazZiya.ExpressLocalization.DB
         /// <param name="builder"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
+        public static IMvcBuilder AddExpressLocalizationDb<TContext>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
             where TContext : DbContext
         {
             return builder
-                .AddExpressLocalizationDB<TContext, XLResource, XLTranslation, XLCulture>(options);
+                .AddExpressLocalizationDb<TContext, XLResource, XLTranslation, XLCulture>(options);
         }
 
         /// <summary>
         /// Add ExpressLocalization with DB support using customized entity models
         /// </summary>
         /// <typeparam name="TContext">DbContext</typeparam>
-        /// <typeparam name="TResourceEntity">Type of resource DbEntity</typeparam>
-        /// <typeparam name="TTranslationEntity">Type of translation entityy</typeparam>
-        /// <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
+        /// <typeparam name="TResource">Type of resource DbEntity</typeparam>
+        /// <typeparam name="TTranslation">Type of translation entityy</typeparam>
+        /// <typeparam name="TCulture">Type of culture DbEntity</typeparam>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(this IMvcBuilder builder)
+        public static IMvcBuilder AddExpressLocalizationDb<TContext, TResource, TTranslation, TCulture>(this IMvcBuilder builder)
             where TContext : DbContext
-            where TResourceEntity : class, IXLResource
-            where TTranslationEntity : class, IXLTranslation
-            where TCultureEntity : class, IXLCulture
+            where TResource : class, IXLDbResource
+            where TTranslation : class, IXLDbTranslation
+            where TCulture : class, IXLCulture
         {
             return builder
-                .AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>();
+                .AddExpressLocalizationDb<TContext, TResource, TTranslation, TCulture>();
         }
 
         /// <summary>
         /// Add ExpressLocalization with DB support using customized entity models
         /// </summary>
         /// <typeparam name="TContext">DbContext</typeparam>
-        /// <typeparam name="TResourceEntity">Type of localization DbEntity</typeparam>
-        /// <typeparam name="TTranslationEntity">Type of translation entity</typeparam>
-        /// <typeparam name="TCultureEntity">Type of culture DbEntity</typeparam>
+        /// <typeparam name="TResource">Type of localization DbEntity</typeparam>
+        /// <typeparam name="TTranslation">Type of translation entity</typeparam>
+        /// <typeparam name="TCulture">Type of culture DbEntity</typeparam>
         /// <param name="options">XLDbOptions</param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddExpressLocalizationDB<TContext, TResourceEntity, TTranslationEntity, TCultureEntity>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
+        public static IMvcBuilder AddExpressLocalizationDb<TContext, TResource, TTranslation, TCulture>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> options)
             where TContext : DbContext
-            where TResourceEntity : class, IXLResource
-            where TTranslationEntity : class, IXLTranslation
-            where TCultureEntity : class, IXLCulture
+            where TResource : class, IXLDbResource
+            where TTranslation : class, IXLDbTranslation
+            where TCulture : class, IXLCulture
         {
-            builder.Services.TryAddScoped<IEFGenericDataManager, EFGenericDataManager<TContext>>();
-            builder.Services.TryAddScoped<ISharedCultureLocalizer, XLDbLocalizer<TResourceEntity,TTranslationEntity, TCultureEntity>>();
-            builder.Services.TryAddScoped<ICulturesProvider<TCultureEntity>, XLDbLocalizer<TResourceEntity, TTranslationEntity, TCultureEntity>>();
+            builder.Services.Configure<ExpressLocalizationOptions>(options);
 
-            builder.Services.Configure<ExpressLocalizationOptions>(options);            
+            builder.Services.AddSingleton<IEFGenericDataManager, EFGenericDataManager<TContext>>();
 
-            var sp = builder.Services.BuildServiceProvider();
-            var culturesService = sp.GetService<ICulturesProvider<TCultureEntity>>();
-            var dbLocalizer = sp.GetService<ISharedCultureLocalizer>();
-
-            // Configure Request Localization
-            builder.Services.Configure<RequestLocalizationOptions>(ops =>
-            {
-                ops.SupportedCultures = culturesService.ActiveCultures.ToList();
-                ops.SupportedUICultures = culturesService.ActiveCultures.ToList();
-                ops.DefaultRequestCulture = new RequestCulture(culturesService.DefaultCulture ?? "en");
-            });
+            builder.Services.AddSingleton<IStringLocalizer, DbStringLocalizer<TResource, TTranslation>>();
+            //builder.Services.TryAddTransient(typeof(IStringLocalizer<>), typeof(DbStringLocalizer<,>));
+            builder.Services.AddSingleton<IStringLocalizerFactory, DbStringLocalizerFactory<TResource, TTranslation>>();
+            builder.Services.AddSingleton<IStringExpressLocalizerFactory, DbStringLocalizerFactory<TResource, TTranslation>>();
             
-            // Configure express validiation attributes
-            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider>();
+            builder.Services.AddSingleton<IHtmlLocalizer, DbHtmlLocalizer<TResource, TTranslation>>();
+            //builder.Services.TryAddTransient(typeof(IHtmlLocalizer<>), typeof(DbHtmlLocalizer<,>));
+            builder.Services.AddSingleton<IHtmlLocalizerFactory, DbHtmlLocalizerFactory<TResource, TTranslation>>();
+            builder.Services.AddSingleton<IHtmlExpressLocalizerFactory, DbHtmlLocalizerFactory<TResource, TTranslation>>();
             
-            // Configure data annotations errors localization
-            builder.AddDataAnnotationsLocalization(ops =>
-            {
-                ops.DataAnnotationLocalizerProvider = (t, f) => dbLocalizer;
-            });
 
             // Configure route culture provide
-            return builder.AddModelBindingLocalization()
+            return builder.AddDbDataAnnotationsLocalization()
+                          .AddModelBindingLocalization()
                           .AddIdentityErrorsLocalization();
+        }
+
+        /// <summary>
+        /// Add DataAnnotations localization with specified resource type.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddDbDataAnnotationsLocalization(this IMvcBuilder builder)
+        {
+            // Add ExpressValdiationAttributes to provide error messages by default without using ErrorMessage="..."
+            builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider>();
+
+            // Add data annotations locailzation
+            builder.AddDataAnnotationsLocalization(ops =>
+            {
+                // This will look for localization resource with type of T (shared resource)
+                ops.DataAnnotationLocalizerProvider = (type, factory) => factory.Create("", "");
+            });
+
+            return builder;
         }
     }
 }

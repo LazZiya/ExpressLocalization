@@ -45,7 +45,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <summary>
         /// Initialize new instance of XmlStringLocalizer
         /// </summary>
-        public XmlHtmlLocalizer(Type type, 
+        public XmlHtmlLocalizer(Type type,
                                 IOptions<ExpressLocalizationOptions> options, 
                                 IHtmlTranslator htmlTranslator, 
                                 IStringTranslator stringTranslator)
@@ -62,7 +62,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="htmlTranslator"></param>
         /// <param name="stringTranslator"></param>
         public XmlHtmlLocalizer(string baseName, 
-                                string location, 
+                                string location,
                                 IOptions<ExpressLocalizationOptions> options, 
                                 IHtmlTranslator htmlTranslator, 
                                 IStringTranslator stringTranslator)

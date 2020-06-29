@@ -24,15 +24,15 @@ namespace LazZiya.ExpressLocalization.Xml
         public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder)
             where TResource : IXLResource
         {
-            builder.Services.TryAddTransient<IStringLocalizer, XmlStringLocalizer<TResource>>();
-            builder.Services.TryAddTransient(typeof(IStringLocalizer<>), typeof(XmlStringLocalizer<>));
-            builder.Services.TryAddSingleton<IStringLocalizerFactory, XmlStringLocalizerFactory<TResource>>();
-            builder.Services.TryAddSingleton<IStringExpressLocalizerFactory, XmlStringLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IStringLocalizer, XmlStringLocalizer<TResource>>();
+            builder.Services.AddSingleton(typeof(IStringLocalizer<>), typeof(XmlStringLocalizer<>));
+            builder.Services.AddSingleton<IStringLocalizerFactory, XmlStringLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IStringExpressLocalizerFactory, XmlStringLocalizerFactory<TResource>>();
 
-            builder.Services.TryAddTransient<IHtmlLocalizer, XmlHtmlLocalizer<TResource>>();
-            builder.Services.TryAddTransient(typeof(IHtmlLocalizer<>), typeof(XmlHtmlLocalizer<>));
-            builder.Services.TryAddSingleton<IHtmlLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
-            builder.Services.TryAddSingleton<IHtmlExpressLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IHtmlLocalizer, XmlHtmlLocalizer<TResource>>();
+            builder.Services.AddSingleton(typeof(IHtmlLocalizer<>), typeof(XmlHtmlLocalizer<>));
+            builder.Services.AddSingleton<IHtmlLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IHtmlExpressLocalizerFactory, XmlHtmlLocalizerFactory<TResource>>();
 
             return builder.AddDataAnnotationsLocalization<TResource>()
                           .AddModelBindingLocalization()

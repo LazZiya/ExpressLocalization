@@ -1,7 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.ResxTools;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -39,7 +38,6 @@ namespace LazZiya.ExpressLocalization.Resx
         /// </summary>
         /// <param name="resxType"></param>
         /// <param name="location"></param>
-        /// <param name="logger"></param>
         public ResxStringLocalizer(Type resxType, string location)
             :this(resxType.Name, location)
         {

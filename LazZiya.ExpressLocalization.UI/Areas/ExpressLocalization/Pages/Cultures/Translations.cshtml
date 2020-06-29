@@ -4,7 +4,7 @@
     ViewBag.Title = "Culture Translations";
     var css = Model.CultureID.Contains("-") ? $"flag-icon flag-icon-{Model.CultureID.Split('-')[1].ToLower()}" : "";
 }
-@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _localizer
+@inject Microsoft.Extensions.Localization.IStringLocalizer _localizer;
 
 <div class="content">
     <h2 localize-content="true">Culture Translations</h2>

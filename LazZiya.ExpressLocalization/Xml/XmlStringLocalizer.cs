@@ -41,7 +41,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <summary>
         /// Initialze new instance of XmlStringLocalizer
         /// </summary>
-        public XmlStringLocalizer(Type xmlResType, 
+        public XmlStringLocalizer(Type xmlResType,
                                   IOptions<ExpressLocalizationOptions> options, 
                                   IStringTranslator stringTranslator)
             : this(xmlResType.Name, options.Value.ResourcesPath, options, stringTranslator)
@@ -56,7 +56,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
         public XmlStringLocalizer(string xmlBaseName, 
-                                  string location, 
+                                  string location,
                                   IOptions<ExpressLocalizationOptions> options, 
                                   IStringTranslator stringTranslator)
         {

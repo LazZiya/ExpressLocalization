@@ -9,8 +9,8 @@ namespace LazZiya.ExpressLocalization.Xml
     /// <summary>
     /// XmlHtmlLocalizerFactory
     /// </summary>
-    public class XmlHtmlLocalizerFactory<T> : IHtmlExpressLocalizerFactory
-        where T : IXLResource
+    public class XmlHtmlLocalizerFactory<TResource> : IHtmlExpressLocalizerFactory
+        where TResource : IXLResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IHtmlTranslator _htmlTranslator;
@@ -37,7 +37,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new XmlHtmlLocalizer(typeof(T), _options, _htmlTranslator, _stringTranslator);
+            return new XmlHtmlLocalizer(typeof(TResource), _options, _htmlTranslator, _stringTranslator);
         }
 
         /// <summary>

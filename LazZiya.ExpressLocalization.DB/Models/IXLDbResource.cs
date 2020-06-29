@@ -6,7 +6,7 @@ namespace LazZiya.ExpressLocalization.DB.Models
     /// <summary>
     /// Interface to implement ExpressLocalization resources
     /// </summary>
-    public interface IXLResource : IHasId<int>
+    public interface IXLDbResource : IHasId<int>
     {
         /// <summary>
         /// The resource key
@@ -21,6 +21,6 @@ namespace LazZiya.ExpressLocalization.DB.Models
         /// <summary>
         /// Collection of translations
         /// </summary>
-        ICollection<IXLTranslation> Translations { get; set; }
+        ICollection<IXLDbTranslation> Translations { get; set; }
     }
 }

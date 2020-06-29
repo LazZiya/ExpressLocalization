@@ -4,7 +4,6 @@ using LazZiya.ExpressLocalization.Identity;
 using LazZiya.ExpressLocalization.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using System;
 
@@ -24,15 +23,15 @@ namespace LazZiya.ExpressLocalization.Resx
         public static IMvcBuilder AddExpressLocalizationResx<TResource>(this IMvcBuilder builder)
             where TResource : IXLResource
         {
-            builder.Services.TryAddTransient<IStringLocalizer, ResxStringLocalizer<TResource>>();
-            builder.Services.TryAddTransient(typeof(IStringLocalizer<>), typeof(ResxStringLocalizer<>));
-            builder.Services.TryAddSingleton<IStringLocalizerFactory, ResxStringLocalizerFactory<TResource>>();
-            builder.Services.TryAddSingleton<IStringExpressLocalizerFactory, ResxStringLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IStringLocalizer, ResxStringLocalizer<TResource>>();
+            builder.Services.AddSingleton(typeof(IStringLocalizer<>), typeof(ResxStringLocalizer<>));
+            builder.Services.AddSingleton<IStringLocalizerFactory, ResxStringLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IStringExpressLocalizerFactory, ResxStringLocalizerFactory<TResource>>();
 
-            builder.Services.TryAddTransient<IHtmlLocalizer, ResxHtmlLocalizer<TResource>>();
-            builder.Services.TryAddTransient(typeof(IHtmlLocalizer<>), typeof(ResxHtmlLocalizer<>));
-            builder.Services.TryAddSingleton<IHtmlLocalizerFactory, ResxHtmlLocalizerFactory<TResource>>();
-            builder.Services.TryAddSingleton<IHtmlExpressLocalizerFactory, ResxHtmlLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IHtmlLocalizer, ResxHtmlLocalizer<TResource>>();
+            builder.Services.AddSingleton(typeof(IHtmlLocalizer<>), typeof(ResxHtmlLocalizer<>));
+            builder.Services.AddSingleton<IHtmlLocalizerFactory, ResxHtmlLocalizerFactory<TResource>>();
+            builder.Services.AddSingleton<IHtmlExpressLocalizerFactory, ResxHtmlLocalizerFactory<TResource>>();
 
             return builder.AddDataAnnotationsLocalization<TResource>()
                           .AddModelBindingLocalization()

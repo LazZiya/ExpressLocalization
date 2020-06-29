@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using LazZiya.ExpressLocalization.ResxTools;
 using LazZiya.TagHelpers.Alerts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using SampleProject.LocalizationResources;
 
 namespace SampleProject.Pages
@@ -18,14 +14,8 @@ namespace SampleProject.Pages
     [ValidateAntiForgeryToken]
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly IHtmlLocalizer _loc;
-
-        public IndexModel(ILogger<IndexModel> logger, IHtmlLocalizer localizer)
+        public IndexModel()
         {
-            _logger = logger;
-
-            _loc = localizer;
         }
 
         public void OnGet()
