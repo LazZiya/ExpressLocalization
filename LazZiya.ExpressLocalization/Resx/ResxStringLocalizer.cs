@@ -1,4 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Cache;
+using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.ResxTools;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -12,15 +13,15 @@ namespace LazZiya.ExpressLocalization.Resx
     /// Resouece file based StringLocalizer
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class ResxStringLocalizer<TResource> : ResxStringLocalizer
+    public class ResxStringLocalizer<TResource> : ResxStringLocalizer, IStringLocalizer<TResource>
         where TResource : IXLResource
     {
 
         /// <summary>
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        public ResxStringLocalizer(IOptions<ExpressLocalizationOptions> options)
-            : base(typeof(TResource), options.Value.ResourcesPath)
+        public ResxStringLocalizer(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options)
+            : base(cache, typeof(TResource), options.Value.ResourcesPath, options)
         {
         }
     }
@@ -32,14 +33,18 @@ namespace LazZiya.ExpressLocalization.Resx
     {
         private readonly string _baseName;
         private readonly string _location;
-        
+        private readonly ExpressLocalizationOptions _options;
+        private readonly ExpressMemoryCache _cache;
+
         /// <summary>
         /// Initialize new instance of ResxStringLocalizer
         /// </summary>
         /// <param name="resxType"></param>
         /// <param name="location"></param>
-        public ResxStringLocalizer(Type resxType, string location)
-            :this(resxType.Name, location)
+        /// <param name="cache"></param>
+        /// <param name="options"></param>
+        public ResxStringLocalizer(ExpressMemoryCache cache, Type resxType, string location, IOptions<ExpressLocalizationOptions> options)
+            : this(cache, resxType.Name, location, options)
         {
         }
 
@@ -48,10 +53,15 @@ namespace LazZiya.ExpressLocalization.Resx
         /// </summary>
         /// <param name="baseName"></param>
         /// <param name="location"></param>
-        public ResxStringLocalizer(string baseName, string location)
+        /// <param name="cache"></param>
+        /// <param name="options"></param>
+        /// <param name="manager"></param>
+        public ResxStringLocalizer(ExpressMemoryCache cache, string baseName, string location, IOptions<ExpressLocalizationOptions> options)
         {
             _baseName = baseName;
             _location = location;
+            _cache = cache;
+            _options = options.Value;
         }
 
         /// <summary>
@@ -91,25 +101,29 @@ namespace LazZiya.ExpressLocalization.Resx
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
-            var resElement = resxManager.Find(name);
-            
-            LocalizedString locStr;
+            var isResourceFound = TryGetValue(name, out string val);
 
-            if(resElement == null)
+            return new LocalizedString(name, string.Format(val ?? name, arguments), resourceNotFound: !isResourceFound);
+        }
+
+        private bool TryGetValue(string name, out string value)
+        {
+            // Look for the localized value in the cache
+            var success = _cache.TryGetValue(name, out value);
+
+            // If not available in cache, look in the resx file
+            if (!success)
             {
-                locStr = arguments == null
-                    ? new LocalizedString(name, name, true)
-                    : new LocalizedString(name, string.Format(name, arguments), true);
-            }
-            else
-            {
-                locStr = arguments == null
-                    ? new LocalizedString(name, resElement.Element("value").Value, false)
-                    : new LocalizedString(name, string.Format(resElement.Element("value").Value, arguments), false);
+                var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
+                success = resxManager.TryGetValue(name, out value);
+
+                // If value is found in the resource file
+                // save it to the cache
+                if (success)
+                    _cache.Set(name, value);
             }
 
-            return locStr;
+            return success;
         }
     }
 }

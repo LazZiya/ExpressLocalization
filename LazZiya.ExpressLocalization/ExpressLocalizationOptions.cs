@@ -70,14 +70,20 @@ namespace LazZiya.ExpressLocalization
         public bool AutoAddKeys { get; set; } = false;
 
         /// <summary>
-        /// If the translation string is not found in the DB, it will be inserted autoamtically to the DB.
+        /// If the translation string is not found, it will be translated via registered translation servies.
         /// default: false
+        /// Requires registering of one translation service at least. see <a href="...">Registering Translation Services for Localization</a>
         /// </summary>
-        public bool OnlineTranslation { get; set; } = false;
+        public bool AutoTranslate { get; set; } = false;
 
         /// <summary>
         /// Serve auto online translations. False by default
         /// </summary>
         public bool ServeUnApprovedTranslations { get; set; } = false;
+
+        /// <summary>
+        /// Prefix for distributed cache key names
+        /// </summary>
+        public string CacheKeyPrefix { get; set; } = "LazZiya_ExpressLocalization";
     }
 }

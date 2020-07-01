@@ -1,4 +1,6 @@
-﻿using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Cache;
+using LazZiya.ExpressLocalization.Common;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,18 +11,21 @@ namespace LazZiya.ExpressLocalization.Resx
     /// ResxStringLocalizerFactory
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class ResxStringLocalizerFactory<TResource> : IStringExpressLocalizerFactory
+    public class ResxStringLocalizerFactory<TResource> : IExpressStringLocalizerFactory
         where TResource : IXLResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
+        private readonly ExpressMemoryCache _cache;
 
         /// <summary>
         /// Initialize a new instance of ResxStringLocalizerFactory
         /// </summary>
         /// <param name="options"></param>
-        public ResxStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options)
+        /// <param name="cache"></param>
+        public ResxStringLocalizerFactory(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options)
         {
             _options = options;
+            _cache = cache;
         }
 
         /// <summary>
@@ -29,7 +34,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new ResxStringLocalizer<TResource>(_options);
+            return new ResxStringLocalizer<TResource>(_cache, _options);
         }
 
         /// <summary>
@@ -39,7 +44,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            return new ResxStringLocalizer(resourceSource, _options.Value.ResourcesPath);
+            return new ResxStringLocalizer(_cache, resourceSource, _options.Value.ResourcesPath, _options);
         }
 
         /// <summary>
@@ -50,7 +55,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return new ResxStringLocalizer(baseName, location);
+            return new ResxStringLocalizer(_cache, baseName, location, _options);
         }
     }
 }

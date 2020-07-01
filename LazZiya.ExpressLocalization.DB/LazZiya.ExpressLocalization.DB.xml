@@ -205,11 +205,47 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDb``4(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDb``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
-            Add ExpressLocalization with DB support using customized entity models
+            Add ExpressLocalization with database support using the built-in entity models,
+            and use defined translation service type
+            </summary>
+            <typeparam name="TContext">Application db context</typeparam>
+            <typeparam name="TService">Translation service</typeparam>
+            <param name="builder">builder</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDb``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add ExpressLocalization with database support using the built-in entity models,
+            and use defined translation service type
+            </summary>
+            <typeparam name="TContext">Application db context</typeparam>
+            <typeparam name="TService">Translation service</typeparam>
+            <param name="builder">builder</param>
+            <param name="options">builder</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDb``5(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Add ExpressLocalization with DB support using customized entity models,
+            and use defined translation service type
             </summary>
             <typeparam name="TContext">DbContext</typeparam>
+            <typeparam name="TService">Translation service</typeparam>
+            <typeparam name="TResource">Type of resource DbEntity</typeparam>
+            <typeparam name="TTranslation">Type of translation entityy</typeparam>
+            <typeparam name="TCulture">Type of culture DbEntity</typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DB.ExpressLocalizationExtensions.AddExpressLocalizationDb``5(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+            <summary>
+            Add ExpressLocalization with DB support using customized entity models,
+            and use defined translation service type
+            </summary>
+            <typeparam name="TContext">DbContext</typeparam>
+            <typeparam name="TService">Translation service</typeparam>
             <typeparam name="TResource">Type of localization DbEntity</typeparam>
             <typeparam name="TTranslation">Type of translation entity</typeparam>
             <typeparam name="TCulture">Type of culture DbEntity</typeparam>
@@ -223,6 +259,20 @@
             </summary>
             <param name="builder"></param>
             <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.IDbHtmlLocalizer`2">
+            <summary>
+            Interface to implement IHtmlLocalizer for a specific resource and tranlsation types 
+            </summary>
+            <typeparam name="TResource"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DB.IDbStringLocalizer`2">
+            <summary>
+            Interface to implement IStringLocalizer for a specific resource and tranlsation types 
+            </summary>
+            <typeparam name="TResource"></typeparam>
+            <typeparam name="TTranslation"></typeparam>
         </member>
         <member name="T:LazZiya.ExpressLocalization.DB.Models.IXLCulture">
             <summary>

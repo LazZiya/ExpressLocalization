@@ -11,7 +11,7 @@ namespace LazZiya.ExpressLocalization.TagHelpers
     /// </summary>
     public class LocalizationTagHelperBase : TagHelper
     {
-        private readonly IHtmlExpressLocalizerFactory _localizerFactory;
+        private readonly IExpressHtmlLocalizerFactory _localizerFactory;
 
         /// <summary>
         /// pass array of objects for arguments
@@ -35,7 +35,7 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// Initialize a new instance of LocaizationTagHelperBase
         /// </summary>
         /// <param name="localizerFactory"></param>
-        public LocalizationTagHelperBase(IHtmlExpressLocalizerFactory localizerFactory)
+        public LocalizationTagHelperBase(IExpressHtmlLocalizerFactory localizerFactory)
         {
             _localizerFactory = localizerFactory;
         }

@@ -13,12 +13,13 @@ using LazZiya.TranslationServices.SystranTranslate;
 using LazZiya.TranslationServices.YandexTranslate;
 using LazZiya.TranslationServices.GoogleTranslate;
 using System.Globalization;
-using LazZiya.ExpressLocalization.Xml;
-using LazZiya.ExpressLocalization.DB;
-using SampleProject.LocalizationResources;
 using LazZiya.ExpressLocalization.Routing;
-using LazZiya.ExpressLocalization.Translate;
+using SampleProject.LocalizationResources;
+using LazZiya.ExpressLocalization.Xml;
 using LazZiya.ExpressLocalization.Resx;
+using LazZiya.ExpressLocalization.DB;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 
 namespace SampleProject
 {
@@ -95,13 +96,13 @@ namespace SampleProject
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
-                .AddExpressLocalizationDb<ApplicationDbContext>((x) =>
+                .AddExpressLocalizationResx<LocSource>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";
-                    x.OnlineTranslation = true;
+                    x.AutoTranslate = true;
                     x.AutoAddKeys = true;
                     x.ServeUnApprovedTranslations = true;
-                }).WithTranslationService<MyMemoryTranslateService>();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

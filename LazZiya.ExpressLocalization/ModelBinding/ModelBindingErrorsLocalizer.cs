@@ -15,7 +15,7 @@ namespace LazZiya.ExpressLocalization.ModelBinding
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="factory">localizer factory</param>
-        public static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, IStringExpressLocalizerFactory factory)
+        public static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, IExpressStringLocalizerFactory factory)
         {
             SetLocalizedModelBindingErrorMessages(provider, factory, null);
         }
@@ -30,7 +30,7 @@ namespace LazZiya.ExpressLocalization.ModelBinding
             SetLocalizedModelBindingErrorMessages(provider, null, resxType);
         }
 
-        private static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, IStringExpressLocalizerFactory factory, Type resxType)
+        private static void SetLocalizedModelBindingErrorMessages(this DefaultModelBindingMessageProvider provider, IExpressStringLocalizerFactory factory, Type resxType)
         {
             provider.SetAttemptedValueIsInvalidAccessor((x, y)
                 => GetLoclizedModelBindingError(factory, resxType, ModelBindingMessages.ModelState_AttemptedValueIsInvalid, x, y));
@@ -66,7 +66,7 @@ namespace LazZiya.ExpressLocalization.ModelBinding
                 => GetLoclizedModelBindingError(factory, resxType, ModelBindingMessages.ModelBinding_NullValueNotValid, x));
         }
 
-        private static string GetLoclizedModelBindingError(IStringExpressLocalizerFactory factory, Type resxType, string code, params object[] args)
+        private static string GetLoclizedModelBindingError(IExpressStringLocalizerFactory factory, Type resxType, string code, params object[] args)
         {
             if (factory != null)
             {

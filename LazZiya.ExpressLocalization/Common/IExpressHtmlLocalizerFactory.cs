@@ -3,9 +3,10 @@
 namespace LazZiya.ExpressLocalization.Common
 {
     /// <summary>
-    /// Interface to create IHtmlExpressLocalizerFactory
+    /// Interface to create IHtmlLocalizer with the default (shared) resource type
+    /// using .Create() method that takes no parameters
     /// </summary>
-    public interface IHtmlExpressLocalizerFactory : IHtmlLocalizerFactory
+    public interface IExpressHtmlLocalizerFactory : IHtmlLocalizerFactory
     {
         /// <summary>
         /// Create new HtmlLocalizer based on default type and default translation service

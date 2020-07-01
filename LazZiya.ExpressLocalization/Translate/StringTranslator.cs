@@ -1,4 +1,5 @@
-﻿using LazZiya.TranslationServices;
+﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.TranslationServices;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -10,11 +11,10 @@ using System.Net;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
-
     /// <summary>
     /// HtmlTranslator
     /// </summary>
-    public class StringTranslator<TService> : StringTranslator
+    public class StringTranslator<TService> : StringTranslator, IStringTranslator<TService>
         where TService : ITranslationService
     {
         /// <summary>
@@ -231,9 +231,9 @@ namespace LazZiya.ExpressLocalization.Translate
                 ? CultureInfo.CurrentCulture.Name
                 : to;            
 
-            var trans = _translationService.TranslateAsync(_source, _target, key, format);
+            var trans = _translationService.TranslateAsync(_source, _target, key, format).Result;
 
-            return trans.Result;
+            return trans;
         }
     }
 }

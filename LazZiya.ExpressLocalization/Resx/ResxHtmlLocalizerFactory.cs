@@ -1,5 +1,7 @@
-﻿using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Cache;
+using LazZiya.ExpressLocalization.Common;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System;
 
@@ -8,18 +10,21 @@ namespace LazZiya.ExpressLocalization.Resx
     /// <summary>
     /// ResxHtmlLocalizerFactory
     /// </summary>
-    public class ResxHtmlLocalizerFactory<TResource> : IHtmlExpressLocalizerFactory
+    public class ResxHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
         where TResource : IXLResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
+        private readonly ExpressMemoryCache _cache;
 
         /// <summary>
         /// Initialize a new instance of ResxHtmlLocalizerFactory
         /// </summary>
         /// <param name="options"></param>
-        public ResxHtmlLocalizerFactory(IOptions<ExpressLocalizationOptions> options)
+        /// <param name="cache"></param>
+        public ResxHtmlLocalizerFactory(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options)
         {
             _options = options;
+            _cache = cache;
         }
 
         /// <summary>
@@ -28,7 +33,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new ResxHtmlLocalizer<TResource>(_options);
+            return new ResxHtmlLocalizer<TResource>(_cache, _options);
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            return new ResxHtmlLocalizer(resourceSource, _options.Value.ResourcesPath);
+            return new ResxHtmlLocalizer(_cache, resourceSource, _options.Value.ResourcesPath, _options);
         }
 
         /// <summary>
@@ -49,7 +54,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(string baseName, string location)
         {
-            return new ResxHtmlLocalizer(baseName, location);
+            return new ResxHtmlLocalizer(_cache, baseName, location, _options);
         }
     }
 }

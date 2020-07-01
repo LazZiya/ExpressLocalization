@@ -13,7 +13,7 @@ namespace LazZiya.ExpressLocalization.DB
     /// <summary>
     /// DB based string localization
     /// </summary>
-    public class DbStringLocalizer<TResource, TTranslation> : IStringLocalizer
+    public class DbStringLocalizer<TResource, TTranslation> : IDbStringLocalizer<TResource, TTranslation>
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {
@@ -82,7 +82,7 @@ namespace LazZiya.ExpressLocalization.DB
 
             if (locStr.ResourceNotFound)
             {
-                if (_options.OnlineTranslation)
+                if (_options.AutoTranslate)
                 {
                     // Call the translator function without arguments, 
                     // so we can insert the raw string in xml file
@@ -93,19 +93,16 @@ namespace LazZiya.ExpressLocalization.DB
                 if (_options.AutoAddKeys)
                 {
                     // Check if the resource entity exists
-                    var keyExist = _dataManager.Count<TResource>(x => x.Key == name).Result;
+                    var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
 
-                    if (keyExist == 0)
+                    if (resId == 0)
                     {
                         var res = DynamicObjectCreator.DbResource<TResource>(name);
-                        var success = _dataManager.AddAsync<TResource>(res).Result;
-
-                        if (success)
-                        {
-                            var trans = DynamicObjectCreator.DbTranslation<TTranslation>(res.ID, locStr.Value);
-                            success = _dataManager.AddAsync<TTranslation>(trans).Result;
-                        }
+                        resId = _dataManager.AddAsync<TResource, int>(res).Result;
                     }
+
+                    var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, locStr.Value);
+                    var success = _dataManager.AddAsync<TTranslation>(trans).Result;
                 }
             }
 

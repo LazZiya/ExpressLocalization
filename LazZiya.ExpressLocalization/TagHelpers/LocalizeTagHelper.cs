@@ -13,7 +13,7 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// Initialize a new instance of LocalizeTagHelper
         /// </summary>
         /// <param name="localizerFactory"></param>
-        public LocalizeTagHelper(IHtmlExpressLocalizerFactory localizerFactory) 
+        public LocalizeTagHelper(IExpressHtmlLocalizerFactory localizerFactory) 
             : base(localizerFactory)
         {
         }

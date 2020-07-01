@@ -1,8 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
+﻿using LazZiya.TranslationServices;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
+    /// <summary>
+    /// Generic html translator interface
+    /// to be used for user defined translator services
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    public interface IHtmlTranslator<TService> : IHtmlLocalizer<TService>
+        where TService : ITranslationService
+    {
+
+    }
+
     /// <summary>
     /// IHtmlTranslator interface
     /// </summary>

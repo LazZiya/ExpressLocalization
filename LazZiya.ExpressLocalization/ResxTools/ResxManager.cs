@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,7 +21,6 @@ namespace LazZiya.ExpressLocalization.ResxTools
         /// <param name="location">Localization resources folder path</param>
         /// <param name="culture"></param>
         /// <param name="ext"></param>
-        /// <param name="logger"></param>
         public ResxManager(Type resxType, string location = "", string culture = "", string ext = "resx")
             : this(resxType.Name, location, culture, ext)
         {
@@ -35,7 +33,6 @@ namespace LazZiya.ExpressLocalization.ResxTools
         /// <param name="location"></param>
         /// <param name="culture"></param>
         /// <param name="ext"></param>
-        /// <param name="logger"></param>
         public ResxManager(string baseName, string location = "", string culture = "", string ext = "resx")
         {
             TargetResourceFile = string.IsNullOrWhiteSpace(culture)
@@ -179,6 +176,21 @@ namespace LazZiya.ExpressLocalization.ResxTools
             var elmnt = _xd?.Root.Elements("data").FirstOrDefault(x => x.Attribute("name").Value.Equals(key, StringComparison.OrdinalIgnoreCase));
 
             return elmnt;
+        }
+
+        /// <summary>
+        /// TryGet method : use inside localizers
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool TryGetValue(string key, out string value)
+        {
+            var elmnt = _xd?.Root.Elements("data").FirstOrDefault(x => x.Attribute("name").Value.Equals(key, StringComparison.OrdinalIgnoreCase));
+
+            value = elmnt?.Element("value").Value ?? null;
+
+            return value != null;
         }
 
         /// <summary>

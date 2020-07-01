@@ -18,7 +18,7 @@ namespace LazZiya.ExpressLocalization.ModelBinding
             // Add ModelBinding errors localization
             builder.AddMvcOptions(ops =>
             {
-                var factory = builder.Services.BuildServiceProvider().GetService(typeof(IStringExpressLocalizerFactory)) as IStringExpressLocalizerFactory;
+                var factory = builder.Services.BuildServiceProvider().GetService(typeof(IExpressStringLocalizerFactory)) as IExpressStringLocalizerFactory;
                 ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(factory);
             });
 

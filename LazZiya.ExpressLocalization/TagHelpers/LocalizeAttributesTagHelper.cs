@@ -13,7 +13,7 @@ namespace LazZiya.ExpressLocalization.TagHelpers
     [HtmlTargetElement(Attributes = "localize*")]
     public class LocalizeAttributesTagHelper : LocalizationTagHelperBase
     {
-        private readonly IStringExpressLocalizerFactory _stringFactory;
+        private readonly IExpressStringLocalizerFactory _stringFactory;
 
         private readonly string _LocalizeAtt = "localize-att-";
 
@@ -34,7 +34,7 @@ namespace LazZiya.ExpressLocalization.TagHelpers
         /// </summary>
         /// <param name="htmlFactory"></param>
         /// <param name="stringFactory"></param>
-        public LocalizeAttributesTagHelper(IHtmlExpressLocalizerFactory htmlFactory, IStringExpressLocalizerFactory stringFactory)
+        public LocalizeAttributesTagHelper(IExpressHtmlLocalizerFactory htmlFactory, IExpressStringLocalizerFactory stringFactory)
             : base(htmlFactory)
         {
             _stringFactory = stringFactory;

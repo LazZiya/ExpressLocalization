@@ -11,7 +11,7 @@ namespace LazZiya.ExpressLocalization.DB
     /// <summary>
     /// DbStringLocalizer factory
     /// </summary>
-    public class DbStringLocalizerFactory<TResource, TTranslation> : IStringExpressLocalizerFactory
+    public class DbStringLocalizerFactory<TResource, TTranslation> : IExpressStringLocalizerFactory
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {

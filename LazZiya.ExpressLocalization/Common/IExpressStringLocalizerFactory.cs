@@ -3,9 +3,10 @@
 namespace LazZiya.ExpressLocalization.Common
 {
     /// <summary>
-    /// Interface to create IStringExpressLocalizerFactory
+    /// Interface to create IStringLocalizer with the default (shared) resource type
+    /// using .Create() method that takes no parameters
     /// </summary>
-    public interface IStringExpressLocalizerFactory : IStringLocalizerFactory
+    public interface IExpressStringLocalizerFactory : IStringLocalizerFactory
     {
         /// <summary>
         /// Create new StringLocalizer based on default type

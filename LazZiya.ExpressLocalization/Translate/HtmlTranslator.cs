@@ -1,4 +1,5 @@
-﻿using LazZiya.TranslationServices;
+﻿using LazZiya.ExpressLocalization.Common;
+using LazZiya.TranslationServices;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -8,13 +9,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
     /// <summary>
     /// HtmlTranslator
     /// </summary>
-    public class HtmlTranslator<TService> : HtmlTranslator
+    public class HtmlTranslator<TService> : HtmlTranslator, IHtmlTranslator<TService>
         where TService : ITranslationService
     {
         /// <summary>
@@ -184,7 +186,7 @@ namespace LazZiya.ExpressLocalization.Translate
         }
 
         /// <summary>
-        /// NOT IMPLEMENTED
+        /// NOT IMPLEMENTED, Use <see cref="CultureSwitcher"/> instead.
         /// </summary>
         /// <param name="culture"></param>
         /// <returns></returns>
@@ -253,9 +255,9 @@ namespace LazZiya.ExpressLocalization.Translate
                 ? CultureInfo.CurrentCulture.Name
                 : to;
 
-            var trans = _translationService.TranslateAsync(_source, _target, key, format);
+            var trans = _translationService.TranslateAsync(_source, _target, key, format).Result;
 
-            return trans.Result;
+            return trans;
         }
     }
 }

@@ -4,7 +4,6 @@ using LazZiya.ExpressLocalization.DB.Models;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace LazZiya.ExpressLocalization.DB
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
     /// <typeparam name="TTranslation"></typeparam>
-    public class DbHtmlLocalizer<TResource, TTranslation> : IHtmlLocalizer
+    public class DbHtmlLocalizer<TResource, TTranslation> : IDbHtmlLocalizer<TResource, TTranslation>
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {
@@ -33,9 +32,9 @@ namespace LazZiya.ExpressLocalization.DB
         /// <param name="dataManager"></param>
         /// <param name="stringTranslator"></param>
         /// <param name="htmlTranslator"></param>
-        public DbHtmlLocalizer(IOptions<ExpressLocalizationOptions> options, 
-                               IEFGenericDataManager dataManager, 
-                               IStringTranslator stringTranslator, 
+        public DbHtmlLocalizer(IOptions<ExpressLocalizationOptions> options,
+                               IEFGenericDataManager dataManager,
+                               IStringTranslator stringTranslator,
                                IHtmlTranslator htmlTranslator)
         {
             _options = options.Value;
@@ -111,7 +110,7 @@ namespace LazZiya.ExpressLocalization.DB
 
             if (locStr.ResourceNotFound)
             {
-                if (_options.OnlineTranslation)
+                if (_options.AutoTranslate)
                 {
                     // Call the translator function without arguments, 
                     // so we can insert the raw string in xml file
@@ -122,19 +121,16 @@ namespace LazZiya.ExpressLocalization.DB
                 if (_options.AutoAddKeys)
                 {
                     // Check if the resource entity exists
-                    var keyExist = _dataManager.Count<TResource>(x => x.Key == name).Result;
+                    var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
 
-                    if (keyExist == 0)
+                    if (resId == 0)
                     {
                         var res = DynamicObjectCreator.DbResource<TResource>(name);
-                        var success = _dataManager.AddAsync<TResource>(res).Result;
-
-                        if (success)
-                        {
-                            var trans = DynamicObjectCreator.DbTranslation<TTranslation>(res.ID, locStr.Value);
-                            success = _dataManager.AddAsync<TTranslation>(trans).Result;
-                        }
+                        resId = _dataManager.AddAsync<TResource, int>(res).Result;
                     }
+
+                    var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, locStr.Value);
+                    var success = _dataManager.AddAsync<TTranslation>(trans).Result;
                 }
             }
 
@@ -154,7 +150,7 @@ namespace LazZiya.ExpressLocalization.DB
 
             if (locStr.IsResourceNotFound)
             {
-                if (_options.OnlineTranslation)
+                if (_options.AutoTranslate)
                 {
                     // Call the translator function without arguments, 
                     // so we can insert the raw string in xml file
@@ -165,19 +161,16 @@ namespace LazZiya.ExpressLocalization.DB
                 if (_options.AutoAddKeys)
                 {
                     // Check if the resource entity exists
-                    var keyExist = _dataManager.Count<TResource>(x => x.Key == name).Result;
+                    var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
 
-                    if (keyExist == 0)
+                    if (resId == 0)
                     {
                         var res = DynamicObjectCreator.DbResource<TResource>(name);
-                        var success = _dataManager.AddAsync<TResource>(res).Result;
-
-                        if (success)
-                        {
-                            var trans = DynamicObjectCreator.DbTranslation<TTranslation>(res.ID, locStr.Value);
-                            success = _dataManager.AddAsync<TTranslation>(trans).Result;
-                        }
+                        resId = _dataManager.AddAsync<TResource, int>(res).Result;
                     }
+
+                    var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, locStr.Value);
+                    var success = _dataManager.AddAsync<TTranslation>(trans).Result;
                 }
             }
 

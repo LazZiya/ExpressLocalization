@@ -111,10 +111,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
-            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
-
-            return _xmlDoc.Root.Descendants("data").Select(x => new LocalizedString(x.Element("key").Value, x.Element("value").Value, false));
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -146,7 +143,7 @@ namespace LazZiya.ExpressLocalization.Xml
 
             if(locStr.IsResourceNotFound)
             {
-                if (_options.OnlineTranslation)
+                if (_options.AutoTranslate)
                 {
                     // Call the translator function without arguments, 
                     // so we can insert the raw string in xml file
@@ -180,7 +177,7 @@ namespace LazZiya.ExpressLocalization.Xml
 
             if(locStr.ResourceNotFound)
             {
-                if (_options.OnlineTranslation)
+                if (_options.AutoTranslate)
                 {
                     // Call the translator function without arguments, 
                     // so we can insert the raw string in xml file

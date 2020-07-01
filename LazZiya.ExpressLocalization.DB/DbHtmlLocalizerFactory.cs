@@ -11,7 +11,7 @@ namespace LazZiya.ExpressLocalization.DB
     /// <summary>
     /// Database html localizer factory
     /// </summary>
-    public class DbHtmlLocalizerFactory<TResource, TTranslation> : IHtmlExpressLocalizerFactory
+    public class DbHtmlLocalizerFactory<TResource, TTranslation> : IExpressHtmlLocalizerFactory
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {

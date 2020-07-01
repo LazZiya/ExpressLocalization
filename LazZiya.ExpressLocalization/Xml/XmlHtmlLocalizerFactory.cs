@@ -9,7 +9,7 @@ namespace LazZiya.ExpressLocalization.Xml
     /// <summary>
     /// XmlHtmlLocalizerFactory
     /// </summary>
-    public class XmlHtmlLocalizerFactory<TResource> : IHtmlExpressLocalizerFactory
+    public class XmlHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
         where TResource : IXLResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;

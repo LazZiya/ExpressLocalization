@@ -1,7 +1,19 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using LazZiya.TranslationServices;
+using Microsoft.Extensions.Localization;
 
 namespace LazZiya.ExpressLocalization.Translate
 {
+    /// <summary>
+    /// Generic string translator interface
+    /// to be used for user defined translator services
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    public interface IStringTranslator<TService> : IStringLocalizer<TService>
+        where TService : ITranslationService
+    {
+
+    }
+
     /// <summary>
     /// IStringTranslator interface
     /// </summary>
