@@ -77,4 +77,29 @@
     <value>مرحبا</value>
     <comment>AUTO</comment>
   </data>
+  <data isActive="false">
+    <key>First number</key>
+    <value>العدد الأول</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Second number</key>
+    <value>العدد في الدورة الثانية</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Multiply</key>
+    <value>ضرب</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is not valid for {1}.</key>
+    <value>القيمة &amp;quot;{0}&amp;quot; غير صالحة لـ {1}.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is invalid.</key>
+    <value>القيمة غير صالحة.</value>
+    <comment>AUTO</comment>
+  </data>
 </root>

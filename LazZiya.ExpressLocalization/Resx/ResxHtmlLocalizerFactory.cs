@@ -1,5 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 using System;
 
 namespace LazZiya.ExpressLocalization.Resx
@@ -10,13 +11,13 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
         where TResource : IXLResource
     {
-        private readonly IExpressStringLocalizerFactory _factory;
+        private readonly IStringLocalizerFactory _factory;
 
         /// <summary>
         /// Initialize a new instance of ResxHtmlLocalizerFactory
         /// </summary>
         /// <param name="factory"></param>
-        public ResxHtmlLocalizerFactory(IExpressStringLocalizerFactory factory)
+        public ResxHtmlLocalizerFactory(IStringLocalizerFactory factory)
         {
             _factory = factory;
         }
@@ -27,9 +28,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            var localizer = _factory.Create(typeof(TResource));
-
-            return new ResxHtmlLocalizer(localizer);
+            return Create(typeof(TResource));
         }
 
         /// <summary>

@@ -88,6 +88,10 @@ namespace LazZiya.ExpressLocalization.Xml
             // ExpressMemoryCache for caching localized values
             builder.Services.AddSingleton<ExpressMemoryCache>();
 
+            // Register ExpressResourceManager that will read .resx files
+            builder.Services.AddSingleton<IExpressResourceReader, XmlResourceReader<TResource>>();
+            builder.Services.AddTransient(typeof(IExpressResourceReader<>), typeof(XmlResourceReader<>));
+
             // Register IStringLocalizer for the default shared resource type
             // This is the default (shared) resource entity and translation
             builder.Services.AddSingleton<IStringLocalizer, XmlStringLocalizer<TResource>>();

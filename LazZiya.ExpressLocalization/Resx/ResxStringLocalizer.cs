@@ -17,8 +17,8 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <summary>
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceManager<TResource> manager)
-            : base(cache, manager)
+        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceReader<TResource> reader)
+            : base(cache, reader)
         {
         }
     }
@@ -28,18 +28,18 @@ namespace LazZiya.ExpressLocalization.Resx
     /// </summary>
     public class ResxStringLocalizer : IStringLocalizer
     {
-        private readonly IExpressResourceManager _manager;
+        private readonly IExpressResourceReader _reader;
         private readonly ExpressMemoryCache _cache;
 
         /// <summary>
         /// Initialize new instance of ResxStringLocalizer
         /// </summary>
         /// <param name="cache"></param>
-        /// <param name="manager"></param>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceManager manager)
+        /// <param name="reader"></param>
+        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceReader reader)
         {
             _cache = cache;
-            _manager = manager;
+            _reader = reader;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace LazZiya.ExpressLocalization.Resx
             if (!success)
             {
                 // Look in the resx file
-                success = _manager.TryGetValue(name, out value);
+                success = _reader.TryGetValue(name, out value);
 
                 // save it to the cache
                 if (success)

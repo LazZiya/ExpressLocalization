@@ -6,16 +6,16 @@ using System.Resources;
 namespace LazZiya.ExpressLocalization.Resx
 {
     /// <summary>
-    /// Generic resource manager
+    /// Generic .resx resource reader
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class ExpressResourceManager<TResource> : ExpressResourceManager, IExpressResourceManager<TResource>
+    public class ResxResourceReader<TResource> : ResxResourceReader, IExpressResourceReader<TResource>
         where TResource : IXLResource
     {
         /// <summary>
-        /// Initialize a new instance of <see cref="ExpressResourceManager{TResource}"/>
+        /// Initialize a new instance of <see cref="ResxResourceReader{TResource}"/>
         /// </summary>
-        public ExpressResourceManager()
+        public ResxResourceReader()
             : base(typeof(TResource))
         {
 
@@ -25,15 +25,15 @@ namespace LazZiya.ExpressLocalization.Resx
     /// <summary>
     /// For reading localized values from .resx resources
     /// </summary>
-    public class ExpressResourceManager : IExpressResourceManager
+    public class ResxResourceReader : IExpressResourceReader
     {
         private readonly ResourceManager _manager;
 
         /// <summary>
-        /// Initialzie a new instance of <see cref="ExpressResourceManager"/>
+        /// Initialzie a new instance of <see cref="ResxResourceReader"/>
         /// </summary>
         /// <param name="type"></param>
-        public ExpressResourceManager(Type type)
+        public ResxResourceReader(Type type)
         {
             _manager = new ResourceManager(type);
         }

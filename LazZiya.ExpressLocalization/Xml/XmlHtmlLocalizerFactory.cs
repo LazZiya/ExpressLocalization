@@ -1,7 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Localization;
 using System;
 
 namespace LazZiya.ExpressLocalization.Xml
@@ -12,23 +11,15 @@ namespace LazZiya.ExpressLocalization.Xml
     public class XmlHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
         where TResource : IXLResource
     {
-        private readonly IOptions<ExpressLocalizationOptions> _options;
-        private readonly IHtmlTranslator _htmlTranslator;
-        private readonly IStringTranslator _stringTranslator;
+        private readonly IStringLocalizerFactory _factory;
 
         /// <summary>
         /// Instantiate a new XmlStringLocalizerFactory
         /// </summary>
-        /// <param name="options"></param>
-        /// <param name="htmlTranslator"></param>
-        /// <param name="stringTranslator"></param>
-        public XmlHtmlLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
-                                       IHtmlTranslator htmlTranslator, 
-                                       IStringTranslator stringTranslator)
+        /// <param name="factory"></param>
+        public XmlHtmlLocalizerFactory(IStringLocalizerFactory factory)
         {
-            _options = options;
-            _htmlTranslator = htmlTranslator;
-            _stringTranslator = stringTranslator;
+            _factory = factory;
         }
 
         /// <summary>
@@ -37,7 +28,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new XmlHtmlLocalizer(typeof(TResource), _options, _htmlTranslator, _stringTranslator);
+            return Create(typeof(TResource));
         }
 
         /// <summary>
@@ -47,7 +38,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            return new XmlHtmlLocalizer(resourceSource, _options, _htmlTranslator, _stringTranslator);
+            var localizer = _factory.Create(resourceSource);
+            
+            return new XmlHtmlLocalizer(localizer);
         }
 
         /// <summary>
@@ -58,7 +51,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create(string baseName, string location)
         {
-            return new XmlHtmlLocalizer(baseName, location, _options, _htmlTranslator, _stringTranslator);
+            return Create();
         }
     }
 }

@@ -142,4 +142,49 @@
     <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
     <comment>AUTO</comment>
   </data>
+  <data isActive="false">
+    <key>First number</key>
+    <value>İlk Sayı</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Second number</key>
+    <value>İkinci sayı</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Multiply</key>
+    <value>Çoğalt</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is invalid.</key>
+    <value>&amp;#39;{0}&amp;#39; değeri geçersiz.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is not valid for {1}.</key>
+    <value>&amp;#39;{0}&amp;#39; değeri {1} için geçerli değil.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Passwords must have at least one non alphanumeric character.</key>
+    <value>Parolaların en az bir alfasayısal olmayan karakteri olmalıdır.</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Passwords must have at least one digit ('0'-'9').</key>
+    <value>Parolalar en az bir basamak içermelidir (&amp;#39;0&amp;#39; - &amp;#39;9&amp;#39;).</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Passwords must have at least one uppercase ('A'-'Z').</key>
+    <value>Parolaların en az bir büyük harfi olmalıdır (&amp;#39;A&amp;#39; - &amp;#39;Z&amp;#39;).</value>
+    <comment>AUTO</comment>
+  </data>
+  <data isActive="false">
+    <key>Welcome</key>
+    <value>Hoşgeldiniz</value>
+    <comment>AUTO</comment>
+  </data>
 </root>

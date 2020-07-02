@@ -1,11 +1,11 @@
-﻿using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Cache;
+using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace LazZiya.ExpressLocalization.Xml
 {
@@ -19,10 +19,15 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <summary>
         /// Initialize a new instance of XmlStringLocalizer with the specified resource type
         /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="reader"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
-        public XmlStringLocalizer(IOptions<ExpressLocalizationOptions> options, 
-                                  IStringTranslator stringTranslator) : base(typeof(TResource), options, stringTranslator)
+        public XmlStringLocalizer(ExpressMemoryCache cache, 
+                                  IExpressResourceReader<TResource> reader, 
+                                  IOptions<ExpressLocalizationOptions> options, 
+                                  IStringTranslator stringTranslator)
+            : base(cache, reader, options, stringTranslator)
         {
 
         }
@@ -34,36 +39,26 @@ namespace LazZiya.ExpressLocalization.Xml
     public class XmlStringLocalizer : IStringLocalizer
     {
         private readonly ExpressLocalizationOptions _options;
+        private readonly ExpressMemoryCache _cache;
         private readonly IStringTranslator _stringTranslator;
-        private readonly string _baseName;
-        private readonly string _location;
-
-        /// <summary>
-        /// Initialze new instance of XmlStringLocalizer
-        /// </summary>
-        public XmlStringLocalizer(Type xmlResType,
-                                  IOptions<ExpressLocalizationOptions> options, 
-                                  IStringTranslator stringTranslator)
-            : this(xmlResType.Name, options.Value.ResourcesPath, options, stringTranslator)
-        {
-        }
+        private readonly IExpressResourceReader _reader;
 
         /// <summary>
         /// Initialzie new instance of XmlStringLocalizer
         /// </summary>
-        /// <param name="xmlBaseName"></param>
-        /// <param name="location"></param>
+        /// <param name="cache"></param>
+        /// <param name="reader"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
-        public XmlStringLocalizer(string xmlBaseName, 
-                                  string location,
-                                  IOptions<ExpressLocalizationOptions> options, 
+        public XmlStringLocalizer(ExpressMemoryCache cache, 
+                                  IExpressResourceReader reader,
+                                  IOptions<ExpressLocalizationOptions> options,
                                   IStringTranslator stringTranslator)
         {
+            _cache = cache;
             _options = options.Value;
-            _baseName = xmlBaseName;
-            _location = location;
             _stringTranslator = stringTranslator;
+            _reader = reader;
         }
 
         /// <summary>
@@ -103,38 +98,39 @@ namespace LazZiya.ExpressLocalization.Xml
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var _path = XmlLocalizerHelper.XmlDocumentFullPath(_baseName, _location);
-            var _xmlDoc = XmlLocalizerHelper.GetXmlDocument(_path);
+            var resourceFound = TryGetValue(name, out string val);
 
-            var elmnt = _xmlDoc.Root.Descendants("data").FirstOrDefault(x => x.Element("key").Value.Equals(name, StringComparison.OrdinalIgnoreCase));
-
-            var locStr = elmnt == null
-                ? new LocalizedString(name, name, true)
-                : new LocalizedString(name, elmnt.Element("value").Value, false);
-
-            if(locStr.ResourceNotFound)
+            if (!resourceFound && _options.AutoTranslate)
             {
-                if (_options.AutoTranslate)
-                {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _stringTranslator[name];
-                }
-
-                if (_options.AutoAddKeys)
-                {
-                    if (_options.AutoAddKeys)
-                    {
-                        locStr.WriteTo(_xmlDoc, _path);
-                    }
-                }
+                val = _stringTranslator[name];
             }
 
-            // rebind the arguments to value string
-            return arguments == null
-                ? locStr
-                : new LocalizedString(name, string.Format(locStr.Value, arguments), locStr.ResourceNotFound);
+            if (!resourceFound && _options.AutoAddKeys)
+            {
+                // TODO
+            }
+
+            var value = string.Format(val ?? name, arguments);
+
+            return new LocalizedString(name, value, resourceNotFound: !resourceFound);
+        }
+
+        private bool TryGetValue(string name, out string value)
+        {
+            // Look for the localized value in the cache
+            var success = _cache.TryGetValue(name, out value);
+
+            if (!success)
+            {
+                // Look in the xml file
+                success = _reader.TryGetValue(name, out value);
+
+                // save it to the cache
+                if (success)
+                    _cache.Set(name, value);
+            }
+
+            return success;
         }
     }
 }

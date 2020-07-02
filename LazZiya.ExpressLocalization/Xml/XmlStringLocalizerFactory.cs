@@ -1,4 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Cache;
+using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -14,17 +15,21 @@ namespace LazZiya.ExpressLocalization.Xml
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IStringTranslator _stringTranslator;
+        private readonly ExpressMemoryCache _cache;
 
         /// <summary>
         /// Instantiate a new XmlStringLocalizerFactory
         /// </summary>
+        /// <param name="cache"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
         public XmlStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
-                                         IStringTranslator stringTranslator)
+                                         IStringTranslator stringTranslator,
+                                         ExpressMemoryCache cache)
         {
             _options = options;
             _stringTranslator = stringTranslator;
+            _cache = cache;
         }
 
         /// <summary>
@@ -33,7 +38,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new XmlStringLocalizer(typeof(TResource), _options, _stringTranslator);
+            var reader = new XmlResourceReader(typeof(TResource), _options.Value.ResourcesPath);
+
+            return new XmlStringLocalizer(_cache, reader, _options, _stringTranslator);
         }
 
         /// <summary>
@@ -43,7 +50,9 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            return new XmlStringLocalizer(resourceSource, _options, _stringTranslator);
+            var reader = new XmlResourceReader(resourceSource, _options.Value.ResourcesPath);
+
+            return new XmlStringLocalizer(_cache, reader, _options, _stringTranslator);
         }
 
         /// <summary>
@@ -54,7 +63,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return new XmlStringLocalizer(baseName, location, _options, _stringTranslator);
+            return Create();
         }
     }
 }

@@ -1,23 +1,24 @@
-﻿using LazZiya.ExpressLocalization.Common;
-
-namespace LazZiya.ExpressLocalization.Resx
+﻿namespace LazZiya.ExpressLocalization.Common
 {
     /// <summary>
-    /// Generic interface to create <see cref="ExpressResourceManager{TResource}"/> 
+    /// Generic interface to create resource reader 
+    /// that will read .resx or .xml resource files 
     /// for the specified resource of type <see cref="IXLResource"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IExpressResourceManager<T> : IExpressResourceManager
+    public interface IExpressResourceReader<T> : IExpressResourceReader
         where T : IXLResource
     {
 
     }
 
     /// <summary>
-    /// Interface to create <see cref="ExpressResourceManager"/>
+    /// Generic interface to create resource reader 
+    /// that will read .resx or .xml resource files 
+    /// for the default resource type
     /// to get locaized valued from .resx files
     /// </summary>
-    public interface IExpressResourceManager
+    public interface IExpressResourceReader
     {
         /// <summary>
         /// Try get localized value for given name
