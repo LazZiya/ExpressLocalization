@@ -1,5 +1,4 @@
-﻿using LazZiya.ExpressLocalization.Cache;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -20,14 +19,14 @@ namespace LazZiya.ExpressLocalization.Xml
         /// Initialize a new instance of XmlStringLocalizer with the specified resource type
         /// </summary>
         /// <param name="cache"></param>
-        /// <param name="reader"></param>
+        /// <param name="rw"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
         public XmlStringLocalizer(ExpressMemoryCache cache, 
-                                  IExpressResourceReader<TResource> reader, 
+                                  IExpressResourceReaderWriter<TResource> rw,
                                   IOptions<ExpressLocalizationOptions> options, 
                                   IStringTranslator stringTranslator)
-            : base(cache, reader, options, stringTranslator)
+            : base(cache, rw, options, stringTranslator)
         {
 
         }
@@ -41,24 +40,24 @@ namespace LazZiya.ExpressLocalization.Xml
         private readonly ExpressLocalizationOptions _options;
         private readonly ExpressMemoryCache _cache;
         private readonly IStringTranslator _stringTranslator;
-        private readonly IExpressResourceReader _reader;
+        private readonly IExpressResourceReaderWriter _rw;
 
         /// <summary>
         /// Initialzie new instance of XmlStringLocalizer
         /// </summary>
         /// <param name="cache"></param>
-        /// <param name="reader"></param>
+        /// <param name="rw"></param>
         /// <param name="options"></param>
         /// <param name="stringTranslator"></param>
         public XmlStringLocalizer(ExpressMemoryCache cache, 
-                                  IExpressResourceReader reader,
+                                  IExpressResourceReaderWriter rw,
                                   IOptions<ExpressLocalizationOptions> options,
                                   IStringTranslator stringTranslator)
         {
             _cache = cache;
             _options = options.Value;
             _stringTranslator = stringTranslator;
-            _reader = reader;
+            _rw = rw;
         }
 
         /// <summary>
@@ -107,7 +106,10 @@ namespace LazZiya.ExpressLocalization.Xml
 
             if (!resourceFound && _options.AutoAddKeys)
             {
-                // TODO
+                var added = _rw.TrySetValue(name, val, "Auto created by ExpressLocalization", false);
+
+                if (added)
+                    _cache.Set(name, val);
             }
 
             var value = string.Format(val ?? name, arguments);
@@ -123,7 +125,7 @@ namespace LazZiya.ExpressLocalization.Xml
             if (!success)
             {
                 // Look in the xml file
-                success = _reader.TryGetValue(name, out value);
+                success = _rw.TryGetValue(name, out value);
 
                 // save it to the cache
                 if (success)

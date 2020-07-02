@@ -28,78 +28,128 @@
     </xsd:element>
   </xsd:schema>
   <data isActive="false">
-    <key>Welcome to Planet Earth!</key>
-    <value>مرحباً بك في كوكب الأرض</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
     <key>Hello</key>
     <value>اهلاً بيك</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
     <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
     <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Welcome to Planet Earth!</key>
-    <value>مرحباً بك في كوكب الأرض</value>
-    <comment>AUTO</comment>
+    <key>Log in</key>
+    <value>تسجيل الدخول</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Hello</key>
-    <value>اهلاً بيك</value>
-    <comment>AUTO</comment>
+    <key>Use a local account to log in.</key>
+    <value>استخدم حساب محلي لتسجيل الدخول.</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
-    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
-    <comment>AUTO</comment>
+    <key>Email</key>
+    <value>البريد الإلكترونى</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Welcome to Planet Earth!</key>
-    <value>مرحباً بك في كوكب الأرض</value>
-    <comment>AUTO</comment>
+    <key>The {0} field is required.</key>
+    <value>هذا الحقل مطلوب.</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Hello</key>
-    <value>اهلاً بيك</value>
-    <comment>AUTO</comment>
+    <key>The {0} field is not a valid e-mail address.</key>
+    <value>الحقل {0} ليس عنوان بريد إلكتروني صالح.</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
-    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
-    <comment>AUTO</comment>
+    <key>Password</key>
+    <value>کلمه عبور</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
-    <key>Welcome</key>
-    <value>مرحبا</value>
-    <comment>AUTO</comment>
+    <key>Remember me?</key>
+    <value>تذکرني؟</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Forgot your password?</key>
+    <value>نسيت كلمة المرور؟</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Register as a new user</key>
+    <value>تسجيل مستخدم جديد</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Resend email confirmation</key>
+    <value>إعادة إرسال تأكيد البريد الإلكتروني</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Use another service to log in.</key>
+    <value>استخدم خدمة أخرى لتسجيل الدخول.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>There are no external authentication services configured. See &lt;a href="{0}"&gt;this article&lt;/a&gt; for details on setting up this ASP.NET application to support logging in via external services.</key>
+    <value>لم يتم تكوين خدمات مصادقة خارجية. راجع &lt;a href="{0}"&gt;هذه المقالة&lt;/a&gt; للحصول على تفاصيل حول إعداد تطبيق ASP.NET هذا لدعم تسجيل الدخول عبر الخدمات الخارجية.</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
     <key>First number</key>
     <value>العدد الأول</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
     <key>Second number</key>
     <value>العدد في الدورة الثانية</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
     <key>Multiply</key>
     <value>ضرب</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The value '{0}' is not valid for {1}.</key>
-    <value>القيمة &amp;quot;{0}&amp;quot; غير صالحة لـ {1}.</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
     <key>The value '{0}' is invalid.</key>
     <value>القيمة غير صالحة.</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is not valid for {1}.</key>
+    <value>القيمة &amp;quot;{0}&amp;quot; غير صالحة لـ {1}.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Register</key>
+    <value>تسجيل</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Create a new account.</key>
+    <value>إنشاء حساب جديد</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>The field {0} must be a string with a maximum length of {1}.</key>
+    <value>يجب أن يكون الحقل {0} سلسلة بحد أقصى للطول {1}.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Confirm password</key>
+    <value>تأكيد كلمة المرور</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>'{0}' and '{1}' do not match.</key>
+    <value>لا يتطابق &amp;#39;{0}&amp;#39; و &amp;#39;{1}&amp;#39;.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Use another service to register.</key>
+    <value>استخدم خدمة أخرى للتسجيل.</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
 </root>

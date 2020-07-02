@@ -27,164 +27,19 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <data isActive="true">
-    <key>Welcome to Planet Earth!</key>
-    <value>Dünya Gezegeni&amp;#39;ne hoş geldiniz!</value>
-    <comment>AUTO</comment>
+  <data isActive="false">
+    <key>Welcome</key>
+    <value>Hoşgeldiniz</value>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
-  <data isActive="true">
+  <data isActive="false">
     <key>Hello</key>
     <value>Merhaba</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
     <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
     <value>&lt;a href="{0}"&gt;ASP.NET Core ile Web uygulamaları oluşturma&lt;/a&gt; hakkında bilgi edinin.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Log in</key>
-    <value>Giriş</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Use a local account to log in.</key>
-    <value>Giriş yapmak için yerel bir hesap kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Email</key>
-    <value>E-posta</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The {0} field is required.</key>
-    <value>Alan zorunludur.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The {0} field is not a valid e-mail address.</key>
-    <value>{0} alanı geçerli bir e-posta adresi değil.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Password</key>
-    <value>Şifre</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Remember me?</key>
-    <value>Beni Hatırla ?</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Forgot your password?</key>
-    <value>Parolanızı mı unuttunuz?</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Register as a new user</key>
-    <value>Yeni kullanıcı olarak kayıt ol</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Resend email confirmation</key>
-    <value>E-posta onayını tekrar gönder</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Use another service to log in.</key>
-    <value>Giriş yapmak için başka bir hizmet kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>There are no external authentication services configured. See &lt;a href="{0}"&gt;this article&lt;/a&gt; for details on setting up this ASP.NET application to support logging in via external services.</key>
-    <value>Yapılandırılmış harici kimlik doğrulama hizmetleri yok. Bu ASP.NET uygulamasını harici hizmetler yoluyla oturum açmayı destekleyecek şekilde ayarlama hakkında ayrıntılar için &lt;a href="{0}"&gt;bu makaleye&lt;/a&gt; bakın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Register</key>
-    <value>Kayıt Ol</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Create a new account.</key>
-    <value>Yeni bir hesap oluştur</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The field {0} must be a string with a maximum length of {1}.</key>
-    <value>{0} alanı, maksimum uzunluğu {1} olan bir dize olmalıdır.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Confirm password</key>
-    <value>Şifreyi Onayla</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>'{0}' and '{1}' do not match.</key>
-    <value>&amp;#39;{0}&amp;#39; ve &amp;#39;{1}&amp;#39; eşleşmiyor.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="true">
-    <key>Use another service to register.</key>
-    <value>Kaydolmak için başka bir hizmet kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Privacy Policy</key>
-    <value>Gizlilik Politikası</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Use this page to detail your site's privacy policy.</key>
-    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>First number</key>
-    <value>İlk Sayı</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Second number</key>
-    <value>İkinci sayı</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Multiply</key>
-    <value>Çoğalt</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The value '{0}' is invalid.</key>
-    <value>&amp;#39;{0}&amp;#39; değeri geçersiz.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>The value '{0}' is not valid for {1}.</key>
-    <value>&amp;#39;{0}&amp;#39; değeri {1} için geçerli değil.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Passwords must have at least one non alphanumeric character.</key>
-    <value>Parolaların en az bir alfasayısal olmayan karakteri olmalıdır.</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Passwords must have at least one digit ('0'-'9').</key>
-    <value>Parolalar en az bir basamak içermelidir (&amp;#39;0&amp;#39; - &amp;#39;9&amp;#39;).</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Passwords must have at least one uppercase ('A'-'Z').</key>
-    <value>Parolaların en az bir büyük harfi olmalıdır (&amp;#39;A&amp;#39; - &amp;#39;Z&amp;#39;).</value>
-    <comment>AUTO</comment>
-  </data>
-  <data isActive="false">
-    <key>Welcome</key>
-    <value>Hoşgeldiniz</value>
-    <comment>AUTO</comment>
+    <comment>Auto created by ExpressLocalization</comment>
   </data>
 </root>

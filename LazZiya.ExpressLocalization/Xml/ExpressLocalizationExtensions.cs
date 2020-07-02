@@ -1,5 +1,4 @@
-﻿using LazZiya.ExpressLocalization.Cache;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DataAnnotations;
 using LazZiya.ExpressLocalization.Identity;
 using LazZiya.ExpressLocalization.ModelBinding;
@@ -88,9 +87,9 @@ namespace LazZiya.ExpressLocalization.Xml
             // ExpressMemoryCache for caching localized values
             builder.Services.AddSingleton<ExpressMemoryCache>();
 
-            // Register ExpressResourceManager that will read .resx files
-            builder.Services.AddSingleton<IExpressResourceReader, XmlResourceReader<TResource>>();
-            builder.Services.AddTransient(typeof(IExpressResourceReader<>), typeof(XmlResourceReader<>));
+            // Register XmlResourceReaderWriter interface that will write .xml files
+            builder.Services.AddTransient<IExpressResourceReaderWriter, XmlResourceReaderWriter<TResource>>();
+            builder.Services.AddTransient(typeof(IExpressResourceReaderWriter<>), typeof(XmlResourceReaderWriter<>));
 
             // Register IStringLocalizer for the default shared resource type
             // This is the default (shared) resource entity and translation

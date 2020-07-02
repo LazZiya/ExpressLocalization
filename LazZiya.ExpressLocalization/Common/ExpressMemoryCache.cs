@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Globalization;
 
-namespace LazZiya.ExpressLocalization.Cache
+namespace LazZiya.ExpressLocalization.Common
 {
     /// <summary>
     /// Provides an IMemoryCache service to save localized values in a memory cache
@@ -12,7 +12,7 @@ namespace LazZiya.ExpressLocalization.Cache
         private readonly IMemoryCache _cache;
         private readonly MemoryCacheEntryOptions _entryOps;
         private string _keyFormat = "_Ex_Loc_{0}:{1}";
-        
+
         /// <summary>
         /// Create a new instance of ExpressMemoryCache
         /// </summary>
@@ -31,10 +31,7 @@ namespace LazZiya.ExpressLocalization.Cache
         {
             var k = CreateFormattedKey(key);
 
-            lock (_cache)
-            {
-                _cache.Set<string>(k, value, _entryOps);
-            }
+            _cache.Set<string>(k, value, _entryOps);
         }
 
         /// <summary>
@@ -45,10 +42,7 @@ namespace LazZiya.ExpressLocalization.Cache
         {
             var k = CreateFormattedKey(key);
 
-            lock (_cache)
-            {
-                _cache.Remove(k);
-            }
+            _cache.Remove(k);
         }
 
         /// <summary>

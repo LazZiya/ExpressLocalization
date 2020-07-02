@@ -1,5 +1,4 @@
-﻿using LazZiya.ExpressLocalization.Cache;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -38,7 +37,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            var reader = new XmlResourceReader(typeof(TResource), _options.Value.ResourcesPath);
+            var reader = new XmlResourceReaderWriter(typeof(TResource), _options.Value.ResourcesPath);
 
             return new XmlStringLocalizer(_cache, reader, _options, _stringTranslator);
         }
@@ -50,7 +49,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            var reader = new XmlResourceReader(resourceSource, _options.Value.ResourcesPath);
+            var reader = new XmlResourceReaderWriter(resourceSource, _options.Value.ResourcesPath);
 
             return new XmlStringLocalizer(_cache, reader, _options, _stringTranslator);
         }

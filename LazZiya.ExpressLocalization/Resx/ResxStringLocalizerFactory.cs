@@ -1,5 +1,4 @@
-﻿using LazZiya.ExpressLocalization.Cache;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.Extensions.Localization;
 using System;
 
