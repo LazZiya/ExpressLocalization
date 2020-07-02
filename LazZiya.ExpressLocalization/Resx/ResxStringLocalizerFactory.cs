@@ -1,8 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Cache;
 using LazZiya.ExpressLocalization.Common;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace LazZiya.ExpressLocalization.Resx
@@ -15,7 +13,7 @@ namespace LazZiya.ExpressLocalization.Resx
         where TResource : IXLResource
     {
         private readonly ExpressMemoryCache _cache;
-        private ExpressResourceManager _manager;
+        private IExpressResourceManager _manager;
 
         /// <summary>
         /// Initialize a new instance of ResxStringLocalizerFactory
@@ -32,9 +30,9 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            _manager = new ExpressResourceManager(typeof(TResource));
+            _manager = new ExpressResourceManager<TResource>();
 
-            return new ResxStringLocalizer<TResource>(_cache, _manager);
+            return new ResxStringLocalizer(_cache, _manager);
         }
 
         /// <summary>

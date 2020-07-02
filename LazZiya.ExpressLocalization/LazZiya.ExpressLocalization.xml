@@ -1022,29 +1022,22 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.ModelBinding.ExpressLocalizationExtensions.AddModelBindingLocalization(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
-            Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+            Add ModelBinding localization to the project.
             </summary>
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer">
+        <member name="T:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsExtensions">
             <summary>
             ModelBindingErrors Localizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,LazZiya.ExpressLocalization.Common.IExpressStringLocalizerFactory)">
+        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsExtensions.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,LazZiya.ExpressLocalization.Common.IExpressStringLocalizerFactory)">
             <summary>
             Use DB for localization
             </summary>
             <param name="provider"></param>
             <param name="factory">localizer factory</param>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.ModelBinding.ModelBindingErrorsLocalizer.SetLocalizedModelBindingErrorMessages(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.DefaultModelBindingMessageProvider,System.Type)">
-            <summary>
-            Use resx file for locaization
-            </summary>
-            <param name="provider"></param>
-            <param name="resxType"></param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.ProviderCultureDetector">
             <summary>
@@ -1245,31 +1238,78 @@
             <typeparam name="TService">Translation service</typeparam>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ExpressResourceManager`1">
+            <summary>
+            Generic resource manager
+            </summary>
+            <typeparam name="TResource"></typeparam>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressResourceManager`1.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ExpressResourceManager`1"/>
+            </summary>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ExpressResourceManager">
+            <summary>
+            For reading localized values from .resx resources
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressResourceManager.#ctor(System.Type)">
+            <summary>
+            Initialzie a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ExpressResourceManager"/>
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressResourceManager.TryGetValue(System.String,System.String@)">
+            <summary>
+            Try get a localized value
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.IExpressResourceManager`1">
+            <summary>
+            Generic interface to create <see cref="T:LazZiya.ExpressLocalization.Resx.ExpressResourceManager`1"/> 
+            for the specified resource of type <see cref="T:LazZiya.ExpressLocalization.Common.IXLResource"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.IExpressResourceManager">
+            <summary>
+            Interface to create <see cref="T:LazZiya.ExpressLocalization.Resx.ExpressResourceManager"/>
+            to get locaized valued from .resx files
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.IExpressResourceManager.TryGetValue(System.String,System.String@)">
+            <summary>
+            Try get localized value for given name
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1">
             <summary>
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer{`0})">
             <summary>
             Initialize new instance of ResxHtmlLocalizer
             </summary>
-            <param name="options"></param>
-            <param name="cache"></param>
+            <param name="localizer"></param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer">
             <summary>
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(Microsoft.Extensions.Localization.IStringLocalizer)">
             <summary>
             Initialize new instance of ResxStringLocalizer
             </summary>
-            <param name="resxType"></param>
-            <param name="location"></param>
-            <param name="cache"></param>
-            <param name="options"></param>
+            <param name="localizer"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.Item(System.String)">
             <summary>
@@ -1320,12 +1360,11 @@
             ResxHtmlLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Common.IExpressStringLocalizerFactory)">
             <summary>
             Initialize a new instance of ResxHtmlLocalizerFactory
             </summary>
-            <param name="options"></param>
-            <param name="cache"></param>
+            <param name="factory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.Create">
             <summary>
@@ -1354,7 +1393,7 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager{`0})">
             <summary>
             Initialize a new instance of ResxSteingLocalizer
             </summary>

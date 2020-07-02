@@ -1,8 +1,5 @@
-﻿using LazZiya.ExpressLocalization.Cache;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace LazZiya.ExpressLocalization.Resx
@@ -13,17 +10,15 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
         where TResource : IXLResource
     {
-        private readonly ExpressMemoryCache _cache;
-        private ExpressResourceManager _manager;
+        private readonly IExpressStringLocalizerFactory _factory;
 
         /// <summary>
         /// Initialize a new instance of ResxHtmlLocalizerFactory
         /// </summary>
-        /// <param name="options"></param>
-        /// <param name="cache"></param>
-        public ResxHtmlLocalizerFactory(ExpressMemoryCache cache)
+        /// <param name="factory"></param>
+        public ResxHtmlLocalizerFactory(IExpressStringLocalizerFactory factory)
         {
-            _cache = cache;
+            _factory = factory;
         }
 
         /// <summary>
@@ -32,9 +27,9 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            _manager = new ExpressResourceManager(typeof(TResource));
+            var localizer = _factory.Create(typeof(TResource));
 
-            return new ResxHtmlLocalizer<TResource>(_cache, _manager);
+            return new ResxHtmlLocalizer(localizer);
         }
 
         /// <summary>
@@ -44,9 +39,9 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            _manager = new ExpressResourceManager(resourceSource);
+            var localizer = _factory.Create(resourceSource);
 
-            return new ResxHtmlLocalizer(_cache, _manager);
+            return new ResxHtmlLocalizer(localizer);
         }
 
         /// <summary>

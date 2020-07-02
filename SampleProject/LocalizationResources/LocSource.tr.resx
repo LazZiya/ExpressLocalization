@@ -212,4 +212,16 @@
     <value>&amp;#39;{0}&amp;#39; ve &amp;#39;{1}&amp;#39; eşleşmiyor.</value>
     <comment>AUTO</comment>
   </data>
+  <data name="First number" xml:space="preserve">
+    <value>İlk sayı</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Şifreler en az bir büyük karakter ('A', 'Z') içermelidir.</value>
+  </data>
+  <data name="The value '{0}' is invalid." xml:space="preserve">
+    <value>'{0}' değeri geçerli değil.</value>
+  </data>
+  <data name="The value '{0}' is not valid for {1}." xml:space="preserve">
+    <value>'{0}' değeri {1} için geçerli değil.</value>
+  </data>
 </root>

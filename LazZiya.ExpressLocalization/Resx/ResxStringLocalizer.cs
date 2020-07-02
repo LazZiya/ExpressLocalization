@@ -17,7 +17,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <summary>
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceManager manager)
+        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceManager<TResource> manager)
             : base(cache, manager)
         {
         }
@@ -79,9 +79,11 @@ namespace LazZiya.ExpressLocalization.Resx
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var isResourceFound = TryGetValue(name, out string val);
+            var resourceFound = TryGetValue(name, out string val);
 
-            return new LocalizedString(name, string.Format(val ?? name, arguments), resourceNotFound: !isResourceFound);
+            var value = string.Format(val ?? name, arguments);
+
+            return new LocalizedString(name, value, resourceNotFound: !resourceFound);
         }
 
         private bool TryGetValue(string name, out string value)
@@ -89,14 +91,11 @@ namespace LazZiya.ExpressLocalization.Resx
             // Look for the localized value in the cache
             var success = _cache.TryGetValue(name, out value);
 
-            // If not available in cache, look in the resx file
             if (!success)
             {
-                //var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
-                //success = resxManager.TryGetValue(name, out value);
+                // Look in the resx file
                 success = _manager.TryGetValue(name, out value);
 
-                // If value is found in the resource file
                 // save it to the cache
                 if (success)
                     _cache.Set(name, value);

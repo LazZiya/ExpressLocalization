@@ -9,7 +9,7 @@ namespace LazZiya.ExpressLocalization.ModelBinding
     public static class ExpressLocalizationExtensions
     {
         /// <summary>
-        /// Add DataAnnotations, ModelBinding and IdentityErrors localization to the project.
+        /// Add ModelBinding localization to the project.
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>

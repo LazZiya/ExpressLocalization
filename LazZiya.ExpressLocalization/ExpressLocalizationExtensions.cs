@@ -185,12 +185,7 @@ namespace LazZiya.ExpressLocalization
         public static IMvcBuilder ExAddModelBindingLocalization<TModelBindingLocalizationResource>(this IMvcBuilder builder) 
             where TModelBindingLocalizationResource : class
         {
-            builder.AddMvcOptions(ops =>
-            {
-                ops.ModelBindingMessageProvider.SetLocalizedModelBindingErrorMessages(typeof(TModelBindingLocalizationResource));
-            });
-
-            return builder;
+            return builder.AddModelBindingLocalization();
         }
 
         /// <summary>
