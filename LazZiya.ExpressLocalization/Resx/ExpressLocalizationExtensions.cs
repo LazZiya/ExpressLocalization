@@ -87,6 +87,10 @@ namespace LazZiya.ExpressLocalization.Resx
             // ExpressMemoryCache for caching localized values
             builder.Services.AddSingleton<ExpressMemoryCache>();
 
+            // Register ExpressResourceManager with the default resource type
+            builder.Services.AddSingleton<IExpressResourceManager, ExpressResourceManager<TResource>>();
+            builder.Services.AddTransient(typeof(IExpressResourceManager<>), typeof(ExpressResourceManager<>));
+
             // Register IStringLocalizer for the default shared resource type
             // This is the default (shared) resource entity and translation
             builder.Services.AddSingleton<IStringLocalizer, ResxStringLocalizer<TResource>>();

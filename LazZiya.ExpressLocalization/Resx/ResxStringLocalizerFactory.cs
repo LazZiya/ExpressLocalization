@@ -14,17 +14,15 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxStringLocalizerFactory<TResource> : IExpressStringLocalizerFactory
         where TResource : IXLResource
     {
-        private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly ExpressMemoryCache _cache;
+        private ExpressResourceManager _manager;
 
         /// <summary>
         /// Initialize a new instance of ResxStringLocalizerFactory
         /// </summary>
-        /// <param name="options"></param>
         /// <param name="cache"></param>
-        public ResxStringLocalizerFactory(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options)
+        public ResxStringLocalizerFactory(ExpressMemoryCache cache)
         {
-            _options = options;
             _cache = cache;
         }
 
@@ -34,7 +32,9 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new ResxStringLocalizer<TResource>(_cache, _options);
+            _manager = new ExpressResourceManager(typeof(TResource));
+
+            return new ResxStringLocalizer<TResource>(_cache, _manager);
         }
 
         /// <summary>
@@ -44,7 +44,9 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            return new ResxStringLocalizer(_cache, resourceSource, _options.Value.ResourcesPath, _options);
+            _manager = new ExpressResourceManager(resourceSource);
+
+            return new ResxStringLocalizer(_cache, _manager);
         }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return new ResxStringLocalizer(_cache, baseName, location, _options);
+            return Create();
         }
     }
 }

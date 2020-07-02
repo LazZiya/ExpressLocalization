@@ -27,7 +27,7 @@
             </summary>
             <param name="key"></param>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Cache.ExpressMemoryCache.TryGet(System.String,System.String@)">
+        <member name="M:LazZiya.ExpressLocalization.Cache.ExpressMemoryCache.TryGetValue(System.String,System.String@)">
             <summary>
             Get a cached item from the memory cache
             </summary>
@@ -1124,7 +1124,6 @@
             <param name="location">Localization resources folder path</param>
             <param name="culture"></param>
             <param name="ext"></param>
-            <param name="logger"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
@@ -1177,7 +1176,7 @@
             <param name="key"></param>
             <returns>XElement</returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.TryGet(System.String,System.String@)">
+        <member name="M:LazZiya.ExpressLocalization.ResxTools.ResxManager.TryGetValue(System.String,System.String@)">
             <summary>
             TryGet method : use inside localizers
             </summary>
@@ -1251,7 +1250,7 @@
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
             <summary>
             Initialize new instance of ResxHtmlLocalizer
             </summary>
@@ -1263,20 +1262,11 @@
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,System.Type,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
             <summary>
             Initialize new instance of ResxStringLocalizer
             </summary>
             <param name="resxType"></param>
-            <param name="location"></param>
-            <param name="cache"></param>
-            <param name="options"></param>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
-            <summary>
-            Initialize new instance of ResxHtmlLocalizer
-            </summary>
-            <param name="baseName"></param>
             <param name="location"></param>
             <param name="cache"></param>
             <param name="options"></param>
@@ -1330,7 +1320,7 @@
             ResxHtmlLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache)">
             <summary>
             Initialize a new instance of ResxHtmlLocalizerFactory
             </summary>
@@ -1364,7 +1354,7 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
             <summary>
             Initialize a new instance of ResxSteingLocalizer
             </summary>
@@ -1374,23 +1364,12 @@
             String localizer based on .resx resource files 
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,System.Type,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,LazZiya.ExpressLocalization.Resx.IExpressResourceManager)">
             <summary>
             Initialize new instance of ResxStringLocalizer
             </summary>
-            <param name="resxType"></param>
-            <param name="location"></param>
             <param name="cache"></param>
-            <param name="options"></param>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,System.String,System.String,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
-            <summary>
-            Initialize new instance of ResxStringLocalizer
-            </summary>
-            <param name="baseName"></param>
-            <param name="location"></param>
-            <param name="cache"></param>
-            <param name="options"></param>
+            <param name="manager"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.Item(System.String)">
             <summary>
@@ -1427,11 +1406,10 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Cache.ExpressMemoryCache)">
             <summary>
             Initialize a new instance of ResxStringLocalizerFactory
             </summary>
-            <param name="options"></param>
             <param name="cache"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.Create">

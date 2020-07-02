@@ -1,8 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Cache;
 using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.ResxTools;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,12 +14,11 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxStringLocalizer<TResource> : ResxStringLocalizer, IStringLocalizer<TResource>
         where TResource : IXLResource
     {
-
         /// <summary>
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options)
-            : base(cache, typeof(TResource), options.Value.ResourcesPath, options)
+        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceManager manager)
+            : base(cache, manager)
         {
         }
     }
@@ -31,37 +28,18 @@ namespace LazZiya.ExpressLocalization.Resx
     /// </summary>
     public class ResxStringLocalizer : IStringLocalizer
     {
-        private readonly string _baseName;
-        private readonly string _location;
-        private readonly ExpressLocalizationOptions _options;
+        private readonly IExpressResourceManager _manager;
         private readonly ExpressMemoryCache _cache;
 
         /// <summary>
         /// Initialize new instance of ResxStringLocalizer
         /// </summary>
-        /// <param name="resxType"></param>
-        /// <param name="location"></param>
         /// <param name="cache"></param>
-        /// <param name="options"></param>
-        public ResxStringLocalizer(ExpressMemoryCache cache, Type resxType, string location, IOptions<ExpressLocalizationOptions> options)
-            : this(cache, resxType.Name, location, options)
-        {
-        }
-
-        /// <summary>
-        /// Initialize new instance of ResxStringLocalizer
-        /// </summary>
-        /// <param name="baseName"></param>
-        /// <param name="location"></param>
-        /// <param name="cache"></param>
-        /// <param name="options"></param>
         /// <param name="manager"></param>
-        public ResxStringLocalizer(ExpressMemoryCache cache, string baseName, string location, IOptions<ExpressLocalizationOptions> options)
+        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceManager manager)
         {
-            _baseName = baseName;
-            _location = location;
             _cache = cache;
-            _options = options.Value;
+            _manager = manager;
         }
 
         /// <summary>
@@ -114,8 +92,9 @@ namespace LazZiya.ExpressLocalization.Resx
             // If not available in cache, look in the resx file
             if (!success)
             {
-                var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
-                success = resxManager.TryGetValue(name, out value);
+                //var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
+                //success = resxManager.TryGetValue(name, out value);
+                success = _manager.TryGetValue(name, out value);
 
                 // If value is found in the resource file
                 // save it to the cache

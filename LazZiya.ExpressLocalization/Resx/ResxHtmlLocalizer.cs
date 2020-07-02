@@ -21,8 +21,8 @@ namespace LazZiya.ExpressLocalization.Resx
         /// </summary>
         /// <param name="options"></param>
         /// <param name="cache"></param>
-        public ResxHtmlLocalizer(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options)
-            : base(cache, typeof(TResource), options.Value.ResourcesPath, options)
+        public ResxHtmlLocalizer(ExpressMemoryCache cache, IExpressResourceManager manager)
+            : base(cache, manager)
         {
         }
     }
@@ -34,8 +34,8 @@ namespace LazZiya.ExpressLocalization.Resx
     {
         private readonly string _baseName;
         private readonly string _location;
-        private readonly ExpressLocalizationOptions _options;
         private readonly ExpressMemoryCache _cache;
+        private readonly IExpressResourceManager _manager;
 
         /// <summary>
         /// Initialize new instance of ResxStringLocalizer
@@ -44,24 +44,10 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="location"></param>
         /// <param name="cache"></param>
         /// <param name="options"></param>
-        public ResxHtmlLocalizer(ExpressMemoryCache cache, Type resxType, string location, IOptions<ExpressLocalizationOptions> options)
-            : this(cache, resxType.Name, location, options)
+        public ResxHtmlLocalizer(ExpressMemoryCache cache, IExpressResourceManager manager)
         {
-        }
-
-        /// <summary>
-        /// Initialize new instance of ResxHtmlLocalizer
-        /// </summary>
-        /// <param name="baseName"></param>
-        /// <param name="location"></param>
-        /// <param name="cache"></param>
-        /// <param name="options"></param>
-        public ResxHtmlLocalizer(ExpressMemoryCache cache, string baseName, string location, IOptions<ExpressLocalizationOptions> options)
-        {
-            _baseName = baseName;
-            _location = location;
             _cache = cache;
-            _options = options.Value;
+            _manager = manager;
         }
 
         /// <summary>
@@ -142,8 +128,7 @@ namespace LazZiya.ExpressLocalization.Resx
             // If not available in cache, look in the resx file
             if (!success)
             {
-                var resxManager = new ResxManager(_baseName, _location, CultureInfo.CurrentCulture.Name);
-                success = resxManager.TryGetValue(name, out value);
+                success = _manager.TryGetValue(name, out value);
 
                 // If value is found in the resource file
                 // save it to the cache
