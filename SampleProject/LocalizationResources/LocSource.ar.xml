@@ -152,4 +152,14 @@
     <value>استخدم خدمة أخرى للتسجيل.</value>
     <comment>Auto created by ExpressLocalization</comment>
   </data>
+  <data isActive="false">
+    <key>Privacy Policy</key>
+    <value>سياسة الخصوصية</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Use this page to detail your site's privacy policy.</key>
+    <value>استخدم هذه الصفحة لتفصيل سياسة الخصوصية الخاصة بموقعك.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
 </root>

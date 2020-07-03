@@ -1,5 +1,4 @@
 ﻿using LazZiya.ExpressLocalization.DB.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Newtonsoft.Json;

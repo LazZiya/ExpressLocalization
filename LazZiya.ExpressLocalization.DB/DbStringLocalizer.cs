@@ -17,23 +17,27 @@ namespace LazZiya.ExpressLocalization.DB
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {
-        private readonly ExpressLocalizationOptions _options;
         private readonly IEFGenericDataManager _dataManager;
-        private readonly IStringTranslator _stringTranslator;
+        private readonly IExpressTranslator _translator;
+        private readonly ExpressMemoryCache _cache;
+        private readonly ExpressLocalizationOptions _options;
 
         /// <summary>
         /// Initialize a new instance of DbStringLocalizer
         /// </summary>
         /// <param name="options"></param>
         /// <param name="dataManager"></param>
-        /// <param name="stringTranslator"></param>
-        public DbStringLocalizer(IOptions<ExpressLocalizationOptions> options,
-                                 IEFGenericDataManager dataManager,
-                                 IStringTranslator stringTranslator)
+        /// <param name="translator"></param>
+        /// <param name="cache"></param>
+        public DbStringLocalizer(IEFGenericDataManager dataManager,
+                                 IExpressTranslator translator,
+                                 ExpressMemoryCache cache,
+                                 IOptions<ExpressLocalizationOptions> options)
         {
             _options = options.Value;
             _dataManager = dataManager;
-            _stringTranslator = stringTranslator;
+            _translator = translator;
+            _cache = cache;
         }
 
         /// <summary>
@@ -73,42 +77,82 @@ namespace LazZiya.ExpressLocalization.DB
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var cultureId = CultureInfo.CurrentCulture.Name;
-            var val = _dataManager.GetAsync<TTranslation>(x => x.Resource.Key == name && x.CultureID == cultureId).Result;
+            var availableInTranslate = false;
 
-            var locStr = val == null
-                ? new LocalizedString(name, name, true)
-                : new LocalizedString(name, val.Value, false);
+            // Option 1: Look in the cache
+            bool availableInCache = _cache.TryGetValue(name, out string value);
 
-            if (locStr.ResourceNotFound)
+            if (!availableInCache)
             {
-                if (_options.AutoTranslate)
+                // Option 2: Look in DB
+                bool availableInDb = TryGetValueFromDb(name, out value);
+
+                if (!availableInDb && _options.AutoTranslate)
                 {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _stringTranslator[name];
+                    // Option 3: Online translate
+                    availableInTranslate = _translator.TryTranslate(name, "text", out value);
                 }
 
-                if (_options.AutoAddKeys)
+                if (!availableInDb && _options.AutoAddKeys)
                 {
-                    // Check if the resource entity exists
-                    var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
+                    // Save value to XML resource regardless the value has been translated or not
+                    // If the value is not translated, the default "name" will be assigned to the "value"
+                    // Anyhow, the saved values needs to be checked and confirmed one by one
+                    bool savedToResource = AddValueToDb(name, value ?? name);
+                }
 
-                    if (resId == 0)
-                    {
-                        var res = DynamicObjectCreator.DbResource<TResource>(name);
-                        resId = _dataManager.AddAsync<TResource, int>(res).Result;
-                    }
+                if (availableInDb || availableInTranslate)
+                {
+                    // Save to cache
+                    _cache.Set(name, value);
 
-                    var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, locStr.Value);
-                    var success = _dataManager.AddAsync<TTranslation>(trans).Result;
+                    // Set availability to true
+                    availableInCache = true;
                 }
             }
 
-            return arguments == null
-                ? locStr
-                : new LocalizedString(name, string.Format(locStr.Value, arguments), locStr.ResourceNotFound);
+            var val = string.Format(value, arguments);
+
+            return new LocalizedString(name, val, resourceNotFound: !availableInCache);
+        }
+
+
+        private bool TryGetValueFromDb(string name, out string value)
+        {
+            // set initial value 
+            value = name;
+
+            // get current culture
+            var cultureId = CultureInfo.CurrentCulture.Name;
+
+            // get value from db
+            var val = _dataManager.GetAsync<TTranslation>(x => x.Resource.Key == name && x.CultureID == cultureId).Result;
+
+            var success = false;
+            if (val != null)
+            {
+                success = true;
+                value = val.Value;
+            }
+
+            return success;
+        }
+
+        private bool AddValueToDb(string name, string value)
+        {
+            // Check if the resource entity exists
+            var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
+
+            if (resId == 0)
+            {
+                var res = DynamicObjectCreator.DbResource<TResource>(name);
+                resId = _dataManager.AddAsync<TResource, int>(res).Result;
+            }
+
+            var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, value);
+            var success = _dataManager.AddAsync<TTranslation>(trans).Result;
+
+            return success;
         }
     }
 }

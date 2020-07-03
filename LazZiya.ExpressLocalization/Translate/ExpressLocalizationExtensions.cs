@@ -17,20 +17,9 @@ namespace LazZiya.ExpressLocalization.Translate
         public static IMvcBuilder WithTranslationService<TService>(this IMvcBuilder builder)
             where TService : ITranslationService
         {
-            // String and Html translators with the default translation service
-            builder.Services.AddSingleton<IStringTranslator, StringTranslator<TService>>();
-            builder.Services.AddSingleton<IHtmlTranslator, HtmlTranslator<TService>>();
-            
-            // Generic String and Html translators with user defined translation service
-            builder.Services.AddSingleton(typeof(IStringTranslator<>), typeof(StringTranslator<>));
-            builder.Services.AddSingleton(typeof(IHtmlTranslator<>), typeof(HtmlTranslator<>));
-
-            // Translator factories
-            builder.Services.AddSingleton<IHtmlTranslatorFactory, HtmlTranslatorFactory>();
-            builder.Services.AddSingleton<IStringTranslatorFactory, StringTranslatorFactory>();
-
-            // Translation service factory, used to provide translation services for Translator Factories
-            builder.Services.AddSingleton<ITranslationServiceFactory, TranslationServiceFactory<TService>>();
+            // ExpressTranslator, the service that will connect to the default translation provider
+            builder.Services.AddSingleton<IExpressTranslator, ExpressTranslator<TService>>();
+            builder.Services.AddTransient(typeof(IExpressTranslator<>), typeof(ExpressTranslator<>));
 
             return builder;
         }

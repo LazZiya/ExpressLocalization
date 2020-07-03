@@ -1,9 +1,6 @@
-﻿using LazZiya.EFGenericDataManager;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DB.Models;
-using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace LazZiya.ExpressLocalization.DB
@@ -15,27 +12,15 @@ namespace LazZiya.ExpressLocalization.DB
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {
-        private readonly IOptions<ExpressLocalizationOptions> _options;
-        private readonly IEFGenericDataManager _dataManager;
-        private readonly IStringTranslator _stringTranslator;
-        private readonly IHtmlTranslator _htmlTranslator;
+        private readonly IDbStringLocalizer<TResource, TTranslation> _localizer;
 
         /// <summary>
         /// Initialize a new instance of DbHtmlLocalizerFactory
         /// </summary>
-        /// <param name="options"></param>
-        /// <param name="dataManager"></param>
-        /// <param name="stringTranslator"></param>
-        /// <param name="htmlTranslator"></param>
-        public DbHtmlLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
-                               IEFGenericDataManager dataManager, 
-                               IStringTranslator stringTranslator,
-                               IHtmlTranslator htmlTranslator)
+        /// <param name="localizer"></param>
+        public DbHtmlLocalizerFactory(IDbStringLocalizer<TResource, TTranslation> localizer)
         {
-            _options = options;
-            _dataManager = dataManager;
-            _stringTranslator = stringTranslator;
-            _htmlTranslator = htmlTranslator;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -44,7 +29,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new DbHtmlLocalizer<TResource, TTranslation>(_options, _dataManager, _stringTranslator, _htmlTranslator);
+            return new DbHtmlLocalizer<TResource, TTranslation>(_localizer);
         }
 
         /// <summary>

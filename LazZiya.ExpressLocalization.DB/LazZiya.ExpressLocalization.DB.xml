@@ -11,14 +11,11 @@
             <typeparam name="TResource"></typeparam>
             <typeparam name="TTranslation"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.DbHtmlLocalizer`2.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.EFGenericDataManager.IEFGenericDataManager,LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.DB.DbHtmlLocalizer`2.#ctor(LazZiya.ExpressLocalization.DB.IDbStringLocalizer{`0,`1})">
             <summary>
             Initialize a new instance of DbHtmlLocalizer
             </summary>
-            <param name="options"></param>
-            <param name="dataManager"></param>
-            <param name="stringTranslator"></param>
-            <param name="htmlTranslator"></param>
+            <param name="localizer"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.DB.DbHtmlLocalizer`2.Item(System.String)">
             <summary>
@@ -69,14 +66,11 @@
             Database html localizer factory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.DbHtmlLocalizerFactory`2.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.EFGenericDataManager.IEFGenericDataManager,LazZiya.ExpressLocalization.Translate.IStringTranslator,LazZiya.ExpressLocalization.Translate.IHtmlTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.DB.DbHtmlLocalizerFactory`2.#ctor(LazZiya.ExpressLocalization.DB.IDbStringLocalizer{`0,`1})">
             <summary>
             Initialize a new instance of DbHtmlLocalizerFactory
             </summary>
-            <param name="options"></param>
-            <param name="dataManager"></param>
-            <param name="stringTranslator"></param>
-            <param name="htmlTranslator"></param>
+            <param name="localizer"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.DB.DbHtmlLocalizerFactory`2.Create">
             <summary>
@@ -104,13 +98,14 @@
             DB based string localization
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.DbStringLocalizer`2.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.EFGenericDataManager.IEFGenericDataManager,LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.DB.DbStringLocalizer`2.#ctor(LazZiya.EFGenericDataManager.IEFGenericDataManager,LazZiya.ExpressLocalization.Translate.IExpressTranslator,LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Initialize a new instance of DbStringLocalizer
             </summary>
             <param name="options"></param>
             <param name="dataManager"></param>
-            <param name="stringTranslator"></param>
+            <param name="translator"></param>
+            <param name="cache"></param>
         </member>
         <member name="P:LazZiya.ExpressLocalization.DB.DbStringLocalizer`2.Item(System.String)">
             <summary>
@@ -146,7 +141,7 @@
             DbStringLocalizer factory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.DB.DbStringLocalizerFactory`2.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.EFGenericDataManager.IEFGenericDataManager,LazZiya.ExpressLocalization.Translate.IStringTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.DB.DbStringLocalizerFactory`2.#ctor(LazZiya.EFGenericDataManager.IEFGenericDataManager,LazZiya.ExpressLocalization.Translate.IExpressTranslator,LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
             Initialize a new instance of DbStringLocalizerFactory
             </summary>

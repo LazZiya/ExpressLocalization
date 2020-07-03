@@ -15,20 +15,23 @@ namespace LazZiya.ExpressLocalization.DB
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {
-        private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IEFGenericDataManager _dataManager;
-        private readonly IStringTranslator _stringTranslator;
+        private readonly IExpressTranslator _translator;
+        private readonly ExpressMemoryCache _cache;
+        private readonly IOptions<ExpressLocalizationOptions> _options;
 
         /// <summary>
         /// Initialize a new instance of DbStringLocalizerFactory
         /// </summary>
-        public DbStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
-                                        IEFGenericDataManager dataManager, 
-                                        IStringTranslator stringTranslator)
+        public DbStringLocalizerFactory(IEFGenericDataManager dataManager,
+                                        IExpressTranslator translator,
+                                        ExpressMemoryCache cache,
+                                        IOptions<ExpressLocalizationOptions> options)
         {
-            _options = options;
             _dataManager = dataManager;
-            _stringTranslator = stringTranslator;
+            _translator = translator;
+            _cache = cache;
+            _options = options;
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new DbStringLocalizer<TResource, TTranslation>(_options, _dataManager, _stringTranslator);
+            return new DbStringLocalizer<TResource, TTranslation>(_dataManager, _translator, _cache, _options);
         }
 
         /// <summary>

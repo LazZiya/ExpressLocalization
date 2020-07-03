@@ -1,10 +1,7 @@
-﻿using LazZiya.EFGenericDataManager;
-using LazZiya.ExpressLocalization.Common;
+﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.DB.Models;
-using LazZiya.ExpressLocalization.Translate;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,27 +17,15 @@ namespace LazZiya.ExpressLocalization.DB
         where TResource : class, IXLDbResource
         where TTranslation : class, IXLDbTranslation
     {
-        private readonly ExpressLocalizationOptions _options;
-        private readonly IEFGenericDataManager _dataManager;
-        private readonly IStringTranslator _stringTranslator;
-        private readonly IHtmlTranslator _htmlTranslator;
+        private readonly IDbStringLocalizer<TResource, TTranslation> _localizer;
 
         /// <summary>
         /// Initialize a new instance of DbHtmlLocalizer
         /// </summary>
-        /// <param name="options"></param>
-        /// <param name="dataManager"></param>
-        /// <param name="stringTranslator"></param>
-        /// <param name="htmlTranslator"></param>
-        public DbHtmlLocalizer(IOptions<ExpressLocalizationOptions> options,
-                               IEFGenericDataManager dataManager,
-                               IStringTranslator stringTranslator,
-                               IHtmlTranslator htmlTranslator)
+        /// <param name="localizer"></param>
+        public DbHtmlLocalizer(IDbStringLocalizer<TResource, TTranslation> localizer)
         {
-            _options = options.Value;
-            _dataManager = dataManager;
-            _stringTranslator = stringTranslator;
-            _htmlTranslator = htmlTranslator;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -75,7 +60,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public LocalizedString GetString(string name)
         {
-            return GetLocalizedString(name);
+            return _localizer[name];
         }
 
         /// <summary>
@@ -86,7 +71,7 @@ namespace LazZiya.ExpressLocalization.DB
         /// <returns></returns>
         public LocalizedString GetString(string name, params object[] arguments)
         {
-            return GetLocalizedString(name, arguments);
+            return _localizer[name, arguments];
         }
 
         /// <summary>
@@ -99,84 +84,11 @@ namespace LazZiya.ExpressLocalization.DB
             throw new NotImplementedException();
         }
 
-        private LocalizedString GetLocalizedString(string name, params object[] arguments)
-        {
-            var cultureId = CultureInfo.CurrentCulture.Name;
-            var val = _dataManager.GetAsync<TTranslation>(x => x.Resource.Key == name && x.CultureID == cultureId).Result;
-
-            var locStr = val == null
-                ? new LocalizedString(name, name, true)
-                : new LocalizedString(name, val.Value, false);
-
-            if (locStr.ResourceNotFound)
-            {
-                if (_options.AutoTranslate)
-                {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _stringTranslator[name];
-                }
-
-                if (_options.AutoAddKeys)
-                {
-                    // Check if the resource entity exists
-                    var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
-
-                    if (resId == 0)
-                    {
-                        var res = DynamicObjectCreator.DbResource<TResource>(name);
-                        resId = _dataManager.AddAsync<TResource, int>(res).Result;
-                    }
-
-                    var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, locStr.Value);
-                    var success = _dataManager.AddAsync<TTranslation>(trans).Result;
-                }
-            }
-
-            return arguments == null
-                ? locStr
-                : new LocalizedString(name, string.Format(locStr.Value, arguments), locStr.ResourceNotFound);
-        }
-
         private LocalizedHtmlString GetLocalizedHtmlString(string name, params object[] arguments)
         {
-            var cultureId = CultureInfo.CurrentCulture.Name;
-            var val = _dataManager.GetAsync<TTranslation>(x => x.Resource.Key == name && x.CultureID == cultureId).Result;
+            var val = _localizer[name, arguments];
 
-            var locStr = val == null
-                ? new LocalizedHtmlString(name, name, true)
-                : new LocalizedHtmlString(name, val.Value, false);
-
-            if (locStr.IsResourceNotFound)
-            {
-                if (_options.AutoTranslate)
-                {
-                    // Call the translator function without arguments, 
-                    // so we can insert the raw string in xml file
-                    // requrired to keep placeholders {0} in the raw string
-                    locStr = _htmlTranslator[name];
-                }
-
-                if (_options.AutoAddKeys)
-                {
-                    // Check if the resource entity exists
-                    var resId = _dataManager.GetAsync<TResource, int>(x => x.Key == name, x => x.ID).Result;
-
-                    if (resId == 0)
-                    {
-                        var res = DynamicObjectCreator.DbResource<TResource>(name);
-                        resId = _dataManager.AddAsync<TResource, int>(res).Result;
-                    }
-
-                    var trans = DynamicObjectCreator.DbTranslation<TTranslation>(resId, locStr.Value);
-                    var success = _dataManager.AddAsync<TTranslation>(trans).Result;
-                }
-            }
-
-            return arguments == null
-                ? locStr
-                : new LocalizedHtmlString(name, string.Format(locStr.Value, arguments), locStr.IsResourceNotFound);
+            return new LocalizedHtmlString(name, val, val.ResourceNotFound);
         }
     }
 }
