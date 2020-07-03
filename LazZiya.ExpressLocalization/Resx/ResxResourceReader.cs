@@ -1,5 +1,4 @@
 ﻿using LazZiya.ExpressLocalization.Common;
-using System;
 using System.Globalization;
 using System.Resources;
 
@@ -9,33 +8,17 @@ namespace LazZiya.ExpressLocalization.Resx
     /// Generic .resx resource reader
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class ResxResourceReader<TResource> : ResxResourceReader, IExpressResourceReader<TResource>
+    public class ResxResourceReader<TResource> : IExpressResourceReader<TResource>
         where TResource : IXLResource
-    {
-        /// <summary>
-        /// Initialize a new instance of <see cref="ResxResourceReader{TResource}"/>
-        /// </summary>
-        public ResxResourceReader()
-            : base(typeof(TResource))
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// For reading localized values from .resx resources
-    /// </summary>
-    public class ResxResourceReader : IExpressResourceReader
     {
         private readonly ResourceManager _manager;
 
         /// <summary>
-        /// Initialzie a new instance of <see cref="ResxResourceReader"/>
+        /// Initialize a new instance of <see cref="ResxResourceReader{TResource}"/>
         /// </summary>
-        /// <param name="type"></param>
-        public ResxResourceReader(Type type)
+        public ResxResourceReader()
         {
-            _manager = new ResourceManager(type);
+            _manager = new ResourceManager(typeof(TResource));
         }
 
         /// <summary>

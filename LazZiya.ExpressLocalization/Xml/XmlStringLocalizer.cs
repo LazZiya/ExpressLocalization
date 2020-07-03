@@ -12,31 +12,9 @@ namespace LazZiya.ExpressLocalization.Xml
     /// Generic XmlStringLocalizer based on speificed type
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class XmlStringLocalizer<TResource> : XmlStringLocalizer, IStringLocalizer<TResource>
+    public class XmlStringLocalizer<TResource> : IStringLocalizer<TResource>
         where TResource : IXLResource
-    {
-        /// <summary>
-        /// Initialize a new instance of XmlStringLocalizer with the specified resource type
-        /// </summary>
-        /// <param name="cache"></param>
-        /// <param name="rw"></param>
-        /// <param name="options"></param>
-        /// <param name="translator"></param>
-        public XmlStringLocalizer(ExpressMemoryCache cache,
-                                  IExpressResourceReaderWriter<TResource> rw,
-                                  IOptions<ExpressLocalizationOptions> options,
-                                  IExpressTranslator translator)
-            : base(cache, rw, options, translator)
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// Xml localizer
-    /// </summary>
-    public class XmlStringLocalizer : IStringLocalizer
-    {
+    {            
         private readonly ExpressLocalizationOptions _options;
         private readonly ExpressMemoryCache _cache;
         private readonly IExpressResourceReaderWriter _rw;

@@ -10,32 +10,16 @@ namespace LazZiya.ExpressLocalization.Resx
     /// Resouece file based StringLocalizer
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class ResxStringLocalizer<TResource> : ResxStringLocalizer, IStringLocalizer<TResource>
+    public class ResxStringLocalizer<TResource> : IStringLocalizer<TResource>
         where TResource : IXLResource
-    {
-        /// <summary>
-        /// Initialize a new instance of ResxSteingLocalizer
-        /// </summary>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceReader<TResource> reader)
-            : base(cache, reader)
-        {
-        }
-    }
-
-    /// <summary>
-    /// String localizer based on .resx resource files 
-    /// </summary>
-    public class ResxStringLocalizer : IStringLocalizer
     {
         private readonly IExpressResourceReader _reader;
         private readonly ExpressMemoryCache _cache;
 
         /// <summary>
-        /// Initialize new instance of ResxStringLocalizer
+        /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        /// <param name="cache"></param>
-        /// <param name="reader"></param>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceReader reader)
+        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceReader<TResource> reader)
         {
             _cache = cache;
             _reader = reader;

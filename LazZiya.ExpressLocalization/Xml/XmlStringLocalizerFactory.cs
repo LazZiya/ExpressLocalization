@@ -15,6 +15,7 @@ namespace LazZiya.ExpressLocalization.Xml
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IExpressTranslator _translator;
         private readonly ExpressMemoryCache _cache;
+        private readonly IExpressResourceReaderWriter _rw;
 
         /// <summary>
         /// Instantiate a new XmlStringLocalizerFactory
@@ -22,13 +23,16 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="cache"></param>
         /// <param name="options"></param>
         /// <param name="translator"></param>
+        /// <param name="rw"></param>
         public XmlStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
                                          IExpressTranslator translator,
+                                         IExpressResourceReaderWriter<TResource> rw,
                                          ExpressMemoryCache cache)
         {
             _options = options;
             _translator = translator;
             _cache = cache;
+            _rw = rw;
         }
 
         /// <summary>
@@ -37,9 +41,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            var reader = new XmlResourceReaderWriter(typeof(TResource), _options.Value.ResourcesPath);
-
-            return new XmlStringLocalizer(_cache, reader, _options, _translator);
+            return new XmlStringLocalizer<TResource>(_cache, _rw, _options, _translator);
         }
 
         /// <summary>
@@ -49,9 +51,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            var reader = new XmlResourceReaderWriter(resourceSource, _options.Value.ResourcesPath);
-
-            return new XmlStringLocalizer(_cache, reader, _options, _translator);
+            return Create();
         }
 
         /// <summary>

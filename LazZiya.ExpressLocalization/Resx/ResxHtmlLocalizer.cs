@@ -10,31 +10,16 @@ namespace LazZiya.ExpressLocalization.Resx
     /// <summary>
     /// Resource file based HtmlLocalizer
     /// </summary>
-    public class ResxHtmlLocalizer<TResource> : ResxHtmlLocalizer, IHtmlLocalizer<TResource>
+    public class ResxHtmlLocalizer<TResource> : IHtmlLocalizer<TResource>
         where TResource : IXLResource
     {
+        private readonly IStringLocalizer _localizer;
+
         /// <summary>
         /// Initialize new instance of ResxHtmlLocalizer
         /// </summary>
         /// <param name="localizer"></param>
         public ResxHtmlLocalizer(IStringLocalizer<TResource> localizer)
-            : base(localizer)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Resource file based HtmlLocalizer
-    /// </summary>
-    public class ResxHtmlLocalizer : IHtmlLocalizer
-    {
-        private readonly IStringLocalizer _localizer;
-
-        /// <summary>
-        /// Initialize new instance of ResxStringLocalizer
-        /// </summary>
-        /// <param name="localizer"></param>
-        public ResxHtmlLocalizer(IStringLocalizer localizer)
         {
             _localizer = localizer;
         }

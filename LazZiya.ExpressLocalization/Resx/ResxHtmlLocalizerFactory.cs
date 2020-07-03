@@ -11,15 +11,15 @@ namespace LazZiya.ExpressLocalization.Resx
     public class ResxHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
         where TResource : IXLResource
     {
-        private readonly IStringLocalizerFactory _factory;
+        private readonly IStringLocalizer<TResource> _localizer;
 
         /// <summary>
         /// Initialize a new instance of ResxHtmlLocalizerFactory
         /// </summary>
-        /// <param name="factory"></param>
-        public ResxHtmlLocalizerFactory(IStringLocalizerFactory factory)
+        /// <param name="localizer"></param>
+        public ResxHtmlLocalizerFactory(IStringLocalizer<TResource> localizer)
         {
-            _factory = factory;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return Create(typeof(TResource));
+            return new ResxHtmlLocalizer<TResource>(_localizer);
         }
 
         /// <summary>
@@ -38,9 +38,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            var localizer = _factory.Create(resourceSource);
-
-            return new ResxHtmlLocalizer(localizer);
+            return Create();
         }
 
         /// <summary>

@@ -28,11 +28,6 @@
     </xsd:element>
   </xsd:schema>
   <data isActive="false">
-    <key>Welcome</key>
-    <value>Hoşgeldiniz</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
     <key>Hello</key>
     <value>Merhaba</value>
     <comment>Auto created by ExpressLocalization</comment>
@@ -140,6 +135,36 @@
   <data isActive="false">
     <key>Use another service to register.</key>
     <value>Kaydolmak için başka bir hizmet kullanın.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Welcome</key>
+    <value>Hoşgeldiniz</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>First number</key>
+    <value>İlk Sayı</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Second number</key>
+    <value>İkinci sayı</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Multiply</key>
+    <value>Çoğalt</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is not valid for {1}.</key>
+    <value>&amp;#39;{0}&amp;#39; değeri {1} için geçerli değil.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>The value '{0}' is invalid.</key>
+    <value>&amp;#39;{0}&amp;#39; değeri geçersiz.</value>
     <comment>Auto created by ExpressLocalization</comment>
   </data>
 </root>

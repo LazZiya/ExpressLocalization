@@ -12,14 +12,17 @@ namespace LazZiya.ExpressLocalization.Resx
         where TResource : IXLResource
     {
         private readonly ExpressMemoryCache _cache;
+        private readonly IExpressResourceReader<TResource> _reader;
 
         /// <summary>
         /// Initialize a new instance of ResxStringLocalizerFactory
         /// </summary>
         /// <param name="cache"></param>
-        public ResxStringLocalizerFactory(ExpressMemoryCache cache)
+        /// <param name="reader"></param>
+        public ResxStringLocalizerFactory(ExpressMemoryCache cache, IExpressResourceReader<TResource> reader)
         {
             _cache = cache;
+            _reader = reader;
         }
 
         /// <summary>
@@ -28,9 +31,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            var reader = new ResxResourceReader<TResource>();
-
-            return new ResxStringLocalizer(_cache, reader);
+            return new ResxStringLocalizer<TResource>(_cache, _reader);
         }
 
         /// <summary>
@@ -40,9 +41,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            var reader = new ResxResourceReader(resourceSource);
-
-            return new ResxStringLocalizer(_cache, reader);
+            return Create();
         }
 
         /// <summary>
