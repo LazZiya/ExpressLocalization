@@ -1,6 +1,9 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Concurrent;
 
 namespace LazZiya.ExpressLocalization.Resx
 {
@@ -9,20 +12,26 @@ namespace LazZiya.ExpressLocalization.Resx
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
     public class ResxStringLocalizerFactory<TResource> : IExpressStringLocalizerFactory
-        where TResource : IXLResource
+        where TResource : IExpressResource
     {
         private readonly ExpressMemoryCache _cache;
-        private readonly IExpressResourceReader<TResource> _reader;
+        private readonly IOptions<ExpressLocalizationOptions> _options;
+        private readonly ILoggerFactory _logger;
+        private readonly ConcurrentDictionary<string, ResxStringLocalizer> _localizerCache = new ConcurrentDictionary<string, ResxStringLocalizer>();
 
         /// <summary>
         /// Initialize a new instance of ResxStringLocalizerFactory
         /// </summary>
         /// <param name="cache"></param>
-        /// <param name="reader"></param>
-        public ResxStringLocalizerFactory(ExpressMemoryCache cache, IExpressResourceReader<TResource> reader)
+        /// <param name="options"></param>
+        /// <param name="loggerFactory"></param>
+        public ResxStringLocalizerFactory(ExpressMemoryCache cache, 
+                                          IOptions<ExpressLocalizationOptions> options, 
+                                          ILoggerFactory loggerFactory)
         {
             _cache = cache;
-            _reader = reader;
+            _options = options;
+            _logger = loggerFactory;
         }
 
         /// <summary>
@@ -31,7 +40,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new ResxStringLocalizer<TResource>(_cache, _reader);
+            return Create(typeof(TResource));
         }
 
         /// <summary>
@@ -41,7 +50,12 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            return Create();
+            if (resourceSource == null)
+            {
+                throw new ArgumentNullException(nameof(resourceSource));
+            }
+
+            return _localizerCache.GetOrAdd(resourceSource.FullName, _ => new ResxStringLocalizer(resourceSource, _cache, _options, _logger));
         }
 
         /// <summary>
@@ -52,7 +66,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return Create();
+            throw new NotSupportedException($"Creating a localizer using 'baseName' and 'location' is not supported! Use .Create() or .Create(Type resourceSource) instead.");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <typeparam name="TResource">Resource type</typeparam>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder)
-            where TResource : IXLResource
+            where TResource : IExpressResource
         {
             var ops = new ExpressLocalizationOptions();
 
@@ -42,7 +42,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <typeparam name="TResource">Resource type</typeparam>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationXml<TResource>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
-            where TResource : IXLResource
+            where TResource : IExpressResource
         {
             // Register dummy translatio service to avoid startup exceptions
             builder.Services.AddTransient<ITranslationService, DummyTranslationService>();
@@ -60,7 +60,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <typeparam name="TService">Translation service</typeparam>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationXml<TResource, TService>(this IMvcBuilder builder)
-            where TResource : IXLResource
+            where TResource : IExpressResource
             where TService : ITranslationService
         {
             var ops = new ExpressLocalizationOptions();
@@ -79,17 +79,13 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <typeparam name="TService">Translation service</typeparam>
         /// <returns></returns>
         public static IMvcBuilder AddExpressLocalizationXml<TResource, TService>(this IMvcBuilder builder, Action<ExpressLocalizationOptions> xOps)
-            where TResource : IXLResource
+            where TResource : IExpressResource
             where TService : ITranslationService
         {
             builder.Services.Configure<ExpressLocalizationOptions>(xOps);
 
             // ExpressMemoryCache for caching localized values
             builder.Services.AddSingleton<ExpressMemoryCache>();
-
-            // Register XmlResourceReaderWriter interface that will write .xml files
-            builder.Services.AddTransient<IExpressResourceReaderWriter, XmlResourceReaderWriter<TResource>>();
-            builder.Services.AddTransient(typeof(IExpressResourceReaderWriter<>), typeof(XmlResourceReaderWriter<>));
 
             // Register IStringLocalizer for the default shared resource type
             // This is the default (shared) resource entity and translation

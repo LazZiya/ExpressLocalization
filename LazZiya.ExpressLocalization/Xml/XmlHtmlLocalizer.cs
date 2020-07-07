@@ -11,19 +11,34 @@ namespace LazZiya.ExpressLocalization.Xml
     /// Generic XmlHtmlLocalizer based on speificed type
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class XmlHtmlLocalizer<TResource> : IHtmlLocalizer<TResource>
-        where TResource : IXLResource
+    public class XmlHtmlLocalizer<TResource> : XmlHtmlLocalizer, IHtmlLocalizer<TResource>
+        where TResource : IExpressResource
+    {
+        /// <summary>
+        /// Initialize a new instance of <see cref="XmlHtmlLocalizer{TResource}"/>
+        /// </summary>
+        /// <param name="factory"></param>
+        public XmlHtmlLocalizer(IStringLocalizerFactory factory)
+            : base(factory.Create(typeof(TResource)))
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// An <see cref="XmlHtmlLocalizer"/> based on the default resource type
+    /// </summary>
+    public class XmlHtmlLocalizer : IHtmlLocalizer
     {
         private readonly IStringLocalizer _localizer;
-
         /// <summary>
         /// Initialize a new instance of XmlHtmlLocalizer with the specified resource type
         /// </summary>
         /// <param name="localizer"></param>
-        public XmlHtmlLocalizer(IStringLocalizer<TResource> localizer)
-        { 
+        public XmlHtmlLocalizer(IStringLocalizer localizer)
+        {
             _localizer = localizer;
-        }        
+        }
 
         /// <summary>
         /// Get localized string value

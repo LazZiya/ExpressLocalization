@@ -1,7 +1,6 @@
 ﻿using LazZiya.ExpressLocalization.Messages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
-using System;
 
 namespace LazZiya.ExpressLocalization.Identity
 {
@@ -10,18 +9,8 @@ namespace LazZiya.ExpressLocalization.Identity
     /// </summary>
     public class IdentityErrorsLocalizer : IdentityErrorDescriber 
     {
-        private readonly Type ResxResourceType;
         private readonly IStringLocalizer Localizer;
-
-        /// <summary>
-        /// Initialize identity errors localization based on resx files
-        /// </summary>
-        /// <param name="resType"></param>
-        public IdentityErrorsLocalizer(Type resType)
-        {
-            ResxResourceType = resType;
-        }
-        
+                
         /// <summary>
         /// Initialize identity erroors localization based on DB locailzer
         /// </summary>

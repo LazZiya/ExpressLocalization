@@ -117,31 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Welcome" xml:space="preserve">
-    <value>أهلا بالحبيب</value>
-  </data>
-  <data name="Welcome to Planet Earth!" xml:space="preserve">
-    <value>مرحباً بك في كوكب الأرض</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Hello" xml:space="preserve">
-    <value>اهلاً بيك</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="Learn about &lt;a href=&quot;{0}&quot;&gt;building Web apps with ASP.NET Core&lt;/a&gt;." xml:space="preserve">
-    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
-    <comment>AUTO</comment>
-  </data>
-  <data name="First number" xml:space="preserve">
-    <value>الرقم الأول</value>
-  </data>
-  <data name="The value '{0}' is invalid." xml:space="preserve">
-    <value>القيمة '{0}' غير مقبولة.</value>
-  </data>
-  <data name="The value '{0}' is not valid for {1}." xml:space="preserve">
-    <value>القيمة '{0}' غير مقبولة في الحقل {1}.</value>
-  </data>
-  <data name="Welcome dear" xml:space="preserve">
-    <value>هلا بالغالي</value>
+  <data name="Welcome dear, login here" xml:space="preserve">
+    <value>Hoşgeldin gülüm, gir bakalım</value>
   </data>
 </root>

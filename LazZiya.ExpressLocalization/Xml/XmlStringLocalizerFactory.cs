@@ -1,8 +1,11 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace LazZiya.ExpressLocalization.Xml
 {
@@ -10,12 +13,13 @@ namespace LazZiya.ExpressLocalization.Xml
     /// XmlStringLocalizerFactory
     /// </summary>
     public class XmlStringLocalizerFactory<TResource> : IExpressStringLocalizerFactory
-        where TResource : IXLResource
+        where TResource : IExpressResource
     {
         private readonly IOptions<ExpressLocalizationOptions> _options;
         private readonly IExpressTranslator _translator;
         private readonly ExpressMemoryCache _cache;
-        private readonly IExpressResourceReaderWriter _rw;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ConcurrentDictionary<string, XmlStringLocalizer> _localizerCache = new ConcurrentDictionary<string, XmlStringLocalizer>();
 
         /// <summary>
         /// Instantiate a new XmlStringLocalizerFactory
@@ -23,16 +27,16 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <param name="cache"></param>
         /// <param name="options"></param>
         /// <param name="translator"></param>
-        /// <param name="rw"></param>
-        public XmlStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options, 
+        /// <param name="loggerFactory"></param>
+        public XmlStringLocalizerFactory(IOptions<ExpressLocalizationOptions> options,
                                          IExpressTranslator translator,
-                                         IExpressResourceReaderWriter<TResource> rw,
-                                         ExpressMemoryCache cache)
+                                         ExpressMemoryCache cache,
+                                         ILoggerFactory loggerFactory)
         {
             _options = options;
             _translator = translator;
             _cache = cache;
-            _rw = rw;
+            _loggerFactory = loggerFactory;
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create()
         {
-            return new XmlStringLocalizer<TResource>(_cache, _rw, _options, _translator);
+            return Create(typeof(TResource));
         }
 
         /// <summary>
@@ -51,7 +55,12 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create(Type resourceSource)
         {
-            return Create();
+            if (resourceSource == null)
+            {
+                throw new ArgumentNullException(nameof(resourceSource));
+            }
+
+            return _localizerCache.GetOrAdd(resourceSource.FullName, _ => CreateXmlStringLocalizer(resourceSource));
         }
 
         /// <summary>
@@ -62,7 +71,16 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            return Create();
+            throw new NotSupportedException($"Creating a localizer using 'baseName' and 'location' is not supported! Use .Create() or .Create(Type resourceSource) instead.");
+        }
+
+        /// <summary>
+        /// Creates a <see cref="XmlStringLocalizer"/> for the given input.
+        /// </summary>
+        /// <param name="resourceSource">The assembly to create a <see cref="XmlStringLocalizer"/> for.</param>
+        private XmlStringLocalizer CreateXmlStringLocalizer(Type resourceSource)
+        {
+            return new XmlStringLocalizer(resourceSource, _cache, _options, _translator, _loggerFactory);
         }
     }
 }

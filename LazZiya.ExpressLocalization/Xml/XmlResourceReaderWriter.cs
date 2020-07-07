@@ -1,5 +1,5 @@
 ﻿using LazZiya.ExpressLocalization.Common;
-using LazZiya.ExpressLocalization.ResxTools;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
@@ -14,14 +14,14 @@ namespace LazZiya.ExpressLocalization.Xml
     /// Generic resource manager
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class XmlResourceReaderWriter<TResource> : XmlResourceReaderWriter, IExpressResourceReaderWriter<TResource>
-        where TResource : IXLResource
+    public class XmlResourceReaderWriter<TResource> : XmlResourceReaderWriter
+        where TResource : IExpressResource
     {
         /// <summary>
         /// Initialize a new instance of <see cref="XmlResourceReaderWriter{TResource}"/>
         /// </summary>
-        public XmlResourceReaderWriter(IOptions<ExpressLocalizationOptions> options)
-            : base(typeof(TResource), options.Value.ResourcesPath)
+        public XmlResourceReaderWriter(IOptions<ExpressLocalizationOptions> options, ILoggerFactory loggerFactory)
+            : base(typeof(TResource), options.Value.ResourcesPath, loggerFactory)
         {
 
         }
@@ -30,19 +30,34 @@ namespace LazZiya.ExpressLocalization.Xml
     /// <summary>
     /// For reading localized values from .resx resources
     /// </summary>
-    public class XmlResourceReaderWriter : IExpressResourceReaderWriter
+    public class XmlResourceReaderWriter
     {
         private readonly string _path;
         private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
-
+        private readonly ILogger _logger;
         /// <summary>
         /// Initialzie a new instance of <see cref="XmlResourceReaderWriter"/>
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="location"></param>
-        public XmlResourceReaderWriter(Type type, string location)
+        /// <param name="location">Resources folder path</param>
+        /// <param name="loggerFactory"></param>
+        public XmlResourceReaderWriter(Type type, string location, ILoggerFactory loggerFactory)
         {
-            _path = $".\\{location}\\{type.Name}.{{0}}.xml";
+            if (type == null)
+                throw new NotImplementedException(nameof(type));
+
+            _logger = loggerFactory.CreateLogger<XmlResourceReaderWriter>();
+
+            // Get the main assembly name
+            // e.g. SampleProject
+            var assemblyName = type.Assembly.GetName().Name;
+
+            // Get full resource name e.g. SampleProject.LocalizationResources.LocSource or SampleProject.Areas.Identity.Pages.Account.LoginModel
+            // Then remove assemblyName --> LocalizationResources.LocSource or Areas.Identity.Pages.Account.LoginModel
+            // Then remove ResourcesFolder --> LocSource or Areas.Identity.Pages.Account.LoginModel
+            var baseName = type.FullName.Replace($"{assemblyName}.", "").Replace($"{location}.", "");
+
+            _path = $".\\{location}\\{baseName}.{{0}}.xml";
         }
 
         /// <summary>
@@ -114,6 +129,7 @@ namespace LazZiya.ExpressLocalization.Xml
                     {
                         _lock.ExitWriteLock();
                     }
+                    _logger.LogInformation($"New key adding result: '{success}', key name: '{name}', path: '{path}'");
                 }
             }
             catch

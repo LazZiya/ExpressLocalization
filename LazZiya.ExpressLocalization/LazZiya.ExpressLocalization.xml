@@ -67,66 +67,10 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResourceReader`1">
+        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResource">
             <summary>
-            Generic interface to create resource reader 
-            that will read .resx or .xml resource files 
-            for the specified resource of type <see cref="T:LazZiya.ExpressLocalization.Common.IXLResource"/>.
+            Common interface for managing ExpressLocalization resource types
             </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResourceReader">
-            <summary>
-            Generic interface to create resource reader 
-            that will read .resx or .xml resource files 
-            for the default resource type
-            to get locaized valued from .resx files
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Common.IExpressResourceReader.TryGetValue(System.String,System.String@)">
-            <summary>
-            Try get localized value for given name
-            </summary>
-            <param name="name"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResourceReaderWriter`1">
-            <summary>
-            Generic interface to implement read/write on resource files
-            </summary>
-            <typeparam name="TResource"></typeparam>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResourceReaderWriter">
-            <summary>
-            interface to implement read/write on resource files
-            </summary>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResourceWriter`1">
-            <summary>
-            Generic interface to create resource writer
-            that will read .resx or .xml resource files 
-            for the specified resource of type <see cref="T:LazZiya.ExpressLocalization.Common.IXLResource"/>.
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IExpressResourceWriter">
-            <summary>
-            Generic interface to create resource writer 
-            that will read .resx or .xml resource files 
-            for the default resource type
-            to get locaized valued from .resx files
-            </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Common.IExpressResourceWriter.TrySetValue(System.String,System.String,System.String,System.Boolean)">
-            <summary>
-            Try get localized value for given name
-            </summary>
-            <param name="name"></param>
-            <param name="value"></param>
-            <param name="comment"></param>
-            <param name="isApproved"></param>
-            <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Common.IExpressStringLocalizerFactory">
             <summary>
@@ -139,11 +83,6 @@
             Create new StringLocalizer based on default type
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:LazZiya.ExpressLocalization.Common.IXLResource">
-            <summary>
-            Common interface for managing ExpressLocalization resource types
-            </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Common.TextTrimmer">
             <summary>
@@ -530,12 +469,6 @@
             <summary>
             Identity describer errors localizer
             </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.#ctor(System.Type)">
-            <summary>
-            Initialize identity errors localization based on resx files
-            </summary>
-            <param name="resType"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Identity.IdentityErrorsLocalizer.#ctor(Microsoft.Extensions.Localization.IStringLocalizer)">
             <summary>
@@ -1258,7 +1191,7 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions.AddExpressLocalizationResx``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
-            Add ExpressLocalization with .resx resource files based resources.
+            Add ExpressLocalization based on ".resx" resource files
             </summary>
             <param name="builder"></param>
             <typeparam name="TResource">Resource type</typeparam>
@@ -1266,32 +1199,11 @@
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions.AddExpressLocalizationResx``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
             <summary>
-            Add ExpressLocalization with .resx resource files based resources.
+            Add ExpressLocalization based on ".resx" resource files
             </summary>
             <param name="builder"></param>
-            <param name="xOps"></param>
+            <param name="options"></param>
             <typeparam name="TResource">Resource type</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions.AddExpressLocalizationResx``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
-            <summary>
-            Add ExpressLocalization with .resx resource files based resources,
-            and use defined translation service type
-            </summary>
-            <param name="builder"></param>
-            <typeparam name="TResource">Resource type</typeparam>
-            <typeparam name="TService">Translation service</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ExpressLocalizationExtensions.AddExpressLocalizationResx``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
-            <summary>
-            Add ExpressLocalization with Xml based resources,
-            and use defined translation service type
-            </summary>
-            <param name="builder"></param>
-            <param name="xOps"></param>
-            <typeparam name="TResource">Resource type</typeparam>
-            <typeparam name="TService">Translation service</typeparam>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1">
@@ -1299,20 +1211,31 @@
             Resource file based HtmlLocalizer
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer{`0})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizerFactory)">
             <summary>
-            Initialize new instance of ResxHtmlLocalizer
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1"/>
+            </summary>
+            <param name="factory"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer">
+            <summary>
+            A <see cref="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer"/> based on the default resource type
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.#ctor(Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer"/> based on the default resource type
             </summary>
             <param name="localizer"></param>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.Item(System.String)">
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.Item(System.String)">
             <summary>
             Get LocalizedHtmlString
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.Item(System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.Item(System.String,System.Object[])">
             <summary>
             Get LocalizedHtmlString with arguments
             </summary>
@@ -1320,21 +1243,21 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.GetAllStrings(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.GetAllStrings(System.Boolean)">
             <summary>
             NOT IMPLEMENTED
             </summary>
             <param name="includeParentCultures"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.GetString(System.String)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.GetString(System.String)">
             <summary>
             Get LocalizedString
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.GetString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.GetString(System.String,System.Object[])">
             <summary>
             Get LocalizedString with arguments
             </summary>
@@ -1342,7 +1265,7 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer`1.WithCulture(System.Globalization.CultureInfo)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
             NOT IMPLEMENTED, Use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
             </summary>
@@ -1354,11 +1277,11 @@
             ResxHtmlLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer{`0})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizerFactory)">
             <summary>
             Initialize a new instance of ResxHtmlLocalizerFactory
             </summary>
-            <param name="localizer"></param>
+            <param name="factory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxHtmlLocalizerFactory`1.Create">
             <summary>
@@ -1387,12 +1310,41 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader`1.#ctor">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader`1.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
-            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader`1"/>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader`1"/> based on given type
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader`1.TryGetValue(System.String,System.String@)">
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader">
+            <summary>
+            A <see cref="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader"/> to read .resx files
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader.#ctor(System.Type,System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader"/> based on the default resource type
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader.GetResourceName(System.Type,System.String)">
+             <summary>
+             ResourceManager looks for .resources files in the project output directory.
+             So if our resource file is .\LocalizationResources\LocSource.tr.resx
+             Then ResourceManager will look for: SampleProject.LocalizationResources.LocSource.tr.resources
+            
+             The resource name must be in the following format:
+             {assembly-name}.{resources-folder}.{resource-namespace}.{resource-name}
+             e.g. SampleProject.LocalizationResources.LocSource
+             e.g. SampleProject.LocalizationResources.Pages.Products.IndexModel
+            
+             The challenge is when we have a type name for a PageModel out of resources-folder,
+             such type has no class inside the resources folder, so we have to reconstruct the
+             type full name to fulfill above format.
+             </summary>
+             <param name="type"></param>
+             <param name="location">Resources folder path</param>
+             <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader.TryGetValue(System.String,System.String@)">
             <summary>
             Try get a localized value
             </summary>
@@ -1406,19 +1358,32 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Common.ExpressMemoryCache,LazZiya.ExpressLocalization.Common.IExpressResourceReader{`0})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initialzie a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1"/>
+            </summary>
+            <param name="cache"></param>
+            <param name="options"></param>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer">
+            <summary>
+            An <see cref="T:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer"/> based on the default resource type
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.#ctor(System.Type,LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initialize a new instance of ResxSteingLocalizer
             </summary>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.Item(System.String)">
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.Item(System.String)">
             <summary>
             Get localized string
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.Item(System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.Item(System.String,System.Object[])">
             <summary>
             Get localized string with arguments
             </summary>
@@ -1426,14 +1391,14 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.GetAllStrings(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.GetAllStrings(System.Boolean)">
             <summary>
             Get all localized strings
             </summary>
             <param name="includeParentCultures"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer`1.WithCulture(System.Globalization.CultureInfo)">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
             NOT IMPLEMENTED, Use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
             </summary>
@@ -1446,12 +1411,13 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Common.ExpressMemoryCache,LazZiya.ExpressLocalization.Common.IExpressResourceReader{`0})">
+        <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initialize a new instance of ResxStringLocalizerFactory
             </summary>
             <param name="cache"></param>
-            <param name="reader"></param>
+            <param name="options"></param>
+            <param name="loggerFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxStringLocalizerFactory`1.Create">
             <summary>
@@ -1853,20 +1819,31 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer{`0})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizerFactory)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1"/>
+            </summary>
+            <param name="factory"></param>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer">
+            <summary>
+            An <see cref="T:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer"/> based on the default resource type
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.#ctor(Microsoft.Extensions.Localization.IStringLocalizer)">
             <summary>
             Initialize a new instance of XmlHtmlLocalizer with the specified resource type
             </summary>
             <param name="localizer"></param>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.Item(System.String)">
+        <member name="P:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.Item(System.String)">
             <summary>
             Get localized string value
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.Item(System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.Item(System.String,System.Object[])">
             <summary>
             Get localized string value with arguments
             </summary>
@@ -1874,14 +1851,14 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.GetString(System.String)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.GetString(System.String)">
             <summary>
             Get LocalizedString value
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.GetString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.GetString(System.String,System.Object[])">
             <summary>
             Get LocalizedString value with arguments
             </summary>
@@ -1889,21 +1866,21 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.GetAllStrings(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.GetAllStrings(System.Boolean)">
             <summary>
             Get all localized string values
             </summary>
             <param name="includeParentCultures"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.WithCulture(System.Globalization.CultureInfo)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
             NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
             </summary>
             <param name="culture"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer`1.GetLocalizedHtmlString(System.String,System.Object[])">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizer.GetLocalizedHtmlString(System.String,System.Object[])">
             <summary>
             Return a localized string
             </summary>
@@ -1916,7 +1893,7 @@
             XmlHtmlLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizerFactory`1.#ctor(Microsoft.Extensions.Localization.IStringLocalizer{`0})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlHtmlLocalizerFactory`1.#ctor(LazZiya.ExpressLocalization.Common.IExpressStringLocalizerFactory)">
             <summary>
             Instantiate a new XmlStringLocalizerFactory
             </summary>
@@ -1949,7 +1926,7 @@
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter`1"/>
             </summary>
@@ -1959,12 +1936,13 @@
             For reading localized values from .resx resources
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter.#ctor(System.Type,System.String)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter.#ctor(System.Type,System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initialzie a new instance of <see cref="T:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter"/>
             </summary>
             <param name="type"></param>
-            <param name="location"></param>
+            <param name="location">Resources folder path</param>
+            <param name="loggerFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter.TryGetValue(System.String,System.String@)">
             <summary>
@@ -1998,27 +1976,44 @@
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1">
             <summary>
-            Generic XmlStringLocalizer based on speificed type
+            Generic <see cref="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1"/> for localization based on generic xml type
             </summary>
             <typeparam name="TResource"></typeparam>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Common.ExpressMemoryCache,LazZiya.ExpressLocalization.Common.IExpressResourceReaderWriter,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IExpressTranslator)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.#ctor(LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IExpressTranslator,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
-            Initialzie new instance of XmlStringLocalizer
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1"/>
             </summary>
             <param name="cache"></param>
-            <param name="rw"></param>
             <param name="options"></param>
             <param name="translator"></param>
+            <param name="loggerFactory"></param>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.Item(System.String)">
+        <member name="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer">
+            <summary>
+            An <see cref="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer"/> for localization based on Xml files
+            This localizer is based on the default type defined in startup.
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.#ctor(System.Type,LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IExpressTranslator,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initialzie new instance of <see cref="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer"/> 
+            based on the default resource type defined in startup
+            </summary>
+            <param name="cache"></param>
+            <param name="resourceSource"></param>
+            <param name="options"></param>
+            <param name="translator"></param>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="P:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.Item(System.String)">
             <summary>
             Get localized string value
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="P:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.Item(System.String,System.Object[])">
+        <member name="P:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.Item(System.String,System.Object[])">
             <summary>
             Get localized string value with arguments
             </summary>
@@ -2026,14 +2021,14 @@
             <param name="arguments"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.GetAllStrings(System.Boolean)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.GetAllStrings(System.Boolean)">
             <summary>
             Get all localized string values
             </summary>
             <param name="includeParentCultures"></param>
             <returns></returns>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer`1.WithCulture(System.Globalization.CultureInfo)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer.WithCulture(System.Globalization.CultureInfo)">
             <summary>
             NOT IMPLEMENTED! use <see cref="T:LazZiya.ExpressLocalization.Common.CultureSwitcher"/> instead.
             </summary>
@@ -2045,14 +2040,14 @@
             XmlStringLocalizerFactory
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IExpressTranslator,LazZiya.ExpressLocalization.Common.IExpressResourceReaderWriter{`0},LazZiya.ExpressLocalization.Common.ExpressMemoryCache)">
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.#ctor(Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions},LazZiya.ExpressLocalization.Translate.IExpressTranslator,LazZiya.ExpressLocalization.Common.ExpressMemoryCache,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Instantiate a new XmlStringLocalizerFactory
             </summary>
             <param name="cache"></param>
             <param name="options"></param>
             <param name="translator"></param>
-            <param name="rw"></param>
+            <param name="loggerFactory"></param>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.Create">
             <summary>
@@ -2074,6 +2069,12 @@
             <param name="baseName"></param>
             <param name="location"></param>
             <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.CreateXmlStringLocalizer(System.Type)">
+            <summary>
+            Creates a <see cref="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer"/> for the given input.
+            </summary>
+            <param name="resourceSource">The assembly to create a <see cref="T:LazZiya.ExpressLocalization.Xml.XmlStringLocalizer"/> for.</param>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Xml.XmlTemplate">
             <summary>

@@ -28,18 +28,8 @@
     </xsd:element>
   </xsd:schema>
   <data isActive="false">
-    <key>Welcome dear</key>
-    <value>مرحبا يا اعزائي</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Hello</key>
-    <value>اهلاً بيك</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
-    <value>تعرف على كيفية &lt;a href="{0}"&gt;إنشاء تطبيقات الويب باستخدام ASP.NET Core&lt;/a&gt; .</value>
+    <key>Welcome dear, login here</key>
+    <value>Hoş geldin sefalar getirdin.</value>
     <comment>Auto created by ExpressLocalization</comment>
   </data>
 </root>

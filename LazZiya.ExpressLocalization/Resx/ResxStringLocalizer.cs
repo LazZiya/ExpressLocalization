@@ -1,5 +1,7 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,19 +12,44 @@ namespace LazZiya.ExpressLocalization.Resx
     /// Resouece file based StringLocalizer
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class ResxStringLocalizer<TResource> : IStringLocalizer<TResource>
-        where TResource : IXLResource
+    public class ResxStringLocalizer<TResource> : ResxStringLocalizer, IStringLocalizer<TResource>
+        where TResource : IExpressResource
     {
-        private readonly IExpressResourceReader _reader;
+        /// <summary>
+        /// Initialzie a new instance of <see cref="ResxStringLocalizer{TResource}"/>
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="options"></param>
+        /// <param name="loggerFactory"></param>
+        public ResxStringLocalizer(ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options, ILoggerFactory loggerFactory)
+            : base(typeof(TResource), cache, options, loggerFactory)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// An <see cref="ResxStringLocalizer"/> based on the default resource type
+    /// </summary>
+    public class ResxStringLocalizer : IStringLocalizer
+    {
+        private readonly ResxResourceReader _reader;
         private readonly ExpressMemoryCache _cache;
+        private readonly ILogger _logger;
+        private readonly ExpressLocalizationOptions _options;
 
         /// <summary>
         /// Initialize a new instance of ResxSteingLocalizer
         /// </summary>
-        public ResxStringLocalizer(ExpressMemoryCache cache, IExpressResourceReader<TResource> reader)
+        public ResxStringLocalizer(Type resourceSource, ExpressMemoryCache cache, IOptions<ExpressLocalizationOptions> options, ILoggerFactory loggerFactory)
         {
+            if (resourceSource == null)
+                throw new NotImplementedException(nameof(resourceSource));
+
             _cache = cache;
-            _reader = reader;
+            _options = options.Value;
+            _reader = new ResxResourceReader(resourceSource, _options.ResourcesPath, loggerFactory);
+            _logger = loggerFactory.CreateLogger<ResxStringLocalizer>();
         }
 
         /// <summary>
@@ -62,29 +89,41 @@ namespace LazZiya.ExpressLocalization.Resx
 
         private LocalizedString GetLocalizedString(string name, params object[] arguments)
         {
-            var resourceFound = TryGetValue(name, out string val);
+            var availableInTranslate = false;
 
-            var value = string.Format(val ?? name, arguments);
-
-            return new LocalizedString(name, value, resourceNotFound: !resourceFound);
-        }
-
-        private bool TryGetValue(string name, out string value)
-        {
-            // Look for the localized value in the cache
-            var success = _cache.TryGetValue(name, out value);
-
-            if (!success)
+            // Option 1: Look in the cache
+            bool availableInCache = _cache.TryGetValue(name, out string value);
+            if (!availableInCache)
             {
-                // Look in the resx file
-                success = _reader.TryGetValue(name, out value);
+                // Option 2: Look in resx resource
+                bool availableInResource = _reader.TryGetValue(name, out value);
 
-                // save it to the cache
-                if (success)
+                if (!availableInResource && _options.AutoTranslate)
+                {
+                    // Option 3: Online translate
+                    _logger.LogInformation($"Auto translation is not available with resx mode, switch to Db or Xml mode for online translation.");
+                }
+
+                if (!availableInResource && _options.AutoAddKeys)
+                {
+                    _logger.LogInformation($"Auto key adding is not available with resx mode, switch to Db or Xml mode for auto key adding.");
+                }
+
+                if (availableInResource || availableInTranslate)
+                {
+                    // Save to cache
                     _cache.Set(name, value);
+
+                    // Set availability to true
+                    availableInCache = true;
+                }
             }
 
-            return success;
+            //_logger.LogInformation($"Available in cache: '{name}', '{availableInCache}'");
+
+            var val = string.Format(value ?? name, arguments);
+
+            return new LocalizedString(name, val, resourceNotFound: !availableInCache);
         }
     }
 }

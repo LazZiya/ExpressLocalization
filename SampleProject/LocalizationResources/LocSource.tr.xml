@@ -28,6 +28,16 @@
     </xsd:element>
   </xsd:schema>
   <data isActive="false">
+    <key>Welcome</key>
+    <value>Hoşgeldiniz</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
+    <key>Welcome dear</key>
+    <value>Hoş geldin sefalar getirdin.</value>
+    <comment>Auto created by ExpressLocalization</comment>
+  </data>
+  <data isActive="false">
     <key>Hello</key>
     <value>Merhaba</value>
     <comment>Auto created by ExpressLocalization</comment>
@@ -35,16 +45,6 @@
   <data isActive="false">
     <key>Learn about &lt;a href="{0}"&gt;building Web apps with ASP.NET Core&lt;/a&gt;.</key>
     <value>&lt;a href="{0}"&gt;ASP.NET Core ile Web uygulamaları oluşturma&lt;/a&gt; hakkında bilgi edinin.</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Privacy Policy</key>
-    <value>Gizlilik Politikası</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Use this page to detail your site's privacy policy.</key>
-    <value>Sitenizin gizlilik politikasını ayrıntılandırmak için bu sayfayı kullanın.</value>
     <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
@@ -109,7 +109,7 @@
   </data>
   <data isActive="false">
     <key>Register</key>
-    <value>Kayıt ol</value>
+    <value>Kayıt</value>
     <comment>Auto created by ExpressLocalization</comment>
   </data>
   <data isActive="false">
@@ -135,36 +135,6 @@
   <data isActive="false">
     <key>Use another service to register.</key>
     <value>Kaydolmak için başka bir hizmet kullanın.</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Welcome</key>
-    <value>Hoşgeldiniz</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>First number</key>
-    <value>İlk Sayı</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Second number</key>
-    <value>İkinci sayı</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>Multiply</key>
-    <value>Çoğalt</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>The value '{0}' is not valid for {1}.</key>
-    <value>&amp;#39;{0}&amp;#39; değeri {1} için geçerli değil.</value>
-    <comment>Auto created by ExpressLocalization</comment>
-  </data>
-  <data isActive="false">
-    <key>The value '{0}' is invalid.</key>
-    <value>&amp;#39;{0}&amp;#39; değeri geçersiz.</value>
     <comment>Auto created by ExpressLocalization</comment>
   </data>
 </root>

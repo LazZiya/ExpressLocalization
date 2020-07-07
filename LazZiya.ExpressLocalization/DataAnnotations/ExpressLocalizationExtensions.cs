@@ -16,7 +16,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations
         /// <param name="builder"></param>
         /// <returns></returns>
         public static IMvcBuilder AddDataAnnotationsLocalization<TResource>(this IMvcBuilder builder)
-            where TResource : IXLResource
+            where TResource : IExpressResource
         {
             // Add ExpressValdiationAttributes to provide error messages by default without using ErrorMessage="..."
             builder.Services.AddTransient<IValidationAttributeAdapterProvider, ExpressValidationAttributeAdapterProvider>();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using SampleProject.LocalizationResources;
 
 namespace SampleProject.Pages
@@ -14,12 +15,17 @@ namespace SampleProject.Pages
     [ValidateAntiForgeryToken]
     public class IndexModel : PageModel
     {
-        public IndexModel()
+        private readonly IStringLocalizer localizer;
+
+        public IndexModel(IStringLocalizerFactory factory)
         {
+            localizer = factory.Create(typeof(IndexModel));
         }
 
         public void OnGet()
         {
+            var loc = localizer["Welcome dear"];
+            TempData.Success($"{loc}, {loc.SearchedLocation}");
         }
 
         public async Task<IActionResult> OnPostAsync()

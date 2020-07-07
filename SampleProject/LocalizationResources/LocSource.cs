@@ -2,7 +2,7 @@
 
 namespace SampleProject.LocalizationResources
 {
-    public class LocSource : IXLResource
+    public class LocSource : IExpressResource
     {
     }
 }

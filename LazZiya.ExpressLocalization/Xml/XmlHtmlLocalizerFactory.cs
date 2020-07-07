@@ -1,6 +1,5 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
 using System;
 
 namespace LazZiya.ExpressLocalization.Xml
@@ -9,17 +8,16 @@ namespace LazZiya.ExpressLocalization.Xml
     /// XmlHtmlLocalizerFactory
     /// </summary>
     public class XmlHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
-        where TResource : IXLResource
+        where TResource : IExpressResource
     {
-        private readonly IStringLocalizer<TResource> _localizer;
-
+        private readonly IExpressStringLocalizerFactory _factory;
         /// <summary>
         /// Instantiate a new XmlStringLocalizerFactory
         /// </summary>
         /// <param name="factory"></param>
-        public XmlHtmlLocalizerFactory(IStringLocalizer<TResource> factory)
+        public XmlHtmlLocalizerFactory(IExpressStringLocalizerFactory factory)
         {
-            _localizer = factory;
+            _factory = factory;
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new XmlHtmlLocalizer<TResource>(_localizer);
+            return new XmlHtmlLocalizer<TResource>(_factory);
         }
 
         /// <summary>
@@ -38,8 +36,8 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            return Create();
-            
+            var localizer = _factory.Create(resourceSource);
+            return new XmlHtmlLocalizer(localizer);            
         }
 
         /// <summary>
@@ -50,7 +48,8 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <returns></returns>
         public IHtmlLocalizer Create(string baseName, string location)
         {
-            return Create();
+            var localizer = _factory.Create(baseName, location);
+            return new XmlHtmlLocalizer(localizer);
         }
     }
 }

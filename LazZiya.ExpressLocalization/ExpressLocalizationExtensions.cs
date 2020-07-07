@@ -12,6 +12,7 @@ using LazZiya.ExpressLocalization.DataAnnotations;
 using LazZiya.ExpressLocalization.Identity;
 using LazZiya.ExpressLocalization.ModelBinding;
 using LazZiya.ExpressLocalization.Routing;
+using Microsoft.Extensions.Localization;
 
 #if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using Microsoft.AspNetCore.Routing;
@@ -214,7 +215,7 @@ namespace LazZiya.ExpressLocalization
         public static IMvcBuilder ExAddIdentityErrorMessagesLocalization<TIdentityErrorsLocalizationResource>(this IMvcBuilder builder) 
             where TIdentityErrorsLocalizationResource : class
         {
-            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>(ops => new IdentityErrorsLocalizer(typeof(TIdentityErrorsLocalizationResource)));
+            builder.Services.AddScoped<IdentityErrorDescriber, IdentityErrorsLocalizer>();
 
             return builder;
         }

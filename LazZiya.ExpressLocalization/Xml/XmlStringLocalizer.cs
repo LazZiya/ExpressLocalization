@@ -1,6 +1,7 @@
 ﻿using LazZiya.ExpressLocalization.Common;
 using LazZiya.ExpressLocalization.Translate;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -9,33 +10,63 @@ using System.Globalization;
 namespace LazZiya.ExpressLocalization.Xml
 {
     /// <summary>
-    /// Generic XmlStringLocalizer based on speificed type
+    /// Generic <see cref="XmlStringLocalizer{TResource}"/> for localization based on generic xml type
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
-    public class XmlStringLocalizer<TResource> : IStringLocalizer<TResource>
-        where TResource : IXLResource
-    {            
-        private readonly ExpressLocalizationOptions _options;
-        private readonly ExpressMemoryCache _cache;
-        private readonly IExpressResourceReaderWriter _rw;
-        private readonly IExpressTranslator _translator;
-
+    public class XmlStringLocalizer<TResource> : XmlStringLocalizer, IStringLocalizer<TResource>
+        where TResource : IExpressResource
+    {
         /// <summary>
-        /// Initialzie new instance of XmlStringLocalizer
+        /// Initialize a new instance of <see cref="XmlStringLocalizer{TResource}"/>
         /// </summary>
         /// <param name="cache"></param>
-        /// <param name="rw"></param>
         /// <param name="options"></param>
         /// <param name="translator"></param>
+        /// <param name="loggerFactory"></param>
         public XmlStringLocalizer(ExpressMemoryCache cache,
-                                  IExpressResourceReaderWriter rw,
                                   IOptions<ExpressLocalizationOptions> options,
-                                  IExpressTranslator translator)
+                                  IExpressTranslator translator,
+                                  ILoggerFactory loggerFactory)
+            : base(typeof(TResource), cache, options, translator, loggerFactory)
         {
+        }
+    }
+
+    /// <summary>
+    /// An <see cref="XmlStringLocalizer"/> for localization based on Xml files
+    /// This localizer is based on the default type defined in startup.
+    /// </summary>
+    public class XmlStringLocalizer : IStringLocalizer
+    {
+        private readonly ExpressLocalizationOptions _options;
+        private readonly ExpressMemoryCache _cache;
+        private readonly XmlResourceReaderWriter _rw;
+        private readonly IExpressTranslator _translator;
+        private readonly ILogger _logger;
+
+        /// <summary>
+        /// Initialzie new instance of <see cref="XmlStringLocalizer"/> 
+        /// based on the default resource type defined in startup
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="resourceSource"></param>
+        /// <param name="options"></param>
+        /// <param name="translator"></param>
+        /// <param name="loggerFactory"></param>
+        public XmlStringLocalizer(Type resourceSource,
+                                  ExpressMemoryCache cache,
+                                  IOptions<ExpressLocalizationOptions> options,
+                                  IExpressTranslator translator,
+                                  ILoggerFactory loggerFactory)
+        {
+            if (resourceSource == null)
+                throw new NotImplementedException(nameof(resourceSource));
+
             _cache = cache;
             _options = options.Value;
-            _rw = rw;
+            _rw = new XmlResourceReaderWriter(resourceSource, _options.ResourcesPath, loggerFactory);
             _translator = translator;
+            _logger = loggerFactory.CreateLogger<XmlStringLocalizer>();
         }
 
         /// <summary>
@@ -89,17 +120,19 @@ namespace LazZiya.ExpressLocalization.Xml
                 {
                     // Option 3: Online translate
                     availableInTranslate = _translator.TryTranslate(name, "text", out value);
+                    _logger.LogInformation($"Auto translation result: {availableInTranslate}");
                 }
-                
+
                 if (!availableInResource && _options.AutoAddKeys)
                 {
                     // Save value to XML resource regardless the value has been translated or not
                     // If the value is not translated, the default "name" will be assigned to the "value"
                     // Anyhow, the saved values needs to be checked and confirmed one by one
                     bool savedToResource = _rw.TrySetValue(name, value ?? name, "Auto created by ExpressLocalization", false);
+                    _logger.LogInformation($"Auto save resource key result: {savedToResource}");
                 }
-            
-                if(availableInResource || availableInTranslate)
+
+                if (availableInResource || availableInTranslate)
                 {
                     // Save to cache
                     _cache.Set(name, value);
@@ -109,7 +142,7 @@ namespace LazZiya.ExpressLocalization.Xml
                 }
             }
 
-            var val = string.Format(value, arguments);
+            var val = string.Format(value ?? name, arguments);
 
             return new LocalizedString(name, val, resourceNotFound: !availableInCache);
         }

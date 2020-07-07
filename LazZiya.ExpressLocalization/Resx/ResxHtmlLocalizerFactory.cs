@@ -9,17 +9,17 @@ namespace LazZiya.ExpressLocalization.Resx
     /// ResxHtmlLocalizerFactory
     /// </summary>
     public class ResxHtmlLocalizerFactory<TResource> : IExpressHtmlLocalizerFactory
-        where TResource : IXLResource
+        where TResource : IExpressResource
     {
-        private readonly IStringLocalizer<TResource> _localizer;
+        private readonly IStringLocalizerFactory _factory;
 
         /// <summary>
         /// Initialize a new instance of ResxHtmlLocalizerFactory
         /// </summary>
-        /// <param name="localizer"></param>
-        public ResxHtmlLocalizerFactory(IStringLocalizer<TResource> localizer)
+        /// <param name="factory"></param>
+        public ResxHtmlLocalizerFactory(IStringLocalizerFactory factory)
         {
-            _localizer = localizer;
+            _factory = factory;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create()
         {
-            return new ResxHtmlLocalizer<TResource>(_localizer);
+            return new ResxHtmlLocalizer<TResource>(_factory);
         }
 
         /// <summary>
@@ -38,7 +38,12 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(Type resourceSource)
         {
-            return Create();
+            if (resourceSource == null)
+                throw new NotImplementedException(nameof(resourceSource));
+
+            var localizer = _factory.Create(resourceSource);
+
+            return new ResxHtmlLocalizer(localizer);
         }
 
         /// <summary>
@@ -49,7 +54,7 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <returns></returns>
         public IHtmlLocalizer Create(string baseName, string location)
         {
-            return Create();
+            throw new NotSupportedException($"Creating a localizer using 'baseName' and 'location' is not supported! Use .Create() or .Create(Type resourceSource) instead.");
         }
     }
 }

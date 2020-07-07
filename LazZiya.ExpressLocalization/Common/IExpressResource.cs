@@ -3,7 +3,7 @@
     /// <summary>
     /// Common interface for managing ExpressLocalization resource types
     /// </summary>
-    public interface IXLResource
+    public interface IExpressResource
     {
     }
 }
