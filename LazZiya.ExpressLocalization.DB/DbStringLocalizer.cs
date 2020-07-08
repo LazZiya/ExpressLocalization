@@ -113,7 +113,7 @@ namespace LazZiya.ExpressLocalization.DB
 
             var val = string.Format(value, arguments);
 
-            return new LocalizedString(name, val, resourceNotFound: !availableInCache);
+            return new LocalizedString(name, val, resourceNotFound: !availableInCache, searchedLocation: nameof(TTranslation));
         }
 
 

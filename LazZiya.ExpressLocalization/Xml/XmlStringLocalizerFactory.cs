@@ -66,12 +66,26 @@ namespace LazZiya.ExpressLocalization.Xml
         /// <summary>
         /// Create new instance of IStringLocalizer
         /// </summary>
-        /// <param name="baseName"></param>
-        /// <param name="location"></param>
+        /// <param name="baseName">type full name</param>
+        /// <param name="location">Assembly name</param>
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            throw new NotSupportedException($"Creating a localizer using 'baseName' and 'location' is not supported! Use .Create() or .Create(Type resourceSource) instead.");
+            if (baseName == null)
+            {
+                throw new ArgumentNullException(nameof(baseName));
+            }
+
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
+            return _localizerCache.GetOrAdd($"B={baseName},L={location}", _ =>
+            {
+                var type = ResourceTypeHelper.GetResourceType(baseName, location);
+                return CreateXmlStringLocalizer(type);
+            });
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace LazZiya.ExpressLocalization.Resx
 {
@@ -16,7 +17,8 @@ namespace LazZiya.ExpressLocalization.Resx
     {
         private readonly ExpressMemoryCache _cache;
         private readonly IOptions<ExpressLocalizationOptions> _options;
-        private readonly ILoggerFactory _logger;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger _logger;
         private readonly ConcurrentDictionary<string, ResxStringLocalizer> _localizerCache = new ConcurrentDictionary<string, ResxStringLocalizer>();
 
         /// <summary>
@@ -25,13 +27,14 @@ namespace LazZiya.ExpressLocalization.Resx
         /// <param name="cache"></param>
         /// <param name="options"></param>
         /// <param name="loggerFactory"></param>
-        public ResxStringLocalizerFactory(ExpressMemoryCache cache, 
-                                          IOptions<ExpressLocalizationOptions> options, 
+        public ResxStringLocalizerFactory(ExpressMemoryCache cache,
+                                          IOptions<ExpressLocalizationOptions> options,
                                           ILoggerFactory loggerFactory)
         {
             _cache = cache;
             _options = options;
-            _logger = loggerFactory;
+            _loggerFactory = loggerFactory;
+            _logger = loggerFactory.CreateLogger<ResxStringLocalizerFactory<TResource>>();
         }
 
         /// <summary>
@@ -55,18 +58,33 @@ namespace LazZiya.ExpressLocalization.Resx
                 throw new ArgumentNullException(nameof(resourceSource));
             }
 
-            return _localizerCache.GetOrAdd(resourceSource.FullName, _ => new ResxStringLocalizer(resourceSource, _cache, _options, _logger));
+            return _localizerCache.GetOrAdd(resourceSource.FullName, _ => new ResxStringLocalizer(resourceSource, _cache, _options, _loggerFactory));
         }
 
         /// <summary>
         /// Create a new IStringLocalizer based on the specified name and location
         /// </summary>
-        /// <param name="baseName"></param>
-        /// <param name="location"></param>
+        /// <param name="baseName">Type full name</param>
+        /// <param name="location">Assembly name</param>
         /// <returns></returns>
         public IStringLocalizer Create(string baseName, string location)
         {
-            throw new NotSupportedException($"Creating a localizer using 'baseName' and 'location' is not supported! Use .Create() or .Create(Type resourceSource) instead.");
+            if (baseName == null)
+            {
+                throw new ArgumentNullException(nameof(baseName));
+            }
+
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
+            return _localizerCache.GetOrAdd($"B={baseName},L={location}", _ =>
+            {
+                var type = ResourceTypeHelper.GetResourceType(baseName, location);
+
+                return new ResxStringLocalizer(type, _cache, _options, _loggerFactory);
+            });
         }
     }
 }

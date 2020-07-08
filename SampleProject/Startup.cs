@@ -18,8 +18,6 @@ using SampleProject.LocalizationResources;
 using LazZiya.ExpressLocalization.Xml;
 using LazZiya.ExpressLocalization.Resx;
 using LazZiya.ExpressLocalization.DB;
-using Microsoft.Extensions.Caching.Memory;
-using System;
 
 namespace SampleProject
 {
@@ -46,39 +44,7 @@ namespace SampleProject
             services.AddTransient<ITranslationService, SystranTranslateService>();
             services.AddTransient<ITranslationService, YandexTranslateService>();
             services.AddTransient<ITranslationService, GoogleTranslateService>();
-            /*
-            services.AddRazorPages()
-                .AddExpressLocalization<LocSource>(ops =>
-                {
-                    ops.ResourcesPath = "LocalizationResources";
 
-                    var cultures = new CultureInfo[] { new CultureInfo("en"), new CultureInfo("tr"), new CultureInfo("ar") };
-                    ops.RequestLocalizationOptions = o =>
-                    {
-                        o.SupportedCultures = cultures;
-                        o.SupportedUICultures = cultures;
-                        o.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
-                    };
-
-                    ops.AutoAddKeys = false;
-                    ops.OnlineTranslation = true;
-                    ops.TranslationService = typeof(MyMemoryTranslateService);
-                });
-            */
-            /*
-            services.AddRazorPages()
-                .AddExpressLocalizationDB<ApplicationDbContext>(ops =>
-                {
-                    ops.AutoAddKeys = true;
-                    ops.OnlineTranslation = false;
-                    ops.TranslationService = typeof(MyMemoryTranslateService);
-                    ops.ServeUnapprovedTranslations = true;
-                    ops.ResourcesPath = "LocalizationResources";
-                    ops.ResourceType = typeof(LocSource);
-                });
-            
-            */
-            
             var cultures = new CultureInfo[]
             {
                 new CultureInfo("en"),
@@ -96,12 +62,11 @@ namespace SampleProject
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(ops => { ops.Conventions?.Insert(0, new RouteTemplateModelConventionRazorPages()); })
-                .AddExpressLocalizationResx<LocSource>((x) =>
+                .AddExpressLocalizationDb<ApplicationDbContext>((x) =>
                 {
                     x.ResourcesPath = "LocalizationResources";
-                    x.AutoTranslate = true;
-                    x.AutoAddKeys = true;
-                    x.ServeUnApprovedTranslations = true;
+                    x.AutoTranslate = false;
+                    x.AutoAddKeys = false;
                 });
         }
 

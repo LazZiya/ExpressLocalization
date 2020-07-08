@@ -36,6 +36,7 @@ namespace LazZiya.ExpressLocalization
         /// <summary>
         /// The default culture to use for online translation.
         /// </summary>
+        [Obsolete("This property is deprected. See <a href=\"https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>")]
         public string DefaultCultureName { get; set; } = "en";
 
         /// <summary>
@@ -75,15 +76,5 @@ namespace LazZiya.ExpressLocalization
         /// Requires registering of one translation service at least. see <a href="...">Registering Translation Services for Localization</a>
         /// </summary>
         public bool AutoTranslate { get; set; } = false;
-
-        /// <summary>
-        /// Serve auto online translations. False by default
-        /// </summary>
-        public bool ServeUnApprovedTranslations { get; set; } = false;
-
-        /// <summary>
-        /// Prefix for distributed cache key names
-        /// </summary>
-        public string CacheKeyPrefix { get; set; } = "LazZiya_ExpressLocalization";
     }
 }

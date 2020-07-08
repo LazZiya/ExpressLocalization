@@ -19,6 +19,7 @@ namespace LazZiya.ExpressLocalization
     /// <summary>
     /// Access shared localization resources under folder
     /// </summary>
+    [Obsolete("ISharedCultureLocalizer is deprected. use IStringLocalizer or IHtmlLocalizer instead. See <a href=\"https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0\">Migration 4.x to 5.0</a>")]
     public class SharedCultureLocalizer<T> : ISharedCultureLocalizer
         where T : class
     {

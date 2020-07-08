@@ -35,6 +35,12 @@ namespace LazZiya.ExpressLocalization.Xml
         private readonly string _path;
         private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private readonly ILogger _logger;
+
+        /// <summary>
+        /// Searched location
+        /// </summary>
+        public string TypeName { get; private set; }
+
         /// <summary>
         /// Initialzie a new instance of <see cref="XmlResourceReaderWriter"/>
         /// </summary>
@@ -48,16 +54,9 @@ namespace LazZiya.ExpressLocalization.Xml
 
             _logger = loggerFactory.CreateLogger<XmlResourceReaderWriter>();
 
-            // Get the main assembly name
-            // e.g. SampleProject
-            var assemblyName = type.Assembly.GetName().Name;
+            TypeName = ResourceTypeHelper.CreateResourceName(type, location);
 
-            // Get full resource name e.g. SampleProject.LocalizationResources.LocSource or SampleProject.Areas.Identity.Pages.Account.LoginModel
-            // Then remove assemblyName --> LocalizationResources.LocSource or Areas.Identity.Pages.Account.LoginModel
-            // Then remove ResourcesFolder --> LocSource or Areas.Identity.Pages.Account.LoginModel
-            var baseName = type.FullName.Replace($"{assemblyName}.", "").Replace($"{location}.", "");
-
-            _path = $".\\{location}\\{baseName}.{{0}}.xml";
+            _path = $".\\{location}\\{TypeName}.{{0}}.xml";
         }
 
         /// <summary>

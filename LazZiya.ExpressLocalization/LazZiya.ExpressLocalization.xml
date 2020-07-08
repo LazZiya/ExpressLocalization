@@ -84,6 +84,39 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.Common.ResourceTypeHelper">
+             <summary>
+             Generate fully qualified resource name
+             ResourceManager looks for .resources files in the project output directory.
+             So if our resource file is .\LocalizationResources\LocSource.tr.resx
+             Then ResourceManager will look for: SampleProject.LocalizationResources.LocSource.tr.resources
+            
+             The resource name must be in the following format:
+             {assembly-name}.{resources-folder}.{resource-namespace}.{resource-name}
+             e.g. SampleProject.LocalizationResources.LocSource
+             e.g. SampleProject.LocalizationResources.Pages.Products.IndexModel
+            
+             The challenge is when we have a type name for a PageModel out of resources-folder,
+             such type has no class inside the resources folder, so we have to reconstruct the
+             type full name to fulfill above format.
+             </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.ResourceTypeHelper.CreateResourceName(System.Type,System.String)">
+            <summary>
+            Create a reource name from type and location
+            </summary>
+            <param name="type"></param>
+            <param name="location">Resources folder path</param>
+            <returns></returns>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.Common.ResourceTypeHelper.GetResourceType(System.String,System.String)">
+            <summary>
+            Create a type name from basename and location
+            </summary>
+            <param name="baseName">Type full name</param>
+            <param name="location">Assembly name</param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.Common.TextTrimmer">
             <summary>
             Trim all whitespaces in a string (start, end and between)
@@ -416,16 +449,6 @@
             If the translation string is not found, it will be translated via registered translation servies.
             default: false
             Requires registering of one translation service at least. see <a href="...">Registering Translation Services for Localization</a>
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.ServeUnApprovedTranslations">
-            <summary>
-            Serve auto online translations. False by default
-            </summary>
-        </member>
-        <member name="P:LazZiya.ExpressLocalization.ExpressLocalizationOptions.CacheKeyPrefix">
-            <summary>
-            Prefix for distributed cache key names
             </summary>
         </member>
         <member name="T:LazZiya.ExpressLocalization.GenericResourceReader">
@@ -1320,29 +1343,15 @@
             A <see cref="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader"/> to read .resx files
             </summary>
         </member>
+        <member name="P:LazZiya.ExpressLocalization.Resx.ResxResourceReader.TypeName">
+            <summary>
+            The searched location
+            </summary>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader.#ctor(System.Type,System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.Resx.ResxResourceReader"/> based on the default resource type
             </summary>
-        </member>
-        <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader.GetResourceName(System.Type,System.String)">
-             <summary>
-             ResourceManager looks for .resources files in the project output directory.
-             So if our resource file is .\LocalizationResources\LocSource.tr.resx
-             Then ResourceManager will look for: SampleProject.LocalizationResources.LocSource.tr.resources
-            
-             The resource name must be in the following format:
-             {assembly-name}.{resources-folder}.{resource-namespace}.{resource-name}
-             e.g. SampleProject.LocalizationResources.LocSource
-             e.g. SampleProject.LocalizationResources.Pages.Products.IndexModel
-            
-             The challenge is when we have a type name for a PageModel out of resources-folder,
-             such type has no class inside the resources folder, so we have to reconstruct the
-             type full name to fulfill above format.
-             </summary>
-             <param name="type"></param>
-             <param name="location">Resources folder path</param>
-             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Resx.ResxResourceReader.TryGetValue(System.String,System.String@)">
             <summary>
@@ -1436,8 +1445,8 @@
             <summary>
             Create a new IStringLocalizer based on the specified name and location
             </summary>
-            <param name="baseName"></param>
-            <param name="location"></param>
+            <param name="baseName">Type full name</param>
+            <param name="location">Assembly name</param>
             <returns></returns>
         </member>
         <member name="T:LazZiya.ExpressLocalization.Routing.RouteSegmentRequestCultureProvider">
@@ -1710,7 +1719,7 @@
             ExpressTranslator to get a translated text from the default translation service
             </summary>
         </member>
-        <member name="M:LazZiya.ExpressLocalization.Translate.ExpressTranslator`1.#ctor(System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Options.IOptions{LazZiya.ExpressLocalization.ExpressLocalizationOptions})">
+        <member name="M:LazZiya.ExpressLocalization.Translate.ExpressTranslator`1.#ctor(System.Collections.Generic.IEnumerable{LazZiya.TranslationServices.ITranslationService},Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Builder.RequestLocalizationOptions})">
             <summary>
             Initialize a new instance of ExpressTranslator
             </summary>
@@ -1936,6 +1945,11 @@
             For reading localized values from .resx resources
             </summary>
         </member>
+        <member name="P:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter.TypeName">
+            <summary>
+            Searched location
+            </summary>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter.#ctor(System.Type,System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Initialzie a new instance of <see cref="T:LazZiya.ExpressLocalization.Xml.XmlResourceReaderWriter"/>
@@ -2066,8 +2080,8 @@
             <summary>
             Create new instance of IStringLocalizer
             </summary>
-            <param name="baseName"></param>
-            <param name="location"></param>
+            <param name="baseName">type full name</param>
+            <param name="location">Assembly name</param>
             <returns></returns>
         </member>
         <member name="M:LazZiya.ExpressLocalization.Xml.XmlStringLocalizerFactory`1.CreateXmlStringLocalizer(System.Type)">

@@ -1,4 +1,5 @@
 ﻿using LazZiya.TranslationServices;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,14 +15,14 @@ namespace LazZiya.ExpressLocalization.Translate
         where TService : ITranslationService
     {
         private readonly ITranslationService _service;
-        private readonly ExpressLocalizationOptions _options;
+        private readonly RequestLocalizationOptions _options;
 
         /// <summary>
         /// Initialize a new instance of ExpressTranslator
         /// </summary>
         /// <param name="translationServices"></param>
         /// <param name="options"></param>
-        public ExpressTranslator(IEnumerable<ITranslationService> translationServices, IOptions<ExpressLocalizationOptions> options)
+        public ExpressTranslator(IEnumerable<ITranslationService> translationServices, IOptions<RequestLocalizationOptions> options)
         {
             _service = translationServices.FirstOrDefault(x => x.GetType() == typeof(TService));
             _options = options.Value;
@@ -59,7 +60,7 @@ namespace LazZiya.ExpressLocalization.Translate
         /// <returns></returns>
         public bool TryTranslate(string text, string format, out string translation)
         {
-            var from = _options.DefaultCultureName;
+            var from = _options.DefaultRequestCulture.Culture.Name;
 
             var to = CultureInfo.CurrentCulture.Name;
 

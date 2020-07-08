@@ -144,7 +144,7 @@ namespace LazZiya.ExpressLocalization.Xml
 
             var val = string.Format(value ?? name, arguments);
 
-            return new LocalizedString(name, val, resourceNotFound: !availableInCache);
+            return new LocalizedString(name, val, resourceNotFound: !availableInCache, _rw.TypeName);
         }
     }
 }

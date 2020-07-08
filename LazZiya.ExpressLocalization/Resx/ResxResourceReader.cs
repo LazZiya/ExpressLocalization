@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
-using System.IO;
 using System.Resources;
 
 namespace LazZiya.ExpressLocalization.Resx
@@ -31,6 +30,12 @@ namespace LazZiya.ExpressLocalization.Resx
     {
         private readonly ResourceManager _manager;
         private readonly ILogger _logger;
+
+        /// <summary>
+        /// The searched location
+        /// </summary>
+        public string TypeName { get; private set; }
+
         /// <summary>
         /// Initialize a new instance of <see cref="ResxResourceReader"/> based on the default resource type
         /// </summary>
@@ -39,46 +44,13 @@ namespace LazZiya.ExpressLocalization.Resx
             if (type == null)
                 throw new NotImplementedException(nameof(type));
 
-            var resourceName = GetResourceName(type, location);
+            // Create a fully qualified resource name
+            TypeName = ResourceTypeHelper.CreateResourceName(type, location);
             
             _logger = loggerFactory.CreateLogger<ResxResourceReader>();
             
-            _manager = new ResourceManager($"{resourceName}", type.Assembly);
-        }
-
-        /// <summary>
-        /// ResourceManager looks for .resources files in the project output directory.
-        /// So if our resource file is .\LocalizationResources\LocSource.tr.resx
-        /// Then ResourceManager will look for: SampleProject.LocalizationResources.LocSource.tr.resources
-        ///
-        /// The resource name must be in the following format:
-        /// {assembly-name}.{resources-folder}.{resource-namespace}.{resource-name}
-        /// e.g. SampleProject.LocalizationResources.LocSource
-        /// e.g. SampleProject.LocalizationResources.Pages.Products.IndexModel
-        ///
-        /// The challenge is when we have a type name for a PageModel out of resources-folder,
-        /// such type has no class inside the resources folder, so we have to reconstruct the
-        /// type full name to fulfill above format.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="location">Resources folder path</param>
-        /// <returns></returns>
-        private string GetResourceName(Type type, string location)
-        {
-            // Get {assembly-name}
-            // e.g.: SampleProject
-            var assemblyName = type.Assembly.GetName().Name;
-
-            var locationAsNamespace = location.Replace(Path.DirectorySeparatorChar, '.').Replace(Path.AltDirectorySeparatorChar, '.');
-
-            // If we have a type resource already inside the resources folder
-            // take the full type name
-            // Otherwise, the type is out of resources folder, so we need to add the resources folder name
-            // to the type full name
-            return type.FullName.StartsWith($"{assemblyName}.{locationAsNamespace}.")
-                ? type.FullName
-                : type.FullName.Replace($"{assemblyName}.", $"{assemblyName}.{locationAsNamespace}.");
-        }
+            _manager = new ResourceManager($"{TypeName}", type.Assembly);
+        }        
 
         /// <summary>
         /// Try get a localized value

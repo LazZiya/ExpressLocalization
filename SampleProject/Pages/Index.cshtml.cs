@@ -19,12 +19,13 @@ namespace SampleProject.Pages
 
         public IndexModel(IStringLocalizerFactory factory)
         {
-            localizer = factory.Create(typeof(IndexModel));
+            //localizer = factory.Create(typeof(IndexModel));
+            localizer = factory.Create("SampleProject.Pages.IndexModel", "SampleProject");
         }
 
         public void OnGet()
         {
-            var loc = localizer["Welcome dear"];
+            var loc = localizer["Welcome home"];
             TempData.Success($"{loc}, {loc.SearchedLocation}");
         }
 
