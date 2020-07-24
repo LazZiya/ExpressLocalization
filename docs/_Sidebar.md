@@ -2,42 +2,42 @@
 - [Release History](https://github.com/LazZiya/ExpressLocalization/releases)
 
 ### Migration
-- [3.x to 4.0](https://github.com/LazZiya/ExpressLocalization/wiki/Migration-3.x-to-4.0)
-- [4.x to 5.0](https://github.com/LazZiya/ExpressLocalization/wiki/Migration-4.x-to-5.0)
+- [3.x to 4.0](Migration-3.x-to-4.0.md)
+- [4.x to 5.0](Migration-4.x-to-5.0.md)
 
 #### ExpressLocalization Setup
-- [Setup for Razor Pages](https://github.com/LazZiya/ExpressLocalization/wiki/Setup-for-Razor-Pages)
-- [Setup for MVC](https://github.com/LazZiya/ExpressLocalization/wiki/Setup-for-mvc)
-- [Customized Setup](https://github.com/LazZiya/ExpressLocalization/wiki/Customized-Setup)
+- [Setup for Razor Pages](Setup-for-Razor-Pages.md)
+- [Setup for MVC](Setup-for-mvc.md)
+- [Customized Setup](Customized-Setup.md)
 
 #### Localization with Resource Files
-- [Creating Resources](https://github.com/LazZiya/ExpressLocalization/wiki/Creating-Resources)
-- [One Resource File](https://github.com/LazZiya/ExpressLocalization/wiki/One-Resource-File)
-- [Two Resource Files](https://github.com/LazZiya/ExpressLocalization/wiki/Two-Resource-Files)
-- [Four Resource Files](https://github.com/LazZiya/ExpressLocalization/wiki/Four-Resource-Files)
+- [Creating Resources](Creating-Resources.md)
+- [One Resource File](One-Resource-File.md)
+- [Two Resource Files](Two-Resource-Files.md)
+- [Four Resource Files](Four-Resource-Files.md)
 
 #### Loclization with DB (NEW)
-- [Creating Localization DB](https://github.com/LazZiya/ExpressLocalization/wiki/DB-Localization-Setup)
-- [Seed DB with Initial Values](https://github.com/LazZiya/ExpressLocalization/wiki/Seed-DB-with-Initial-Values)
+- [Creating Localization DB](DB-Localization-Setup.md)
+- [Seed DB with Initial Values](Seed-DB-with-Initial-Values.md)
 
 #### Views Localization
-- [Localize TagHelper](https://github.com/LazZiya/ExpressLocalization/wiki/Localize-TagHelper)
-- [ISharedCultureLocalizer](https://github.com/LazZiya/ExpressLocalization/wiki/SharedCultureLocalizer)
+- [Localize TagHelper](Localize-TagHelper.md)
+- [ISharedCultureLocalizer](SharedCultureLocalizer.md)
 
 #### DataAnnotations Localization
-- [Express Attributes](https://github.com/LazZiya/ExpressLocalization/wiki/DataAnnotations-Localization-Using-Express-Attributes)
-- [Default Attributes](https://github.com/LazZiya/ExpressLocalization/wiki/DataAnnotations-Localization-Using-Default-Attributes)
+- [Express Attributes](DataAnnotations-Localization-Using-Express-Attributes.md)
+- [Default Attributes](DataAnnotations-Localization-Using-Default-Attributes.md)
 
 #### Backend messages localization
-- [Model Binding Errors](https://github.com/LazZiya/ExpressLocalization/wiki/Model-Binding-Errors-Localization)
-- [Identity Errors](https://github.com/LazZiya/ExpressLocalization/wiki/Identity-Describer-Errors-Localization)
-- [Custom messages](https://github.com/LazZiya/ExpressLocalization/wiki/Backend-Messages-Localization)
+- [Model Binding Errors](Model-Binding-Errors-Localization.md)
+- [Identity Errors](Identity-Describer-Errors-Localization.md)
+- [Custom messages](Backend-Messages-Localization.md)
 
 #### Client Side Validation
-- [Validation Messages](https://github.com/LazZiya/ExpressLocalization/wiki/Client-Side-Validation-Messages)
-- [Validating Localized Input](https://github.com/LazZiya/ExpressLocalization/wiki/Validating-Localized-Input)
+- [Validation Messages](Client-Side-Validation-Messages.md)
+- [Validating Localized Input](Validating-Localized-Input.md)
 
 #### Miscellaneous
-- [Culture Fallback Behavior](https://github.com/LazZiya/ExpressLocalization/wiki/Culture-Fallback-Behavior)
-- [Identity RedirectTo Paths](https://github.com/LazZiya/ExpressLocalization/wiki/Identity-RedirectTo-Paths)
-- [Language Navigation](https://github.com/LazZiya/ExpressLocalization/wiki/Language-Navigation-TagHelper)
+- [Culture Fallback Behavior](Culture-Fallback-Behavior.md)
+- [Identity RedirectTo Paths](Identity-RedirectTo-Paths.md)
+- [Language Navigation](Language-Navigation-TagHelper.md)
