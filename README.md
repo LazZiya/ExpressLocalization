@@ -1,3 +1,12 @@
+##
+
+> ### ATTENTION: Due to the amount of major breaking changes in the planned v5, the next version has been moved to a new project! ExpressLocalization will continue to get support and hotfixes. To continue with the next vesion please see:
+> ### New project repository: [XLocalizer](https://github.com/LazZiya/XLocalizer)
+> ### New project docs: [DOCS.Ziyad.info/XLocalizer](http://docs.ziyad.info/XLocalizer)
+> ### Sample repository: [XLocalizer.Samples](https://github.com/LazZiya/XLocalizer.Samples)
+
+##
+
 ## What is ExpressLocalization? 
 A nuget package to simplify the localization setup of any Asp.Net Core web application.
 
