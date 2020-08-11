@@ -7,15 +7,29 @@ using System.Globalization;
 
 namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
 {
-    internal class ExRegularExpressionAttributeAdapter<T> : AttributeAdapterBase<ExRegularExpressionAttribute>
+    /// <summary>
+    /// Adapter to provide localized error message for <see cref="ExRegularExpressionAttribute"/>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class ExRegularExpressionAttributeAdapter<T> : AttributeAdapterBase<ExRegularExpressionAttribute>
         where T : class
     {
         private readonly string RegexPattern;
+
+        /// <summary>
+        /// Initialize a new instance of <see cref="ExRegularExpressionAttributeAdapter{T}"/>
+        /// </summary>
+        /// <param name="attribute"></param>
+        /// <param name="stringLocalizer"></param>
         public ExRegularExpressionAttributeAdapter(ExRegularExpressionAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
             RegexPattern = attribute.Pattern;
         }
 
+        /// <summary>
+        /// Add valdiation context
+        /// </summary>
+        /// <param name="context"></param>
         public override void AddValidation(ClientModelValidationContext context)
         {
             if (context == null)
@@ -27,6 +41,11 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             MergeAttribute(context.Attributes, "data-val-required", GetRequiredErrorMessage(context));
         }
 
+        /// <summary>
+        /// Get localized error message
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
         public override string GetErrorMessage(ModelValidationContextBase validationContext)
         {
             if (validationContext == null)

@@ -24,6 +24,172 @@
             dispose...
             </summary>
         </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1">
+            <summary>
+            Adapter to provide localized error message for <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1"/>
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1.AddValidation(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ClientModelValidationContext)">
+            <summary>
+            Add validation context
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExCompareAttributeAdapter`1.GetErrorMessage(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ModelValidationContextBase)">
+            <summary>
+            Get localized error message
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMaxLengthAttributeAdapter">
+            <summary>
+            Adapter to provide localized error message for <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute"/>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMaxLengthAttributeAdapter.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExMaxLengthAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMaxLengthAttributeAdapter"/>
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMaxLengthAttributeAdapter.AddValidation(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ClientModelValidationContext)">
+            <summary>
+            Add validation context
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMaxLengthAttributeAdapter.GetErrorMessage(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ModelValidationContextBase)">
+            <summary>
+            Get localized error message
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMinLengthAttributeAdapter">
+            <summary>
+            Adapter to provide localized error message for <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.ExMinLengthAttribute"/>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMinLengthAttributeAdapter.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExMinLengthAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMinLengthAttributeAdapter"/>
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMinLengthAttributeAdapter.AddValidation(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ClientModelValidationContext)">
+            <summary>
+            Add validation context
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExMinLengthAttributeAdapter.GetErrorMessage(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ModelValidationContextBase)">
+            <summary>
+            Get localized error message
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRangeAttributeAdapter`1">
+            <summary>
+            Adapter to provide localized error message for <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRangeAttributeAdapter`1.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExRangeAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRangeAttributeAdapter`1"/>
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRangeAttributeAdapter`1.AddValidation(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ClientModelValidationContext)">
+            <summary>
+            Add validation context
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRangeAttributeAdapter`1.GetErrorMessage(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ModelValidationContextBase)">
+            <summary>
+            Get localized error message
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRegularExpressionAttributeAdapter`1">
+            <summary>
+            Adapter to provide localized error message for <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.ExRegularExpressionAttribute"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRegularExpressionAttributeAdapter`1.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExRegularExpressionAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRegularExpressionAttributeAdapter`1"/>
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRegularExpressionAttributeAdapter`1.AddValidation(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ClientModelValidationContext)">
+            <summary>
+            Add valdiation context
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExRegularExpressionAttributeAdapter`1.GetErrorMessage(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ModelValidationContextBase)">
+            <summary>
+            Get localized error message
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExStringLengthAttributeAdapter">
+            <summary>
+            Adapter to provide localized error message for <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute"/>
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExStringLengthAttributeAdapter.#ctor(LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Initialize a new instance of <see cref="T:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExStringLengthAttributeAdapter"/>
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExStringLengthAttributeAdapter.AddValidation(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ClientModelValidationContext)">
+            <summary>
+            Add validation context
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.Adapters.ExStringLengthAttributeAdapter.GetErrorMessage(Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ModelValidationContextBase)">
+            <summary>
+            Get localized error message
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExAttributeSwitch">
+            <summary>
+            A switch to return the relevant Ex attribute or null if no Ex attribute is detected
+            </summary>
+        </member>
+        <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExAttributeSwitch.GetAttributeAdapter``1(System.ComponentModel.DataAnnotations.ValidationAttribute,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Get the ex attribute adapter
+            </summary>
+            <param name="attribute"></param>
+            <param name="stringLocalizer"></param>
+            <returns></returns>
+        </member>
         <member name="T:LazZiya.ExpressLocalization.DataAnnotations.ExCompareAttribute">
             <summary>
             Provides an attribute that compares two properties, and produces localized error message.
