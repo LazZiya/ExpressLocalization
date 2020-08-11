@@ -59,10 +59,6 @@
 		<None Include="files\license.txt" Pack="true" PackagePath="" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Properties\" />
-	</ItemGroup>
-
 	<Target Name="CopyPackage" AfterTargets="Pack">
 		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(MyNugetsOutput)\$(PackageId).$(PackageVersion).nupkg" />
 	</Target>
