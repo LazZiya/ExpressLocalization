@@ -38,7 +38,6 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             MergeAttribute(context.Attributes, "data-val", "true");
             MergeAttribute(context.Attributes, "data-val-regex", GetErrorMessage(context));
             MergeAttribute(context.Attributes, "data-val-regex-pattern", RegexPattern);
-            MergeAttribute(context.Attributes, "data-val-required", GetRequiredErrorMessage(context));
         }
 
         /// <summary>
