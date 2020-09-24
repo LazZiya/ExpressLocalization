@@ -2,7 +2,7 @@
 
 > ### ATTENTION: Due to several major breaking changes in the planned v5, the next version has been moved to a new project! ExpressLocalization will continue to get support and hotfixes. To continue with the next vesion please see:
 > ### New project repository: [XLocalizer](https://github.com/LazZiya/XLocalizer)
-> ### New project docs: [DOCS.Ziyad.info/XLocalizer](http://docs.ziyad.info/XLocalizer)
+> ### New project docs: [DOCS.Ziyad.info](http://docs.ziyad.info/)
 > ### Sample repository: [XLocalizer.Samples](https://github.com/LazZiya/XLocalizer.Samples)
 
 ##
