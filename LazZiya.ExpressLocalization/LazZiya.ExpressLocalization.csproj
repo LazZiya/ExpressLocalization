@@ -17,7 +17,7 @@
 		<PackageReleaseNotes>
       - Fix for ExStringLenght with min value (PR #31)
     </PackageReleaseNotes>
-    <Version>4.0.4</Version>
+    <Version>4.0.4.0</Version>
     <AssemblyVersion>4.0.4.0</AssemblyVersion>
     <FileVersion>4.0.4.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
