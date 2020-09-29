@@ -15,12 +15,11 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageTags>asp.net, core, razor, mvc, localization, globalization, client side, validation,scripts</PackageTags>
 		<PackageReleaseNotes>
-			- Fix for issue #30 https://github.com/LazZiya/ExpressLocalization/issues/30
-			Release notes: https://github.com/LazZiya/ExpressLocalization/releases
-		</PackageReleaseNotes>
-		<Version>4.0.3</Version>
-		<AssemblyVersion>4.0.3.0</AssemblyVersion>
-		<FileVersion>4.0.3.0</FileVersion>
+      - Fix for ExStringLenght with min value (PR #31)
+    </PackageReleaseNotes>
+    <Version>4.0.4</Version>
+    <AssemblyVersion>4.0.4.0</AssemblyVersion>
+    <FileVersion>4.0.4.0</FileVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIconUrl>https://raw.githubusercontent.com/LazZiya/ExpressLocalization/master/LazZiya.ExpressLocalization/files/icon.png</PackageIconUrl>
