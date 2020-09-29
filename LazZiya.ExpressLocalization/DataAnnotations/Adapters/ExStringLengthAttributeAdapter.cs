@@ -9,8 +9,9 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
     /// Adapter to provide localized error message for <see cref="ExStringLengthAttribute"/>
     /// </summary>
     public class ExStringLengthAttributeAdapter : AttributeAdapterBase<ExStringLengthAttribute>
-    {
+  {
         private readonly int MaxLenght;
+        private readonly int MinLenght;
 
         /// <summary>
         /// Initialize a new instance of <see cref="ExStringLengthAttributeAdapter"/>
@@ -20,6 +21,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
         public ExStringLengthAttributeAdapter(ExStringLengthAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
             MaxLenght = attribute.MaximumLength;
+            MinLenght = attribute.MinimumLength;
         }
 
         /// <summary>
@@ -33,7 +35,14 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
 
             MergeAttribute(context.Attributes, "data-val", "true");
             MergeAttribute(context.Attributes, "data-val-length", GetErrorMessage(context));
-            MergeAttribute(context.Attributes, "data-val-length-max", $"{MaxLenght}");
+            if (MaxLenght != int.MaxValue)
+            {
+              MergeAttribute(context.Attributes, "data-val-length-max", $"{MaxLenght}");
+            }
+            if (MinLenght > 0)
+            {
+              MergeAttribute(context.Attributes, "data-val-length-min", $"{MinLenght}");
+            }
         }
 
         /// <summary>
@@ -46,7 +55,7 @@ namespace LazZiya.ExpressLocalization.DataAnnotations.Adapters
             if (validationContext == null)
                 throw new NullReferenceException(nameof(validationContext));
 
-            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), MaxLenght);
+            return GetErrorMessage(validationContext.ModelMetadata, validationContext.ModelMetadata.GetDisplayName(), MaxLenght, MinLenght);
         }
     }
 }

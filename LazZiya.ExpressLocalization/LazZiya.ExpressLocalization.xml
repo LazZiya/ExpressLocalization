@@ -297,6 +297,12 @@
             And provides a localized error message
             </summary>
         </member>
+        <member name="P:LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute.MinimumLength">
+            <summary>
+            Gets or sets the minimum length of a string.
+            </summary>
+            <returns>The minimum length of a string.</returns>
+        </member>
         <member name="M:LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute.#ctor(System.Int32)">
             <summary>
             Initializes a new instance of the LazZiya.ExpressLocalization.DataAnnotations.ExStringLengthAttribute 
